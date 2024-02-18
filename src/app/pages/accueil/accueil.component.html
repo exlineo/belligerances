@@ -1,16 +1,16 @@
 <header>
-<h1>Belligérance</h1>
-<h2>Animez vos batailles</h2>
+<h1>{{ l.t['BELLI'] }}</h1>
+<h2>{{ l.t['SLOGAN'] }}</h2>
 </header>
 <section>
   <article>
-    <a routerLink="/accueil">
-      <h2>Construire<br>des armées</h2>
+    <a routerLink="/armees">
+      <h2 [innerHTML]="l.t['ACCUEIL_ARMEES']"></h2>
     </a>
   </article>
   <article>
     <a routerLink="/batailles">
-      <h2>Le champ<br>de bataille</h2>
+      <h2 [innerHTML]="l.t['ACCUEIL_BATAILLES']"></h2>
     </a>
   </article>
 </section>

@@ -1,0 +1,46 @@
+[
+  {
+    "id": 0,
+    "nom": "Armée des morts",
+    "statut": 1,
+    "couleur":"#FFC700",
+    "descr": "L'armée des morts est une armée de guerre qui est constituée de plusieurs compagnies de morts-vivants et de sorciers.",
+    "compagnies": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": 1,
+    "nom": "Armée des vivants",
+    "statut": 1,
+    "couleur":"#746D56",
+    "descr": "L'armée des vivants est une armée de guerre qui est constituée de plusieurs compagnies de chevaliers et de magiciens.",
+    "compagnies": [
+      3,
+      2
+    ]
+  },
+  {
+    "id": 2,
+    "nom": "Armée des cosmonautes",
+    "statut": -1,
+    "couleur":"#FF8A00",
+    "descr": "Armée perdue dans l'espace, toutes ses troupes sont perdues.",
+    "compagnies": [
+      3,
+      2
+    ]
+  },
+  {
+    "id": 3,
+    "nom": "Armée de la petite fontaine",
+    "statut": 1,
+    "couleur":"#15AD1B",
+    "descr": "L'armée des vivants est une armée de guerre qui est constituée de plusieurs compagnies de chevaliers et de magiciens.",
+    "compagnies": [
+      4,
+      5
+    ]
+  }
+]

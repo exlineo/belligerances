@@ -1,1 +1,66 @@
-<p>armees works!</p>
+<header>
+  <h1>{{ l.t['ARMEES']}}</h1>
+  <p>{{ l.t['ARMEES_DESCR']}}</p>
+</header>
+<p-tabView>
+
+  <!-- LISTE DES ARMEES -->
+  <p-tabPanel [header]="l.t['ARMEES']" *ngIf="d.armees.length > 0">
+    <p-accordion [activeIndex]="0">
+      <p-accordionTab *ngFor="let a of d.armees; let i=index">
+        <ng-template pTemplate="header">
+          <span class="header">
+            <h3><span [style.color]="a.couleur">&#x2B22;</span>{{ a.nom }}</h3>
+            <span><img [src]="a.statut | statuts" [alt]="a.nom"></span>
+            <span>
+              <img src="assets/images/pictos/del.png" [alt]="l.t['DE']">
+              <img src="assets/images/pictos/up.png" [alt]="l.t['UP']">
+            </span>
+          </span>
+        </ng-template>
+        <p [innerHTML]="a.descr"></p>
+        <table>
+          <thead>
+            <tr>
+              <td>{{ l.t['COMPAGNIES'] }}</td>
+              <td>{{ l.t['XP'] }}</td>
+              <td>{{ l.t['NB_COMBATS'] }}</td>
+              <td>{{ l.t['STATUT'] }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of a.compagnies">
+              <td>{{ d.compagnies[c].nom }}</td>
+              <td>{{ d.compagnies[c].experience }}</td>
+              <td>{{ d.compagnies[c].nbCombats }}</td>
+              <td>{{ d.compagnies[c].statut }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </p-accordionTab>
+      <!-- <p-accordionTab header="Header II">
+          <p>
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
+              ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
+          </p>
+      </p-accordionTab>
+      <p-accordionTab header="Header III">
+          <p>
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa
+              qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+          </p>
+      </p-accordionTab> -->
+    </p-accordion>
+  </p-tabPanel>
+
+  <!-- CREER UNE ARMEE -->
+  <p-tabPanel [header]="l.t['ARMEES_CREER']">
+    <p>
+      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+      aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
+      enim
+      ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
+      ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
+    </p>
+  </p-tabPanel>
+</p-tabView>

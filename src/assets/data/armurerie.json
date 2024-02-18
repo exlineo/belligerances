@@ -1,0 +1,25 @@
+{
+  "armes":{
+    "cac":[
+      "Épée longue",
+      "Dague",
+      "Épée batarde",
+      "Espadon",
+      "Hache",
+      "Masse",
+      "Lance"
+    ],
+    "distance":[
+      "Arc long",
+      "Arc court",
+      "Javelot",
+      "AK47",
+      "44 Magnum"
+    ]
+  },
+  "armures":[
+    "Cuir",
+    "Plate",
+    "Cotte de maille"
+  ]
+}

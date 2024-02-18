@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { UtilsService } from '../../../shared/services/utils.service';
 
 @Component({
   selector: 'app-accueil-armees',
@@ -9,5 +10,5 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   styleUrl: './accueil-armees.component.css'
 })
 export class AccueilArmeesComponent {
-
+  l:any = inject(UtilsService);
 }

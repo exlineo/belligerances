@@ -1,0 +1,11 @@
+:host{
+  display:flex;
+}
+section{
+  margin:auto;
+  width:60%;
+  flex-direction: column;
+}
+article{
+  flex-flow: column nowrap;
+}

@@ -26,6 +26,7 @@ h1{
   font-size: 32px;
   text-transform: uppercase;
   font-weight: 400;
+  margin:20px auto;
 }
 h2{
   font-size: 24px;
@@ -56,4 +57,60 @@ a:hover{
 }
 main, section, article, header, footer, aside, nav{
   display:flex;
+}
+header {
+  width:100%;
+  text-align: center;
+  flex-flow: column nowrap;
+}
+table{
+  width:100%;
+}
+thead{
+  font-weight: 600;
+  text-transform: uppercase;
+}
+/* CLASSES PERSONNALISEES */
+.header{
+  width:100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.header > * {
+  flex:1;
+}
+.header > *:nth-child(1){
+  flex:3
+}
+.header h3 {
+  font-size: 16px;
+  margin:0;
+}
+.header h3 span{
+  margin-right:10px;
+}
+/* PRIME NG */
+.p-tabview-title, .p-accordion-header-text {
+  text-transform: uppercase;
+  font-size:16px;
+  font-weight: 100;
+  transition: all .3s ease;
+}
+.p-tabview-title:hover, .p-accordion-header-text:hover {
+  font-weight: 600;
+}
+.p-tabview .p-tabview-nav {
+  background: none;
+  border-top:1px solid var(--noir);
+  border-bottom:1px solid var(--noir);
+  padding:10px;
+  margin-bottom: 20px;
+}
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  background: none;
+}
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  font-weight: 400;
+  background: none;
 }

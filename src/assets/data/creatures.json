@@ -1,0 +1,22 @@
+{
+  "races":[
+    "Humain",
+    "Nain",
+    "Elf",
+    "Orc",
+    "Gobelin"
+  ],
+  "creatures":[
+    "Dragon rouge",
+    "Dragon noir",
+    "Dragon vert",
+    "Dragon bleu"
+  ],
+  "betes":[
+    "Chien",
+    "Loup",
+    "Lion",
+    "Panthère",
+    "Éléphant"
+  ]
+}
