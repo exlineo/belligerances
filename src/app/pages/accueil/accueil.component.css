@@ -1,0 +1,41 @@
+:host{
+  display:flex;
+  width:100%;
+  height: 100%;
+  flex-flow: column nowrap;
+}
+header{
+  width:100%;
+  text-align:center;
+  flex-flow: column nowrap;
+  height:20vh;
+}
+section {
+  margin: 50px auto;
+  width:70%;
+  height:40vh;
+  flex-flow: row nowrap;
+}
+article {
+  width: 50%;
+  height:auto;
+  margin: 50px auto;
+}
+article:nth-child(1){
+  border-right:1px solid black;
+}
+a {
+  width: 250px;
+  height: 250px;
+  background: url('/assets/images/hex-accueil.png') 50% no-repeat;
+  background-size: contain;
+  text-align: center;
+  display: flex;
+  margin:auto;
+}
+a:hover{
+  transform:scale(1.1);
+}
+h2 {
+  margin: auto;
+}
