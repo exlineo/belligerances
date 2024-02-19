@@ -22,7 +22,7 @@ export const routes: Routes = [
       { path:'creatures', component:CreaturesComponent }
     ]},
     { path:'batailles', component:AccueilBataillesComponent, children:[
-      { path:'actions', component:BataillesComponent }
+      { path:'', component:BataillesComponent }
     ]},
     { path:'**', component:ErreurComponent }
 ];

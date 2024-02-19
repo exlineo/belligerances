@@ -26,7 +26,6 @@ import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { DragDropModule } from 'primeng/dragdrop';
-import { NgFor, NgIf } from '@angular/common';
 
 @NgModule({
   declarations: [],
@@ -58,15 +57,14 @@ import { NgFor, NgIf } from '@angular/common';
     DialogModule,
     TooltipModule,
     ToastModule,
-    DragDropModule,
-    NgIf,
-    NgFor
+    DragDropModule
   ],
   exports:[
+    SliderModule,
     TabViewModule,
     AccordionModule,
-    NgFor,
-    NgIf
+    ToastModule,
+    TooltipModule
   ]
 })
 export class SharedModule { }

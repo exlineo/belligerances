@@ -3,12 +3,18 @@
   "SLOGAN":"Animez vos batailles",
   "CONST_ARMEES":"Construire des armées",
   "BATAILLES":"Champ de bataille",
+  "BATAILLES_DESCR":"C'est ci que les armées s'affrontent",
   "ARMEE":"Armée",
   "ARMEES":"Armées",
   "ARMEES_GERER":"Gérer les armées",
   "ARMEES_DESCR":"Créez vos armées à partir des compagnies",
   "ARMEES_CREER":"Créer une armée",
+  "ARMEES_CONST":"Construire vos armées",
+  "ARMEES_DEL":"Supprimer l'armée",
   "COMPAGNIES":"Compagnies",
+  "COMPAGNIES_DESCR":"Créez vos compagnies",
+  "COMPAGNIES_CREER":"Créer une compagnie",
+  "COMPAGNIES_DEL":"Supprimer la compagnie",
   "UNITES":"Unités",
   "ARMURERIE":"Amurerie",
   "RCREATURES":"Races & Créatures",
@@ -36,5 +42,8 @@
   "STATUT":"Statut",
   "UP":"Metter à jour",
   "DEL":"Supprimer",
-  "AJOUT":"Ajouter"
+  "AJOUT":"Ajouter",
+  "ACTION":"Action",
+  "ACTIONS":"Actions",
+  "DEPLACER":"Déplacer"
 }

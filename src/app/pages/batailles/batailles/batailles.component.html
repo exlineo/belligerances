@@ -1,1 +1,29 @@
-<p>batailles works!</p>
+<header>
+  <h1>{{ l.t['BATAILLES'] }}</h1>
+  <p>{{ l.t['BATAILLES_DESCR'] }}</p>
+</header>
+<section id="champ">
+  <article>
+    <dl *ngFor="let ligne of lignesHex; let i=index" class="ligne">
+      <dt *ngFor="let hex of ligneHex; let j=index" class="hex" [id]="i+'-'+j" (click)="selectHex(i+'-'+j)" (mouseleave)="initHex()">
+        <nav id="mb" *ngIf="hexActu==i+'-'+j" [@apparait]>
+          <ul>
+            <li>
+              <a [pTooltip]="l.t['ARMEES']" tooltipPosition="top"><img src="assets/images/pictos/action-bataille_b.png" [alt]="l.t['ARMEES']"></a>
+            </li>
+            <li>
+              <a [pTooltip]="l.t['ARMEES_DEL']"  tooltipPosition="left"><img src="assets/images/pictos/action-del_b.png" [alt]="l.t['ARMEES_DEL']"></a>
+            </li>
+            <li>
+              <a [pTooltip]="l.t['ACTION']"  tooltipPosition="right"><img src="assets/images/pictos/action-go_b.png" [alt]="l.t['ACTION']"></a>
+            </li>
+            <li>
+              <a [pTooltip]="l.t['DEPLACER']"  tooltipPosition="bottom"><img src="assets/images/pictos/action-move_b.png" [alt]="l.t['DEPLACER']"></a>
+            </li>
+          </ul>
+        </nav>
+        <span>&#x2B22;</span>
+      </dt>
+    </dl>
+  </article>
+</section>

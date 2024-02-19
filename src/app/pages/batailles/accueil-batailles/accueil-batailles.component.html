@@ -1,1 +1,29 @@
-<p>accueil-batailles works!</p>
+<aside>
+  <nav>
+    <a routerLink="/armees" [title]="l.t['ARMEES_CONST']">
+      <img src="assets/images/pictos/construire.png" [alt]="l.t['ARMEES_CONST']">
+      <p>{{ l.t['ARMEES_CONST'] }}</p>
+    </a>
+  </nav>
+</aside>
+<main>
+  <router-outlet></router-outlet>
+</main>
+<aside>
+  <section [@tabOuvre]="tabArmees ? 'ferme' : 'ouvre'">
+    <header>
+      <a (click)="tabArmees = !tabArmees">
+        <img src="assets/images/pictos/armoiries.png" [alt]="l.t['ARMEES']">
+        <p>{{ l.t['ARMEES'] }}</p>
+      </a>
+    </header>
+  </section>
+  <section [@tabOuvre]="tabActions ? 'ferme' : 'ouvre'">
+    <header>
+      <a (click)="tabActions = !tabActions">
+        <img src="assets/images/pictos/action.png" [alt]="l.t['ACTIONS']">
+        <p>{{ l.t['ACTIONS'] }}</p>
+      </a>
+    </header>
+  </section>
+</aside>
