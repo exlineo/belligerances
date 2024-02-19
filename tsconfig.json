@@ -2,7 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
+    "outDir": "./prod",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
@@ -16,6 +16,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "baseUrl": "./", // Ajout pour les chemins relatifs dans le CSS d'Angular
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,

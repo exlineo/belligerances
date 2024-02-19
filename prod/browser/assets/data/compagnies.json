@@ -1,0 +1,56 @@
+[
+  {
+    "id":0,
+    "nom":"Guerrier de la mort",
+    "descr":"Des guerriers de la mort qui tue",
+    "xp":12,
+    "nbCombats":0,
+    "statut":1,
+    "unites":[]
+  },
+  {
+    "id":1,
+    "nom":"Guerrier de la mort",
+    "descr":"Des guerriers de la mort qui tue",
+    "xp":12,
+    "nbCombats":0,
+    "statut":1,
+    "unites":[]
+  },
+  {
+    "id":2,
+    "nom":"Guerrier de la mort",
+    "descr":"Des guerriers de la mort qui tue",
+    "xp":12,
+    "nbCombats":0,
+    "statut":1,
+    "unites":[]
+  },
+  {
+    "id":3,
+    "nom":"Guerrier de la mort",
+    "descr":"Des guerriers de la mort qui tue",
+    "xp":12,
+    "nbCombats":0,
+    "statut":1,
+    "unites":[]
+  },
+  {
+    "id":4,
+    "nom":"Guerrier de la mort",
+    "descr":"Des guerriers de la mort qui tue",
+    "xp":12,
+    "nbCombats":0,
+    "statut":1,
+    "unites":[]
+  },
+  {
+    "id":5,
+    "nom":"Guerrier de la mort",
+    "descr":"Des guerriers de la mort qui tue",
+    "xp":12,
+    "nbCombats":0,
+    "statut":1,
+    "unites":[]
+  }
+]
