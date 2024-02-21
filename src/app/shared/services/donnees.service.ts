@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ArmeeI, CompagnieI, CreatureI, MontureI, OrdreI, UniteI } from '../modeles/Type';
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +9,16 @@ export class DonneesService {
 
   armes: Array<{ cac: Array<string>, distance: Array<string> }> = [];
   armures: Array<string> = [];
-  creatures: Array<string> = [];
+  montures:Array<MontureI> = [];
+  munitions:Array<string> = [];
+  creatures: Array<CreatureI> = [];
   races: Array<string> = [];
-  betes: Array<string> = [];
+  animaux: Array<CreatureI> = [];
+  ordres:Array<OrdreI> = [];
 
-
-  armees: Array<any> = [];
-  compagnies: Array<any> = [];
-  unites: Array<string> = [];
+  armees: Array<ArmeeI> = [];
+  compagnies: Array<CompagnieI> = [];
+  unites: Array<UniteI> = [];
 
   constructor(private http: HttpClient) {
     this.getArmes();
@@ -38,6 +41,8 @@ export class DonneesService {
       next: (data: any) => {
         this.armes = data.armes;
         this.armures = data.armures;
+        this.montures = data.montures;
+        this.munitions = data.munitions;
         this.getUnites();
       },
       error: (err) => console.log(err),
@@ -49,6 +54,7 @@ export class DonneesService {
     this.http.get('assets/data/armurerie.json').subscribe({
       next: (data: any) => {
         this.creatures = data;
+        this.getOrdres();
       },
       error: (err) => console.log(err),
       complete: () => console.log("Armurerie chargée")
@@ -85,6 +91,16 @@ export class DonneesService {
       },
       error: (err) => console.log(err),
       complete: () => console.log("Unités chargées")
+    });
+  };
+  // 6
+  getOrdres() {
+    this.http.get('assets/data/ordres.json').subscribe({
+      next: (data: any) => {
+        this.ordres = data;
+      },
+      error: (err) => console.log(err),
+      complete: () => console.log("Armurerie chargée")
     });
   };
 }

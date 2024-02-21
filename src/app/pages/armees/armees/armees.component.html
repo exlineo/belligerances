@@ -24,15 +24,14 @@
             <tr>
               <td>{{ l.t['COMPAGNIES'] }}</td>
               <td>{{ l.t['XP'] }}</td>
-              <td>{{ l.t['NB_COMBATS'] }}</td>
+              <td>{{ l.t['UNITES_NB'] }}</td>
               <td>{{ l.t['STATUT'] }}</td>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let c of a.compagnies">
               <td>{{ d.compagnies[c].nom }}</td>
-              <td>{{ d.compagnies[c].experience }}</td>
-              <td>{{ d.compagnies[c].nbCombats }}</td>
+              <td>{{ d.compagnies[c].unites.length }}</td>
               <td>{{ d.compagnies[c].statut }}</td>
             </tr>
           </tbody>
@@ -55,12 +54,30 @@
 
   <!-- CREER UNE ARMEE -->
   <p-tabPanel [header]="l.t['ARMEES_CREER']">
-    <p>
-      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-      aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
-      enim
-      ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
-      ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
-    </p>
+    <section>
+      <header>
+        <form>
+          <input type="text" pInputText [(ngModel)]="armee.nom" [placeholder]="l.t['ARMEE_NOM']" name="armeeNom" />
+          <p-dropdown [options]="d.unites | pj" [(ngModel)]="armee.commandant" optionLabel="nom" optionValue="id" [showClear]="true" [placeholder]="l.t['ARMEE_HEROS']" name="armeeCommmandant"></p-dropdown>
+          <fieldset><label>{{ l.t['COUL_ATTR'] }}</label><p-colorPicker [(ngModel)]="armee.couleur" name="armeeCouleur"></p-colorPicker></fieldset>
+          <fieldset>
+            <button class="annule">{{ l.t['ANNULE'] }}</button>
+            <button class="valide">{{ l.t['VALIDE'] }}</button>
+          </fieldset>
+        </form>
+      </header>
+      <section class="fenetres">
+        <article>
+          <header>
+            <h3>{{ l.t['COMPAGNIES'] }}</h3>
+          </header>
+        </article>
+        <article>
+          <header>
+            <h3>{{ l.t['ARMEES'] }}</h3>
+          </header>
+        </article>
+      </section>
+    </section>
   </p-tabPanel>
 </p-tabView>

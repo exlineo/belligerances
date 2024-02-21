@@ -2,11 +2,17 @@
   {
     "id":0,
     "nom":"Guerrier de la mort",
+    "chef":1,
     "descr":"Des guerriers de la mort qui tue",
     "xp":12,
     "nbCombats":0,
     "statut":1,
-    "unites":[]
+    "unites":[],
+    "unitesCombat":[],
+    "pvMax":300,
+    "pv":"151",
+    "moral":6,
+    "ordre":"Mur de bouclier"
   },
   {
     "id":1,
@@ -15,7 +21,12 @@
     "xp":12,
     "nbCombats":0,
     "statut":1,
-    "unites":[]
+    "unites":[],
+    "unitesCombat":[],
+    "pvMax":300,
+    "pv":"151",
+    "moral":6,
+    "ordre":"Mur de bouclier"
   },
   {
     "id":2,
@@ -24,7 +35,12 @@
     "xp":12,
     "nbCombats":0,
     "statut":1,
-    "unites":[]
+    "unites":[],
+    "unitesCombat":[],
+    "pvMax":300,
+    "pv":"12",
+    "moral":1,
+    "ordre":"Mur de bouclier"
   },
   {
     "id":3,
@@ -33,7 +49,12 @@
     "xp":12,
     "nbCombats":0,
     "statut":1,
-    "unites":[]
+    "unites":[],
+    "unitesCombat":[],
+    "pvMax":290,
+    "pv":"149",
+    "moral":7,
+    "ordre":"Mur de bouclier"
   },
   {
     "id":4,
@@ -42,7 +63,12 @@
     "xp":12,
     "nbCombats":0,
     "statut":1,
-    "unites":[]
+    "unites":[],
+    "unitesCombat":[],
+    "pvMax":200,
+    "pv":"125",
+    "moral":4,
+    "ordre":"Mur de bouclier"
   },
   {
     "id":5,
@@ -51,6 +77,11 @@
     "xp":12,
     "nbCombats":0,
     "statut":1,
-    "unites":[]
+    "unites":[],
+    "unitesCombat":[],
+    "pvMax":330,
+    "pv":"258",
+    "moral":9,
+    "ordre":"Mur de bouclier"
   }
 ]

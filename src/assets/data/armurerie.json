@@ -1,25 +1,45 @@
 {
   "armes":{
     "cac":[
-      "Épée longue",
-      "Dague",
-      "Épée batarde",
-      "Espadon",
-      "Hache",
-      "Masse",
-      "Lance"
+      "EPEE_LONGUE",
+      "DAGUE",
+      "EPEE_BATARDE",
+      "EPSADON",
+      "HACHE",
+      "MASSE",
+      "LANCE",
+      "EPIEU"
     ],
     "distance":[
-      "Arc long",
-      "Arc court",
-      "Javelot",
+      "ARC_LONG",
+      "ARC_COURT",
+      "JAVELINE",
       "AK47",
-      "44 Magnum"
+      "MAGNUM_44"
     ]
   },
   "armures":[
-    "Cuir",
-    "Plate",
-    "Cotte de maille"
+    "CUIR",
+    "PLATE",
+    "COTTE_MAILLE",
+    "GILET_BALLES"
+  ],
+  "munitions":["CARREAU","DART","FLECHE","BALLE_FRONDE","JAVELINE","BALLE_PLOMB"],
+  "montures":[
+    {
+      "id":0,
+      "nom":"Cheval",
+      "impact":1
+    },
+    {
+      "id":1,
+      "nom":"Chamau",
+      "impact":1
+    },
+    {
+      "id":2,
+      "nom":"Eléphant",
+      "impact":3
+    }
   ]
 }

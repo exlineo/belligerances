@@ -26,6 +26,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { DragDropModule } from 'primeng/dragdrop';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [],
@@ -63,8 +64,18 @@ import { DragDropModule } from 'primeng/dragdrop';
     SliderModule,
     TabViewModule,
     AccordionModule,
+    InputTextModule,
+    InputTextareaModule,
+    InputSwitchModule,
+    InputNumberModule,
+    MultiSelectModule,
+    DropdownModule,
+    ButtonModule,
+    PickListModule,
+    PaginatorModule,
     ToastModule,
-    TooltipModule
+    TooltipModule,
+    ColorPickerModule
   ]
 })
 export class SharedModule { }

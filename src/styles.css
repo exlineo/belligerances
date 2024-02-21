@@ -7,6 +7,13 @@
 :root{
   --font:#2a2a2a;
   --noir:black;
+  --rouge:#D71A1A;
+  --rouge-fonce:#4c0707;
+  --vert:#1AD72D;
+  --vert-fonce:#0f3b14;
+  --jaune:#FFC700;
+  --jaune-fonce:#4f3e04;
+  --clair:white;
 }
 router-outlet + *{
   width:100%;
@@ -63,7 +70,7 @@ a{
 a:hover{
   font-weight:900;
 }
-main, section, article, header, footer, aside, nav{
+main, section, article, header, footer, aside, nav, form, fieldset, button{
   display:flex;
 }
 header {
@@ -99,6 +106,51 @@ thead{
   font-weight: 600;
   text-transform: uppercase;
 }
+header form{
+  flex-flow:row wrap;
+  justify-content: space-around;
+}
+header form fieldset{
+  display:flex;
+  flex-flow:row nowrap;
+  border:none;
+  align-items: center;
+}
+header form fieldset > *{
+  margin-right:5px;
+}
+form > * {
+  margin:5px;
+}
+button{
+  padding:8px 16px;
+  color:white;
+  cursor: pointer;
+  border:none;
+  transition:all .3s ease;
+  background-color: var(--font);
+}
+button:hover{
+  background-color:var(--noir);
+}
+button.valide{
+  background-color: var(--vert);
+}
+button.valide:hover{
+  background-color: var(--vert-fonce);
+}
+button.annule{
+  background-color: var(--jaune);
+}
+button.annule:hover{
+  background-color: var(--jaune-fonce);
+}
+button.del{
+  background-color: var(--rouge);
+}
+button.del:hover{
+  background-color: var(--rouge-fonce);
+}
 /* CLASSES PERSONNALISEES */
 .header{
   width:100%;
@@ -119,6 +171,12 @@ thead{
 .header h3 span{
   margin-right:10px;
 }
+/* INTERFACES AVEC DES FENETRES */
+.fenetres article {
+  width:20vw;
+  background-color: var(--clair);
+}
+/* CHAMP DE BATAILLE */
 #champ {
   width:100%;
   height:100%;

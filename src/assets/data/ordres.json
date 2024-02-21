@@ -1,0 +1,104 @@
+[
+  {
+    "id":0,
+    "ordre":"Protéger le commandant",
+    "descr":"La compagnie s'articule autour de l'officier, lui conférant protection. L'officier ne peut pas être provoqué en duel par les officiers ennemis,il bénéficie d'un bonus de défense de +3.",
+    "effets":[{
+      "type":"ca",
+      "bonus":-2
+    }]
+  },
+  {
+    "id":1,
+    "ordre":"Provoquer un duel",
+    "descr":"L'officier de la compagnie cherche à confronter un officier ennemi. Les deux officiers concernés font un jet de commandement opposé. Si le jet de l'attaquant est strictement supérieur, alors un combat individuel à lieu entre les deux officiers. Durant ce duel, les deux officiers effectuent chacun deux dés d'attaque l'un contre l'autre.",
+    "effets":[]
+  },
+  {
+    "id":2,
+    "ordre":"Encerclement",
+    "descr":"La compagnie tente de déborder sur les flancs de l'ennemi. Cette prise de risque signifie que le centre de la compagnie sera temporairement affaibli. La compagnie subit un malus de Défense de -2 mais bénéficie d'un bonus de dégâts de +3.",
+    "effets":[{
+      "type":"ca",
+      "bonus":-2
+    },{
+      "type":"degats",
+      "bonus":3
+    }]
+  },
+  {
+    "id":3,
+    "ordre":"Mur de bouclier",
+    "descr":"La compagnie adopte une posture défensive et tente de tenir sa position. La compagnie bénéficie d'un bonus de Défense de +2 mais subit d'un malus de dégâts de -4.",
+    "effets":[{
+      "condition":"perso",
+      "type":"ca",
+      "bonus":2
+    },{
+      "condition":"ennemi",
+      "type":"degats",
+      "bonus":-4
+    }]
+  },
+  {
+    "id":4,
+    "ordre":"Phalange",
+    "descr":"La compagnie s'ordonne en phalange face à l'ennemi. Cette formation permet à tous les guerriers équipés de lance (et qui ne sont pas équipés de bouclier) de bénéficier d'un bonus de dégâts de +2.",
+    "effets":[{
+      "condition":"lance",
+      "type":"degats",
+      "bonus":2
+    }]
+  },
+  {
+    "id":5,
+    "ordre":"Retraite",
+    "descr":"La compagnie effectue une retraite tactique. Elle se libère du combat et peut se déplacer normalement. Cependant elle ne peut pas faire d'attaque durant ce tour et acquiert le statut “désorganisée”.",
+    "effets":[]
+  },
+  {
+    "id":6,
+    "ordre":"Tir",
+    "descr":"La compagnie effectue une attaque à distance. Cette action fait subir un malus de Défense de -2 à toute la compagnie.",
+    "effets":[{
+      "type":"ca",
+      "bonus":-2
+    }]
+  },
+  {
+    "id":7,
+    "ordre":"Briser la ligne",
+    "descr":"La compagnie tente d'enfoncer les lignes ennemies en prenant quelques risques. La compagnie subit un malus de Défense de -1. Les deux officiers concernés font un jet de commandement opposé. Si le jet de l'attaquant est strictement supérieur, alors la compagnie du défenseur passe en mode “désorganisé”.",
+    "effets":[{
+      "type":"ca",
+      "bonus":-1,
+      "statut":"Désorganisé"
+    }]
+  },
+  {
+    "id":8,
+    "ordre":"Se réorganiser",
+    "descr":"La compagnie perd son statut “désorganisée”, cependant elle ne peut pas attaquer durant ce tour.",
+    "effets":[{
+      "type":"degats",
+      "bonus":0,
+      "statut":"organisé"
+    }]
+  },
+  {
+    "id":9,
+    "ordre":"Chant guerrier",
+    "descr":"La compagnie tente de se motiver grâce à des chants belliqueux et grâce à une palette d'instruments aux sonorités guerrières. La compagnie bénéficie d'un bonus sur ses jets de moral de +2.",
+    "effets":[{
+      "type":"moral",
+      "bonus":2
+    }]
+  },
+  {
+    "id":10,
+    "ordre":"Sans officier",
+    "descr":"Cet ordre n'en est pas réellement un. Cet ordre doit être sélectionné lorsque l'officier n'est plus en mesure d'assumer sa fonction (alité ou décédé). L'ordre n'a aucun effet hormis le fait d'empêcher la compagnie d'avoir recours à d'autres ordres sauf exception. Exceptions pour ces ordres : Tir et Retraite.",
+    "effets":[]
+  }
+  
+]
