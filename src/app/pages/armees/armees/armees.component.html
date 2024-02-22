@@ -2,23 +2,34 @@
   <h1>{{ l.t['ARMEES']}}</h1>
   <p>{{ l.t['ARMEES_DESCR']}}</p>
 </header>
-<p-tabView>
-
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
   <!-- LISTE DES ARMEES -->
-  <p-tabPanel [header]="l.t['ARMEES']" *ngIf="d.armees.length > 0">
-    <p-accordion [activeIndex]="0">
-      <p-accordionTab *ngFor="let a of d.armees; let i=index">
-        <ng-template pTemplate="header">
-          <span class="header">
-            <h3><span [style.color]="a.couleur">&#x2B22;</span>{{ a.nom }}</h3>
+  <mat-tab [label]="l.t['ARMEE']">
+
+    <!-- FILTRER LES ARMEES -->
+    <mat-form-field>
+      <!-- <mat-label>{{ l.t['FILTRER'] }}</mat-label> -->
+      <input type="text" matInput [placeholder]="l.t['FILTRER']" [(ngModel)]="filtre" name="filtre">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <!-- LISTE DES ARMEES -->
+    <mat-accordion>
+      @for (a of d.armees; track a.id) {
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h4><span [style.color]="a.couleur">&#x2B22;</span>{{ a.nom }}</h4>
+          </mat-panel-title>
+          <mat-panel-description>
             <span><img [src]="a.statut | statuts" [alt]="a.nom"></span>
             <span>
               <img src="assets/images/pictos/del.png" [alt]="l.t['DE']">
               <img src="assets/images/pictos/up.png" [alt]="l.t['UP']">
             </span>
-          </span>
-        </ng-template>
-        <p [innerHTML]="a.descr"></p>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>{{ a.descr }}</p>
         <table>
           <thead>
             <tr>
@@ -29,55 +40,103 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let c of a.compagnies">
+            @for (c of a.compagnies; track $index) {
+            <tr>
               <td>{{ d.compagnies[c].nom }}</td>
               <td>{{ d.compagnies[c].unites.length }}</td>
               <td>{{ d.compagnies[c].statut }}</td>
             </tr>
+            }
           </tbody>
         </table>
-      </p-accordionTab>
-      <!-- <p-accordionTab header="Header II">
-          <p>
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-              ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
-          </p>
-      </p-accordionTab>
-      <p-accordionTab header="Header III">
-          <p>
-              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa
-              qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
-          </p>
-      </p-accordionTab> -->
-    </p-accordion>
-  </p-tabPanel>
-
+      </mat-expansion-panel>
+      }
+      @empty {
+      Il n'existe pas encore d'armée
+      }
+    </mat-accordion>
+  </mat-tab>
   <!-- CREER UNE ARMEE -->
-  <p-tabPanel [header]="l.t['ARMEES_CREER']">
-    <section>
-      <header>
-        <form>
-          <input type="text" pInputText [(ngModel)]="armee.nom" [placeholder]="l.t['ARMEE_NOM']" name="armeeNom" />
-          <p-dropdown [options]="d.unites | pj" [(ngModel)]="armee.commandant" optionLabel="nom" optionValue="id" [showClear]="true" [placeholder]="l.t['ARMEE_HEROS']" name="armeeCommmandant"></p-dropdown>
-          <fieldset><label>{{ l.t['COUL_ATTR'] }}</label><p-colorPicker [(ngModel)]="armee.couleur" name="armeeCouleur"></p-colorPicker></fieldset>
-          <fieldset>
-            <button class="annule">{{ l.t['ANNULE'] }}</button>
-            <button class="valide">{{ l.t['VALIDE'] }}</button>
-          </fieldset>
-        </form>
-      </header>
-      <section class="fenetres">
-        <article>
-          <header>
-            <h3>{{ l.t['COMPAGNIES'] }}</h3>
-          </header>
-        </article>
-        <article>
-          <header>
-            <h3>{{ l.t['ARMEES'] }}</h3>
-          </header>
-        </article>
-      </section>
+  <mat-tab [label]="l.t['ARMEES_CREER']">
+    <header>
+      <form>
+        <mat-form-field>
+          <!-- <mat-label>{{ l.t['FILTRER'] }}</mat-label> -->
+          <input type="text" matInput [placeholder]="l.t['ARMEE_NOM']" [(ngModel)]="armee.nom" name="armeeNom">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="armee.descr" name="armeeDescr">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <!-- <mat-label>{{ l.t['ARMEE_HEROS'] }}</mat-label> -->
+          <mat-select [(ngModel)]="armee.commandant" name="armeePj" [placeholder]="l.t['ARMEE_HEROS']">
+            @for (pj of d.unites | pj; track pj.id) {
+            <mat-option [value]="pj.id">{{pj.nom}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <!-- <mat-label>{{ l.t['COUL_ATTR'] }}</mat-label> -->
+          <input type="text" matInput [placeholder]="l.t['COUL_ATTR']" [(ngModel)]="armee.couleur" name="armeeCouleur">
+          <mat-icon matSuffix>colorize</mat-icon>
+        </mat-form-field>
+        <fieldset>
+          <button class="annule" type="reset"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
+          <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['VALIDE'] }}</button>
+        </fieldset>
+      </form>
+    </header>
+    <section class="fenetres">
+      <article>
+        <nav>
+          <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+          <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+          <h3>{{ l.t['COMPAGNIES'] }}</h3>
+          <ul>
+            @for (c of d.compagnies; track $index) {
+            <li>
+              <img [src]="c.avatar" [alt]="c.nom" class="avatar">
+              <h5>{{ c.nom }}</h5>
+              <div>
+                <p>{{ l.t['SANTE']}} : {{ c.pv }}/{{ c.pvMax }}</p>
+                <p>{{ l.t['UNITES'] }} : {{ c.unites.length }}</p>
+              </div>
+              <img [src]="c.statut | statuts " [alt]="c.statut" class="picto">
+            </li>
+            }
+          </ul>
+        </header>
+      </article>
+      <article>
+        <nav>
+          <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+          <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+          <h3>{{ l.t['ARMEES'] }}</h3>
+        </header>
+        <div>
+          <ul>
+
+          </ul>
+        </div>
+      </article>
     </section>
+  </mat-tab>
+</mat-tab-group>
+<!-- <p-tabView> -->
+<!-- LISTE DES ARMEES -->
+
+<!-- <p-tabPanel [header]="l.t['ARMEES']" *ngIf="d.armees.length > 0">
+    
+
+  CREER UNE ARMEE -->
+<!-- <p-tabPanel [header]="l.t['ARMEES_CREER']">
+    
+      
   </p-tabPanel>
-</p-tabView>
+</p-tabView> -->

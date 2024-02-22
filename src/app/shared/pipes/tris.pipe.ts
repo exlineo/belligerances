@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { UniteI } from '../modeles/Type';
+import { ArmeeI, CompagnieI, UniteI } from '../modeles/Type';
 /** Filtrer les unites pour avoir la liste des PJ */
 @Pipe({
   name: 'pj',
@@ -72,5 +72,27 @@ export class BonusCmdPipe implements PipeTransform {
     }else{
       return 6;
     }
+  }
+}
+/** Filtrer les unites pour avoir la liste des PJ */
+@Pipe({
+  name: 'armees',
+  standalone: true
+})
+export class ArmeesPipe implements PipeTransform {
+
+  transform(armees:Array<ArmeeI>, libre:string): Array<ArmeeI> {
+    return armees.filter(a => a.nom.indexOf(libre) != -1);
+  }
+}
+/** Filtrer les unites pour avoir la liste des PJ */
+@Pipe({
+  name: 'compagnies',
+  standalone: true
+})
+export class CompagniesPipe implements PipeTransform {
+
+  transform(compagnies:Array<CompagnieI>, libre:string): Array<CompagnieI> {
+    return compagnies.filter(c => c.nom.indexOf(libre) != -1);
   }
 }

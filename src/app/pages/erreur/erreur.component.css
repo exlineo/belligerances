@@ -1,0 +1,9 @@
+section, article{
+    flex-flow: column nowrap;
+    margin:auto;
+}
+a {
+    text-align: center;
+    margin:20px auto;
+    text-transform: uppercase;
+}

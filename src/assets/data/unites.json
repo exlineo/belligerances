@@ -9,14 +9,15 @@
     "bouclier":2,
     "pvMax":120,
     "pv":232,
-    "monture":3,
+    "monture":0,
     "impact":1,
     "attaque":1,
     "degats":1,
     "xp":76,
     "nbCombats":0,
     "etat":2,
-    "pj":false
+    "pj":false,
+    "avatar":"assets/images/avatars/artemis.png"
   },
   {
     "id":1,
@@ -35,10 +36,11 @@
     "xp":76,
     "nbCombats":0,
     "etat":1,
-    "pj":false
+    "pj":false,
+    "avatar":"assets/images/avatars/warrior_2.png"
   },
   {
-    "id":1,
+    "id":2,
     "nom":"Muche",
     "race":0,
     "cac":2,
@@ -54,10 +56,11 @@
     "xp":76,
     "nbCombats":0,
     "etat":2,
-    "pj":false
+    "pj":false,
+    "avatar":"assets/images/avatars/warrior_1.png"
   },
   {
-    "id":2,
+    "id":3,
     "nom":"Moche",
     "race":2,
     "cac":2,
@@ -66,13 +69,34 @@
     "bouclier":2,
     "pvMax":110,
     "pv":232,
-    "monture":3,
+    "monture":1,
     "impact":2,
     "attaque":1,
     "degats":10,
     "xp":178,
     "nbCombats":0,
     "etat":2,
-    "pj":true
+    "pj":true,
+    "avatar":"assets/images/avatars/warrior_3.png"
+  },
+  {
+    "id":4,
+    "nom":"Machin",
+    "race":4,
+    "cac":5,
+    "jet":4,
+    "ca":3,
+    "bouclier":2,
+    "pvMax":110,
+    "pv":232,
+    "monture":2,
+    "impact":2,
+    "attaque":1,
+    "degats":10,
+    "xp":178,
+    "nbCombats":0,
+    "etat":2,
+    "pj":true,
+    "avatar":"assets/images/avatars/warrior_4.png"
   }
 ]

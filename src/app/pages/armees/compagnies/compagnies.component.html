@@ -1,1 +1,170 @@
-<p>compagnies works!</p>
+<header>
+    <h1>{{ l.t['COMPAGNIES']}}</h1>
+    <p>{{ l.t['COMPAGNIES_DESCR']}}</p>
+</header>
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <!-- LISTE DES compagnieS -->
+    <mat-tab [label]="l.t['COMPAGNIES']">
+
+        <!-- FILTRER LES compagnieS -->
+        <mat-form-field>
+            <!-- <mat-label>{{ l.t['FILTRER'] }}</mat-label> -->
+            <input type="text" matInput [placeholder]="l.t['FILTRER']" [(ngModel)]="filtre" name="filtre">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <!-- LISTE DES compagnieS -->
+        <mat-accordion>
+            @for (c of d.compagnies; track c.id) {
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h4>{{ c.nom }}</h4>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <span><img [src]="c.statut | statuts" [alt]="c.nom"></span>
+                        <span>
+                            <img src="assets/images/pictos/del.png" [alt]="l.t['DE']">
+                            <img src="assets/images/pictos/up.png" [alt]="l.t['UP']">
+                        </span>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>{{ c.descr }}</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>{{ l.t['NOM'] }}</td>
+                            <td>{{ l.t['RACE'] }}</td>
+                            <td>{{ l.t['CAC'] }}</td>
+                            <td>{{ l.t['JET'] }}</td>
+                            <td>{{ l.t['ARMURE'] }}</td>
+                            <td>{{ l.t['BOUCLIER'] }}</td>
+                            <td>{{ l.t['PV_MAX'] }}</td>
+                            <td>{{ l.t['PV'] }}</td>
+                            <td>{{ l.t['MONTURE'] }}</td>
+                            <td>{{ l.t['XP'] }}</td>
+                            <td>{{ l.t['STATUT'] }}</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (u of c.unites; track $index) {
+                        <tr>
+                            <td>{{ d.unites[u].nom }}</td>
+                            <td>{{ d.getData('races', u).nom }}</td>
+                            <!-- @if(d.unites[u].race && d.races[d.unites[u].race!]){
+                                <td>{{ d.races[d.unites[u].race].nom }}</td>
+                            }@else{
+                                <td></td>
+                            } -->
+                            <td>{{ d.getData('cac', u) }}</td>
+                            <td>{{ d.getData('jet', u) }}</td>
+                            <td>{{ d.getData('armures', u) }}</td>
+                            <td>{{ d.getData('boucliers', u) }}</td>
+                            <!-- @if(d.unites[u].armure && d.armures[d.unites[u].armure!]){
+                                <td>{{ d.armures[d.unites[u].armure!] }}</td>
+                            }@else{
+                                <td></td>
+                            } 
+                            @if(d.unites[u].bouclier && d.boucliers[d.unites[u].bouclier!]){
+                                <td>{{ d.boucliers[d.unites[u].bouclier!] }}</td>
+                            }@else{
+                                <td></td>
+                            }-->
+                            <td>{{ d.unites[u].pvMax }}</td>
+                            <td>{{ d.unites[u].pv }}</td>
+                            
+                            <td>{{ d.getData('montures', u).nom }}</td>
+                            <!-- @if(d.unites[u].monture && d.montures[d.unites[u].monture!]){
+                                <td>{{ d.montures[d.unites[u].monture!].nom }}</td>
+                            }@else{
+                                <td></td>
+                            } -->
+                            <td>{{ d.unites[u].xp }}</td>
+                            <td><img [src]="d.unites[u].etat | statuts"></td>
+                            <td>
+                                <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+                                <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </mat-expansion-panel>
+            }
+            @empty {
+            Il n'existe pas encore d'armée
+            }
+        </mat-accordion>
+    </mat-tab>
+    <!-- CREER UNE compagnie -->
+    <mat-tab [label]="l.t['COMPAGNIES_CREER']">
+        <header>
+            <form>
+                <mat-form-field>
+                    <!-- <mat-label>{{ l.t['FILTRER'] }}</mat-label> -->
+                    <input type="text" matInput [placeholder]="l.t['compagnie_NOM']" [(ngModel)]="compagnie.nom"
+                        name="compagnieNom">
+                    <mat-icon matSuffix>edit</mat-icon>
+                </mat-form-field>
+                <mat-form-field>
+                    <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="compagnie.descr"
+                        name="compagnieDescr">
+                    <mat-icon matSuffix>edit</mat-icon>
+                </mat-form-field>
+                <mat-form-field>
+                    <!-- <mat-label>{{ l.t['compagnie_HEROS'] }}</mat-label> -->
+                    <mat-select [(ngModel)]="compagnie.commandant" name="compagniePj"
+                        [placeholder]="l.t['compagnie_HEROS']">
+                        @for (pj of d.unites | pj; track pj.id) {
+                        <mat-option [value]="pj.id">{{pj.nom}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <fieldset>
+                    <button class="annule" type="reset"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE']
+                        }}</button>
+                    <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['VALIDE'] }}</button>
+                </fieldset>
+            </form>
+        </header>
+        <section class="fenetres">
+            <article>
+                <nav>
+                    <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+                    <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+                </nav>
+                <header>
+                    <h3>{{ l.t['COMPAGNIES'] }}</h3>
+                    <ul>
+                        @for (c of d.compagnies; track $index) {
+                        <li>
+                            <img [src]="c.avatar" [alt]="c.nom" class="avatar">
+                            <h5>{{ c.nom }}</h5>
+                            <div>
+                                <p>{{ l.t['SANTE']}} : {{ c.pv }}/{{ c.pvMax }}</p>
+                                <p>{{ l.t['UNITES'] }} : {{ c.unites.length }}</p>
+                            </div>
+                            <img [src]="c.statut | statuts " [alt]="c.statut" class="picto">
+                        </li>
+                        }
+                    </ul>
+                </header>
+            </article>
+            <article>
+                <nav>
+                    <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+                    <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+                </nav>
+                <header>
+                    <h3>{{ l.t['compagnieS'] }}</h3>
+                </header>
+                <div>
+                    <ul>
+
+                    </ul>
+                </div>
+            </article>
+        </section>
+    </mat-tab>
+</mat-tab-group>

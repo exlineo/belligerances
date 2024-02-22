@@ -16,7 +16,8 @@ export interface UniteI {
     xp:number;
     nbCombats?:number;
     etat: EtatE;
-    pj:boolean
+    pj:boolean;
+    avatar?:string;
 }
 export enum EtatE{
     mort = -2,
@@ -38,19 +39,24 @@ export class Unite implements UniteI{
     degats = -1;
     etat = EtatE.combattant;
     pj = false;
+    avatar = '';
 }
 export interface CompagnieI {
     id:number;
     nom:string;
     descr?:string;
-    statut:number,
-    unites:Array<number>,
-    unitesCombat?:Array<number>,
-    pvMax:number,
-    pv?:number,
-    moral:number,
+    armee?:number;
+    statut:number;
+    unites:Array<number>;
+    unitesCombat?:Array<number>;
+    commandant:number;
+    munitions?:{type:string,q:number},
+    pvMax:number;
+    pv?:number;
+    moral:number;
     ordre?:OrdreI;
     nbCombats?:number;
+    avatar?:string;
 }
 export interface OrdreI{
     id:number;
@@ -68,6 +74,8 @@ export class Compagnie implements CompagnieI {
     pv = -1
     moral = -1;
     nbCombats = 0;
+    commandant = -1;
+    avatar = '';
 }
 export interface ArmeeI {
     id:number;

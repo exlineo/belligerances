@@ -1,30 +1,39 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UtilsService } from '../../../shared/services/utils.service';
-import { SharedModule } from '../../../shared/shared.module';
 import { DonneesService } from '../../../shared/services/donnees.service';
 import { PjPipe, StatutsPipe } from '../../../shared/pipes/tris.pipe';
-import { NgFor, NgIf } from '@angular/common';
-import { ArmeeI, Armee } from 'src/app/shared/modeles/Type';
+import { ArmeeI, Armee, CompagnieI } from 'src/app/shared/modeles/Type';
+import { MaterialModule } from 'src/app/shared/material.module';
 
 @Component({
   selector: 'app-armees',
   standalone: true,
-  imports: [SharedModule, StatutsPipe, NgFor, NgIf, PjPipe],
+  imports: [MaterialModule, StatutsPipe, PjPipe],
   templateUrl: './armees.component.html',
   styleUrl: './armees.component.css'
 })
-export class ArmeesComponent {
+export class ArmeesComponent implements OnInit{
 
   l:any = inject(UtilsService);
   d:DonneesService = inject(DonneesService);
 
+  filtre:string = '';
+
   armee!:ArmeeI;
+  compagnieChoix!:CompagnieI;
 
-  constructor(){
-    this.initArmee();
+  ngOnInit(){ this.initArmee(); }
+
+  initArmee(){ this.armee = new Armee(); }
+
+  dragStart(c:CompagnieI){
+    console.log(c);
+    this.compagnieChoix = c;
   }
+  dragEnd(){
 
-  initArmee(){
-    this.armee = new Armee();
+  }
+  drop(){
+    this.armee.compagnies.push(this.compagnieChoix.id)
   }
 }

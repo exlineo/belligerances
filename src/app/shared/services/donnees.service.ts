@@ -7,14 +7,16 @@ import { ArmeeI, CompagnieI, CreatureI, MontureI, OrdreI, UniteI } from '../mode
 })
 export class DonneesService {
 
-  armes: Array<{ cac: Array<string>, distance: Array<string> }> = [];
+  cac: Array<string> = [];
+  jet: Array<string> = [];
   armures: Array<string> = [];
-  montures:Array<MontureI> = [];
-  munitions:Array<string> = [];
-  creatures: Array<CreatureI> = [];
-  races: Array<string> = [];
+  boucliers: Array<string> = [];
+  montures: Array<MontureI> = [];
+  munitions: Array<string> = [];
+  monstres: Array<CreatureI> = [];
+  races: Array<CreatureI> = [];
   animaux: Array<CreatureI> = [];
-  ordres:Array<OrdreI> = [];
+  ordres: Array<OrdreI> = [];
 
   armees: Array<ArmeeI> = [];
   compagnies: Array<CompagnieI> = [];
@@ -39,50 +41,45 @@ export class DonneesService {
   getArmes() {
     this.http.get('assets/data/armurerie.json').subscribe({
       next: (data: any) => {
-        this.armes = data.armes;
+        this.cac = data.cac;
+        this.jet = data.jet;
         this.armures = data.armures;
+        this.boucliers = data.boucliers;
         this.montures = data.montures;
         this.munitions = data.munitions;
-        this.getUnites();
-      },
-      error: (err) => console.log(err),
-      complete: () => console.log("Armurerie chargée")
-    });
-  };
-  // 5
-  getCreatures() {
-    this.http.get('assets/data/armurerie.json').subscribe({
-      next: (data: any) => {
-        this.creatures = data;
-        this.getOrdres();
-      },
-      error: (err) => console.log(err),
-      complete: () => console.log("Armurerie chargée")
-    });
-  };
-  // 4
-  getArmees() {
-    this.http.get('assets/data/armees.json').subscribe({
-      next: (data: any) => {
-        this.armees = data;
+        console.log(data, data.armures);
         this.getCreatures();
       },
       error: (err) => console.log(err),
-      complete: () => console.log("Armées chargées")
+      complete: () => console.log("Armurerie chargée")
     });
-  }
-  // 3
-  getCompagnies() {
-    this.http.get('assets/data/compagnies.json').subscribe({
+  };
+  // 2
+  getCreatures() {
+    this.http.get('assets/data/creatures.json').subscribe({
       next: (data: any) => {
-        this.compagnies = data;
-        this.getArmees(); // 4
+        this.monstres = data.monstres;
+        this.races = data.races;
+        this.animaux = data.animaux;
+        console.log(this.races, data);
+        this.getOrdres();
       },
       error: (err) => console.log(err),
-      complete: () => console.log("Compagnies chargées")
+      complete: () => console.log("Créatures chargées")
     });
-  }
-  // 2
+  };
+  // 3
+  getOrdres() {
+    this.http.get('assets/data/ordres.json').subscribe({
+      next: (data: any) => {
+        this.ordres = data;
+        this.getUnites();
+      },
+      error: (err) => console.log(err),
+      complete: () => console.log("Ordres chargés")
+    });
+  };
+  // 4
   getUnites() {
     this.http.get('assets/data/unites.json').subscribe({
       next: (data: any) => {
@@ -93,14 +90,58 @@ export class DonneesService {
       complete: () => console.log("Unités chargées")
     });
   };
-  // 6
-  getOrdres() {
-    this.http.get('assets/data/ordres.json').subscribe({
+
+  // 5
+  getCompagnies() {
+    this.http.get('assets/data/compagnies.json').subscribe({
       next: (data: any) => {
-        this.ordres = data;
+        this.compagnies = data;
+        this.getArmees(); // 4
       },
       error: (err) => console.log(err),
-      complete: () => console.log("Armurerie chargée")
+      complete: () => console.log("Compagnies chargées")
     });
-  };
+  }
+  // 6
+  getArmees() {
+    this.http.get('assets/data/armees.json').subscribe({
+      next: (data: any) => {
+        this.armees = data;
+      },
+      error: (err) => console.log(err),
+      complete: () => console.log("Armées chargées")
+    });
+  }
+  /**
+   * Récupérer une donnée d'un tableau
+   * @param tab Tableau à traiter
+   * @param id Id à récupérer
+   */
+  getData(tab: string, id: number): any | null {
+    switch (tab) {
+      case "races":
+        return this.races[id] ? this.races[id] : '';
+      case "arumres":
+        return this.armures[id] ? this.armures[id] : '';
+      case "cac":
+        return this.cac[id] ? this.cac[id] : '';
+      case "jet":
+        return this.jet[id] ? this.jet[id] : '';
+      case "boucliers":
+        return this.boucliers[id] ? this.boucliers[id] : '';
+      case "montures":
+        return this.montures.find(m => m.id == id) ? this.montures.find(m => m.id == id) : '';
+      case "munitions":
+        return this.munitions[id] ? this.munitions[id] : '';
+      case "armures":
+        return this.armures[id] ? this.armures[id] : '';
+      case "compagnies":
+        return this.compagnies.find(c => c.id == id) ? this.compagnies.find(c => c.id == id) : '';
+      case "armees":
+        return this.armees.find(a => a.id == id) ? this.armees.find(a => a.id == id) : '';
+      default:
+        return '';
+    }
+
+  }
 }

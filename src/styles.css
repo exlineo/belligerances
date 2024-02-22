@@ -14,6 +14,7 @@
   --jaune:#FFC700;
   --jaune-fonce:#4f3e04;
   --clair:white;
+  --gris:#d6d6d6;
 }
 router-outlet + *{
   width:100%;
@@ -22,13 +23,14 @@ router-outlet + *{
 }
 router-outlet + * > main router-outlet + *  {
   flex-flow:column nowrap;
+  overflow-y:auto;
 }
 html, body, main{
   padding:0;
   margin:0;
   height:100%;
   width:100%;
-  font-family: 'Raleway';
+  font-family: 'Raleway' !important;
   background-color: #EEE;
   overflow: hidden;
   color:var(--font);
@@ -41,7 +43,7 @@ h1{
   font-size: 32px;
   text-transform: uppercase;
   font-weight: 400;
-  margin:20px auto;
+  margin:20px auto 0;
 }
 h2{
   font-size: 24px;
@@ -55,11 +57,11 @@ h3{
 }
 h4{
   font-size: 18px;
-  font-family: 'Raleway-semibold';
+  font-weight: 600;
 }
 h5{
   font-size: 16px;
-  font-family: 'Raleway-bold';
+  font-weight: 900;
 }
 a{
   text-decoration: none;
@@ -101,17 +103,20 @@ nav img {
 }
 table{
   width:100%;
+  font-size:12px;
 }
 thead{
   font-weight: 600;
   text-transform: uppercase;
+}
+td{
+  text-align:center;
 }
 header form{
   flex-flow:row wrap;
   justify-content: space-around;
 }
 header form fieldset{
-  display:flex;
   flex-flow:row nowrap;
   border:none;
   align-items: center;
@@ -123,12 +128,17 @@ form > * {
   margin:5px;
 }
 button{
-  padding:8px 16px;
+  padding:8px 16px 8px 12px;
   color:white;
   cursor: pointer;
   border:none;
   transition:all .3s ease;
   background-color: var(--font);
+  flex-flow: row nowrap;
+  align-items: center;
+}
+button mat-icon{
+  margin-right:5px;
 }
 button:hover{
   background-color:var(--noir);
@@ -151,6 +161,7 @@ button.del{
 button.del:hover{
   background-color: var(--rouge-fonce);
 }
+
 /* CLASSES PERSONNALISEES */
 .header{
   width:100%;
@@ -171,10 +182,80 @@ button.del:hover{
 .header h3 span{
   margin-right:10px;
 }
+.picto{
+  width:20px !important;
+}
+.avatar{
+  width:50px;
+}
+/* PAGES */
+section.tab{
+  flex-flow: column nowrap;
+  width:100%;
+  overflow-y:auto;
+}
+section.tab > header {
+  margin-bottom:20px;
+}
 /* INTERFACES AVEC DES FENETRES */
+.fenetres {
+  width:100%;
+  justify-content: space-around;
+  height:auto;
+  margin-top:40px;
+}
+.fenetres header {
+  border-bottom:1px solid var(--font);
+}
 .fenetres article {
-  width:20vw;
+  width:40%;
   background-color: var(--clair);
+  flex-flow:row wrap;
+  justify-content: space-around;
+  position:relative;
+}
+.fenetres article > nav {
+  position:absolute;
+  right:0;
+  top:-54px;
+  display: flex;
+  flex-flow:row nowrap;
+}
+.fenetres article > nav img{
+  width:24px;
+  height:24px;
+}
+.fenetres ul{
+  padding:0;
+}
+.fenetres li{
+  display:flex;
+  flex-flow:row nowrap;
+  list-style: none;
+  text-align: left;
+  align-items: center;
+  width:100%;
+  border-bottom:solid 1px var(--font);
+  margin-bottom:20px;
+  padding:10px 10px 0 10px;
+  cursor: pointer;
+  transition:all .3s ease;
+}
+.fenetres li:hover{
+  background-color: var(--jaune);
+}
+.fenetres li > *:not(img) {
+  margin:0 10px;
+  flex:1;
+}
+.fenetres li p{
+  margin:5px
+}
+.fenetres h5{
+}
+.fenetres li > div{
+  display:flex;
+  flex-flow:column nowrap;
 }
 /* CHAMP DE BATAILLE */
 #champ {
@@ -287,7 +368,50 @@ button.del:hover{
 .hex:hover span{
   transform:scale(1.4);
 }
-/* PRIME NG */
+/* MATERIAL */
+.mat-mdc-tab-header {
+  border-top:1px solid var(--font);
+  border-bottom:1px solid var(--font);
+}
+.mat-mdc-tab.mdc-tab {
+  padding:16px 20px 12px;
+}
+.mat-mdc-tab-header *{
+  border:none !important;
+}
+.mat-mdc-tab-label-container{
+  border:none !important;
+}
+.mat-mdc-tab{
+  font-size:18px !important;
+  text-transform: uppercase;
+  font-weight: 100;
+  transition:all .3s ease;
+}
+.mat-mdc-tab:hover{
+  font-weight: 900;
+  background-color:var(--gris);
+}
+.mat-expansion-panel-header-title > * > *{
+  margin-right:8px;
+}
+.mat-expansion-panel-header-description > *{
+  flex:1;
+  text-align: right;
+}
+.mat-mdc-tab-body {
+  padding-top:30px;
+}
+/* PRIME NG 
+:host ::ng-deep .p-tabview-panels {
+  height:1000px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0px;
+}
+p-tabpanel, .p-tabview .p-tabview-panels{
+  overflow-y:scroll;
+}
 .p-tabview-title, .p-accordion-header-text {
   text-transform: uppercase;
   font-size:16px;
@@ -311,6 +435,22 @@ button.del:hover{
   font-weight: 400;
   background: none;
 }
+.p-tabview .p-tabview-panels {
+  background: none;
+  overflow-y:auto;
+}
+.p-picklist .p-picklist-list-wrapper {
+  width:40%;
+}
+p-picklist, .p-picklist{
+  width:100%;
+}
+.p-picklist .p-picklist-header {
+  color: #323130;
+  font-weight:100;
+  text-align:center;
+  font-size:18px;
+}*/
 /* ANIMATIONS */
 .fade-in {
   animation: fadeIn .5s;
@@ -319,4 +459,19 @@ button.del:hover{
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+ 
+::-webkit-scrollbar-track {
+  background: var(--clair);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: var(--jaune);
+
+  border: none;
 }
