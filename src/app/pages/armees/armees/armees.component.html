@@ -5,17 +5,16 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
   <!-- LISTE DES ARMEES -->
   <mat-tab [label]="l.t['ARMEE']">
-
     <!-- FILTRER LES ARMEES -->
     <mat-form-field>
-      <!-- <mat-label>{{ l.t['FILTRER'] }}</mat-label> -->
-      <input type="text" matInput [placeholder]="l.t['FILTRER']" [(ngModel)]="filtre" name="filtre">
+      <mat-label>{{ l.t['FILTRER'] }}</mat-label>
+      <input type="text" matInput [placeholder]="l.t['FILTRER_NOM']" [(ngModel)]="filtre" name="filtre">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
     <!-- LISTE DES ARMEES -->
     <mat-accordion>
-      @for (a of d.armees; track a.id) {
+      @for (a of d.armees | triArmees:filtre; track a.id) {
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -90,7 +89,7 @@
     </header>
     <section class="fenetres">
       <article>
-        <nav>
+        <nav class="options">
           <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
           <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
         </nav>
@@ -113,7 +112,7 @@
       </article>
       <span class="fleche">»</span>
       <article>
-        <nav>
+        <nav class="options">
           <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
           <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
         </nav>

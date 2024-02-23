@@ -8,6 +8,7 @@ import { ArmeeI, CompagnieI, UniteI } from '../modeles/Type';
 export class PjPipe implements PipeTransform {
 
   transform(unites:Array<UniteI>): Array<UniteI> {
+    if(!unites) return [];
     return unites.filter(u => u.pj == true);
   }
 }
@@ -37,7 +38,7 @@ export class StatutsPipe implements PipeTransform {
 })
 export class BonusXpPipe implements PipeTransform {
   transform(xp: number): number {
-    if(xp <= 30){
+    if(!xp || xp <= 30){
       return 0;
     }else if(xp <= 75){
       return 2;
@@ -59,7 +60,7 @@ export class BonusXpPipe implements PipeTransform {
 })
 export class BonusCmdPipe implements PipeTransform {
   transform(cmd: number): number {
-    if(cmd <= 5){
+    if(!cmd || cmd <= 5){
       return 0;
     }else if(cmd <= 10){
       return 2;
@@ -76,13 +77,15 @@ export class BonusCmdPipe implements PipeTransform {
 }
 /** Filtrer les unites pour avoir la liste des PJ */
 @Pipe({
-  name: 'armees',
+  name: 'triArmees',
   standalone: true
 })
 export class ArmeesPipe implements PipeTransform {
 
   transform(armees:Array<ArmeeI>, libre:string): Array<ArmeeI> {
-    return armees.filter(a => a.nom.indexOf(libre) != -1);
+    if(!armees) return [];
+    if(!libre || libre.length < 2) return armees;
+    return armees.filter(a => a.nom.toLocaleLowerCase().indexOf(libre.toLocaleLowerCase()) != -1);
   }
 }
 /** Filtrer les unites pour avoir la liste des PJ */
@@ -93,7 +96,9 @@ export class ArmeesPipe implements PipeTransform {
 export class CompagniesPipe implements PipeTransform {
 
   transform(compagnies:Array<CompagnieI>, libre:string): Array<CompagnieI> {
-    return compagnies.filter(c => c.nom.indexOf(libre) != -1);
+    if(!compagnies) return [];
+    if(!libre || libre.length < 2) return compagnies;
+    return compagnies.filter(c => c.nom.toLocaleLowerCase().indexOf(libre.toLowerCase()) != -1);
   }
 }
 
@@ -104,7 +109,22 @@ export class CompagniesPipe implements PipeTransform {
 })
 export class UnitesPipe implements PipeTransform {
 
-  transform(unites:Array<UniteI>, libre:string, race:number): Array<UniteI> {
+  transform(unites:Array<UniteI>, libre:string, race?:number, t?:boolean): Array<UniteI> {
+    if(!unites) return [];
+    if((!libre || libre.length < 2)) {return unites} else {libre = libre.toLowerCase()};
     return unites.filter(u => u.nom.indexOf(libre) != -1 || u.race == race);
+  }
+}
+/** Filtrer les unites pour avoir la liste des PJ */
+@Pipe({
+  name: 'tailleUnites',
+  standalone: true
+})
+export class UnitesTaillePipe implements PipeTransform {
+
+  transform(unites:Array<UniteI>, libre:string, race?:number, t?:boolean): number {
+    if(!unites) return 0;
+    if((!libre || libre.length < 2)) {return unites.length} else {libre = libre.toLowerCase()};
+    return unites.filter(u => u.nom.indexOf(libre) != -1 || u.race == race).length;
   }
 }

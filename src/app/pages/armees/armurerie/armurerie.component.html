@@ -1,1 +1,86 @@
-<p>armurerie works!</p>
+<header>
+    <h1>{{ l.t['ARMURERIE'] }}</h1>
+    <p>{{ l.t['ARMURERIE_DESCR'] }}</p>
+</header>
+<section class="fenetres wrap">
+    <article>
+        <nav class="options">
+            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+            <h3>{{ l.t['CAC'] }}</h3>
+        </header>
+        <div>
+            <ul>
+                @for (cac of d.cac; track $index) {
+                <li>{{ cac }}</li>
+                }
+            </ul>
+        </div>
+    </article>
+    <article>
+        <nav class="options">
+            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+            <h3>{{ l.t['JET'] }}</h3>
+        </header>
+        <div>
+            <ul>
+                @for (j of d.jet; track $index) {
+                <li>{{ j }}</li>
+                }
+            </ul>
+        </div>
+    </article>
+    <article>
+        <nav class="options">
+            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+            <h3>{{ l.t['SORTS'] }}</h3>
+        </header>
+        <div>
+            <ul>
+                @for (s of d.sorts; track $index) {
+                <li>{{ s }}</li>
+                }
+            </ul>
+        </div>
+    </article>
+    <article>
+        <nav class="options">
+            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+            <h3>{{ l.t['ARMURES'] }}</h3>
+        </header>
+        <div>
+            <ul>
+                @for (a of d.armures; track $index) {
+                <li>{{ a }}</li>
+                }
+            </ul>
+        </div>
+    </article>
+    <article>
+        <nav class="options">
+            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+            <h3>{{ l.t['BOUCLIERS'] }}</h3>
+        </header>
+        <div>
+            <ul>
+                @for (b of d.boucliers; track $index) {
+                <li>{{ b }}</li>
+                }
+            </ul>
+        </div>
+    </article>
+</section>

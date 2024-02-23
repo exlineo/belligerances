@@ -1,1 +1,58 @@
-<p>unites works!</p>
+<header>
+    <h1>{{ l.t['UNITES'] }}</h1>
+    <p>{{ l.t['UNITES_DESCR'] }}</p>
+</header>
+<section>
+    <header>
+        <form>
+            <!-- FILTRER LES UNITES -->
+            <mat-form-field>
+                <mat-label>{{ l.t['FILTRER'] }}</mat-label>
+                <input type="text" matInput [placeholder]="l.t['FILTRER_NOM']" [(ngModel)]="filtre" name="filtre">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </form>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <td>{{ l.t['NOM'] }}</td>
+                <td>{{ l.t['RACE'] }}</td>
+                <td>{{ l.t['CAC'] }}</td>
+                <td>{{ l.t['JET'] }}</td>
+                <td>{{ l.t['ARMURE'] }}</td>
+                <td>{{ l.t['BOUCLIER'] }}</td>
+                <td>{{ l.t['PV_MAX'] }}</td>
+                <td>{{ l.t['PV'] }}</td>
+                <td>{{ l.t['MONTURE'] }}</td>
+                <td>{{ l.t['XP'] }}</td>
+                <td>{{ l.t['STATUT'] }}</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @for (u of d.unites | triUnites:filtre; track $index) {
+            <tr>
+                <td>{{ u.nom }}</td>
+                <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
+                <td>{{ d.getCompagniesUnites('cac', u.cac!) }}</td>
+                <td>{{ d.getCompagniesUnites('jet', u.jet!) }}</td>
+                <td>{{ d.getCompagniesUnites('armures', u.armure!) }}</td>
+                <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!) }}</td>
+                <td>{{ u.pvMax }}</td>
+                <td>{{ u.pv }}</td>
+
+                <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
+                <td>{{ u.xp }}</td>
+                <td><img [src]="u.etat | statuts"></td>
+                <td>
+                    <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+                    <a><img src="assets/images/pictos/up.png" [alt]="l.t['VALIDE']"></a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <mat-paginator [length]="d.unites | tailleUnites:filtre" [pageSize]="25" [pageSizeOptions]="[25, 50, 100,]" aria-label="Limiter le nombre d'unités">
+    </mat-paginator>
+</section>

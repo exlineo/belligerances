@@ -1,1 +1,112 @@
-<p>creatures works!</p>
+<header>
+    <h1>{{ l.t['RCREATURES'] }}</h1>
+    <p>{{ l.t['RCREATURES_DESCR'] }}</p>
+</header>
+<section class="fenetres wrap">
+    <article>
+        <nav class="options">
+            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+            <h3>{{ l.t['RACES'] }}</h3>
+        </header>
+        <table>
+            <thead>
+                <tr>
+                    <td>{{ l.t['NOM'] }}</td>
+                    <td>{{ l.t['PV_MAX'] }}</td>
+                    <td>{{ l.t['ARMURE'] }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (r of d.races; track r.id) {
+                <tr>
+                    <td>{{ r.nom }}</td>
+                    <td>{{ r.basePv }}</td>
+                    <td>{{ r.baseArmure }}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </article>
+    <article>
+        <nav class="options">
+            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+            <h3>{{ l.t['MONSTRES'] }}</h3>
+        </header>
+        <table>
+            <thead>
+                <tr>
+                    <td>{{ l.t['NOM'] }}</td>
+                    <td>{{ l.t['PV_MAX'] }}</td>
+                    <td>{{ l.t['ARMURE'] }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (m of d.monstres; track m.id) {
+                <tr>
+                    <td>{{ m.nom }}</td>
+                    <td>{{ m.basePv }}</td>
+                    <td>{{ m.baseArmure }}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </article>
+    <article>
+        <nav class="options">
+            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+            <h3>{{ l.t['ANIMAUX'] }}</h3>
+        </header>
+        <table>
+            <thead>
+                <tr>
+                    <td>{{ l.t['NOM'] }}</td>
+                    <td>{{ l.t['PV_MAX'] }}</td>
+                    <td>{{ l.t['ARMURE'] }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (a of d.animaux; track a.id) {
+                <tr>
+                    <td>{{ a.nom }}</td>
+                    <td>{{ a.basePv }}</td>
+                    <td>{{ a.baseArmure }}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </article>
+    <article>
+        <nav class="options">
+            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+        </nav>
+        <header>
+            <h3>{{ l.t['MONTURES'] }}</h3>
+        </header>
+        <table>
+            <thead>
+                <tr>
+                    <td>{{ l.t['NOM'] }}</td>
+                    <td>{{ l.t['IMPACT'] }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (m of d.montures; track m.id) {
+                <tr>
+                    <td>{{ m.nom }}</td>
+                    <td>{{ m.impact }}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </article>
+</section>

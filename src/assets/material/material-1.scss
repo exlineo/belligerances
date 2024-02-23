@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+
+@import './material-theme.scss';
+
+@include mat.core();
+@include mat.all-component-themes($theme-light);
+
+$themes: null;
+$theme-light:null;
+$theme-dark:null;
+
+// Implémentation du changement de thème : https://stackblitz.com/edit/material-v12-theme-demo?file=src%2Fapp%2Fapp-component.ts

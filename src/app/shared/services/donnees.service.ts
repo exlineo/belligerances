@@ -9,6 +9,7 @@ export class DonneesService {
 
   cac: Array<string> = [];
   jet: Array<string> = [];
+  sorts : Array<string> = [];
   armures: Array<string> = [];
   boucliers: Array<string> = [];
   montures: Array<MontureI> = [];
@@ -43,11 +44,11 @@ export class DonneesService {
       next: (data: any) => {
         this.cac = data.cac;
         this.jet = data.jet;
+        this.sorts = data.sorts;
         this.armures = data.armures;
         this.boucliers = data.boucliers;
         this.montures = data.montures;
         this.munitions = data.munitions;
-        console.log(data, data.armures);
         this.getCreatures();
       },
       error: (err) => console.log(err),
@@ -117,7 +118,7 @@ export class DonneesService {
    * @param tab Tableau à traiter
    * @param id Id à récupérer
    */
-  getData(tab: string, id: number): any | null {
+  getCompagniesUnites(tab: string, id: number): any | null {
     switch (tab) {
       case "races":
         return this.races[id] ? this.races[id] : '';

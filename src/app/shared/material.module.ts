@@ -12,7 +12,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { MatOptionModule } from '@angular/material/core';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
@@ -31,7 +31,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatCheckboxModule,
     MatSliderModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule
   ],
   exports:[
     RouterLink,
@@ -47,7 +48,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatCheckboxModule,
     MatSliderModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }

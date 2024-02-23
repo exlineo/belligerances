@@ -1,45 +1,68 @@
 {
-  "cac":[
-      "Epée longue",
-      "Dague",
-      "Epée courte",
-      "Epée batarde",
-      "Espadon",
-      "Hache",
-      "Masse",
-      "Lance",
-      "Epieu"
-    ],
-  "jet":[
-      "Arc lonc",
-      "Arc court",
-      "Javeline",
-      "AK47",
-      "44 Magnum"
-    ],
-  "armures":["Cuir","Plate","Chemise de maille","Cotte de maille","Harnois","Broigne","Gilet pareballes"],
-  "boucliers":["Ecu", "Pavois", "Normand", "Rondache","Targe", "Tarja"],
-  "munitions":["Carreau","Dart","Flèche","Balle de fronde","Javeline","Balle de plomb"],
-  "montures":[
+  "cac": [
+    "Epée longue",
+    "Dague",
+    "Epée courte",
+    "Epée batarde",
+    "Espadon",
+    "Hache",
+    "Masse",
+    "Lance",
+    "Epieu"
+  ],
+  "jet": [
+    "Arc lonc",
+    "Arc court",
+    "Javeline",
+    "AK47",
+    "44 Magnum"
+  ],
+  "sorts": [],
+  "armures": [
+    "Cuir",
+    "Plate",
+    "Chemise de maille",
+    "Cotte de maille",
+    "Harnois",
+    "Broigne",
+    "Gilet pareballes"
+  ],
+  "boucliers": [
+    "Ecu",
+    "Pavois",
+    "Normand",
+    "Rondache",
+    "Targe",
+    "Tarja"
+  ],
+  "munitions": [
+    "Carreau",
+    "Dart",
+    "Flèche",
+    "Balle de fronde",
+    "Javeline",
+    "Balle de plomb"
+  ],
+  "montures": [
     {
-      "id":0,
-      "nom":"Cheval",
-      "impact":1
+      "id": 0,
+      "nom": "Cheval",
+      "impact": 1
     },
     {
-      "id":1,
-      "nom":"Chameau",
-      "impact":1
+      "id": 1,
+      "nom": "Chameau",
+      "impact": 1
     },
     {
-      "id":2,
-      "nom":"Eléphant",
-      "impact":3
+      "id": 2,
+      "nom": "Eléphant",
+      "impact": 3
     },
     {
-      "id":3,
-      "nom":"Cheval de guerre",
-      "impact":2
+      "id": 3,
+      "nom": "Cheval de guerre",
+      "impact": 2
     }
   ]
 }

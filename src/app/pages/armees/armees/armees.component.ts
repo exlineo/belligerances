@@ -1,14 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from '../../../shared/services/donnees.service';
-import { PjPipe, StatutsPipe } from '../../../shared/pipes/tris.pipe';
+import { ArmeesPipe, PjPipe, StatutsPipe } from '../../../shared/pipes/tris.pipe';
 import { ArmeeI, Armee, CompagnieI } from 'src/app/shared/modeles/Type';
 import { MaterialModule } from 'src/app/shared/material.module';
 
 @Component({
   selector: 'app-armees',
   standalone: true,
-  imports: [MaterialModule, StatutsPipe, PjPipe],
+  imports: [MaterialModule, StatutsPipe, PjPipe, ArmeesPipe],
   templateUrl: './armees.component.html',
   styleUrl: './armees.component.css'
 })
