@@ -1,0 +1,15 @@
+@use '@angular/material' as mat;
+
+@import './material-theme.scss';
+
+// $themes: null;
+// $theme-light:null;
+// $theme-dark:null;
+
+.theme-light {
+  @include mat.all-component-colors($theme-light);
+}
+
+.theme-dark {
+  @include mat.all-component-colors($theme-dark);
+}

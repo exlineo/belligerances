@@ -1,22 +1,98 @@
 {
-  "races":[
-    "Humain",
-    "Nain",
-    "Elf",
-    "Orc",
-    "Gobelin"
+  "races": [
+    {
+      "id":0,
+      "nom": "Humain",
+      "basePv": 30,
+      "baseArmure": 10
+    },
+    {
+      "id":1,
+      "nom": "Elf",
+      "basePv": 30,
+      "baseArmure": 10
+    },
+    {
+      "id":2,
+      "nom": "Nain",
+      "basePv": 30,
+      "baseArmure": 10
+    },
+    {
+      "id":3,
+      "nom": "Snaga",
+      "basePv": 10,
+      "baseArmure": 10
+    },
+    {
+      "id":4,
+      "nom": "Gobelin",
+      "basePv": 15,
+      "baseArmure": 10
+    },
+    {
+      "id":5,
+      "nom": "Hobgobelin",
+      "basePv": 20,
+      "baseArmure": 10
+    },
+    {
+      "id":6,
+      "nom": "Orque",
+      "basePv": 25,
+      "baseArmure": 10
+    },
+    {
+      "id":7,
+      "nom": "Uruk",
+      "basePv": 35,
+      "baseArmure": 10
+    },
+    {
+      "id":8,
+      "nom": "Grand orque",
+      "basePv": 45,
+      "baseArmure": 10
+    },
+    {
+      "id":9,
+      "nom": "Troll",
+      "basePv": 100,
+      "baseArmure": 14
+    }
   ],
-  "creatures":[
-    "Dragon rouge",
-    "Dragon noir",
-    "Dragon vert",
-    "Dragon bleu"
+  "monstres":[
+    {
+      "id":0,
+      "nom": "Warg",
+      "basePv": 30,
+      "baseArmure": 14
+    },
+    {
+      "id":1,
+      "nom": "Grand warg",
+      "basePv": 40,
+      "baseArmure": 14
+    },
+    {
+      "id":2,
+      "nom": "Vampire",
+      "basePv": 20,
+      "baseArmure": 13
+    }
   ],
-  "betes":[
-    "Chien",
-    "Loup",
-    "Lion",
-    "Panthère",
-    "Éléphant"
+  "animaux": [
+    {
+      "id":0,
+      "nom": "Chien",
+      "basePv": 10,
+      "baseArmure": 10
+    },
+    {
+      "id":1,
+      "nom": "Loup",
+      "basePv": 15,
+      "baseArmure": 12
+    }
   ]
 }

@@ -21,9 +21,10 @@
             @if(a.avatar){
               <img [src]="a.avatar" [alt]="a.nom" class="avatar">
             }
-            <h4><span [style.color]="a.couleur">&#x2B22;</span>{{ a.nom }}</h4>
+            <h4>{{ a.nom }}</h4>
           </mat-panel-title>
           <mat-panel-description>
+            <h2 [style.color]="a.couleur">&#x2B22;</h2>
             <span><img [src]="a.statut | statuts" [alt]="a.nom"></span>
             <span>
               <img src="assets/images/pictos/del.png" [alt]="l.t['DE']">
