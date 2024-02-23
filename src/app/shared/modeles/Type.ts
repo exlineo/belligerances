@@ -81,6 +81,7 @@ export interface ArmeeI {
     id:number;
     nom:string;
     descr?:string;
+    avatar?:string;
     commandant?:number;
     couleur:string;
     statut:number;

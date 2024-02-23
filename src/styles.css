@@ -192,10 +192,19 @@ button.del:hover{
   width:20px !important;
 }
 .avatar{
-  width:50px;
+  width:35px;
+  margin:0 10px 0 0;
 }
 .petit{
   font-size:10px;
+}
+.row{
+  flex-direction:row;
+  align-items: center;
+}
+.row > *{
+  width:fit-content;
+  margin:5px;
 }
 /* PAGES */
 section.tab{

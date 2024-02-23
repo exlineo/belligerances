@@ -5,20 +5,19 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
     <!-- LISTE DES compagnieS -->
     <mat-tab [label]="l.t['COMPAGNIES']">
-
         <!-- FILTRER LES compagnieS -->
         <mat-form-field>
             <mat-label>{{ l.t['FILTRER'] }}</mat-label>
             <input type="text" matInput [placeholder]="l.t['FILTRER_NOM']" [(ngModel)]="filtre" name="filtre">
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-
         <!-- LISTE DES compagnieS -->
         <mat-accordion>
             @for (c of d.compagnies | triCompagnies:filtre; track c.id) {
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
+                        <img [src]="c.avatar" [alt]="c.nom" class="avatar">
                         <h5>{{ c.nom }}</h5>
                     </mat-panel-title>
                     <mat-panel-description>
@@ -81,14 +80,18 @@
     <!-- CREER UNE compagnie -->
     <mat-tab [label]="l.t['COMPAGNIES_CREER']">
         <header>
+            <div class="row">
+                <h5>{{ l.t['UNITE_TYPE'] }}</h5>
+                <p>{{ l.t['UNITE_TYPE_DESCR'] }}</p>
+            </div>
             <form>
                 <mat-form-field>
                     <mat-label>{{ l.t['FILTRE_NOM'] }}</mat-label>
-                    <input matInput [placeholder]="l.t['FILTRE_NOM']" name="filtreUnites" [(ngModel)]="filtreUnites">
+                    <input matInput [placeholder]="l.t['NOM']" name="filtreUnites" [(ngModel)]="filtreUnites">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{ l.t['RACES'] }}</mat-label>
-                    <mat-select [(ngModel)]="filtreRaces" name="raceUnites" [placeholder]="l.t['FILTRE_RACE']">
+                    <mat-label>{{ l.t['FILTRE_RACE'] }}</mat-label>
+                    <mat-select [(ngModel)]="filtreRaces" name="raceUnites" [placeholder]="l.t['RACES']">
                         <mat-option>---</mat-option>
                         @for (r of d.races; track r.id) {
                         <mat-option [value]="r.id">{{r.nom}}</mat-option>
@@ -96,7 +99,7 @@
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{ l.t['UNITE_TYPE'] }}</mat-label>
+                    <mat-label>{{ l.t['UNITE_TYPE_SEL'] }}</mat-label>
                     <mat-select [placeholder]="l.t['FILTRE_U']" name="unites" [(ngModel)]="uniteType">
                         @for (u of d.unites | triUnites:filtreUnites:filtreRaces; track u.id) {
                         <mat-option [value]="u">{{u.nom}}</mat-option>
@@ -105,8 +108,6 @@
                 </mat-form-field>
             </form>
             @if(uniteType){
-            <h3>{{ l.t['UNITE_TYPE'] }}</h3>
-            <p>{{ l.t['UNITE_TYPE_DESCR'] }}</p>
             <table>
                 <thead>
                     <tr>

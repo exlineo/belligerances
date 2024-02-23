@@ -18,6 +18,9 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
+            @if(a.avatar){
+              <img [src]="a.avatar" [alt]="a.nom" class="avatar">
+            }
             <h4><span [style.color]="a.couleur">&#x2B22;</span>{{ a.nom }}</h4>
           </mat-panel-title>
           <mat-panel-description>

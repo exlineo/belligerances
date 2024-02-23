@@ -32,6 +32,7 @@
   "UNITE_GENERE_DESCR":"Créez des unités aléatoirement à partir de l'unité de référence",
   "UNITES_DUPLIQUE":"Nb de duplications",
   "UNITE_TYPE":"Unité type",
+  "UNITE_TYPE_SEL":"Sélectionnez une Unité type",
   "UNITE_TYPE_DESCR":"Choisissez une unité de référence pour créer votre compagnie",
   "ALEA":"Aléa",
   "ALEA_DESCR":"Pourcentage d'aléa pour la création des unités",
