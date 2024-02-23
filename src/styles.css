@@ -225,6 +225,13 @@ section.tab > header {
   width:24px;
   height:24px;
 }
+.fenetres span.fleche{
+  height:100%;
+  font-size:24px;
+  display:flex;
+  align-items: center;
+  margin:auto;
+}
 .fenetres ul{
   padding:0;
 }

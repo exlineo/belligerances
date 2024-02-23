@@ -74,7 +74,7 @@
                             }-->
                             <td>{{ d.unites[u].pvMax }}</td>
                             <td>{{ d.unites[u].pv }}</td>
-                            
+
                             <td>{{ d.getData('montures', u).nom }}</td>
                             <!-- @if(d.unites[u].monture && d.montures[d.unites[u].monture!]){
                                 <td>{{ d.montures[d.unites[u].monture!].nom }}</td>
@@ -103,22 +103,22 @@
         <header>
             <form>
                 <mat-form-field>
-                    <!-- <mat-label>{{ l.t['FILTRER'] }}</mat-label> -->
-                    <input type="text" matInput [placeholder]="l.t['compagnie_NOM']" [(ngModel)]="compagnie.nom"
-                        name="compagnieNom">
-                    <mat-icon matSuffix>edit</mat-icon>
+                    <input matInput [placeholder]="l.t['FILTRE_NOM']" name="filtreUnites" [(ngModel)]="filtreUnites">
                 </mat-form-field>
                 <mat-form-field>
-                    <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="compagnie.descr"
-                        name="compagnieDescr">
-                    <mat-icon matSuffix>edit</mat-icon>
+                    <mat-label>{{ l.t['RACES'] }}</mat-label>
+                    <mat-select [(ngModel)]="filtreRaces" name="raceUnites">
+                        <mat-option>{{ l.t['FILTRE_RACE'] }}</mat-option>
+                        @for (r of d.races; track r.id) {
+                        <mat-option [value]="r.id">{{r.nom}}</mat-option>
+                        }
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field>
-                    <!-- <mat-label>{{ l.t['compagnie_HEROS'] }}</mat-label> -->
-                    <mat-select [(ngModel)]="compagnie.commandant" name="compagniePj"
-                        [placeholder]="l.t['compagnie_HEROS']">
-                        @for (pj of d.unites | pj; track pj.id) {
-                        <mat-option [value]="pj.id">{{pj.nom}}</mat-option>
+                    <mat-label>{{ l.t['UNITES'] }}</mat-label>
+                    <mat-select>
+                        @for (u of d.unites | triUnites:filtreUnites:filtreRaces; track u.id) {
+                        <mat-option [value]="u.id">{{u.nom}}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>

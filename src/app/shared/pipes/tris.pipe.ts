@@ -87,12 +87,24 @@ export class ArmeesPipe implements PipeTransform {
 }
 /** Filtrer les unites pour avoir la liste des PJ */
 @Pipe({
-  name: 'compagnies',
+  name: 'triCompagnies',
   standalone: true
 })
 export class CompagniesPipe implements PipeTransform {
 
   transform(compagnies:Array<CompagnieI>, libre:string): Array<CompagnieI> {
     return compagnies.filter(c => c.nom.indexOf(libre) != -1);
+  }
+}
+
+/** Filtrer les unites pour avoir la liste des PJ */
+@Pipe({
+  name: 'triUnites',
+  standalone: true
+})
+export class UnitesPipe implements PipeTransform {
+
+  transform(unites:Array<UniteI>, libre:string, race:number): Array<UniteI> {
+    return unites.filter(u => u.nom.indexOf(libre) != -1 || u.race == race);
   }
 }
