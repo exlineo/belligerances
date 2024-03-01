@@ -24,6 +24,7 @@ router-outlet + *{
 router-outlet + * > main router-outlet + *  {
   flex-flow:column nowrap;
   overflow-y:auto;
+  overflow-x:hidden;
 }
 html, body, main{
   padding:0;
@@ -206,6 +207,9 @@ button.del:hover{
   width:fit-content;
   margin:5px;
 }
+.col{
+  flex-direction: column;
+}
 /* PAGES */
 section.tab{
   flex-flow: column nowrap;
@@ -284,6 +288,42 @@ nav.options img{
   flex-flow:column nowrap;
 }
 /* CHAMP DE BATAILLE */
+#champ{
+  position:relative;
+  flex-flow:column nowrap;
+  justify-content: space-between;
+  width:100%;
+  height:100%;
+  padding:0 40px;
+}
+#champ > header {
+  width:100%;
+  height: 60px;
+}
+#champ > article, .map {
+  width:calc(100% - 100px);
+  height:calc(100% - 120px);
+  border: dashed 1px black;
+}
+#champ > footer{
+  align-items: center;
+  height:60px;
+}
+#champ > footer > *{
+  margin:auto;
+}
+#hexagones{
+  position:absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: url('assets/images/cartes/hexagones.svg') 50% no-repeat;
+  background-size: 1920px 1080px;
+  z-index:0;
+}
+/*
 #champ {
   width:100%;
   height:100%;
@@ -311,8 +351,7 @@ nav.options img{
   margin:auto;
 }
 #champ dl dt:nth-child(even) > span{
-  /* transform:rotate(30deg); */
-}
+} */
 /* MENU CONTEXTUEL DES BATAILLES */
 #mb {
   position:absolute;
@@ -376,8 +415,8 @@ nav.options img{
   margin:auto 0 auto auto;
 }
 .hex {
-  font-size:70px;
-  line-height:55px;
+  font-size:100px;
+  line-height:80px;
   padding:0;
   margin:0;
   background: none;
@@ -394,7 +433,58 @@ nav.options img{
 .hex:hover span{
   transform:scale(1.4);
 }
+/* TOKEN DRAGABLE */
+.tokens {
+  padding:0;
+  display:flex;
+  flex-flow: column wrap;
+  position:relative;
+}
+.tokens li{
+  list-style:none;
+}
+.token{
+  list-style:none;
+  position:relative;
+  width:80px;
+  height:80px;
+  cursor: pointer;
+  transition: all .3s ease;
+  z-index:1;
+}
+.token.cdk-drag-dragging{
+  z-index:100;
+}
+.token img{
+  width:100%;
+  height:100%;
+  padding:10px;
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:1;
+  pointer-events: none;
+}
+.token .hex{
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:0;
+  pointer-events: none;
+}
+.token:hover{
+  transform:scale(1.2);
+}
+.token:hover .hex{
+  text-shadow: 0 0 4px var(--font);
+}
 /* MATERIAL */
+.cdk-drag {
+  transition: none;
+}
+.cdk-drag-animating {
+  transition: none;
+}
 .mat-mdc-tab-header {
   border-top:1px solid var(--font);
   border-bottom:1px solid var(--font);
@@ -448,12 +538,12 @@ nav.options img{
 ::-webkit-scrollbar {
   width: 8px;
 }
- 
+
 ::-webkit-scrollbar-track {
   background: var(--clair);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
- 
+
 ::-webkit-scrollbar-thumb {
   background: var(--jaune);
 

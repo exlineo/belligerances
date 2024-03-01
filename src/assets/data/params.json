@@ -1,0 +1,32 @@
+{
+  "cartes":[
+    {
+      "id":0,
+      "nom":"Champ de bataille",
+      "description":"",
+      "img":"assets/cartes/antietam.jpg",
+      "vignette":"assets/cartes/vignettes/"
+    },
+    {
+      "id":1,
+      "nom":"Champ de bataille",
+      "description":"",
+      "img":"assets/cartes/antietam.jpg",
+      "vignette":"assets/cartes/vignettes/"
+    },
+    {
+      "id":2,
+      "nom":"Champ de bataille",
+      "description":"",
+      "img":"assets/cartes/antietam.jpg",
+      "vignette":"assets/cartes/vignettes/"
+    },
+    {
+      "id":3,
+      "nom":"Champ de bataille",
+      "description":"",
+      "img":"assets/cartes/antietam.jpg",
+      "vignette":"assets/cartes/vignettes/"
+    }
+  ]
+}

@@ -2,28 +2,74 @@
   <h1>{{ l.t['BATAILLES'] }}</h1>
   <p>{{ l.t['BATAILLES_DESCR'] }}</p>
 </header>
-<section id="champ">
-  <article>
-    <dl *ngFor="let ligne of lignesHex; let i=index" class="ligne">
-      <dt *ngFor="let hex of ligneHex; let j=index" class="hex" [id]="i+'-'+j" (click)="selectHex(i+'-'+j)" (mouseleave)="initHex()">
-        <nav id="mb" *ngIf="hexActu==i+'-'+j" [@apparait]>
-          <ul>
-            <li>
-              <a [pTooltip]="l.t['ARMEES']" tooltipPosition="top"><img src="assets/images/pictos/action-bataille_b.png" [alt]="l.t['ARMEES']"></a>
-            </li>
-            <li>
-              <a [pTooltip]="l.t['ARMEES_DEL']"  tooltipPosition="left"><img src="assets/images/pictos/action-del_b.png" [alt]="l.t['ARMEES_DEL']"></a>
-            </li>
-            <li>
-              <a [pTooltip]="l.t['ACTION']"  tooltipPosition="right"><img src="assets/images/pictos/action-go_b.png" [alt]="l.t['ACTION']"></a>
-            </li>
-            <li>
-              <a [pTooltip]="l.t['DEPLACER']"  tooltipPosition="bottom"><img src="assets/images/pictos/action-move_b.png" [alt]="l.t['DEPLACER']"></a>
-            </li>
-          </ul>
-        </nav>
-        <span>&#x2B22;</span>
-      </dt>
-    </dl>
+<section id="champ" cdkDropListGroup>
+  <header>
+
+  </header>
+  <article class="map tokens" onDragBoundary="map" cdkDrop>
+    @for(c of listeCompagnies; track c.id){
+    <div [matTooltip]="c.nom" class="token" cdkDrag (show)="showCompagnie($event)">
+      <img [src]="c.avatar" [alt]="c.nom">
+      <span class="hex" [style.color]="d.armees[c.armee!].couleur">&#x2B22;</span>
+    </div>
+    }
+    <div id="hexagones" [style.opacity]="opacite"></div>
   </article>
+  <footer>
+    <p>{{ l.t['HEX_AFFICHE'] }}</p>
+    <mat-slider min="0" max="100" step="1" discrete (input)="matSlide($event)">
+      <input matSliderThumb value="50">
+    </mat-slider>
+  </footer>
+  <!-- OPTION LATTERALES -->
+
 </section>
+<aside>
+  <section [@tabOuvre]="tabArmees ? 'ferme' : 'ouvre'">
+    <header>
+      <a (click)="tabArmees = !tabArmees">
+        <img src="assets/images/pictos/armoiries.png" [alt]="l.t['ARMEES']">
+        <p>{{ l.t['ARMEES'] }}</p>
+      </a>
+    </header>
+    <mat-accordion>
+      @for(a of d.armees; track a.id; let i=$index){
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            @if(a.avatar){
+            <img [src]="a.avatar" [alt]="a.nom" class="avatar">
+            }
+            <h5>{{ a.nom }}</h5>
+          </mat-panel-title>
+          <!-- <mat-panel-description>
+            <mat-icon>account_circle</mat-icon>
+          </mat-panel-description> -->
+        </mat-expansion-panel-header>
+        <article class="col">
+          <p>{{ a.descr }}</p>
+          @for(c of a.compagnies; track c; let j=$index){
+          <div class="token" cdkDrag (cdkDragEnded)="tokenDrop($event, d.compagnies[c])"
+            [matTooltip]="d.compagnies[c].nom">
+            <img [src]="d.compagnies[c].avatar" [alt]="d.compagnies[c].nom">
+            <span class="hex" [style.color]="a.couleur">&#x2B22;</span>
+          </div>
+          <div>
+            <h5>{{ d.compagnies[c].nom }}</h5>
+            <p>{{ l.t['UNITES'] }} : {{ d.compagnies[c].unites.length }}</p>
+          </div>
+          }
+        </article>
+      </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </section>
+  <section [@tabOuvre]="tabActions ? 'ferme' : 'ouvre'">
+    <header>
+      <a (click)="tabActions = !tabActions">
+        <img src="assets/images/pictos/action.png" [alt]="l.t['ACTIONS']">
+        <p>{{ l.t['ACTIONS'] }}</p>
+      </a>
+    </header>
+  </section>
+</aside>

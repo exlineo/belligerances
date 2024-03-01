@@ -14,6 +14,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSelectModule} from '@angular/material/select';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [],

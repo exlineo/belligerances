@@ -32,7 +32,7 @@ export class Unite implements UniteI{
     race = -1;
     pvMax = -1;
     pv = -1;
-    ca = -1;  
+    ca = -1;
     xp = 0;
     impact = -1;
     attaque = -1;
@@ -57,6 +57,7 @@ export interface CompagnieI {
     ordre?:OrdreI;
     nbCombats?:number;
     avatar?:string;
+    position:PositionI;
 }
 export interface OrdreI{
     id:number;
@@ -76,6 +77,7 @@ export class Compagnie implements CompagnieI {
     nbCombats = 0;
     commandant = -1;
     avatar = '';
+    position = {x:0,y:0};
 }
 export interface ArmeeI {
     id:number;
@@ -111,4 +113,18 @@ export interface MontureI {
     id:number;
     nom:string;
     impact:number;
+}
+export interface ParamsI {
+  cartes:Array<CarteI>;
+}
+export interface CarteI {
+  id:number;
+  nom:string;
+  description:string;
+  img:string;
+  vignette:string;
+}
+export interface PositionI{
+  x:number;
+  y:number;
 }

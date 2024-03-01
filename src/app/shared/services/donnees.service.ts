@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ArmeeI, CompagnieI, CreatureI, MontureI, OrdreI, UniteI } from '../modeles/Type';
+import { ArmeeI, CompagnieI, CreatureI, MontureI, OrdreI, ParamsI, UniteI } from '../modeles/Type';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class DonneesService {
 
   cac: Array<string> = [];
   jet: Array<string> = [];
-  sorts : Array<string> = [];
+  sorts: Array<string> = [];
   armures: Array<string> = [];
   boucliers: Array<string> = [];
   montures: Array<MontureI> = [];
@@ -23,9 +23,19 @@ export class DonneesService {
   compagnies: Array<CompagnieI> = [];
   unites: Array<UniteI> = [];
 
+  params!: ParamsI;
+
   constructor(private http: HttpClient) {
     this.getArmes();
+    this.getParams();
   }
+  getParams() {
+    this.http.get('assets/data/params.json').subscribe({
+      next: p => this.params = p as ParamsI,
+      error: e => console.log(e),
+      complete: () => console.log("Params chargés")
+    })
+  };
   /** DONNEES LOCALES */
   getLocal(id: string) {
     if (localStorage.getItem(id)) {
