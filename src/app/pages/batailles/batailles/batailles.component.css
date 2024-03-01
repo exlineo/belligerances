@@ -29,13 +29,3 @@ aside > section > header a {
 aside > section > header img {
   width:50px;
 }
-.mat-accordion{
-  width:350px;
-}
-.mat-expansion-panel{
-  /* overflow:auto !important; */
-}
-.mat-expansion-panel-body{
-  /* overflow:hidden !important; */
-  transform: translate(0, 0);
-}

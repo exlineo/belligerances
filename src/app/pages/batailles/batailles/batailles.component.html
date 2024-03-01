@@ -16,10 +16,11 @@
     <div id="hexagones" [style.opacity]="opacite"></div>
   </article>
   <footer>
-    <p>{{ l.t['HEX_AFFICHE'] }}</p>
+    <article><p>{{ l.t['HEX_AFFICHE'] }}</p>
     <mat-slider min="0" max="100" step="1" discrete (input)="matSlide($event)">
       <input matSliderThumb value="50">
     </mat-slider>
+  </article>
   </footer>
   <!-- OPTION LATTERALES -->
 
@@ -34,7 +35,7 @@
     </header>
     <mat-accordion>
       @for(a of d.armees; track a.id; let i=$index){
-      <mat-expansion-panel>
+      <mat-expansion-panel [class]="drag ? 'overflow' : ''">
         <mat-expansion-panel-header>
           <mat-panel-title>
             @if(a.avatar){
@@ -42,21 +43,20 @@
             }
             <h5>{{ a.nom }}</h5>
           </mat-panel-title>
-          <!-- <mat-panel-description>
-            <mat-icon>account_circle</mat-icon>
-          </mat-panel-description> -->
         </mat-expansion-panel-header>
-        <article class="col">
+        <article class="col panneau">
           <p>{{ a.descr }}</p>
           @for(c of a.compagnies; track c; let j=$index){
-          <div class="token" cdkDrag (cdkDragEnded)="tokenDrop($event, d.compagnies[c])"
-            [matTooltip]="d.compagnies[c].nom">
-            <img [src]="d.compagnies[c].avatar" [alt]="d.compagnies[c].nom">
-            <span class="hex" [style.color]="a.couleur">&#x2B22;</span>
-          </div>
           <div>
-            <h5>{{ d.compagnies[c].nom }}</h5>
-            <p>{{ l.t['UNITES'] }} : {{ d.compagnies[c].unites.length }}</p>
+            <div class="token" cdkDrag (cdkDragEnded)="tokenDrop($event, d.compagnies[c])" (cdkDragMoved)="setOverflow()"
+              [matTooltip]="d.compagnies[c].nom">
+              <img [src]="d.compagnies[c].avatar" [alt]="d.compagnies[c].nom">
+              <span class="hex" [style.color]="a.couleur">&#x2B22;</span>
+            </div>
+            <div>
+              <h5>{{ d.compagnies[c].nom }}</h5>
+              <p>{{ l.t['UNITES'] }} : {{ d.compagnies[c].unites.length }}</p>
+            </div>
           </div>
           }
         </article>

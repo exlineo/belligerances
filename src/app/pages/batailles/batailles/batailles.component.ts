@@ -68,6 +68,7 @@ export class BataillesComponent {
   listeCompagnies:Array<CompagnieI> = []; // Compagnies sur le champ de bataille
 
   tokenPosition:PositionI = {x:0, y:0};
+  drag:boolean = false;
 
   selectHex(id:string){
     this.hexActu = id;
@@ -95,6 +96,7 @@ export class BataillesComponent {
     console.log(this.listeCompagnies);
     this.tokenPosition = event.source.getFreeDragPosition();
     if(!libre) event.source.reset();
+    this.drag = false;
   }
   tokenBouge(event:any){
     console.log(event);
@@ -105,7 +107,13 @@ export class BataillesComponent {
   showCompagnie(event:any){
     console.log(event);
   }
+  // Ajustement en temps réel du slide
   matSlide(event:any){
     this.opacite = event.target.value/200;
+  }
+  // Gérer l'overflow sur le drag
+  setOverflow(){
+    this.drag = true;
+    console.log(this.drag);
   }
 }

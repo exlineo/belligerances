@@ -478,6 +478,9 @@ nav.options img{
 .token:hover .hex{
   text-shadow: 0 0 4px var(--font);
 }
+.overflow, .overflow .mat-expansion-panel-body, .overflow .mat-expansion-panel-content {
+  overflow:visible !important;
+}
 /* MATERIAL */
 .cdk-drag {
   transition: none;
@@ -521,6 +524,18 @@ nav.options img{
 .mat-expansion-panel-header-description > *{
   flex:1;
   text-align: right;
+}
+.mat-expansion-panel-body{
+  /* overflow:hidden !important; */
+  transform: translate(0, 0);
+}
+article.panneau > div {
+  display:flex;
+  flex-flow:row nowrap;
+  align-items: center;
+}
+article.panneau > div h5 {
+  margin:15px 0 5px;
 }
 .mat-mdc-tab-body {
   padding-top:30px;
