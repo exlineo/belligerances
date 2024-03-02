@@ -4,10 +4,19 @@
 </header>
 <section id="champ" cdkDropListGroup>
   <header>
-
+    <mat-select [placeholder]="l.t['BATAILLES_BG']" name="bg" [(ngModel)]="bg">
+      @for(bg of d.params.cartes; track bg.id){
+      <mat-option [value]="bg.img">
+        <img [src]="bg.vignette">
+        <article>
+          <h5>{{ bg.nom }}</h5>
+          <p>{{ bg.description }}</p>
+        </article></mat-option>
+      }
+    </mat-select>
   </header>
   <!-- <article class="map tokens" onDragBoundary="map" #map cdkDrop watchDomTree (dom-changed)="setDragDOMPosition($event)"> -->
-  <article class="map tokens" onDragBoundary="map" cdkDrop #map>  
+  <article class="map tokens" onDragBoundary="map" cdkDrop #map [style.backgroundImage]="'url('+bg+')'">
     @for(c of listeCompagnies; track c.id){
     <div [matTooltip]="c.nom" class="token compagnie" cdkDrag [id]="'c'+c.id" #token>
       <img [src]="c.avatar" [alt]="c.nom">
@@ -17,11 +26,12 @@
     <div id="hexagones" [style.opacity]="opacite"></div>
   </article>
   <footer>
-    <article><p>{{ l.t['HEX_AFFICHE'] }}</p>
-    <mat-slider min="0" max="100" step="1" discrete (input)="matSlide($event)">
-      <input matSliderThumb value="50">
-    </mat-slider>
-  </article>
+    <article>
+      <p>{{ l.t['HEX_AFFICHE'] }}</p>
+      <mat-slider min="0" max="100" step="1" discrete (input)="matSlide($event)">
+        <input matSliderThumb value="50">
+      </mat-slider>
+    </article>
   </footer>
   <!-- OPTION LATTERALES -->
 
@@ -49,8 +59,8 @@
           <p>{{ a.descr }}</p>
           @for(c of a.compagnies; track c; let j=$index){
           <div>
-            <div class="token" cdkDrag (cdkDragEnded)="tokenDrop($event, d.compagnies[c])" (cdkDragMoved)="setDragOverflow()"
-              [matTooltip]="d.compagnies[c].nom">
+            <div class="token" cdkDrag (cdkDragEnded)="tokenDrop($event, d.compagnies[c])"
+              (cdkDragMoved)="setDragOverflow()" [matTooltip]="d.compagnies[c].nom">
               <img [src]="d.compagnies[c].avatar" [alt]="d.compagnies[c].nom">
               <span class="hex" [style.color]="a.couleur">&#x2B22;</span>
             </div>

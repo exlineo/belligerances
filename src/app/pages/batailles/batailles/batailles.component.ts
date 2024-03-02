@@ -71,6 +71,8 @@ export class BataillesComponent implements AfterViewInit {
   drag:boolean = false;
   initPos!:PositionI; // Position initiale du champ de bataille
 
+  bg:string = '';
+
   @ViewChildren('token') tokensView!:QueryList<ElementRef>;
   @ViewChild('map') mapView!:ElementRef;
   listeTokens!:Array<unknown>;

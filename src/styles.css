@@ -305,6 +305,10 @@ nav.options img{
   height:calc(100% - 120px);
   border: dashed 1px black;
 }
+.map {
+  background:50% no-repeat;
+  background-size:cover;
+}
 #champ > footer{
   align-items: center;
   height:60px;
@@ -531,6 +535,15 @@ nav.options img{
 .mat-expansion-panel-body{
   /* overflow:hidden !important; */
   transform: translate(0, 0);
+}
+.mat-mdc-option .mdc-list-item__primary-text article{
+  display:flex;
+  flex-flow:column nowrap;
+  padding:10px;
+}
+.mat-mdc-option .mdc-list-item__primary-text{
+  display:flex;
+  flex-flow:row nowrap;
 }
 article.panneau > div {
   display:flex;
