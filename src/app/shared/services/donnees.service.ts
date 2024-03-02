@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ArmeeI, CompagnieI, CreatureI, MontureI, OrdreI, ParamsI, UniteI } from '../modeles/Type';
+import { ArmeeI, CampagneI, CompagnieI, CreatureI, MontureI, OrdreI, ParamsI, UniteI } from '../modeles/Type';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +19,14 @@ export class DonneesService {
   animaux: Array<CreatureI> = [];
   ordres: Array<OrdreI> = [];
 
+  campagnes:Array<CampagneI> = [];
   armees: Array<ArmeeI> = [];
   compagnies: Array<CompagnieI> = [];
   unites: Array<UniteI> = [];
 
   params!: ParamsI;
+
+  campagne?:CampagneI;
 
   constructor(private http: HttpClient) {
     this.getArmes();
@@ -61,8 +64,8 @@ export class DonneesService {
         this.munitions = data.munitions;
         this.getCreatures();
       },
-      error: (err) => console.log(err),
-      complete: () => console.log("Armurerie chargée")
+      error: (err) => console.error(err),
+      complete: () => console.info("Armurerie chargée")
     });
   };
   // 2
@@ -74,8 +77,8 @@ export class DonneesService {
         this.animaux = data.animaux;
         this.getOrdres();
       },
-      error: (err) => console.log(err),
-      complete: () => console.log("Créatures chargées")
+      error: (err) => console.error(err),
+      complete: () => console.info("Créatures chargées")
     });
   };
   // 3
@@ -85,8 +88,8 @@ export class DonneesService {
         this.ordres = data;
         this.getUnites();
       },
-      error: (err) => console.log(err),
-      complete: () => console.log("Ordres chargés")
+      error: (err) => console.error(err),
+      complete: () => console.info("Ordres chargés")
     });
   };
   // 4
@@ -96,8 +99,8 @@ export class DonneesService {
         this.unites = data;
         this.getCompagnies(); // 3
       },
-      error: (err) => console.log(err),
-      complete: () => console.log("Unités chargées")
+      error: (err) => console.error(err),
+      complete: () => console.info("Unités chargées")
     });
   };
 
@@ -108,8 +111,8 @@ export class DonneesService {
         this.compagnies = data;
         this.getArmees(); // 4
       },
-      error: (err) => console.log(err),
-      complete: () => console.log("Compagnies chargées")
+      error: (err) => console.error(err),
+      complete: () => console.info("Compagnies chargées")
     });
   }
   // 6
@@ -117,9 +120,20 @@ export class DonneesService {
     this.http.get('assets/data/armees.json').subscribe({
       next: (data: any) => {
         this.armees = data;
+        this.getCampagnes();
       },
-      error: (err) => console.log(err),
-      complete: () => console.log("Armées chargées")
+      error: (err) => console.error(err),
+      complete: () => console.info("Armées chargées")
+    });
+  }
+  // 7
+  getCampagnes() {
+    this.http.get('assets/data/campagnes.json').subscribe({
+      next: (data: any) => {
+        this.campagnes = data;
+      },
+      error: (err) => console.error(err),
+      complete: () => console.info("Campagnes chargées")
     });
   }
   /**

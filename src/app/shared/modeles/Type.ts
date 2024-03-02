@@ -97,6 +97,14 @@ export class Armee implements ArmeeI {
     statut = 2;
     compagnies = [];
 }
+
+export interface CampagneI {
+    id:number;
+    nom:string;
+    descr?:string;
+    statut:number;
+    armees:Array<number>;
+}
 export interface CreatureI {
     id:number;
     nom:string,

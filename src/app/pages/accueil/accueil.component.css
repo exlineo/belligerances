@@ -4,7 +4,7 @@
   height: 100%;
   flex-flow: column nowrap;
 }
-header{
+:host > header{
   width:100%;
   text-align:center;
   flex-flow: column nowrap;
@@ -14,7 +14,16 @@ section {
   margin: 50px auto;
   width:70%;
   height:40vh;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
+}
+section > header {
+  width:100%;
+  flex-flow:row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+section > header > * {
+  margin:0 10px;
 }
 article {
   width: 50%;

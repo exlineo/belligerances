@@ -1,8 +1,19 @@
 <header>
-<h1>{{ l.t['BELLI'] }}</h1>
-<h2>{{ l.t['SLOGAN'] }}</h2>
+  <h1>{{ l.t['BELLI'] }}</h1>
+  <h2>{{ l.t['SLOGAN'] }}</h2>
 </header>
 <section>
+  <header>
+    <mat-select [(ngModel)]="d.campagne" [placeholder]="l.t['CAMP_SEL']">
+      @for(camp of d.campagnes; track camp.id){
+      <mat-option [value]="camp">
+        {{ camp.nom }}
+      </mat-option>
+      }
+    </mat-select>
+    <button>{{ l.t['CAMP_CREER'] }}</button>
+  </header>
+  @if(d.campagne){
   <article>
     <a routerLink="/armees">
       <h2 [innerHTML]="l.t['ACCUEIL_ARMEES']"></h2>
@@ -13,4 +24,5 @@
       <h2 [innerHTML]="l.t['ACCUEIL_BATAILLES']"></h2>
     </a>
   </article>
+  }
 </section>
