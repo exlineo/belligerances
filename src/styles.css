@@ -319,7 +319,7 @@ nav.options img{
   width: 100%;
   height: 100%;
   pointer-events: none;
-  background: url('assets/images/cartes/hexagones.svg') 50% no-repeat;
+  background: url('assets/images/cartes/hexagones.svg') 0% 0% no-repeat;
   background-size: 1920px 1080px;
   z-index:0;
 }
@@ -451,6 +451,9 @@ nav.options img{
   cursor: pointer;
   transition: all .3s ease;
   z-index:1;
+}
+.compagnie{
+  position:absolute;
 }
 .token.cdk-drag-dragging{
   z-index:100;

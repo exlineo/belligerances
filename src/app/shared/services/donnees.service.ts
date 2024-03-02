@@ -72,7 +72,6 @@ export class DonneesService {
         this.monstres = data.monstres;
         this.races = data.races;
         this.animaux = data.animaux;
-        console.log(this.races, data);
         this.getOrdres();
       },
       error: (err) => console.log(err),

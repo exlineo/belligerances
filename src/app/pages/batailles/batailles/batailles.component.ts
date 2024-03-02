@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, Directive, ElementRef, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
 import {
   trigger,
   state,
@@ -8,14 +8,15 @@ import {
 } from '@angular/animations';
 import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
-import { CdkDragDrop, CdkDrag, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDrag, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { CompagnieI, PositionI } from 'src/app/shared/modeles/Type';
+import { DomChangedDirective } from 'src/app/shared/dom-directive';
 
 @Component({
   selector: 'app-batailles',
   standalone: true,
-  imports: [MaterialModule, CdkDrag, CdkDropList, CdkDropListGroup],
+  imports: [MaterialModule, CdkDrag, DomChangedDirective],
   templateUrl: './batailles.component.html',
   styleUrl: './batailles.component.css',
   animations: [
@@ -51,7 +52,7 @@ import { CompagnieI, PositionI } from 'src/app/shared/modeles/Type';
     ])
   ]
 })
-export class BataillesComponent {
+export class BataillesComponent implements AfterViewInit {
   l:UtilsService = inject(UtilsService); // Service de traduction
   d:DonneesService = inject(DonneesService); // Service de données
 
@@ -67,9 +68,28 @@ export class BataillesComponent {
   listeArmees:Array<any> = []; // Armées sur le champ de bataille
   listeCompagnies:Array<CompagnieI> = []; // Compagnies sur le champ de bataille
 
-  tokenPosition:PositionI = {x:0, y:0};
   drag:boolean = false;
+  initPos!:PositionI; // Position initiale du champ de bataille
 
+  @ViewChildren('token') tokensView!:QueryList<ElementRef>;
+  @ViewChild('map') mapView!:ElementRef;
+  listeTokens!:Array<unknown>;
+
+  ngAfterViewInit(): void {
+    const map = this.mapView.nativeElement.getBoundingClientRect()
+    this.initPos = {x:Math.round(map.left), y:Math.round(map.top)}; // Position intiale du champ de bataille pour calculer la position du token droppé
+
+    this.tokensView.changes.subscribe(
+      t => {
+        const pos = this.listeCompagnies[this.listeCompagnies.length -1].position;
+        console.log(pos, this.initPos);
+        // t.last.nativeElement.style.top = (pos.y - this.initPos.y)+'px';
+        // t.last.nativeElement.style.left = (pos.x - this.initPos.x)+'px';
+        t.last.nativeElement.style.top = pos.y +'px';
+        t.last.nativeElement.style.left = pos.x +'px';
+      }
+    )
+  }
   selectHex(id:string){
     this.hexActu = id;
   }
@@ -90,30 +110,21 @@ export class BataillesComponent {
     }
   }
   /** Evénements sur le drop  */
-  tokenDrop(event:any, compagnie:CompagnieI, libre?:boolean){
-    compagnie.position = event.source.getFreeDragPosition();
-    this.listeCompagnies.push(compagnie);
-    console.log(this.listeCompagnies);
-    this.tokenPosition = event.source.getFreeDragPosition();
-    if(!libre) event.source.reset();
-    this.drag = false;
+  tokenDrop(event:CdkDragEnd, compagnie:CompagnieI, libre?:boolean){
+    compagnie.position = {x:event.dropPoint.x - this.initPos.x -40, y:event.dropPoint.y - this.initPos.y - 40};
+    this.listeCompagnies.push(compagnie); // Enregistrer les compagnies sur le champ de bataille
+    if(!libre) event.source.reset(); // Remettre le token initial à sa place
+    this.drag = false; // Fin de l'événement drag
   }
   tokenBouge(event:any){
-    console.log(event);
-  }
-  startDrag(event:any){
-    this.tokenPosition = event.source.get
-  }
-  showCompagnie(event:any){
     console.log(event);
   }
   // Ajustement en temps réel du slide
   matSlide(event:any){
     this.opacite = event.target.value/200;
   }
-  // Gérer l'overflow sur le drag
-  setOverflow(){
-    this.drag = true;
-    console.log(this.drag);
+  // Gérer l'overflow sur le drag au mouvement de la sourie
+  setDragOverflow(){
+    if(!this.drag) this.drag = true;
   }
 }
