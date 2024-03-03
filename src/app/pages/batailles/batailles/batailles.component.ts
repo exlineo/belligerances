@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Directive, ElementRef, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, Directive, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
 import {
   trigger,
   state,
@@ -52,7 +52,7 @@ import { DomChangedDirective } from 'src/app/shared/dom-directive';
     ])
   ]
 })
-export class BataillesComponent implements AfterViewInit {
+export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   l:UtilsService = inject(UtilsService); // Service de traduction
   d:DonneesService = inject(DonneesService); // Service de données
 
@@ -76,21 +76,18 @@ export class BataillesComponent implements AfterViewInit {
   @ViewChildren('token') tokensView!:QueryList<ElementRef>;
   @ViewChild('map') mapView!:ElementRef;
   listeTokens!:Array<unknown>;
-
   ngAfterViewInit(): void {
-    const map = this.mapView.nativeElement.getBoundingClientRect()
-    this.initPos = {x:Math.round(map.left), y:Math.round(map.top)}; // Position intiale du champ de bataille pour calculer la position du token droppé
-
     this.tokensView.changes.subscribe(
       t => {
         const pos = this.listeCompagnies[this.listeCompagnies.length -1].position;
-        console.log(pos, this.initPos);
-        // t.last.nativeElement.style.top = (pos.y - this.initPos.y)+'px';
-        // t.last.nativeElement.style.left = (pos.x - this.initPos.x)+'px';
         t.last.nativeElement.style.top = pos.y +'px';
         t.last.nativeElement.style.left = pos.x +'px';
       }
     )
+  }
+  ngAfterViewChecked(){
+    const map = this.mapView.nativeElement.getBoundingClientRect()
+    this.initPos = {x:Math.round(map.left), y:Math.round(map.top)}; // Position intiale du champ de bataille pour calculer la position du token droppé    
   }
   selectHex(id:string){
     this.hexActu = id;
@@ -113,6 +110,7 @@ export class BataillesComponent implements AfterViewInit {
   }
   /** Evénements sur le drop  */
   tokenDrop(event:CdkDragEnd, compagnie:CompagnieI, libre?:boolean){
+    console.log("event pos", event.dropPoint, "init pos", this.initPos);
     compagnie.position = {x:event.dropPoint.x - this.initPos.x -40, y:event.dropPoint.y - this.initPos.y - 40};
     this.listeCompagnies.push(compagnie); // Enregistrer les compagnies sur le champ de bataille
     if(!libre) event.source.reset(); // Remettre le token initial à sa place

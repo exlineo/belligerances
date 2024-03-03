@@ -36,7 +36,7 @@ article:nth-child(1){
 a {
   width: 250px;
   height: 250px;
-  background: url('/assets/images/hex-accueil.png') 50% no-repeat;
+  background: url('../../../assets/images/hex-accueil.png') 50% no-repeat;
   background-size: contain;
   text-align: center;
   display: flex;
