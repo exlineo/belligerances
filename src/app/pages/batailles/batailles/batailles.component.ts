@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, Directive, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, Directive, ElementRef, HostListener, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
 import {
   trigger,
   state,
@@ -8,7 +8,7 @@ import {
 } from '@angular/animations';
 import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
-import { CdkDragDrop, CdkDrag, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { CompagnieI, PositionI } from 'src/app/shared/modeles/Type';
 import { DomChangedDirective } from 'src/app/shared/dom-directive';
@@ -76,6 +76,12 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   @ViewChildren('token') tokensView!:QueryList<ElementRef>;
   @ViewChild('map') mapView!:ElementRef;
   listeTokens!:Array<unknown>;
+
+  @HostListener('contextmenu')
+  customContextMenu() {
+      // return false;
+  }
+
   ngAfterViewInit(): void {
     this.tokensView.changes.subscribe(
       t => {

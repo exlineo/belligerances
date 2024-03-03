@@ -29,3 +29,6 @@ aside > section > header a {
 aside > section > header img {
   width:50px;
 }
+section > header mat-select{
+  max-width:500px;
+}

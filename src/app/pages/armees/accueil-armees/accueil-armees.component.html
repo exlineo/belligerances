@@ -1,25 +1,25 @@
 <aside>
   <nav>
-    <a routerLink="creer" title="Créer des armées">
-      <img src="assets/images/pictos/armoiries.png" alt="Créer des armées">
+    <a routerLink="creer" [title]="l.t['ARMEES_DESCR']">
+      <img src="assets/images/pictos/armoiries.png" [alt]="l.t['ARMEES_DESCR']">
       <p>{{ l.t['ARMEES'] }}</p>
     </a>
-    <a routerLink="compagnies" title="Créer des compagnies">
-      <img src="assets/images/pictos/bouclier.png" alt="Créer des compagnies">
+    <a routerLink="compagnies" [title]="l.t['COMPAGNIES_DESCR']">
+      <img src="assets/images/pictos/bouclier.png" [alt]="l.t['COMPAGNIES_DESCR']">
       <p>{{ l.t['COMPAGNIES'] }}</p>
     </a>
-    <a routerLink="unites" title="Créer des unités">
-      <img src="assets/images/pictos/bataille.png" alt="Créer des unités">
+    <a routerLink="unites" [title]="l.t['UNITES_DESCR']">
+      <img src="assets/images/pictos/bataille.png" [alt]="l.t['UNITES_DESCR']">
       <p>{{ l.t['UNITES'] }}</p>
     </a>
   </nav>
   <nav>
-    <a routerLink="armurerie" title="Aller à l'armurerie">
-      <img src="assets/images/pictos/casque_2.png" alt="Aller à l'armurerie">
+    <a routerLink="armurerie" [title]="l.t['ARMURERIE_DESCR']">
+      <img src="assets/images/pictos/casque_2.png" [alt]="l.t['ARMURERIE_DESCR']">
       <p>{{ l.t['ARMURERIE'] }}</p>
     </a>
-    <a routerLink="creatures" title="Races & créatures">
-      <img src="assets/images/pictos/creatures.png" alt="Races & créatures">
+    <a routerLink="creatures" [title]="l.t['RCREATURES']">
+      <img src="assets/images/pictos/creatures.png" [alt]="l.t['RCREATURES']">
       <p>{{ l.t['CREATURES'] }}</p>
     </a>
   </nav>
@@ -28,10 +28,14 @@
   <router-outlet></router-outlet>
 </main>
 <aside>
+  <a routerLink="/" [title]="l.t['CAMP_SEL']" class="accueil droite">
+    <img src="assets/images/pictos/camp.png" [alt]="l.t['CAMP_SEL']">
+    <p>{{ l.t['CAMPS'] }}</p>
+  </a>
   <nav>
-    <a routerLink="/batailles" title="Sur le champ de bataille">
-      <img src="assets/images/pictos/combat.png" alt="Sur le champ de bataille">
-      <p>Champ de bataille</p>
+    <a routerLink="/batailles" [title]="l.t['BATAILLES']">
+      <img src="assets/images/pictos/combat.png" [alt]="l.t['BATAILLES']">
+      <p>{{ l.t['BATAILLES'] }}</p>
     </a>
   </nav>
 </aside>

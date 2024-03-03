@@ -11,13 +11,22 @@
         <header>
             <h3>{{ l.t['CAC'] }}</h3>
         </header>
-        <div>
-            <ul>
-                @for (cac of d.cac; track $index) {
-                <li>{{ cac }}</li>
+        <table>
+            <thead>
+                <tr>
+                    <td>{{ l.t['NOM'] }}</td>
+                    <td>{{ l.t['DEGATS'] }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (c of d.cac; track c.id) {
+                <tr>
+                    <td><mat-checkbox></mat-checkbox>{{ c.nom }}</td>
+                    <td>{{ l.t['MIN'] }} : {{ c.degats.min }}, {{ l.t['MAX'] }} : {{ c.degats.max }}</td>
+                </tr>
                 }
-            </ul>
-        </div>
+            </tbody>
+        </table>
     </article>
     <article>
         <nav class="options">
@@ -27,13 +36,25 @@
         <header>
             <h3>{{ l.t['JET'] }}</h3>
         </header>
-        <div>
-            <ul>
-                @for (j of d.jet; track $index) {
-                <li>{{ j }}</li>
+        <table>
+            <thead>
+                <tr>
+                    <td>{{ l.t['NOM'] }}</td>
+                    <td>{{ l.t['DEGATS'] }}</td>
+                    <td>{{ l.t['PORTEE'] }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (j of d.jet; track j.id) {
+                <tr>
+                    <td><mat-checkbox></mat-checkbox>{{ j.nom }}</td>
+                    <td>{{ l.t['MIN'] }} : {{ j.degats.min }}, {{ l.t['MAX'] }} : {{ j.degats.max }}</td>
+                    <td>{{ l.t['MIN'] }} : {{ j.portee!.min }}, {{ l.t['MAX'] }} : {{ j.portee!.max }}</td>
+                    <td>{{ j.impact }}</td>
+                </tr>
                 }
-            </ul>
-        </div>
+            </tbody>
+        </table>
     </article>
     <article>
         <nav class="options">
@@ -43,13 +64,26 @@
         <header>
             <h3>{{ l.t['SORTS'] }}</h3>
         </header>
-        <div>
-            <ul>
-                @for (s of d.sorts; track $index) {
-                <li>{{ s }}</li>
+        <table>
+            <thead>
+                <tr>
+                    <td>{{ l.t['NOM'] }}</td>
+                    <td>{{ l.t['DEGATS'] }}</td>
+                    <td>{{ l.t['PORTEE'] }}</td>
+                    <td>{{ l.t['IMPACT'] }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (s of d.sorts; track s.id) {
+                <tr>
+                    <td><mat-checkbox></mat-checkbox>{{ s.nom }}</td>
+                    <td>{{ l.t['MIN'] }} : {{ s.degats.min }}, {{ l.t['MAX'] }} : {{ s.degats.max }}</td>
+                    <td>{{ l.t['MIN'] }} : {{ s.portee!.min }}, {{ l.t['MAX'] }} : {{ s.portee!.max }}</td>
+                    <td>{{ s.impact }}</td>
+                </tr>
                 }
-            </ul>
-        </div>
+            </tbody>
+        </table>
     </article>
     <article>
         <nav class="options">
@@ -59,13 +93,22 @@
         <header>
             <h3>{{ l.t['ARMURES'] }}</h3>
         </header>
-        <div>
-            <ul>
-                @for (a of d.armures; track $index) {
-                <li>{{ a }}</li>
+        <table>
+            <thead>
+                <tr>
+                    <td>{{ l.t['NOM'] }}</td>
+                    <td>{{ l.t['BONUS'] }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (a of d.armures; track a.id) {
+                <tr>
+                    <td><mat-checkbox></mat-checkbox>{{ a.nom }}</td>
+                    <td>{{ a.bonus }}</td>
+                </tr>
                 }
-            </ul>
-        </div>
+            </tbody>
+        </table>
     </article>
     <article>
         <nav class="options">
@@ -75,12 +118,21 @@
         <header>
             <h3>{{ l.t['BOUCLIERS'] }}</h3>
         </header>
-        <div>
-            <ul>
-                @for (b of d.boucliers; track $index) {
-                <li>{{ b }}</li>
+        <table>
+            <thead>
+                <tr>
+                    <td>{{ l.t['NOM'] }}</td>
+                    <td>{{ l.t['BONUS'] }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (b of d.boucliers; track b.id) {
+                <tr>
+                    <td><mat-checkbox></mat-checkbox>{{ b.nom }}</td>
+                    <td>{{ b.bonus }}</td>
+                </tr>
                 }
-            </ul>
-        </div>
+            </tbody>
+        </table>
     </article>
 </section>

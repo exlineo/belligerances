@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ArmeeI, CampagneI, CompagnieI, CreatureI, MontureI, OrdreI, ParamsI, UniteI } from '../modeles/Type';
+import { ArmeI, ArmeeI, CampagneI, CompagnieI, CreatureI, MaterielI, MontureI, OrdreI, ParamsI, UniteI } from '../modeles/Type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DonneesService {
 
-  cac: Array<string> = [];
-  jet: Array<string> = [];
-  sorts: Array<string> = [];
-  armures: Array<string> = [];
-  boucliers: Array<string> = [];
+  cac: Array<ArmeI> = [];
+  jet: Array<ArmeI> = [];
+  sorts: Array<ArmeI> = [];
+  armures: Array<MaterielI> = [];
+  boucliers: Array<MaterielI> = [];
   montures: Array<MontureI> = [];
   munitions: Array<string> = [];
   monstres: Array<CreatureI> = [];

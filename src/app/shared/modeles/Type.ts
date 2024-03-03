@@ -122,6 +122,28 @@ export interface MontureI {
     nom:string;
     impact:number;
 }
+export interface MaterielI{
+    id:number;
+    nom:string;
+    descr:string;
+    bonus:number;
+}
+export interface ArmeI{
+    id:number;
+    nom:string;
+    descr:string;
+    degats:{min:number, max:number};
+    portee?:{min:number, max:number, munitions:number};
+    impact?:number;
+}
+export class Arme implements ArmeI{
+    id = -1;
+    nom = '';
+    descr = '';
+    degats = {min:0, max:0};
+    portee = {min:0, max:0, munitions:-1};
+    impact = 0;
+}
 export interface ParamsI {
   cartes:Array<CarteI>;
 }

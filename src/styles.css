@@ -91,16 +91,27 @@ nav {
   flex-flow:column nowrap;
   padding:30px 0;
 }
-nav > a {
+nav > a, .accueil {
   text-transform: uppercase;
   text-align: center;
   font-size:12px;
 }
-nav > a:hover{
+nav > a:hover, .accueil:hover{
   transform: scale(1.1);
 }
-nav img {
+nav img, .accueil img {
   width:50px;
+}
+.accueil{
+  position:absolute;
+  top:0;
+  padding:10px;
+}
+.droite{
+  right:0;
+}
+.gauche{
+  left:0;
 }
 table{
   width:100%;
@@ -112,8 +123,17 @@ thead{
   font-weight: 600;
   text-transform: uppercase;
 }
+tbody tr{
+  border-bottom:1px solid rgba(var(--font), .5);
+  cursor: pointer;
+  transition: all .3s ease;
+}
+tr:hover{
+  background-color: var(--jaune);
+}
 td{
   text-align:center;
+  padding:5px;
 }
 td:nth-child(1){
   text-align: left;
@@ -222,6 +242,7 @@ section.tab > header {
 /* INTERFACES AVEC DES FENETRES */
 .fenetres {
   width:100%;
+  flex-wrap: wrap;
   justify-content: space-around;
   height:auto;
   margin-top:40px;
@@ -231,7 +252,7 @@ section.tab > header {
   height: fit-content;
 }
 .fenetres article {
-  width:40%;
+  max-width:40%;
   background-color: var(--clair);
   flex-flow:row wrap;
   justify-content: space-around;
@@ -327,6 +348,7 @@ nav.options img{
   background-size: 1920px 1080px;
   z-index:0;
 }
+
 /*
 #champ {
   width:100%;

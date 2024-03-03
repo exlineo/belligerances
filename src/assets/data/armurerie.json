@@ -1,39 +1,140 @@
 {
   "cac": [
-    "Epée longue",
-    "Dague",
-    "Epée courte",
-    "Epée batarde",
-    "Espadon",
-    "Hache",
-    "Masse",
-    "Lance",
-    "Epieu"
+    {
+      "id": -1,
+      "nom": "Epée longue",
+      "descr": "A fait ses preuves sur le champ de bataille",
+      "degats": {
+        "min": 1,
+        "max": 8
+      },
+      "impact": 0
+    },
+    {
+      "id": 1,
+      "nom": "Dague",
+      "descr": "En secours en cas de besoin",
+      "degats": {
+        "min": 1,
+        "max": 4
+      },
+      "impact": 0
+    },
+    {
+      "id": 2,
+      "nom": "Epée courte",
+      "descr": "En secours en cas de besoin",
+      "degats": {
+        "min": 1,
+        "max": 6
+      },
+      "impact": 0
+    },
+    {
+      "id": 3,
+      "nom": "Epée batarde",
+      "descr": "En secours en cas de besoin",
+      "degats": {
+        "min": 2,
+        "max": 8
+      },
+      "impact": 0
+    }
   ],
   "jet": [
-    "Arc lonc",
-    "Arc court",
-    "Javeline",
-    "AK47",
-    "44 Magnum"
+    {
+      "id": 0,
+      "nom": "Arbalète légère",
+      "descr": "Plus rapide à charger",
+      "degats": {
+        "min": 1,
+        "max": 8
+      },
+      "portee": {
+        "min": 45,
+        "max": 75,
+        "munition":0
+      },
+      "impact": 0
+    },
+    {
+      "id": 0,
+      "nom": "Arc court",
+      "descr": "Pratique en toutes circonstances",
+      "degats": {
+        "min": 1,
+        "max": 6
+      },
+      "portee": {
+        "min": 60,
+        "max": 120,
+        "munition":2
+      },
+      "impact": 0
+    }
   ],
-  "sorts": [],
+  "sorts": [
+    {
+      "id": 0,
+      "nom": "Boule de feu",
+      "descr": "KRAKABOOOOUUMMMMHHHHHH",
+      "degats": {
+        "min": 6,
+        "max": 36
+      },
+      "portee": {
+        "min": 45,
+        "max": 75,
+        "munition":-1
+      },
+      "impact": 6
+    }
+  ],
   "armures": [
-    "Cuir",
-    "Plate",
-    "Chemise de maille",
-    "Cotte de maille",
-    "Harnois",
-    "Broigne",
-    "Gilet pareballes"
+    {
+      "id": 0,
+      "nom": "Cuir",
+      "descr":"",
+      "bonus": 1
+    },
+    {
+      "id": 1,
+      "nom": "Padded",
+      "descr":"",
+      "bonus": 1
+    },
+    {
+      "id": 2,
+      "nom": "Cuir clouté",
+      "descr":"",
+      "bonus": 2
+    },
+    {
+      "id": 3,
+      "nom": "Peau",
+      "descr":"Très stylé et chaud en hiver",
+      "bonus": 2
+    }
   ],
   "boucliers": [
-    "Ecu",
-    "Pavois",
-    "Normand",
-    "Rondache",
-    "Targe",
-    "Tarja"
+    {
+      "id": 0,
+      "nom": "Ecu",
+      "descr":"",
+      "bonus": 2
+    },
+    {
+      "id": 1,
+      "nom": "Normand",
+      "descr":"Grand bouclier",
+      "bonus": 4
+    },
+    {
+      "id": 2,
+      "nom": "Pavois",
+      "descr":"Couvre tout le corps",
+      "bonus": 6
+    }
   ],
   "munitions": [
     "Carreau",
