@@ -14,8 +14,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSelectModule} from '@angular/material/select';
-import { CommonModule } from '@angular/common';
-
+import {MatRadioModule} from '@angular/material/radio';
 @NgModule({
   declarations: [],
   imports: [
@@ -33,7 +32,8 @@ import { CommonModule } from '@angular/common';
     MatSliderModule,
     MatIconModule,
     MatSelectModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatRadioModule
   ],
   exports:[
     RouterLink,
@@ -50,7 +50,8 @@ import { CommonModule } from '@angular/common';
     MatSliderModule,
     MatIconModule,
     MatSelectModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatRadioModule
   ]
 })
 export class MaterialModule { }

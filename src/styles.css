@@ -125,7 +125,6 @@ thead{
 }
 tbody tr{
   border-bottom:1px solid rgba(var(--font), .5);
-  cursor: pointer;
   transition: all .3s ease;
 }
 tr:hover{
@@ -154,6 +153,16 @@ header form fieldset > *{
 form > * {
   margin:5px;
 }
+form article{
+  flex-direction: row;
+  width:100%;
+  justify-content: center;
+}
+hr{
+  height:0;
+  width:100%;
+  border-top:1px solid var(--jaune);
+}
 button{
   padding:8px 16px 8px 12px;
   color:white;
@@ -170,25 +179,32 @@ button mat-icon{
 button:hover{
   background-color:var(--noir);
 }
-button.valide{
+.valide{
+  color: var(--clair);
   background-color: var(--vert);
 }
-button.valide:hover{
+.valide:hover{
   background-color: var(--vert-fonce);
 }
-button.annule{
+.annule{
+  color: var(--clair);
   background-color: var(--jaune);
 }
-button.annule:hover{
+.annule:hover{
   background-color: var(--jaune-fonce);
 }
-button.del{
+.del{
+  color: var(--clair);
   background-color: var(--rouge);
 }
-button.del:hover{
+.del:hover{
   background-color: var(--rouge-fonce);
 }
-
+.icone{
+  margin:0;
+  font-size:16px;
+  padding:4px;
+}
 /* CLASSES PERSONNALISEES */
 .header{
   width:100%;
@@ -220,12 +236,14 @@ button.del:hover{
   font-size:10px;
 }
 .row{
+  display:flex;
   flex-direction:row;
   align-items: center;
+  justify-content: center;
 }
 .row > *{
   width:fit-content;
-  margin:5px;
+  margin:auto 0;
 }
 .col{
   flex-direction: column;
@@ -580,6 +598,10 @@ article.panneau > div h5 {
 }
 .mat-mdc-tab-body {
   padding-top:30px;
+}
+
+.mat-mdc-radio-button img {
+  width:50px;
 }
 /* ANIMATIONS */
 .fade-in {

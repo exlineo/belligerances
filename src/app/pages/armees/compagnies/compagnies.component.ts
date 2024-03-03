@@ -1,7 +1,8 @@
 import { JsonPipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MaterialModule } from 'src/app/shared/material.module';
-import { Compagnie, CompagnieI, UniteI } from 'src/app/shared/modeles/Type';
+import { Aleas, Compagnie, CompagnieI, UniteI } from 'src/app/shared/modeles/Type';
 import { CompagniesPipe, PjPipe, StatutsPipe, UnitesPipe } from 'src/app/shared/pipes/tris.pipe';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
@@ -28,12 +29,21 @@ export class CompagniesComponent implements OnInit {
   unitesGenerees:Array<UniteI> = [];
   n:number = 0; // Nombre de duplications des unités types
   alea:number = 0; // Pourcentage d'aléa pour la création des unités
+  aleas = new Aleas(); // Ensemble des aléas
 
   ngOnInit() { this.initCompagnie(); }
 
   initCompagnie() { this.compagnie = new Compagnie(); }
+  
   setUnitesAlea(){
 
   }
-
+  /**
+   * 
+   * @param aleas Liste des aléas à générer
+   */
+  genereUnites(){
+    console.log(this.aleas);
+    this.unitesGenerees = this.d.genereUnites(this.aleas, this.uniteType!)
+  }
 }

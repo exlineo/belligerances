@@ -35,17 +35,17 @@
             <tr>
                 <td>{{ u.nom }}</td>
                 <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
-                <td>{{ d.getCompagniesUnites('cac', u.cac!) }}</td>
-                <td>{{ d.getCompagniesUnites('jet', u.jet!) }}</td>
-                <td>{{ d.getCompagniesUnites('armures', u.armure!) }}</td>
-                <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!) }}</td>
+                <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
+                <td>{{ d.getCompagniesUnites('jet', u.jet!).nom }}</td>
+                <td>{{ d.getCompagniesUnites('armures', u.armure!).nom }}</td>
+                <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!).nom }}</td>
                 <td>{{ u.pvMax }}</td>
                 <td>{{ u.pv }}</td>
 
                 <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
                 <td>{{ u.xp }}</td>
                 <td><img [src]="u.etat | statuts"></td>
-                <td>
+                <td class="row">
                     <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
                     <a><img src="assets/images/pictos/up.png" [alt]="l.t['VALIDE']"></a>
                 </td>

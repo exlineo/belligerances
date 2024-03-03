@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { UniteI } from '../modeles/Type';
 
 @Injectable({
   providedIn: 'root'

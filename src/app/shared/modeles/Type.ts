@@ -158,3 +158,23 @@ export interface PositionI{
   x:number;
   y:number;
 }
+export interface AleasI{
+    cac?:boolean;
+    jet?:boolean;
+    armure?:boolean;
+    bouclier?:boolean;
+    race?:boolean;
+    monture?:boolean;
+    pourcent:number;
+    n:number;
+}
+export class Aleas implements AleasI {
+    cac = false;
+    jet = false;
+    armure = false;
+    bouclier = false;
+    race = false;
+    monture = false;
+    pourcent = 0;
+    n = 0;
+}

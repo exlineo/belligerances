@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ArmeI, ArmeeI, CampagneI, CompagnieI, CreatureI, MaterielI, MontureI, OrdreI, ParamsI, UniteI } from '../modeles/Type';
+import { Aleas, AleasI, ArmeI, ArmeeI, CampagneI, CompagnieI, CreatureI, MaterielI, MontureI, OrdreI, ParamsI, Unite, UniteI } from '../modeles/Type';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,30 @@ export class DonneesService {
     this.getArmes();
     this.getParams();
   }
+  
+  /** DONNEES LOCALES */
+  getCache(id: string):any {
+    if (localStorage.getItem(id)) {
+      let obj = localStorage.getItem(id);
+      obj = JSON.parse(obj!);
+      return obj;
+    };
+    return null
+  }
+  setCache(id: string, obj: any) {
+    // Noter la mise à jour du cache dans la date et la liste des éléments
+    const cache = localStorage.getItem('cache') ? JSON.parse(localStorage.getItem('cache')!) : {date:0,update:[]};
+    cache.date = Date.now(); // Nouveau timestamp
+    if(!cache.update.includes(id)) cache.update.push(id); // Liste des éléments qui ont été modifiés (mise à jour lorsque les fichiers sont enregistrés)
+    
+    localStorage.setItem(id, JSON.stringify(obj));
+    localStorage.setItem('cache', JSON.stringify(cache))
+  }
+  /** Comparer les dates de cache des données locales et du cache */
+  compareCacheLocal(){
+
+  }
+  /** Téléchargement des paramètres */
   getParams() {
     this.http.get('assets/data/params.json').subscribe({
       next: p => this.params = p as ParamsI,
@@ -39,17 +63,6 @@ export class DonneesService {
       complete: () => console.log("Params chargés")
     })
   };
-  /** DONNEES LOCALES */
-  getLocal(id: string) {
-    if (localStorage.getItem(id)) {
-      let obj = localStorage.getItem(id);
-      obj = JSON.parse(obj!);
-    };
-  }
-  setLocal(id: string, obj: any) {
-    obj.creeLe = Date.now();
-    localStorage.setItem(id, JSON.stringify(obj));
-  }
   /** CHARGEMENT DES DONNEES */
   // 1
   getArmes() {
@@ -137,8 +150,8 @@ export class DonneesService {
     });
   }
   /**
-   * Récupérer une donnée d'un tableau
-   * @param tab Tableau à traiter
+   * Récupérer une donnée d'un tableau loadé au démarrage
+   * @param tab Tableau à traiter (race, armure...)
    * @param id Id à récupérer
    */
   getCompagniesUnites(tab: string, id: number): any | null {
@@ -166,6 +179,34 @@ export class DonneesService {
       default:
         return '';
     }
-
+  }
+  /**
+   * Générer des unités plus ou moins aléatoires pour créer une compagnie
+   * @param uniteType L'unité qu'il faut dupliquer
+   * @param d Le nombre d'unités à générer
+   * @param alea Aléa entre chaque unité 
+   */
+  genereUnites(aleas:AleasI = new Aleas(), uniteType:UniteI):Array<UniteI>{
+    const unites:Array<UniteI> = [];
+    for(let i=0; i < aleas.n; ++i){
+      const unite = uniteType;
+      if(aleas.race) unite.race = this.randListe(this.races).id;
+      if(aleas.cac) unite.cac = this.randListe(this.cac).id;
+      if(aleas.jet) unite.cac = this.randListe(this.jet).id;
+      if(aleas.armure) unite.cac = this.randListe(this.armures).id;
+      if(aleas.bouclier) unite.cac = this.randListe(this.boucliers).id;
+      if(aleas.monture) unite.cac = this.randListe(this.montures).id;
+      console.log(unite.race);
+      unite.pvMax = unite.pv = this.rand(this.races[unite.race].basePv, aleas.pourcent);
+      unites.push(unite);
+    }
+    return unites;
+  }
+  rand(init:number, p:number){
+    const ecart = init * p/100;
+    return init + Math.round(Math.random() * ecart);
+  }
+  randListe(liste:Array<any>){
+    return liste[Math.floor(Math.random() * liste.length)];
   }
 }

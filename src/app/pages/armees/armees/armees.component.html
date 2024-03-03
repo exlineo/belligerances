@@ -94,8 +94,8 @@
     <section class="fenetres">
       <article>
         <nav class="options">
-          <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-          <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+          <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
         </nav>
         <header>
           <h3>{{ l.t['COMPAGNIES'] }}</h3>
@@ -117,8 +117,8 @@
       <span class="fleche">»</span>
       <article>
         <nav class="options">
-          <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-          <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+          <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
         </nav>
         <header>
           <h3>{{ l.t['ARMEE'] }}</h3>

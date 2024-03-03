@@ -5,8 +5,7 @@
 <section class="fenetres wrap">
     <article>
         <nav class="options">
-            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
         </nav>
         <header>
             <h3>{{ l.t['CAC'] }}</h3>
@@ -16,6 +15,7 @@
                 <tr>
                     <td>{{ l.t['NOM'] }}</td>
                     <td>{{ l.t['DEGATS'] }}</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +23,13 @@
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ c.nom }}</td>
                     <td>{{ l.t['MIN'] }} : {{ c.degats.min }}, {{ l.t['MAX'] }} : {{ c.degats.max }}</td>
+                    <td>
+                        <div class="row">
+                            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+                        <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix
+                                class="icone annule">restart_alt</mat-icon></a>
+                        </div>
+                    </td>
                 </tr>
                 }
             </tbody>
@@ -30,8 +37,7 @@
     </article>
     <article>
         <nav class="options">
-            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
         </nav>
         <header>
             <h3>{{ l.t['JET'] }}</h3>
@@ -42,6 +48,7 @@
                     <td>{{ l.t['NOM'] }}</td>
                     <td>{{ l.t['DEGATS'] }}</td>
                     <td>{{ l.t['PORTEE'] }}</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -51,6 +58,13 @@
                     <td>{{ l.t['MIN'] }} : {{ j.degats.min }}, {{ l.t['MAX'] }} : {{ j.degats.max }}</td>
                     <td>{{ l.t['MIN'] }} : {{ j.portee!.min }}, {{ l.t['MAX'] }} : {{ j.portee!.max }}</td>
                     <td>{{ j.impact }}</td>
+                    <td>
+                        <div class="row">
+                            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+                        <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix
+                                class="icone annule">restart_alt</mat-icon></a>
+                        </div>
+                    </td>
                 </tr>
                 }
             </tbody>
@@ -58,8 +72,7 @@
     </article>
     <article>
         <nav class="options">
-            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
         </nav>
         <header>
             <h3>{{ l.t['SORTS'] }}</h3>
@@ -71,6 +84,7 @@
                     <td>{{ l.t['DEGATS'] }}</td>
                     <td>{{ l.t['PORTEE'] }}</td>
                     <td>{{ l.t['IMPACT'] }}</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -80,6 +94,13 @@
                     <td>{{ l.t['MIN'] }} : {{ s.degats.min }}, {{ l.t['MAX'] }} : {{ s.degats.max }}</td>
                     <td>{{ l.t['MIN'] }} : {{ s.portee!.min }}, {{ l.t['MAX'] }} : {{ s.portee!.max }}</td>
                     <td>{{ s.impact }}</td>
+                    <td>
+                        <div class="row">
+                            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+                        <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix
+                                class="icone annule">restart_alt</mat-icon></a>
+                        </div>
+                    </td>
                 </tr>
                 }
             </tbody>
@@ -87,8 +108,7 @@
     </article>
     <article>
         <nav class="options">
-            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
         </nav>
         <header>
             <h3>{{ l.t['ARMURES'] }}</h3>
@@ -98,6 +118,7 @@
                 <tr>
                     <td>{{ l.t['NOM'] }}</td>
                     <td>{{ l.t['BONUS'] }}</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -105,6 +126,13 @@
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ a.nom }}</td>
                     <td>{{ a.bonus }}</td>
+                    <td>
+                        <div class="row">
+                            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+                        <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix
+                                class="icone annule">restart_alt</mat-icon></a>
+                        </div>
+                    </td>
                 </tr>
                 }
             </tbody>
@@ -112,8 +140,7 @@
     </article>
     <article>
         <nav class="options">
-            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-            <a><img src="assets/images/pictos/plus.png" [alt]="l.t['VALIDE']"></a>
+            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
         </nav>
         <header>
             <h3>{{ l.t['BOUCLIERS'] }}</h3>
@@ -123,6 +150,7 @@
                 <tr>
                     <td>{{ l.t['NOM'] }}</td>
                     <td>{{ l.t['BONUS'] }}</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -130,6 +158,13 @@
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ b.nom }}</td>
                     <td>{{ b.bonus }}</td>
+                    <td>
+                        <div class="row">
+                            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+                            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix
+                                    class="icone annule">restart_alt</mat-icon></a>
+                        </div>
+                    </td>
                 </tr>
                 }
             </tbody>
