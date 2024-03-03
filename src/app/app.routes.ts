@@ -12,17 +12,17 @@ import { CreaturesComponent } from './pages/armees/creatures/creatures.component
 import { InfosArmeesComponent } from './pages/armees/infos-armees/infos-armees.component';
 
 export const routes: Routes = [
-    { path:'', component:AccueilComponent },
+    { path:'', component:AccueilComponent, title:"Belligérances" },
     { path:'armees', component:AccueilArmeesComponent, children:[
       { path:'', component:InfosArmeesComponent },
-      { path:'creer', component:ArmeesComponent },
-      { path:'compagnies', component:CompagniesComponent },
-      { path:'unites', component:UnitesComponent },
-      { path:'armurerie', component:ArmurerieComponent },
-      { path:'creatures', component:CreaturesComponent }
+      { path:'creer', component:ArmeesComponent, title:"Belligérances : armées" },
+      { path:'compagnies', component:CompagniesComponent, title:"Belligérances : compagnies"  },
+      { path:'unites', component:UnitesComponent, title:"Belligérances : unités"  },
+      { path:'armurerie', component:ArmurerieComponent, title:"Belligérances : armurerie"  },
+      { path:'creatures', component:CreaturesComponent, title:"Belligérances : races & créatures"  }
     ]},
-    { path:'batailles', component:AccueilBataillesComponent, children:[
+    { path:'batailles', component:AccueilBataillesComponent, title:"Belligérances : champ de bataille", children:[
       { path:'', component:BataillesComponent }
     ]},
-    { path:'**', component:ErreurComponent }
+    { path:'**', component:ErreurComponent, title:"Belligérances : perdu ?"  }
 ];

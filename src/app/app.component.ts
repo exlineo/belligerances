@@ -14,7 +14,6 @@ export class AppComponent {
 
   title = 'Belligerance';
   l: UtilsService = inject(UtilsService); // Langues et autres infos
-  d:DonneesService = inject(DonneesService); // Les données du logiciel
 
   constructor() {
     this.l.getLangue();
