@@ -15,6 +15,9 @@
   --jaune-fonce:#4f3e04;
   --clair:white;
   --gris:#d6d6d6;
+  --sm:150px;
+  --sm-b:40px;
+  --sm-m:-35px;
 }
 router-outlet + *{
   width:100%;
@@ -401,38 +404,39 @@ nav.options img{
   position:absolute;
   display: flex;
   flex-flow: row wrap;
-  width:125px;
-  height:125px;
+  width:var(--sm);
+  height:var(--sm);
   border-radius: 50%;
-  border:35px solid rgba(0,0,0,.65);
+  border:var(--sm-b) solid rgba(0,0,0,.65);
   font-size:12px;
   align-items:center;
   justify-content: center;
-  z-index:999;
-  margin-left:-36px;
-  margin-top:-36px;
+  z-index:5;
+  margin-left:var(--sm-m);
+  margin-top:var(--sm-m);
 }
-#mb img {
+#mb img, #mb mat-icon {
   width: 35px;
+  height: 35px;
+  color: var(--clair);
 }
 #mb ul{
   padding:0;
-  margin:0 -35px;
-  height:125px;
+  margin:35px;
+  height:150px;
+  width:150px;
   display:flex;
-  flex-flow:row wrap;
-  align-items: stretch;
-  justify-content: stretch;
   position: relative;
-  top:-62px;
 }
 #mb li{
   list-style: none;
   padding:0;
-  margin:0;
+  margin:-18px;
   display:flex;
   flex-flow:row nowrap;
-  height:45px;
+  /* height:calc(var(--sm) / 3); */
+  height:36px;
+  width:36px;
 }
 #mb a{
   height:100%;
@@ -440,7 +444,7 @@ nav.options img{
 #mb a:hover{
   transform:scale(1.2);
 }
-#mb ul li:nth-child(1), #mb ul li:nth-child(4){
+/* #mb ul li:nth-child(1), #mb ul li:nth-child(4){
   width:100%;
 }
 #mb ul li:nth-child(1) a{
@@ -448,15 +452,41 @@ nav.options img{
 }
 #mb ul li:nth-child(4) a{
   margin:auto auto 0;
+}*/
+#mb ul li:nth-child(1){
+  /* transform: rotate(270deg) translate(6em) rotate(-270deg); */
+  transform: rotate(0deg) translate(57px) rotate(-0deg);
+}
+#mb ul li:nth-child(2){
+  transform: rotate(60deg) translate(57px) rotate(-60deg);
+}
+#mb ul li:nth-child(3){
+  transform: rotate(120deg) translate(57px) rotate(-120deg);
+}
+#mb ul li:nth-child(4){
+  transform: rotate(180deg) translate(57px) rotate(-180deg);
+}
+#mb ul li:nth-child(5){
+  transform: rotate(240deg) translate(57px) rotate(-240deg);
+}
+#mb ul li:nth-child(6){
+  transform: rotate(300deg) translate(57px) rotate(-300deg);
 }
 #mb ul li:nth-child(2), #mb ul li:nth-child(3){
-  width:50%;
+  /* width:50%; */
 }
 #mb ul li:nth-child(2) a{
   margin:auto auto auto 0;
 }
 #mb ul li:nth-child(3) a{
   margin:auto 0 auto auto;
+}
+.mat-mdc-tooltip-panel-below{
+  /* transform: translate(40px); Tooltip plus bas pour le menu over */
+}
+.tooltip{
+  margin-top:50px;
+  pointer-events: none;
 }
 .hex {
   font-size:100px;
@@ -493,7 +523,7 @@ nav.options img{
   width:80px;
   height:80px;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: transform .3s ease;
   z-index:1;
 }
 .compagnie{
@@ -502,21 +532,21 @@ nav.options img{
 .token.cdk-drag-dragging{
   z-index:100;
 }
-.token img{
+.token > img{
   width:100%;
   height:100%;
   padding:10px;
   position:absolute;
   left:0;
   top:0;
-  z-index:1;
+  z-index:10;
   pointer-events: none;
 }
 .token .hex{
   position:absolute;
   left:0;
   top:0;
-  z-index:0;
+  z-index:6;
   pointer-events: none;
 }
 .token:hover{

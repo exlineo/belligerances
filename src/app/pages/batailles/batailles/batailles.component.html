@@ -17,10 +17,24 @@
   </header>
   <!-- <article class="map tokens" onDragBoundary="map" #map cdkDrop watchDomTree (dom-changed)="setDragDOMPosition($event)"> -->
   <article class="map tokens" onDragBoundary="map" cdkDrop #map [style.backgroundImage]="'url('+bg+')'">
-    @for(c of listeCompagnies; track c.id){
-    <div [matTooltip]="c.nom" class="token compagnie" cdkDrag [id]="'c'+c.id" #token>
+    @for(c of listeCompagnies; track c.id; let i=$index){
+    <div [matTooltip]="c.nom"  [matTooltipClass]="(fight && c.id == fight.id && i==indexFight) ? 'tooltip' : ''"
+      class="token compagnie" cdkDrag [id]="'c'+c.id" #token (contextmenu)="actions($event, c, i)" (mouseleave)="fight = undefined">
+      <!--  -->
       <img [src]="c.avatar" [alt]="c.nom">
       <span class="hex" [style.color]="d.armees[c.armee!].couleur">&#x2B22;</span>
+      @if(fight && c.id == fight.id && i==indexFight){
+        <div id="mb">
+          <ul>
+            <li><a><img src="assets/images/pictos/action-bataille_b.png" [alt]="l.t['COMBAT']"></a></li>
+            <li><a><img src="assets/images/pictos/action-go_b.png" [alt]="l.t['COMBAT']"></a></li>
+            <li><a><img src="assets/images/pictos/action-move_b.png" [alt]="l.t['COMBAT']"></a></li>
+            <li><a><img src="assets/images/pictos/action-infos_b.png" [alt]="l.t['COMBAT']"></a></li>
+            <li><a><img src="assets/images/pictos/action-move_b.png" [alt]="l.t['COMBAT']"></a></li>
+            <li><a><img src="assets/images/pictos/action-bataille_b.png" [alt]="l.t['COMBAT']"></a></li>
+          </ul>
+        </div>
+      }
     </div>
     }
     <div id="hexagones" [style.opacity]="opacite"></div>
