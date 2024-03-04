@@ -35,6 +35,6 @@ jobs:
         server: ${{ env.SERVER }}
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/browser/
+        local-dir: ./prod/browser/
         server-dir: ./www/clients/belligerances/
         dangerous-clean-slate: true
