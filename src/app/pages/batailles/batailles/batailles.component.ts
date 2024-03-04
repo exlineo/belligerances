@@ -93,15 +93,17 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   }
   ngAfterViewChecked(){
     const map = this.mapView.nativeElement.getBoundingClientRect()
-    this.initPos = {x:Math.round(map.left), y:Math.round(map.top)}; // Position intiale du champ de bataille pour calculer la position du token droppé    
+    this.initPos = {x:Math.round(map.left), y:Math.round(map.top)}; // Position intiale du champ de bataille pour calculer la position du token droppé
   }
+
+  // Déterminer l'hexagone sélectionné (déprécié)
   selectHex(id:string){
     this.hexActu = id;
   }
   initHex(){
     this.hexActu = '';
   }
-
+  // Evénement sur le drop (déprécié)
   drop(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
