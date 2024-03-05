@@ -568,6 +568,9 @@ nav.options img{
 mat-select{
   max-width: 350px;
 }
+.mat-mdc-form-field{
+  margin:5px;
+}
 .mat-mdc-tab-header {
   border-top:1px solid var(--font);
   border-bottom:1px solid var(--font);

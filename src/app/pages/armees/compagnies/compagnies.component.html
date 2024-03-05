@@ -105,6 +105,12 @@
                             <mat-icon matSuffix>edit</mat-icon>
                     </mat-form-field>
                     <mat-form-field>
+                      <mat-label>{{ l.t['MUNITIONS'] }}</mat-label>
+                      <input matInput [placeholder]="l.t['MUNITIONS']" name="munitions" [(ngModel)]="compagnie.munitions"
+                          type="number">
+                          <mat-icon matSuffix>edit</mat-icon>
+                  </mat-form-field>
+                    <mat-form-field>
                         <mat-label>{{ l.t['ARMEE'] }}</mat-label>
                         <mat-select [placeholder]="l.t['ARMEE']" name="armee" [(ngModel)]="compagnie.armee">
                             @for (a of d.armees; track a.id) {
@@ -115,11 +121,11 @@
                     <mat-form-field>
                       <mat-label>{{ l.t['COMMANDANT'] }}</mat-label>
                       <mat-select [placeholder]="l.t['COMMANDANT']" name="commandant" [(ngModel)]="compagnie.commandant">
-                          @for (com of d.unites | pj; track com.id) {
+                        @for (com of d.unites | pj; track com.id) {
                           <mat-option [value]="com.id">{{com.nom}}</mat-option>
-                          }
+                        }
                       </mat-select>
-                  </mat-form-field>
+                    </mat-form-field>
                 </article>
                 <article>
                     <mat-radio-group aria-label="Sélectionner un avatar pour la compagnie"
