@@ -1,10 +1,10 @@
 name: Deploy prod site on push
 
-on: 
+on:
   push:
-    branches: 
+    branches:
       - master
-      
+
 jobs:
   web-deploy:
 
@@ -22,13 +22,13 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '20'
-      
+
     - name: Install NPM Modules
       run: npm install
 
     - name: Build Project
-      run: npm run build --base-href="/belligerances/"
-    
+      run: ng build --base-href /belligerances/
+
     - name: Sync Files
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
