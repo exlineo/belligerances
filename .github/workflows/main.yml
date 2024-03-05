@@ -27,7 +27,7 @@ jobs:
       run: npm install
 
     - name: Build Project
-      run: ng build --base-href /belligerances/
+      run: npm run build:ci
 
     - name: Sync Files
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
