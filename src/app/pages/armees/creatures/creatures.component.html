@@ -5,7 +5,8 @@
 <section class="fenetres wrap">
     <article>
         <nav class="options">
-            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>        </nav>
+          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
+          </nav>
         <header>
             <h3>{{ l.t['RACES'] }}</h3>
         </header>
@@ -19,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (r of d.races; track r.id) {
+                @for (r of d.docs.races; track r.id) {
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ r.nom }}</td>
                     <td>{{ r.basePv }}</td>
@@ -37,7 +38,8 @@
     </article>
     <article>
         <nav class="options">
-            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>        </nav>
+          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
+          </nav>
         <header>
             <h3>{{ l.t['MONSTRES'] }}</h3>
         </header>
@@ -51,7 +53,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (m of d.monstres; track m.id) {
+                @for (m of d.docs.monstres; track m.id) {
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ m.nom }}</td>
                     <td>{{ m.basePv }}</td>
@@ -69,7 +71,8 @@
     </article>
     <article>
         <nav class="options">
-            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>        </nav>
+          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
+          </nav>
         <header>
             <h3>{{ l.t['ANIMAUX'] }}</h3>
         </header>
@@ -83,7 +86,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (a of d.animaux; track a.id) {
+                @for (a of d.docs.animaux; track a.id) {
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ a.nom }}</td>
                     <td>{{ a.basePv }}</td>
@@ -101,7 +104,8 @@
     </article>
     <article>
         <nav class="options">
-            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>        </nav>
+          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
+          </nav>
         <header>
             <h3>{{ l.t['MONTURES'] }}</h3>
         </header>
@@ -114,7 +118,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (m of d.montures; track m.id) {
+                @for (m of d.docs.montures; track m.id) {
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ m.nom }}</td>
                     <td>{{ m.impact }}</td>

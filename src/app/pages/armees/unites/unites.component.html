@@ -30,7 +30,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (u of d.unites | triUnites:filtre; track $index) {
+        @for (u of d.docs.unites | triUnites:filtre; track $index) {
         <tr>
           <td>{{ u.nom }}</td>
           <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
@@ -52,7 +52,7 @@
         }
       </tbody>
     </table>
-    <mat-paginator [length]="d.unites.length" (page)="setPagination($event)" [pageSize]="25"
+    <mat-paginator [length]="d.docs.unites.length" (page)="setPagination($event)" [pageSize]="25"
       [pageSizeOptions]="[10, 25, 50, 100, 250]" aria-label="Avancer dans les unitées">
     </mat-paginator>
   </mat-tab>
@@ -72,7 +72,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-select [(ngModel)]="uniteCree.race" name="race" [placeholder]="l.t['RACES'] + '*'" required>
-            @for (r of d.races; track r.id) {
+            @for (r of d.docs.races; track r.id) {
             <mat-option [value]="r.id">{{r.nom}}</mat-option>
             }
           </mat-select>
@@ -86,28 +86,28 @@
       <article>
         <mat-form-field>
           <mat-select [(ngModel)]="uniteCree.cac" name="cac" [placeholder]="l.t['CAC'] + '*'" required>
-            @for (cac of d.cac; track cac.id) {
+            @for (cac of d.docs.cac; track cac.id) {
             <mat-option [value]="cac.id">{{cac.nom}}</mat-option>
             }
           </mat-select>
         </mat-form-field>
         <mat-form-field>
           <mat-select [(ngModel)]="uniteCree.jet" name="cac" [placeholder]="l.t['JET'] + '*'" required>
-            @for (jet of d.jet; track jet.id) {
+            @for (jet of d.docs.jet; track jet.id) {
             <mat-option [value]="jet.id">{{jet.nom}}</mat-option>
             }
           </mat-select>
         </mat-form-field>
         <mat-form-field>
           <mat-select [(ngModel)]="uniteCree.armure" name="armure" [placeholder]="l.t['ARMURES'] + '*'" required>
-            @for (a of d.jet; track a.id) {
+            @for (a of d.docs.jet; track a.id) {
             <mat-option [value]="a.id">{{a.nom}}</mat-option>
             }
           </mat-select>
         </mat-form-field>
         <mat-form-field>
           <mat-select [(ngModel)]="uniteCree.bouclier" name="bouclier" [placeholder]="l.t['BOUCLIERS'] + '*'" required>
-            @for (b of d.boucliers; track b.id) {
+            @for (b of d.docs.boucliers; track b.id) {
             <mat-option [value]="b.id">{{b.nom}}</mat-option>
             }
           </mat-select>

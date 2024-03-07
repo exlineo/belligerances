@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (c of d.cac; track c.id) {
+                @for (c of d.docs.cac; track c.id) {
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ c.nom }}</td>
                     <td>{{ l.t['MIN'] }} : {{ c.degats.min }}, {{ l.t['MAX'] }} : {{ c.degats.max }}</td>
@@ -52,7 +52,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (j of d.jet; track j.id) {
+                @for (j of d.docs.jet; track j.id) {
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ j.nom }}</td>
                     <td>{{ l.t['MIN'] }} : {{ j.degats.min }}, {{ l.t['MAX'] }} : {{ j.degats.max }}</td>
@@ -88,7 +88,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (s of d.sorts; track s.id) {
+                @for (s of d.docs.sorts; track s.id) {
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ s.nom }}</td>
                     <td>{{ l.t['MIN'] }} : {{ s.degats.min }}, {{ l.t['MAX'] }} : {{ s.degats.max }}</td>
@@ -122,7 +122,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (a of d.armures; track a.id) {
+                @for (a of d.docs.armures; track a.id) {
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ a.nom }}</td>
                     <td>{{ a.bonus }}</td>
@@ -154,7 +154,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (b of d.boucliers; track b.id) {
+                @for (b of d.docs.boucliers; track b.id) {
                 <tr>
                     <td><mat-checkbox></mat-checkbox>{{ b.nom }}</td>
                     <td>{{ b.bonus }}</td>

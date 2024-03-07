@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Aleas, AleasI, ArmeI, ArmeeI, CampagneI, CompagnieI, CreatureI, MaterielI, MontureI, OrdreI, ParamsI, UniteI } from '../modeles/Type';
+import { Aleas, AleasI, ArmeI, ArmeeI, CampagneI, CompagnieI, CreatureI, DocumentsI, MaterielI, MontureI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
 import { UtilsService } from './utils.service';
 
 @Injectable({
@@ -8,34 +8,36 @@ import { UtilsService } from './utils.service';
 })
 export class DonneesService {
 
-  cac: Array<ArmeI> = [];
-  jet: Array<ArmeI> = [];
-  sorts: Array<ArmeI> = [];
-  armures: Array<MaterielI> = [];
-  boucliers: Array<MaterielI> = [];
-  montures: Array<MontureI> = [];
-  munitions: Array<string> = [];
-  monstres: Array<CreatureI> = [];
-  races: Array<CreatureI> = [];
-  animaux: Array<CreatureI> = [];
-  ordres: Array<OrdreI> = [];
-
-  campagnes:Array<CampagneI> = [];
-  armees: Array<ArmeeI> = [];
-  compagnies: Array<CompagnieI> = [];
-  unites: Array<UniteI> = [];
-
-  params!: ParamsI;
-
-  campagne?:CampagneI;
-
-  constructor(private http: HttpClient, private l:UtilsService) {
-    this.getArmes();
-    this.getParams();
+  docs: any = {
+    cac: [],
+    jet: [],
+    sorts: [],
+    armures: [],
+    boucliers: [],
+    montures: [],
+    munitions: [],
+    monstres: [],
+    races: [],
+    animaux: [],
+    ordres: [],
+    armees: [],
+    compagnies: [],
+    unites: [],
+    params: new Params()
   }
 
+  campagne?: CampagneI;
+  campagnes: Array<CampagneI> = [];
+  cache: { date: number, updates: Array<string> } = { date: 0, updates: [] };
+
+  constructor(private http: HttpClient, private l: UtilsService) {
+    this.getArmes();
+  }
+  getUpdatedCache() {
+    this.cache = localStorage.getItem('cache') ? JSON.parse(localStorage.getItem('cache')!) : { date: 0, updates: [] };
+  }
   /** DONNEES LOCALES */
-  getCache(id: string):any {
+  getCache(id: string): any {
     if (localStorage.getItem(id)) {
       let obj = localStorage.getItem(id);
       obj = JSON.parse(obj!);
@@ -43,23 +45,26 @@ export class DonneesService {
     };
     return null
   }
-  setCache(id: string, obj: any) {
+  setCache(listeId: string, listeData: any) {
+    this.docs[listeId] = listeData;
     // Noter la mise à jour du cache dans la date et la liste des éléments
-    const cache = localStorage.getItem('cache') ? JSON.parse(localStorage.getItem('cache')!) : {date:0,update:[]};
-    cache.date = Date.now(); // Nouveau timestamp
-    if(!cache.update.includes(id)) cache.update.push(id); // Liste des éléments qui ont été modifiés (mise à jour lorsque les fichiers sont enregistrés)
+    this.cache.date = Date.now(); // Nouveau timestamp
+    if (!this.cache.updates.includes(listeId)) this.cache.updates.push(listeId); // Liste des éléments qui ont été modifiés (mise à jour lorsque les fichiers sont enregistrés)
 
-    localStorage.setItem(id, JSON.stringify(obj));
-    localStorage.setItem('cache', JSON.stringify(cache))
+    localStorage.setItem(listeId, JSON.stringify(listeData));
+    localStorage.setItem('cache', JSON.stringify(this.cache));
   }
   /** Comparer les dates de cache des données locales et du cache */
-  compareCacheLocal(){
+  compareCacheLocal() {
 
   }
   /** Téléchargement des paramètres */
   getParams() {
     this.http.get('assets/data/params.json').subscribe({
-      next: p => this.params = p as ParamsI,
+      next: p => {
+        // this.docs.params = p as ParamsI;
+        this.setCache('params', p as ParamsI);
+      },
       error: e => console.log(e)
     })
   };
@@ -68,13 +73,14 @@ export class DonneesService {
   getArmes() {
     this.http.get('assets/data/armurerie.json').subscribe({
       next: (data: any) => {
-        this.cac = data.cac;
-        this.jet = data.jet;
-        this.sorts = data.sorts;
-        this.armures = data.armures;
-        this.boucliers = data.boucliers;
-        this.montures = data.montures;
-        this.munitions = data.munitions;
+        this.setCache('cac', data.cac);
+        this.setCache('jet', data.jet);
+        this.setCache('sorts', data.sorts);
+        this.setCache('armures', data.armures);
+        this.setCache('boucliers', data.boucliers);
+        this.setCache('montures', data.montures);
+        this.setCache('munitions', data.munitions);
+
         this.getCreatures();
       },
       error: (err) => console.error(err)
@@ -84,9 +90,10 @@ export class DonneesService {
   getCreatures() {
     this.http.get('assets/data/creatures.json').subscribe({
       next: (data: any) => {
-        this.monstres = data.monstres;
-        this.races = data.races;
-        this.animaux = data.animaux;
+        this.setCache('monstres', data.monstres);
+        this.setCache('races', data.races);
+        this.setCache('animaux', data.animaux);
+
         this.getOrdres();
       },
       error: (err) => console.error(err)
@@ -96,7 +103,7 @@ export class DonneesService {
   getOrdres() {
     this.http.get('assets/data/ordres.json').subscribe({
       next: (data: any) => {
-        this.ordres = data;
+        this.setCache('ordre', data);
         this.getUnites();
       },
       error: (err) => console.error(err)
@@ -106,18 +113,20 @@ export class DonneesService {
   getUnites() {
     this.http.get('assets/data/unites.json').subscribe({
       next: (data: any) => {
-        this.unites = data;
+        this.docs.unites = data;
+
+        this.setCache('unites', data);
+
         this.getCompagnies(); // 3
       },
       error: (err) => console.error(err)
     });
   };
-
   // 5
   getCompagnies() {
     this.http.get('assets/data/compagnies.json').subscribe({
       next: (data: any) => {
-        this.compagnies = data;
+        this.setCache('compagnies', data);
         this.getArmees(); // 4
       },
       error: (err) => console.error(err)
@@ -127,8 +136,8 @@ export class DonneesService {
   getArmees() {
     this.http.get('assets/data/armees.json').subscribe({
       next: (data: any) => {
-        this.armees = data;
-        this.getCampagnes();
+        this.setCache('armees', data);
+        this.getParams();
       },
       error: (err) => console.error(err)
     });
@@ -137,7 +146,7 @@ export class DonneesService {
   getCampagnes() {
     this.http.get('assets/data/campagnes.json').subscribe({
       next: (data: any) => {
-        this.campagnes = data;
+        this.setCache('campagnes', data);
       },
       error: (err) => console.error(err)
     });
@@ -148,22 +157,22 @@ export class DonneesService {
    * @param d Le nombre d'unités à générer
    * @param alea Aléa entre chaque unité
    */
-  genereUnites(aleas:AleasI = new Aleas(), unitesTypes:Array<UniteI>):Array<UniteI>{
-    const unites:Array<UniteI> = [];
-    let j:number = 0;
+  genereUnites(aleas: AleasI = new Aleas(), unitesTypes: Array<UniteI>): Array<UniteI> {
+    const unites: Array<UniteI> = [];
+    let j: number = 0;
 
-    for(let i=0; i < aleas.n; ++i){
-      const unite = {...unitesTypes[j]};
-      if(aleas.race) unite.race = this.randListe(this.races).id;
-      if(aleas.cac) unite.cac = this.randListe(this.cac).id;
-      if(aleas.jet) unite.jet = this.randListe(this.jet).id;
-      if(aleas.armure) unite.armure = this.randListe(this.armures).id;
-      if(aleas.bouclier) unite.bouclier = this.randListe(this.boucliers).id;
-      if(aleas.monture) unite.monture = this.randListe(this.montures).id;
+    for (let i = 0; i < aleas.n; ++i) {
+      const unite = { ...unitesTypes[j] };
+      if (aleas.race) unite.race = this.randListe(this.docs.races).id;
+      if (aleas.cac) unite.cac = this.randListe(this.docs.cac).id;
+      if (aleas.jet) unite.jet = this.randListe(this.docs.jet).id;
+      if (aleas.armure) unite.armure = this.randListe(this.docs.armures).id;
+      if (aleas.bouclier) unite.bouclier = this.randListe(this.docs.boucliers).id;
+      if (aleas.monture) unite.monture = this.randListe(this.docs.montures).id;
       unite.pvMax = this.rand(unite.pvMax, aleas.pourcent);
       unite.pv = unite.pvMax;
       unites.push(unite);
-      j == unitesTypes.length-1 ? j = 0 : ++j;
+      j == unitesTypes.length - 1 ? j = 0 : ++j;
     }
     console.log(unitesTypes, unites);
     return unites;
@@ -174,11 +183,11 @@ export class DonneesService {
    * @param p Pourcentage à calculer
    * @returns écart
    */
-  rand(init:number, p:number){
-    const ecart = init * p/100;
-    return init + (Math.round(Math.random() * ecart) - p/2);
+  rand(init: number, p: number) {
+    const ecart = init * p / 100;
+    return init + (Math.round(Math.random() * ecart) - p / 2);
   }
-  randListe(liste:Array<any>){
+  randListe(liste: Array<any>) {
     const val = Math.floor(Math.random() * liste.length)
     const str = liste[val];
     return str;
@@ -190,44 +199,14 @@ export class DonneesService {
    * @param id Id à récupérer
    */
   getCompagniesUnites(liste: string, id: number): any | null {
-    return this.getListe(liste)[id] ? this.getListe(liste)[id] : '';
+    return this.docs[liste][id] ? this.docs[liste][id] : '';
   }
-  /** RENVOYER UNE LISTE DE DONNEES POUR L'AJOUT OU l'EDITION */
-  getListe(liste:string){
-    switch(liste){
-      case 'armees':
-        return this.armees;
-      case 'compagnies':
-        return this.compagnies;
-      case 'unites':
-        return this.unites;
-      case 'armures':
-        return this.armures;
-      case 'boucliers':
-        return this.boucliers;
-      case 'cac':
-        return this.cac;
-      case 'jet':
-        return this.jet;
-      case 'montures':
-        return this.montures;
-      case 'munitions':
-        return this.munitions;
-      case 'monstres':
-        return this.monstres;
-      case 'races':
-        return this.races;
-      case 'sorts':
-        return this.sorts;
-      default:
-        return [];
-    }
-  }
+
   /** EDITION DES DONNEES */
-  edit(liste:string, id:number, obj:any){
-    const listeObj = this.getListe(liste);
+  edit(liste: string, id: number, obj: any) {
+    const listeObj = this.docs[liste];
     listeObj[id] = obj;
-    this.setCache(liste, listeObj);
+    this.setCache(liste, this.docs[liste]);
     this.l.message('MAJ');
   }
 }

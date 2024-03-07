@@ -1,7 +1,524 @@
 [
-    {
-        "id":0,
-        "nom":"Ma campagne",
-        "armees":[0,1,2]
+  {
+    "id": 0,
+    "nom": "Mort et vie s'affronte",
+    "descr":"Y a des morts, y a des vivants, et tout ça s'affronte gentillement",
+    "dates": {"creation": 0, "update": 0},
+    "statut": 1,
+    "docs": {
+      "armees":[
+        {
+          "id": 0,
+          "nom": "Armée des morts",
+          "statut": 1,
+          "avatar":"assets/images/avatars/warrior_1.png",
+          "couleur":"#FFC700",
+          "descr": "L'armée des morts est une armée de guerre qui est constituée de plusieurs compagnies de morts-vivants et de sorciers.",
+          "compagnies": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 1,
+          "nom": "Armée des vivants",
+          "statut": 1,
+          "couleur":"#746D56",
+          "avatar":"assets/images/avatars/warrior_2.png",
+          "descr": "L'armée des vivants est une armée de guerre qui est constituée de plusieurs compagnies de chevaliers et de magiciens.",
+          "compagnies": [
+            3,
+            2
+          ]
+        },
+        {
+          "id": 2,
+          "nom": "Armée des cosmonautes",
+          "statut": -1,
+          "couleur":"#FF8A00",
+          "avatar":"assets/images/avatars/warrior_3.png",
+          "descr": "Armée perdue dans l'espace, toutes ses troupes sont perdues.",
+          "compagnies": [
+            3,
+            2
+          ]
+        },
+        {
+          "id": 3,
+          "nom": "Armée de la petite fontaine",
+          "statut": 1,
+          "couleur":"#15AD1B",
+          "avatar":"assets/images/avatars/warrior_1.png",
+          "descr": "L'armée des vivants est une armée de guerre qui est constituée de plusieurs compagnies de chevaliers et de magiciens.",
+          "compagnies": [
+            4,
+            5
+          ]
+        }
+      ],
+      "cac": [
+        {
+          "id": -1,
+          "nom": "Epée longue",
+          "descr": "A fait ses preuves sur le champ de bataille",
+          "degats": {
+            "min": 1,
+            "max": 8
+          },
+          "impact": 0
+        },
+        {
+          "id": 1,
+          "nom": "Dague",
+          "descr": "En secours en cas de besoin",
+          "degats": {
+            "min": 1,
+            "max": 4
+          },
+          "impact": 0
+        },
+        {
+          "id": 2,
+          "nom": "Epée courte",
+          "descr": "En secours en cas de besoin",
+          "degats": {
+            "min": 1,
+            "max": 6
+          },
+          "impact": 0
+        },
+        {
+          "id": 3,
+          "nom": "Epée batarde",
+          "descr": "En secours en cas de besoin",
+          "degats": {
+            "min": 2,
+            "max": 8
+          },
+          "impact": 0
+        }
+      ],
+      "jet": [
+        {
+          "id": 0,
+          "nom": "Arbalète légère",
+          "descr": "Plus rapide à charger",
+          "degats": {
+            "min": 1,
+            "max": 8
+          },
+          "portee": {
+            "min": 45,
+            "max": 75,
+            "munition":0
+          },
+          "impact": 0
+        },
+        {
+          "id": 0,
+          "nom": "Arc court",
+          "descr": "Pratique en toutes circonstances",
+          "degats": {
+            "min": 1,
+            "max": 6
+          },
+          "portee": {
+            "min": 60,
+            "max": 120,
+            "munition":2
+          },
+          "impact": 0
+        }
+      ],
+      "sorts": [
+        {
+          "id": 0,
+          "nom": "Boule de feu",
+          "descr": "KRAKABOOOOUUMMMMHHHHHH",
+          "degats": {
+            "min": 6,
+            "max": 36
+          },
+          "portee": {
+            "min": 45,
+            "max": 75,
+            "munition":-1
+          },
+          "impact": 6
+        }
+      ],
+      "armures": [
+        {
+          "id": 0,
+          "nom": "Cuir",
+          "descr":"",
+          "bonus": 1
+        },
+        {
+          "id": 1,
+          "nom": "Padded",
+          "descr":"",
+          "bonus": 1
+        },
+        {
+          "id": 2,
+          "nom": "Cuir clouté",
+          "descr":"",
+          "bonus": 2
+        },
+        {
+          "id": 3,
+          "nom": "Peau",
+          "descr":"Très stylé et chaud en hiver",
+          "bonus": 2
+        }
+      ],
+      "boucliers": [
+        {
+          "id": 0,
+          "nom": "Ecu",
+          "descr":"",
+          "bonus": 2
+        },
+        {
+          "id": 1,
+          "nom": "Normand",
+          "descr":"Grand bouclier",
+          "bonus": 4
+        },
+        {
+          "id": 2,
+          "nom": "Pavois",
+          "descr":"Couvre tout le corps",
+          "bonus": 6
+        }
+      ],
+      "munitions": [
+        "Carreau",
+        "Dart",
+        "Flèche",
+        "Balle de fronde",
+        "Javeline",
+        "Balle de plomb"
+      ],
+      "montures": [
+        {
+          "id": 0,
+          "nom": "Cheval",
+          "impact": 1
+        },
+        {
+          "id": 1,
+          "nom": "Chameau",
+          "impact": 1
+        },
+        {
+          "id": 2,
+          "nom": "Eléphant",
+          "impact": 3
+        },
+        {
+          "id": 3,
+          "nom": "Cheval de guerre",
+          "impact": 2
+        }
+      ],
+      "compagnies":[
+        {
+          "id":0,
+          "nom":"Cavalerie de la vie",
+          "chef":1,
+          "descr":"Des cavaliers qui aiment prendre soin de leurs chevaux",
+          "xp":12,
+          "armee":0,
+          "nbCombats":0,
+          "statut":1,
+          "unites":[0, 1, 2, 3],
+          "unitesCombat":[],
+          "pvMax":300,
+          "pv":76,
+          "moral":6,
+          "ordre":"Mur de bouclier",
+          "avatar":"assets/images/avatars/warrior_4.png"
+        },
+        {
+          "id":1,
+          "nom":"Cavalerie de la mort",
+          "descr":"Des guerriers de la mort qui tue",
+          "xp":12,
+          "nbCombats":0,
+          "armee":2,
+          "statut":1,
+          "unites":[0, 1, 2, 3],
+          "unitesCombat":[],
+          "pvMax":300,
+          "pv":151,
+          "moral":6,
+          "ordre":"Mur de bouclier",
+          "avatar":"assets/images/avatars/warrior_4.png"
+        },
+        {
+          "id":2,
+          "nom":"Compagnie amirale",
+          "descr":"Des guerriers de la vie qui résurectionne",
+          "xp":12,
+          "nbCombats":0,
+          "armee":0,
+          "statut":1,
+          "unites":[0, 2],
+          "unitesCombat":[],
+          "pvMax":300,
+          "pv":12,
+          "moral":1,
+          "ordre":"Mur de bouclier",
+          "avatar":"assets/images/avatars/warrior_4.png"
+        },
+        {
+          "id":3,
+          "nom":"La 7e compagnie",
+          "descr":"Où est-elle passée ?",
+          "xp":12,
+          "nbCombats":0,
+          "statut":1,
+          "unites":[3],
+          "unitesCombat":[],
+          "pvMax":290,
+          "pv":149,
+          "moral":7,
+          "armee":1,
+          "ordre":"Mur de bouclier",
+          "avatar":"assets/images/avatars/warrior_4.png"
+        },
+        {
+          "id":4,
+          "nom":"Compagnie de la mort",
+          "descr":"Des guerriers de la mort qui tue",
+          "xp":12,
+          "nbCombats":0,
+          "statut":1,
+          "unites":[4, 1],
+          "unitesCombat":[],
+          "pvMax":200,
+          "pv":125,
+          "moral":4,
+          "ordre":"Mur de bouclier",
+          "avatar":"assets/images/avatars/warrior_4.png"
+        },
+        {
+          "id":5,
+          "nom":"Compagnie de la morpré-mortt",
+          "descr":"Des guerriers de la mort qui tue",
+          "xp":12,
+          "nbCombats":0,
+          "armee":2,
+          "statut":1,
+          "unites":[2,3],
+          "unitesCombat":[],
+          "pvMax":330,
+          "pv":258,
+          "moral":9,
+          "ordre":"Mur de bouclier",
+          "avatar":"assets/images/avatars/warrior_4.png"
+        }
+      ],
+      "races": [
+        {
+          "id":0,
+          "nom": "Humain",
+          "basePv": 30,
+          "baseArmure": 10
+        },
+        {
+          "id":1,
+          "nom": "Elf",
+          "basePv": 30,
+          "baseArmure": 10
+        },
+        {
+          "id":2,
+          "nom": "Nain",
+          "basePv": 30,
+          "baseArmure": 10
+        },
+        {
+          "id":3,
+          "nom": "Snaga",
+          "basePv": 10,
+          "baseArmure": 10
+        },
+        {
+          "id":4,
+          "nom": "Gobelin",
+          "basePv": 15,
+          "baseArmure": 10
+        },
+        {
+          "id":5,
+          "nom": "Hobgobelin",
+          "basePv": 20,
+          "baseArmure": 10
+        },
+        {
+          "id":6,
+          "nom": "Orque",
+          "basePv": 25,
+          "baseArmure": 10
+        },
+        {
+          "id":7,
+          "nom": "Uruk",
+          "basePv": 35,
+          "baseArmure": 10
+        },
+        {
+          "id":8,
+          "nom": "Grand orque",
+          "basePv": 45,
+          "baseArmure": 10
+        },
+        {
+          "id":9,
+          "nom": "Troll",
+          "basePv": 100,
+          "baseArmure": 14
+        }
+      ],
+      "monstres":[
+        {
+          "id":0,
+          "nom": "Warg",
+          "basePv": 30,
+          "baseArmure": 14
+        },
+        {
+          "id":1,
+          "nom": "Grand warg",
+          "basePv": 40,
+          "baseArmure": 14
+        },
+        {
+          "id":2,
+          "nom": "Vampire",
+          "basePv": 20,
+          "baseArmure": 13
+        }
+      ],
+      "animaux": [
+        {
+          "id":0,
+          "nom": "Chien",
+          "basePv": 10,
+          "baseArmure": 10
+        },
+        {
+          "id":1,
+          "nom": "Loup",
+          "basePv": 15,
+          "baseArmure": 12
+        }
+      ],
+      "unites":[
+        {
+          "id":0,
+          "nom":"Truc",
+          "race":0,
+          "cac":1,
+          "jet":2,
+          "armure":3,
+          "bouclier":2,
+          "pvMax":120,
+          "pv":232,
+          "monture":0,
+          "impact":1,
+          "attaque":1,
+          "degats":1,
+          "xp":76,
+          "nbCombats":0,
+          "etat":2,
+          "pj":false,
+          "avatar":"assets/images/avatars/artemis.png"
+        },
+        {
+          "id":1,
+          "nom":"Miche",
+          "race":0,
+          "cac":2,
+          "jet":1,
+          "armure":3,
+          "bouclier":2,
+          "pvMax":110,
+          "pv":232,
+          "monture":3,
+          "impact":1,
+          "attaque":1,
+          "degats":1,
+          "xp":76,
+          "nbCombats":0,
+          "etat":1,
+          "pj":false,
+          "avatar":"assets/images/avatars/warrior_2.png"
+        },
+        {
+          "id":2,
+          "nom":"Muche",
+          "race":0,
+          "cac":0,
+          "jet":0,
+          "armure":3,
+          "bouclier":2,
+          "pvMax":15,
+          "pv":15,
+          "monture":0,
+          "impact":1,
+          "attaque":1,
+          "degats":1,
+          "xp":76,
+          "nbCombats":0,
+          "etat":2,
+          "pj":false,
+          "avatar":"assets/images/avatars/warrior_1.png"
+        },
+        {
+          "id":3,
+          "nom":"Moche",
+          "race":2,
+          "cac":1,
+          "jet":3,
+          "armure":3,
+          "bouclier":2,
+          "pvMax":110,
+          "pv":232,
+          "monture":1,
+          "impact":2,
+          "attaque":1,
+          "degats":10,
+          "xp":178,
+          "nbCombats":0,
+          "etat":2,
+          "pj":true,
+          "avatar":"assets/images/avatars/warrior_3.png"
+        },
+        {
+          "id":4,
+          "nom":"Machin",
+          "race":4,
+          "cac":5,
+          "jet":2,
+          "armure":3,
+          "bouclier":2,
+          "pvMax":110,
+          "pv":232,
+          "monture":2,
+          "impact":2,
+          "attaque":1,
+          "degats":10,
+          "xp":178,
+          "nbCombats":0,
+          "etat":2,
+          "pj":true,
+          "avatar":"assets/images/avatars/warrior_4.png"
+        }
+      ]
     }
+  }
 ]

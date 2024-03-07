@@ -98,14 +98,6 @@ export class Armee implements ArmeeI {
     statut = 2;
     compagnies = [];
 }
-
-export interface CampagneI {
-    id:number;
-    nom:string;
-    descr?:string;
-    statut:number;
-    armees:Array<number>;
-}
 export interface CreatureI {
     id:number;
     nom:string,
@@ -147,7 +139,10 @@ export class Arme implements ArmeI{
 }
 export interface ParamsI {
   cartes:Array<CarteI>;
-  couleurs:Array<string>;
+  couleurs?:Array<string>;
+}
+export class Params implements ParamsI {
+  cartes = [];
 }
 export interface CarteI {
   id:number;
@@ -179,4 +174,38 @@ export class Aleas implements AleasI {
     monture = false;
     pourcent = 0;
     n = 0;
+}
+export interface DocumentsI {
+  cac: Array<ArmeI>;
+  jet: Array<ArmeI>;
+  sorts: Array<ArmeI>;
+  armures: Array<MaterielI>;
+  boucliers: Array<MaterielI>;
+  montures: Array<MontureI>;
+  munitions: Array<string>;
+  monstres: Array<CreatureI>;
+  races: Array<CreatureI>;
+  animaux: Array<CreatureI>;
+  ordres: Array<OrdreI>;
+  armees: Array<ArmeeI>;
+  compagnies: Array<CompagnieI>;
+  unites: Array<UniteI>;
+  params: ParamsI;
+}
+export interface CampagneI {
+  id:number;
+  dates:{creation:number, update:number};
+  nom:string;
+  descr?:string;
+  statut:number;
+  docs:DocumentsI;
+}
+export class Campagne implements CampagneI {
+id = -1;
+dates = {creation:0, update:0};
+nom = '';
+descr = '';
+statut = 1;
+docs = {} as DocumentsI;
+// docs = {cac:[], jet:[], sorts:[], armures:[], boucliers:[], montures:[], munitions:[], monstres:[], races:[], animaux:[], ordres:[], armees:[], compagnie:[], unites:[], params:new Params()};
 }

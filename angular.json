@@ -28,6 +28,7 @@
             "styles": [
               "src/assets/material/material-1.scss",
               "src/assets/material/material-2.scss",
+              "src/assets/material/material-theme.scss",
               "src/styles.css"
             ],
             "scripts": []

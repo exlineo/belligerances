@@ -5,12 +5,11 @@
 <section id="champ" cdkDropListGroup>
   <header>
     <mat-select [placeholder]="l.t['BATAILLES_BG']" name="bg" [(ngModel)]="bg">
-      @for(bg of d.params.cartes; track bg.id){
+      @for(bg of d.docs.params.cartes; track bg.id){
       <mat-option [value]="bg.img">
         <img [src]="bg.vignette">
         <article>
-          <h5>{{ bg.nom }}</h5>
-          <p>{{ bg.description }}</p>
+          <h5>{{ bg.description }}</h5>
         </article></mat-option>
       }
     </mat-select>
@@ -22,7 +21,7 @@
       class="token compagnie" cdkDrag [id]="'c'+c.id" #token (contextmenu)="actions($event, c, i)" (mouseleave)="fight = undefined">
       <!--  -->
       <img [src]="c.avatar" [alt]="c.nom">
-      <span class="hex" [style.color]="d.armees[c.armee!].couleur">&#x2B22;</span>
+      <span class="hex" [style.color]="d.docs.armees[c.armee!].couleur">&#x2B22;</span>
       @if(fight && c.id == fight.id && i==indexFight){
         <div id="mb">
           <ul>
@@ -59,7 +58,7 @@
       </a>
     </header>
     <mat-accordion>
-      @for(a of d.armees; track a.id; let i=$index){
+      @for(a of d.docs.armees; track a.id; let i=$index){
       <mat-expansion-panel [class]="drag ? 'overflow' : ''">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -73,14 +72,14 @@
           <p>{{ a.descr }}</p>
           @for(c of a.compagnies; track c; let j=$index){
           <div>
-            <div class="token" cdkDrag (cdkDragEnded)="tokenDrop($event, d.compagnies[c])"
-              (cdkDragMoved)="setDragOverflow()" [matTooltip]="d.compagnies[c].nom">
-              <img [src]="d.compagnies[c].avatar" [alt]="d.compagnies[c].nom">
+            <div class="token" cdkDrag (cdkDragEnded)="tokenDrop($event, d.docs.compagnies[c])"
+              (cdkDragMoved)="setDragOverflow()" [matTooltip]="d.docs.compagnies[c].nom">
+              <img [src]="d.docs.compagnies[c].avatar" [alt]="d.docs.compagnies[c].nom">
               <span class="hex" [style.color]="a.couleur">&#x2B22;</span>
             </div>
             <div>
-              <h5>{{ d.compagnies[c].nom }}</h5>
-              <p>{{ l.t['UNITES'] }} : {{ d.compagnies[c].unites.length }}</p>
+              <h5>{{ d.docs.compagnies[c].nom }}</h5>
+              <p>{{ l.t['UNITES'] }} : {{ d.docs.compagnies[c].unites.length }}</p>
             </div>
           </div>
           }

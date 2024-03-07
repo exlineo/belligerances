@@ -14,7 +14,7 @@
 
     <!-- LISTE DES ARMEES -->
     <mat-accordion>
-      @for (a of d.armees | triArmees:filtre; track a.id) {
+      @for (a of d.docs.armees | triArmees:filtre; track a.id) {
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -45,9 +45,9 @@
           <tbody>
             @for (c of a.compagnies; track $index) {
             <tr>
-              <td>{{ d.compagnies[c].nom }}</td>
-              <td>{{ d.compagnies[c].unites.length }}</td>
-              <td>{{ d.compagnies[c].statut }}</td>
+              <td>{{ d.docs.compagnies[c].nom }}</td>
+              <td>{{ d.docs.compagnies[c].unites.length }}</td>
+              <td>{{ d.docs.compagnies[c].statut }}</td>
             </tr>
             }
           </tbody>
@@ -75,7 +75,7 @@
           </mat-form-field>
           <mat-form-field>
             <mat-select [(ngModel)]="armee.commandant" name="armeePj" [placeholder]="l.t['ARMEE_HEROS']">
-              @for (pj of d.unites | pj; track pj.id) {
+              @for (pj of d.docs.unites | pj; track pj.id) {
               <mat-option [value]="pj.id">{{pj.nom}}</mat-option>
               }
             </mat-select>
@@ -116,7 +116,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (c of d.compagnies; track $index) {
+            @for (c of d.docs.compagnies; track $index) {
             <tr>
               <td>{{ c.nom }}</td>
               <td><img [src]="c.avatar" [alt]="c.nom" class="avatar"></td>

@@ -13,7 +13,7 @@
     </mat-form-field>
     <!-- LISTE DES compagnieS -->
     <mat-accordion>
-      @for (c of d.compagnies | triCompagnies:filtre; track c.id) {
+      @for (c of d.docs.compagnies | triCompagnies:filtre; track c.id) {
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -50,18 +50,18 @@
           <tbody>
             @for (u of c.unites; track $index) {
             <tr>
-              <td>{{ d.unites[u].nom }}</td>
+              <td>{{ d.docs.unites[u].nom }}</td>
               <td>{{ d.getCompagniesUnites('races', u).nom }}</td>
               <td>{{ d.getCompagniesUnites('cac', u).nom }}</td>
               <td>{{ d.getCompagniesUnites('jet', u).nom }}</td>
               <td>{{ d.getCompagniesUnites('armures', u).nom }}</td>
               <td>{{ d.getCompagniesUnites('boucliers', u).nom }}</td>
-              <td>{{ d.unites[u].pvMax }}</td>
-              <td>{{ d.unites[u].pv }}</td>
+              <td>{{ d.docs.unites[u].pvMax }}</td>
+              <td>{{ d.docs.unites[u].pv }}</td>
 
               <td>{{ d.getCompagniesUnites('montures', u).nom }}</td>
-              <td>{{ d.unites[u].xp }}</td>
-              <td><img [src]="d.unites[u].etat | statuts"></td>
+              <td>{{ d.docs.unites[u].xp }}</td>
+              <td><img [src]="d.docs.unites[u].etat | statuts"></td>
               <td>
                 <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
                 <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
@@ -110,7 +110,7 @@
           <mat-form-field>
             <mat-label>{{ l.t['ARMEE'] }}*</mat-label>
             <mat-select [placeholder]="l.t['ARMEE']" name="armee" [(ngModel)]="compagnie.armee" required>
-              @for (a of d.armees; track a.id) {
+              @for (a of d.docs.armees; track a.id) {
               <mat-option [value]="a.id">{{a.nom}}</mat-option>
               }
             </mat-select>
@@ -118,7 +118,7 @@
           <mat-form-field>
             <mat-label>{{ l.t['COMMANDANT'] }}*</mat-label>
             <mat-select [placeholder]="l.t['COMMANDANT']" name="commandant" [(ngModel)]="compagnie.commandant" required>
-              @for (com of d.unites | pj; track com.id) {
+              @for (com of d.docs.unites | pj; track com.id) {
               <mat-option [value]="com.id">{{com.nom}}</mat-option>
               }
             </mat-select>
@@ -149,7 +149,7 @@
           <mat-form-field>
             <mat-label>{{ l.t['UNITE_GENERE'] }}</mat-label>
             <mat-select [placeholder]="l.t['UNITE_TYPE_SEL']" name="unites" [(ngModel)]="unitesTypes" multiple>
-              @for (u of d.unites | triUnites:filtreUnites:filtreRaces; track u.id) {
+              @for (u of d.docs.unites | triUnites:filtreUnites:filtreRaces; track u.id) {
               <mat-option [value]="u">{{u.nom}}</mat-option>
               }
             </mat-select>
