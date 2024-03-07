@@ -1,6 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UniteI } from '../modeles/Type';
+import {
+  MatSnackBar,
+  MatSnackBarAction,
+  MatSnackBarActions,
+  MatSnackBarLabel,
+  MatSnackBarRef,
+} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +16,7 @@ export class UtilsService {
   t: any;
   langue: string = 'fr';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private _snackBar: MatSnackBar) {
     this.getLangue();
   }
   getLangue() {
@@ -20,5 +26,8 @@ export class UtilsService {
       complete: () => console.log('Langue chargée')
     }
     )
+  }
+  message(msg:string){
+    this._snackBar.open(this.t[msg], 'OK', {duration: 3000});
   }
 }

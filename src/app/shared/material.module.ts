@@ -15,7 +15,8 @@ import { FormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
-// import {MatMenuModule} from '@angular/material/menu';
+import {MatChipsModule} from '@angular/material/chips';
+import { ColorPickerModule } from '@iplab/ngx-color-picker';
 
 @NgModule({
   declarations: [],
@@ -35,7 +36,9 @@ import {MatRadioModule} from '@angular/material/radio';
     MatIconModule,
     MatSelectModule,
     MatPaginatorModule,
-    MatRadioModule
+    MatRadioModule,
+    MatChipsModule,
+    ColorPickerModule
   ],
   exports:[
     RouterLink,
@@ -53,7 +56,9 @@ import {MatRadioModule} from '@angular/material/radio';
     MatIconModule,
     MatSelectModule,
     MatPaginatorModule,
-    MatRadioModule
+    MatRadioModule,
+    MatChipsModule,
+    ColorPickerModule
   ]
 })
 export class MaterialModule { }

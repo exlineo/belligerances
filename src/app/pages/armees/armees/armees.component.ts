@@ -4,6 +4,7 @@ import { DonneesService } from '../../../shared/services/donnees.service';
 import { ArmeesPipe, PjPipe, StatutsPipe } from '../../../shared/pipes/tris.pipe';
 import { ArmeeI, Armee, CompagnieI } from 'src/app/shared/modeles/Type';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { ColorPickerControl, Color } from '@iplab/ngx-color-picker';
 
 @Component({
   selector: 'app-armees',
@@ -21,10 +22,24 @@ export class ArmeesComponent implements OnInit{
 
   armee!:ArmeeI;
   compagnieChoix!:CompagnieI;
+  color!:Color;
+  colorControl = new ColorPickerControl();
 
-  ngOnInit(){ this.initArmee(); }
+  ngOnInit(){
+    this.initArmee();
+    this.colorControl.valueChanges.subscribe((value) => {
+      this.armee.couleur = value.toHexString();
+      console.log(this.armee, value);
+    });
+  }
 
   initArmee(){ this.armee = new Armee(); }
+
+  setColor(event: MouseEvent){
+    event.stopPropagation();
+    this.armee.couleur = this.colorControl.value.toHexString();
+    console.log(this.color, this.armee);
+  }
 
   dragStart(c:CompagnieI){
     console.log(c);

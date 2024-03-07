@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Aleas, AleasI, ArmeI, ArmeeI, CampagneI, CompagnieI, CreatureI, MaterielI, MontureI, OrdreI, ParamsI, Unite, UniteI } from '../modeles/Type';
+import { Aleas, AleasI, ArmeI, ArmeeI, CampagneI, CompagnieI, CreatureI, MaterielI, MontureI, OrdreI, ParamsI, UniteI } from '../modeles/Type';
+import { UtilsService } from './utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +29,11 @@ export class DonneesService {
 
   campagne?:CampagneI;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private l:UtilsService) {
     this.getArmes();
     this.getParams();
   }
-  
+
   /** DONNEES LOCALES */
   getCache(id: string):any {
     if (localStorage.getItem(id)) {
@@ -47,7 +48,7 @@ export class DonneesService {
     const cache = localStorage.getItem('cache') ? JSON.parse(localStorage.getItem('cache')!) : {date:0,update:[]};
     cache.date = Date.now(); // Nouveau timestamp
     if(!cache.update.includes(id)) cache.update.push(id); // Liste des éléments qui ont été modifiés (mise à jour lorsque les fichiers sont enregistrés)
-    
+
     localStorage.setItem(id, JSON.stringify(obj));
     localStorage.setItem('cache', JSON.stringify(cache))
   }
@@ -59,8 +60,7 @@ export class DonneesService {
   getParams() {
     this.http.get('assets/data/params.json').subscribe({
       next: p => this.params = p as ParamsI,
-      error: e => console.log(e),
-      complete: () => console.log("Params chargés")
+      error: e => console.log(e)
     })
   };
   /** CHARGEMENT DES DONNEES */
@@ -77,8 +77,7 @@ export class DonneesService {
         this.munitions = data.munitions;
         this.getCreatures();
       },
-      error: (err) => console.error(err),
-      complete: () => console.info("Armurerie chargée")
+      error: (err) => console.error(err)
     });
   };
   // 2
@@ -90,8 +89,7 @@ export class DonneesService {
         this.animaux = data.animaux;
         this.getOrdres();
       },
-      error: (err) => console.error(err),
-      complete: () => console.info("Créatures chargées")
+      error: (err) => console.error(err)
     });
   };
   // 3
@@ -101,8 +99,7 @@ export class DonneesService {
         this.ordres = data;
         this.getUnites();
       },
-      error: (err) => console.error(err),
-      complete: () => console.info("Ordres chargés")
+      error: (err) => console.error(err)
     });
   };
   // 4
@@ -112,8 +109,7 @@ export class DonneesService {
         this.unites = data;
         this.getCompagnies(); // 3
       },
-      error: (err) => console.error(err),
-      complete: () => console.info("Unités chargées")
+      error: (err) => console.error(err)
     });
   };
 
@@ -124,8 +120,7 @@ export class DonneesService {
         this.compagnies = data;
         this.getArmees(); // 4
       },
-      error: (err) => console.error(err),
-      complete: () => console.info("Compagnies chargées")
+      error: (err) => console.error(err)
     });
   }
   // 6
@@ -135,8 +130,7 @@ export class DonneesService {
         this.armees = data;
         this.getCampagnes();
       },
-      error: (err) => console.error(err),
-      complete: () => console.info("Armées chargées")
+      error: (err) => console.error(err)
     });
   }
   // 7
@@ -145,68 +139,95 @@ export class DonneesService {
       next: (data: any) => {
         this.campagnes = data;
       },
-      error: (err) => console.error(err),
-      complete: () => console.info("Campagnes chargées")
+      error: (err) => console.error(err)
     });
-  }
-  /**
-   * Récupérer une donnée d'un tableau loadé au démarrage
-   * @param tab Tableau à traiter (race, armure...)
-   * @param id Id à récupérer
-   */
-  getCompagniesUnites(tab: string, id: number): any | null {
-    switch (tab) {
-      case "races":
-        return this.races[id] ? this.races[id] : '';
-      case "arumres":
-        return this.armures[id] ? this.armures[id] : '';
-      case "cac":
-        return this.cac[id] ? this.cac[id] : '';
-      case "jet":
-        return this.jet[id] ? this.jet[id] : '';
-      case "boucliers":
-        return this.boucliers[id] ? this.boucliers[id] : '';
-      case "montures":
-        return this.montures.find(m => m.id == id) ? this.montures.find(m => m.id == id) : '';
-      case "munitions":
-        return this.munitions[id] ? this.munitions[id] : '';
-      case "armures":
-        return this.armures[id] ? this.armures[id] : '';
-      case "compagnies":
-        return this.compagnies.find(c => c.id == id) ? this.compagnies.find(c => c.id == id) : '';
-      case "armees":
-        return this.armees.find(a => a.id == id) ? this.armees.find(a => a.id == id) : '';
-      default:
-        return '';
-    }
   }
   /**
    * Générer des unités plus ou moins aléatoires pour créer une compagnie
    * @param uniteType L'unité qu'il faut dupliquer
    * @param d Le nombre d'unités à générer
-   * @param alea Aléa entre chaque unité 
+   * @param alea Aléa entre chaque unité
    */
-  genereUnites(aleas:AleasI = new Aleas(), uniteType:UniteI):Array<UniteI>{
+  genereUnites(aleas:AleasI = new Aleas(), unitesTypes:Array<UniteI>):Array<UniteI>{
     const unites:Array<UniteI> = [];
+    let j:number = 0;
+
     for(let i=0; i < aleas.n; ++i){
-      const unite = uniteType;
+      const unite = {...unitesTypes[j]};
       if(aleas.race) unite.race = this.randListe(this.races).id;
       if(aleas.cac) unite.cac = this.randListe(this.cac).id;
-      if(aleas.jet) unite.cac = this.randListe(this.jet).id;
-      if(aleas.armure) unite.cac = this.randListe(this.armures).id;
-      if(aleas.bouclier) unite.cac = this.randListe(this.boucliers).id;
-      if(aleas.monture) unite.cac = this.randListe(this.montures).id;
-      console.log(unite.race);
-      unite.pvMax = unite.pv = this.rand(this.races[unite.race].basePv, aleas.pourcent);
+      if(aleas.jet) unite.jet = this.randListe(this.jet).id;
+      if(aleas.armure) unite.armure = this.randListe(this.armures).id;
+      if(aleas.bouclier) unite.bouclier = this.randListe(this.boucliers).id;
+      if(aleas.monture) unite.monture = this.randListe(this.montures).id;
+      unite.pvMax = this.rand(unite.pvMax, aleas.pourcent);
+      unite.pv = unite.pvMax;
       unites.push(unite);
+      j == unitesTypes.length-1 ? j = 0 : ++j;
     }
+    console.log(unitesTypes, unites);
     return unites;
   }
+  /**
+   *
+   * @param init Valeur de départ à partir de laquelle on applique le pourcentage
+   * @param p Pourcentage à calculer
+   * @returns écart
+   */
   rand(init:number, p:number){
     const ecart = init * p/100;
-    return init + Math.round(Math.random() * ecart);
+    return init + (Math.round(Math.random() * ecart) - p/2);
   }
   randListe(liste:Array<any>){
-    return liste[Math.floor(Math.random() * liste.length)];
+    const val = Math.floor(Math.random() * liste.length)
+    const str = liste[val];
+    return str;
+  }
+
+  /**
+   * Récupérer une donnée d'un tableau loadé au démarrage
+   * @param tab Tableau à traiter (race, armure...)
+   * @param id Id à récupérer
+   */
+  getCompagniesUnites(liste: string, id: number): any | null {
+    return this.getListe(liste)[id] ? this.getListe(liste)[id] : '';
+  }
+  /** RENVOYER UNE LISTE DE DONNEES POUR L'AJOUT OU l'EDITION */
+  getListe(liste:string){
+    switch(liste){
+      case 'armees':
+        return this.armees;
+      case 'compagnies':
+        return this.compagnies;
+      case 'unites':
+        return this.unites;
+      case 'armures':
+        return this.armures;
+      case 'boucliers':
+        return this.boucliers;
+      case 'cac':
+        return this.cac;
+      case 'jet':
+        return this.jet;
+      case 'montures':
+        return this.montures;
+      case 'munitions':
+        return this.munitions;
+      case 'monstres':
+        return this.monstres;
+      case 'races':
+        return this.races;
+      case 'sorts':
+        return this.sorts;
+      default:
+        return [];
+    }
+  }
+  /** EDITION DES DONNEES */
+  edit(liste:string, id:number, obj:any){
+    const listeObj = this.getListe(liste);
+    listeObj[id] = obj;
+    this.setCache(liste, listeObj);
+    this.l.message('MAJ');
   }
 }

@@ -1,58 +1,127 @@
 <header>
-    <h1>{{ l.t['UNITES'] }}</h1>
-    <p>{{ l.t['UNITES_DESCR'] }}</p>
+  <h1>{{ l.t['UNITES'] }}</h1>
+  <p>{{ l.t['UNITES_DESCR'] }}</p>
 </header>
-<section>
-    <header>
-        <form>
-            <!-- FILTRER LES UNITES -->
-            <mat-form-field>
-                <mat-label>{{ l.t['FILTRER'] }}</mat-label>
-                <input type="text" matInput [placeholder]="l.t['FILTRER_NOM']" [(ngModel)]="filtre" name="filtre">
-                <mat-icon matSuffix>search</mat-icon>
-            </mat-form-field>
-        </form>
-    </header>
-    <table>
-        <thead>
-            <tr>
-                <td>{{ l.t['NOM'] }}</td>
-                <td>{{ l.t['RACE'] }}</td>
-                <td>{{ l.t['CAC'] }}</td>
-                <td>{{ l.t['JET'] }}</td>
-                <td>{{ l.t['ARMURE'] }}</td>
-                <td>{{ l.t['BOUCLIER'] }}</td>
-                <td>{{ l.t['PV_MAX'] }}</td>
-                <td>{{ l.t['PV'] }}</td>
-                <td>{{ l.t['MONTURE'] }}</td>
-                <td>{{ l.t['XP'] }}</td>
-                <td>{{ l.t['STATUT'] }}</td>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            @for (u of d.unites | triUnites:filtre; track $index) {
-            <tr>
-                <td>{{ u.nom }}</td>
-                <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
-                <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
-                <td>{{ d.getCompagniesUnites('jet', u.jet!).nom }}</td>
-                <td>{{ d.getCompagniesUnites('armures', u.armure!).nom }}</td>
-                <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!).nom }}</td>
-                <td>{{ u.pvMax }}</td>
-                <td>{{ u.pv }}</td>
 
-                <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
-                <td>{{ u.xp }}</td>
-                <td><img [src]="u.etat | statuts"></td>
-                <td class="row">
-                    <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-                    <a><img src="assets/images/pictos/up.png" [alt]="l.t['VALIDE']"></a>
-                </td>
-            </tr>
-            }
-        </tbody>
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+  <!-- LISTE DES UNITES -->
+  <mat-tab [label]="l.t['UNITES_TYPE']">
+    <!-- FILTRER LES UNITES -->
+    <mat-form-field>
+      <mat-label>{{ l.t['FILTRER'] }}</mat-label>
+      <input type="text" matInput [placeholder]="l.t['FILTRER_NOM']" [(ngModel)]="filtre" name="filtre">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <table>
+      <thead>
+        <tr>
+          <td>{{ l.t['NOM'] }}</td>
+          <td>{{ l.t['RACE'] }}</td>
+          <td>{{ l.t['CAC'] }}</td>
+          <td>{{ l.t['JET'] }}</td>
+          <td>{{ l.t['ARMURE'] }}</td>
+          <td>{{ l.t['BOUCLIER'] }}</td>
+          <td>{{ l.t['PV_MAX'] }}</td>
+          <td>{{ l.t['PV'] }}</td>
+          <td>{{ l.t['MONTURE'] }}</td>
+          <td>{{ l.t['XP'] }}</td>
+          <td>{{ l.t['STATUT'] }}</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (u of d.unites | triUnites:filtre; track $index) {
+        <tr>
+          <td>{{ u.nom }}</td>
+          <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
+          <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
+          <td>{{ d.getCompagniesUnites('jet', u.jet!).nom }}</td>
+          <td>{{ d.getCompagniesUnites('armures', u.armure!).nom }}</td>
+          <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!).nom }}</td>
+          <td>{{ u.pvMax }}</td>
+          <td>{{ u.pv }}</td>
+
+          <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
+          <td>{{ u.xp }}</td>
+          <td><img [src]="u.etat | statuts"></td>
+          <td class="row">
+            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
+            <a><img src="assets/images/pictos/up.png" [alt]="l.t['VALIDE']"></a>
+          </td>
+        </tr>
+        }
+      </tbody>
     </table>
-    <mat-paginator [length]="d.unites | tailleUnites:filtre" [pageSize]="25" [pageSizeOptions]="[25, 50, 100,]" aria-label="Limiter le nombre d'unités">
+    <mat-paginator [length]="d.unites.length" (page)="setPagination($event)" [pageSize]="25"
+      [pageSizeOptions]="[10, 25, 50, 100, 250]" aria-label="Avancer dans les unitées">
     </mat-paginator>
-</section>
+  </mat-tab>
+
+  <mat-tab [label]="l.t['UNITE_CREER']">
+    <!-- <form> -->
+      <article>
+        <mat-form-field>
+          <mat-label>{{ l.t['NOM'] }}</mat-label>
+          <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="uniteCree.nom" name="nom" required>
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ l.t['DESCR'] }}</mat-label>
+          <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="uniteCree.descr" name="descr">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select [(ngModel)]="uniteCree.race" name="race" [placeholder]="l.t['RACES'] + '*'" required>
+            @for (r of d.races; track r.id) {
+            <mat-option [value]="r.id">{{r.nom}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ l.t['PV_MAX'] }}</mat-label>
+          <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="uniteCree.pvMax" name="pvma" required>
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+      </article>
+      <article>
+        <mat-form-field>
+          <mat-select [(ngModel)]="uniteCree.cac" name="cac" [placeholder]="l.t['CAC'] + '*'" required>
+            @for (cac of d.cac; track cac.id) {
+            <mat-option [value]="cac.id">{{cac.nom}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select [(ngModel)]="uniteCree.jet" name="cac" [placeholder]="l.t['JET'] + '*'" required>
+            @for (jet of d.jet; track jet.id) {
+            <mat-option [value]="jet.id">{{jet.nom}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select [(ngModel)]="uniteCree.armure" name="armure" [placeholder]="l.t['ARMURES'] + '*'" required>
+            @for (a of d.jet; track a.id) {
+            <mat-option [value]="a.id">{{a.nom}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select [(ngModel)]="uniteCree.bouclier" name="bouclier" [placeholder]="l.t['BOUCLIERS'] + '*'" required>
+            @for (b of d.boucliers; track b.id) {
+            <mat-option [value]="b.id">{{b.nom}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-radio-group aria-label="Statut PJ" [(ngModel)]="uniteCree.pj" required>
+          <mat-radio-button value="false">{{ l.t['PNJ'] }}*</mat-radio-button>
+          <mat-radio-button value="true">{{  l.t['PJ'] }}*</mat-radio-button>
+        </mat-radio-group>
+      </article>
+
+      <article>
+        <button class="annule" type="reset"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
+        <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['VALIDE'] }}</button>
+      </article>
+    <!-- </form> -->
+  </mat-tab>
+</mat-tab-group>

@@ -1,10 +1,11 @@
 export interface UniteI {
     id:number;
     nom:string;
+    descr?:string;
     race:number;
     cac?:number;
     jet?:number;
-    ca:number;
+    ca?:number;
     armure?:number;
     bouclier?:number;
     pvMax:number;
@@ -93,7 +94,7 @@ export class Armee implements ArmeeI {
     id = -1;
     nom = '';
     descr = '';
-    couleur = '';
+    couleur = '#FFFFFF';
     statut = 2;
     compagnies = [];
 }
@@ -146,6 +147,7 @@ export class Arme implements ArmeI{
 }
 export interface ParamsI {
   cartes:Array<CarteI>;
+  couleurs:Array<string>;
 }
 export interface CarteI {
   id:number;

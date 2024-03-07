@@ -19,7 +19,7 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             @if(a.avatar){
-              <img [src]="a.avatar" [alt]="a.nom" class="avatar">
+            <img [src]="a.avatar" [alt]="a.nom" class="avatar">
             }
             <h4>{{ a.nom }}</h4>
           </mat-panel-title>
@@ -36,10 +36,10 @@
         <table>
           <thead>
             <tr>
-              <td>{{ l.t['COMPAGNIES'] }}</td>
-              <td>{{ l.t['XP'] }}</td>
-              <td>{{ l.t['UNITES_NB'] }}</td>
-              <td>{{ l.t['STATUT'] }}</td>
+              <th>{{ l.t['COMPAGNIES'] }}</th>
+              <th>{{ l.t['XP'] }}</th>
+              <th>{{ l.t['UNITES_NB'] }}</th>
+              <th>{{ l.t['STATUT'] }}</th>
             </tr>
           </thead>
           <tbody>
@@ -63,58 +63,78 @@
   <mat-tab [label]="l.t['ARMEES_CREER']">
     <header>
       <form>
-        <mat-form-field>
-          <!-- <mat-label>{{ l.t['FILTRER'] }}</mat-label> -->
-          <input type="text" matInput [placeholder]="l.t['ARMEE_NOM']" [(ngModel)]="armee.nom" name="armeeNom">
-          <mat-icon matSuffix>edit</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="armee.descr" name="armeeDescr">
-          <mat-icon matSuffix>edit</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <!-- <mat-label>{{ l.t['ARMEE_HEROS'] }}</mat-label> -->
-          <mat-select [(ngModel)]="armee.commandant" name="armeePj" [placeholder]="l.t['ARMEE_HEROS']">
-            @for (pj of d.unites | pj; track pj.id) {
-            <mat-option [value]="pj.id">{{pj.nom}}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <!-- <mat-label>{{ l.t['COUL_ATTR'] }}</mat-label> -->
-          <input type="text" matInput [placeholder]="l.t['COUL_ATTR']" [(ngModel)]="armee.couleur" name="armeeCouleur">
-          <mat-icon matSuffix>colorize</mat-icon>
-        </mat-form-field>
-        <fieldset>
-          <button class="annule" type="reset"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
-          <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['VALIDE'] }}</button>
-        </fieldset>
+        <article>
+          <mat-form-field>
+            <!-- <mat-label>{{ l.t['FILTRER'] }}</mat-label> -->
+            <input type="text" matInput [placeholder]="l.t['ARMEE_NOM']" [(ngModel)]="armee.nom" name="armeeNom">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="armee.descr" name="armeeDescr">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select [(ngModel)]="armee.commandant" name="armeePj" [placeholder]="l.t['ARMEE_HEROS']">
+              @for (pj of d.unites | pj; track pj.id) {
+              <mat-option [value]="pj.id">{{pj.nom}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <fieldset>
+            <mat-label>{{ l.t['COUL'] }}</mat-label>
+            <span class="colorPicker" [style.background-color]="armee.couleur">
+              <github-picker [control]="colorControl"></github-picker>
+            </span>
+          </fieldset>
+        </article>
       </form>
     </header>
     <section class="fenetres">
       <article>
-        <nav class="options">
+        <!-- <nav class="options">
           <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
           <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
-        </nav>
+        </nav> -->
         <header>
           <h3>{{ l.t['COMPAGNIES'] }}</h3>
-          <ul>
-            @for (c of d.compagnies; track $index) {
-            <li>
-              <img [src]="c.avatar" [alt]="c.nom" class="avatar">
-              <h5>{{ c.nom }}</h5>
-              <div>
-                <p>{{ l.t['SANTE']}} : {{ c.pv }}/{{ c.pvMax }}</p>
-                <p>{{ l.t['UNITES'] }} : {{ c.unites.length }}</p>
-              </div>
-              <img [src]="c.statut | statuts " [alt]="c.statut" class="picto">
-            </li>
-            }
-          </ul>
         </header>
+        <mat-form-field>
+          <mat-label>{{ l.t['FILTRER'] }}</mat-label>
+          <input type="text" matInput [placeholder]="l.t['FILTRER_NOM']" [(ngModel)]="filtre" name="filtre">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <table>
+          <thead>
+            <tr>
+              <td>{{ l.t['NOM'] }}</td>
+              <td>{{ l.t['AVATAR'] }}</td>
+              <td>{{ l.t['UNITES'] }}</td>
+              <td>{{ l.t['PV_MAX'] }}</td>
+              <td>{{ l.t['PV'] }}</td>
+              <td>{{ l.t['STATUT'] }}</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            @for (c of d.compagnies; track $index) {
+            <tr>
+              <td>{{ c.nom }}</td>
+              <td><img [src]="c.avatar" [alt]="c.nom" class="avatar"></td>
+              <td>{{ c.unites.length }}</td>
+              <td>{{ c.pvMax }}</td>
+              <td>{{ c.pv }}</td>
+              <td><img [src]="c.statut | statuts " [alt]="c.statut" class="picto"></td>
+              <td><mat-checkbox></mat-checkbox></td>
+            </tr>
+            }
+          </tbody>
+        </table>
       </article>
-      <span class="fleche">»</span>
+      <article>
+        <button class="annule" type="reset"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
+        <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['VALIDE'] }}</button>
+      </article>
+      <!-- <span class="fleche">»</span>
       <article>
         <nav class="options">
           <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
@@ -123,12 +143,26 @@
         <header>
           <h3>{{ l.t['ARMEE'] }}</h3>
         </header>
-        <div>
-          <ul>
-
-          </ul>
-        </div>
-      </article>
+        <table>
+          <thead>
+            <tr>
+              <td>{{ l.t['COMPAGNIES'] }}</td>
+              <td>{{ l.t['XP'] }}</td>
+              <td>{{ l.t['UNITES_NB'] }}</td>
+              <td>{{ l.t['STATUT'] }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            @for (c of a.compagnies; track $index) {
+            <tr>
+              <td>{{ d.compagnies[c].nom }}</td>
+              <td>{{ d.compagnies[c].unites.length }}</td>
+              <td>{{ d.compagnies[c].statut }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </article> -->
     </section>
   </mat-tab>
 </mat-tab-group>

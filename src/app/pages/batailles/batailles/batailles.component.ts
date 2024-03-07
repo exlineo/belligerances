@@ -56,9 +56,6 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   l: UtilsService = inject(UtilsService); // Service de traduction
   d: DonneesService = inject(DonneesService); // Service de données
 
-  // ligneHex:Array<any> = Array(15); // Nombre d'éléments par ligne
-  // lignesHex:Array<any> = Array(12); // Nombre de lignes à afficher
-
   tabArmees: boolean = false; // Déclencher l'ouverture ou la fermeture d'une fenêtre
   tabActions: boolean = false; // Déclencher l'ouverture ou la fermeture d'une fenêtre
 
@@ -143,8 +140,4 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   setDragOverflow() {
     if (!this.drag) this.drag = true;
   }
-  /** Actions sur le clic droit */
-  // actions(c:CompagnieI){
-  //   console.log(c);
-  // }
 }
