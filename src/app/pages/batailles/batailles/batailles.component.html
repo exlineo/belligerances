@@ -1,11 +1,11 @@
 <header>
-  <h1>{{ l.t['BATAILLES'] }}</h1>
+  <h1>{{ l.t['BATAILLES'] }} ({{ d.campagne!.nom }})</h1>
   <p>{{ l.t['BATAILLES_DESCR'] }}</p>
 </header>
 <section id="champ" cdkDropListGroup>
   <header>
     <mat-select [placeholder]="l.t['BATAILLES_BG']" name="bg" [(ngModel)]="bg">
-      @for(bg of d.docs.params.cartes; track bg.id){
+      @for(bg of d.params.cartes; track bg.id){
       <mat-option [value]="bg.img">
         <img [src]="bg.vignette">
         <article>

@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { UtilsService } from '../../../shared/services/utils.service';
+import { DonneesService } from 'src/app/shared/services/donnees.service';
 
 @Component({
   selector: 'app-infos-armees',
@@ -10,4 +11,5 @@ import { UtilsService } from '../../../shared/services/utils.service';
 })
 export class InfosArmeesComponent {
   l:any = inject(UtilsService);
+  d:DonneesService = inject(DonneesService);
 }

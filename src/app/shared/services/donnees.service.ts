@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Aleas, AleasI, ArmeI, ArmeeI, CampagneI, CompagnieI, CreatureI, DocumentsI, MaterielI, MontureI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
+import { Aleas, AleasI, Campagne, CampagneI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
 import { UtilsService } from './utils.service';
 
 @Injectable({
@@ -22,16 +22,23 @@ export class DonneesService {
     ordres: [],
     armees: [],
     compagnies: [],
-    unites: [],
-    params: new Params()
+    unites: []
   }
-
-  campagne?: CampagneI;
+  params: ParamsI = new Params();
+  ordres!: Array<OrdreI>;
+  campagne!: CampagneI | null;
   campagnes: Array<CampagneI> = [];
   cache: { date: number, updates: Array<string> } = { date: 0, updates: [] };
 
   constructor(private http: HttpClient, private l: UtilsService) {
-    this.getArmes();
+    if (sessionStorage.getItem('campagne')) {
+      this.campagne = JSON.parse(sessionStorage.getItem('campagne')!);
+      this.docs = { ...this.campagne!.docs };
+      console.log(this.campagne, this.docs);
+    }
+    // Récupérer les données
+    this.getCampagnes();
+    this.getParams();
   }
   getUpdatedCache() {
     this.cache = localStorage.getItem('cache') ? JSON.parse(localStorage.getItem('cache')!) : { date: 0, updates: [] };
@@ -46,7 +53,6 @@ export class DonneesService {
     return null
   }
   setCache(listeId: string, listeData: any) {
-    this.docs[listeId] = listeData;
     // Noter la mise à jour du cache dans la date et la liste des éléments
     this.cache.date = Date.now(); // Nouveau timestamp
     if (!this.cache.updates.includes(listeId)) this.cache.updates.push(listeId); // Liste des éléments qui ont été modifiés (mise à jour lorsque les fichiers sont enregistrés)
@@ -58,95 +64,59 @@ export class DonneesService {
   compareCacheLocal() {
 
   }
-  /** Téléchargement des paramètres */
+
+  // 3
+  getOrdres() {
+
+    if (localStorage.getItem('ordres')) {
+      this.ordres = JSON.parse(localStorage.getItem('ordres')!);
+    } else {
+      this.http.get('assets/data/ordres.json').subscribe({
+        next: (data: any) => {
+          this.ordres = data;
+          this.setCache('ordres', data);
+        },
+        error: (err) => console.error(err)
+      });
+    }
+  };
   getParams() {
     this.http.get('assets/data/params.json').subscribe({
-      next: p => {
-        // this.docs.params = p as ParamsI;
-        this.setCache('params', p as ParamsI);
-      },
-      error: e => console.log(e)
-    })
-  };
-  /** CHARGEMENT DES DONNEES */
-  // 1
-  getArmes() {
-    this.http.get('assets/data/armurerie.json').subscribe({
       next: (data: any) => {
-        this.setCache('cac', data.cac);
-        this.setCache('jet', data.jet);
-        this.setCache('sorts', data.sorts);
-        this.setCache('armures', data.armures);
-        this.setCache('boucliers', data.boucliers);
-        this.setCache('montures', data.montures);
-        this.setCache('munitions', data.munitions);
-
-        this.getCreatures();
-      },
-      error: (err) => console.error(err)
-    });
-  };
-  // 2
-  getCreatures() {
-    this.http.get('assets/data/creatures.json').subscribe({
-      next: (data: any) => {
-        this.setCache('monstres', data.monstres);
-        this.setCache('races', data.races);
-        this.setCache('animaux', data.animaux);
-
+        this.params = data;
         this.getOrdres();
       },
       error: (err) => console.error(err)
     });
-  };
-  // 3
-  getOrdres() {
-    this.http.get('assets/data/ordres.json').subscribe({
-      next: (data: any) => {
-        this.setCache('ordre', data);
-        this.getUnites();
-      },
-      error: (err) => console.error(err)
-    });
-  };
-  // 4
-  getUnites() {
-    this.http.get('assets/data/unites.json').subscribe({
-      next: (data: any) => {
-        this.docs.unites = data;
-
-        this.setCache('unites', data);
-
-        this.getCompagnies(); // 3
-      },
-      error: (err) => console.error(err)
-    });
-  };
-  // 5
-  getCompagnies() {
-    this.http.get('assets/data/compagnies.json').subscribe({
-      next: (data: any) => {
-        this.setCache('compagnies', data);
-        this.getArmees(); // 4
-      },
-      error: (err) => console.error(err)
-    });
   }
-  // 6
-  getArmees() {
-    this.http.get('assets/data/armees.json').subscribe({
-      next: (data: any) => {
-        this.setCache('armees', data);
-        this.getParams();
-      },
-      error: (err) => console.error(err)
-    });
-  }
-  // 7
+  // 1
   getCampagnes() {
-    this.http.get('assets/data/campagnes.json').subscribe({
+    if (localStorage.getItem('campagnes')) {
+      this.campagnes = JSON.parse(localStorage.getItem('campagnes')!);
+    } else {
+      this.http.get('assets/data/campagnes.json').subscribe({
+        next: (data: any) => {
+          this.setCache('campagnes', data);
+          this.campagnes = data;
+        },
+        error: (err) => console.error(err)
+      });
+    }
+  }
+  /** Sélectionner une campagne */
+  setCampagne(index: number) {
+    this.campagne = this.campagnes[index];
+    this.docs = { ...this.campagne.docs };
+    sessionStorage.setItem('campagne', JSON.stringify(this.campagne));
+    console.log(this.campagne, this.docs);
+  }
+  /** Créer une campagne et télécharger les docs de démarrage */
+  getDocs() {
+    this.http.get('assets/data/docs.json').subscribe({
       next: (data: any) => {
-        this.setCache('campagnes', data);
+        this.docs = data;
+        this.campagne = new Campagne();
+        this.campagne.docs = this.docs;
       },
       error: (err) => console.error(err)
     });
@@ -192,7 +162,6 @@ export class DonneesService {
     const str = liste[val];
     return str;
   }
-
   /**
    * Récupérer une donnée d'un tableau loadé au démarrage
    * @param tab Tableau à traiter (race, armure...)
@@ -201,7 +170,6 @@ export class DonneesService {
   getCompagniesUnites(liste: string, id: number): any | null {
     return this.docs[liste][id] ? this.docs[liste][id] : '';
   }
-
   /** EDITION DES DONNEES */
   edit(liste: string, id: number, obj: any) {
     const listeObj = this.docs[liste];

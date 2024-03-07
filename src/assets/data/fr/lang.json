@@ -125,6 +125,9 @@
   "FILTRE_RACE":"Filtrer par race",
   "404":"Oups, il n'y a rien ici",
   "404_DESCR":"Retourner à l'accueil",
+  "ER_LANG":"Erreur dans le chargement des langues",
+  "ER_DATA":"Erreur dans le chargement des données",
+  "MSG_LANG":"Langues chargées",
   "LISTE_ARMES": {
     "EPEE_LONGUE": "Epée longue",
     "DAGUE": "Dague",

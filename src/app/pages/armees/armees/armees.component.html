@@ -1,5 +1,5 @@
 <header>
-  <h1>{{ l.t['ARMEES']}}</h1>
+  <h1>{{ l.t['ARMEES']}} ({{ d.campagne!.nom }})</h1>
   <p>{{ l.t['ARMEES_DESCR']}}</p>
 </header>
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
@@ -65,7 +65,7 @@
       <form>
         <article>
           <mat-form-field>
-            <!-- <mat-label>{{ l.t['FILTRER'] }}</mat-label> -->
+            <mat-label>{{ l.t['ARMEE_NOM'] }}</mat-label>
             <input type="text" matInput [placeholder]="l.t['ARMEE_NOM']" [(ngModel)]="armee.nom" name="armeeNom">
             <mat-icon matSuffix>edit</mat-icon>
           </mat-form-field>
@@ -91,10 +91,6 @@
     </header>
     <section class="fenetres">
       <article>
-        <!-- <nav class="options">
-          <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
-        </nav> -->
         <header>
           <h3>{{ l.t['COMPAGNIES'] }}</h3>
         </header>
@@ -134,35 +130,6 @@
         <button class="annule" type="reset"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
         <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['VALIDE'] }}</button>
       </article>
-      <!-- <span class="fleche">»</span>
-      <article>
-        <nav class="options">
-          <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
-        </nav>
-        <header>
-          <h3>{{ l.t['ARMEE'] }}</h3>
-        </header>
-        <table>
-          <thead>
-            <tr>
-              <td>{{ l.t['COMPAGNIES'] }}</td>
-              <td>{{ l.t['XP'] }}</td>
-              <td>{{ l.t['UNITES_NB'] }}</td>
-              <td>{{ l.t['STATUT'] }}</td>
-            </tr>
-          </thead>
-          <tbody>
-            @for (c of a.compagnies; track $index) {
-            <tr>
-              <td>{{ d.compagnies[c].nom }}</td>
-              <td>{{ d.compagnies[c].unites.length }}</td>
-              <td>{{ d.compagnies[c].statut }}</td>
-            </tr>
-            }
-          </tbody>
-        </table>
-      </article> -->
     </section>
   </mat-tab>
 </mat-tab-group>

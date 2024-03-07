@@ -21,13 +21,17 @@ export class UtilsService {
   }
   getLangue() {
     this.http.get(`assets/data/${this.langue}/lang.json`).subscribe({
-      next: data => this.t = data,
-      error: () => console.log('Erreur lors de la récupération du fichier lang.json'),
+      next: data => {
+        this.t = data;
+        this.message('MSG_LANG');
+      },
+      error: () => this.message('ER_LANG'),
       complete: () => console.log('Langue chargée')
     }
     )
   }
   message(msg:string){
     this._snackBar.open(this.t[msg], 'OK', {duration: 3000});
+    console.log(this.t[msg]);
   }
 }

@@ -4,16 +4,35 @@
 </header>
 <section>
   <header>
-    <mat-select [(ngModel)]="d.campagne" [placeholder]="l.t['CAMP_SEL']">
-      @for(camp of d.campagnes; track camp.id){
-      <mat-option [value]="camp">
+    <mat-select [placeholder]="l.t['CAMP_SEL']" [(value)]="index" (selectionChange)="d.setCampagne(index)">
+      @for(camp of d.campagnes; track camp.id; let i=$index){
+      <mat-option [value]="i">
         {{ camp.nom }}
       </mat-option>
       }
     </mat-select>
-    <button>{{ l.t['CAMP_CREER'] }}</button>
+    <button (click)="d.getDocs()">{{ l.t['CAMP_CREER'] }}</button>
   </header>
-  @if(d.campagne){
+  @if(d.campagne && d.campagne!.id == -1){
+    <form>
+      <article>
+        <mat-form-field>
+          <mat-label>{{ l.t['NOM'] }}*</mat-label>
+          <input type="text" matInput [placeholder]="l.t['NOM'] + '*'" [(ngModel)]="d.campagne!.nom" name="nom" required>
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="d.campagne!.descr" name="descr">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+      </article>
+      <article>
+        <button class="annule" (click)="d.campagne = null"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
+        <button class="valide" (click)="creeCampagne()"><mat-icon matSuffix>done</mat-icon>{{ l.t['CAMP_CREER'] }}</button>
+      </article>
+    </form>
+  }
+  @if(d.campagne && d.campagne.id > -1){
   <article>
     <a routerLink="/armees">
       <h2 [innerHTML]="l.t['ACCUEIL_ARMEES']"></h2>
