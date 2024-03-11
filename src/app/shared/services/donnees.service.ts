@@ -167,8 +167,8 @@ export class DonneesService {
    * @param tab Tableau à traiter (race, armure...)
    * @param id Id à récupérer
    */
-  getCompagniesUnites(liste: string, id: number): any | null {
-    return this.docs[liste][id] ? this.docs[liste][id] : '';
+  getCompagniesUnites(liste: string, id: number): any {
+    return this.docs[liste].find((l:any) => l.id == id) ?? '';
   }
   /** EDITION DES DONNEES */
   edit(liste: string, id: number, obj: any) {

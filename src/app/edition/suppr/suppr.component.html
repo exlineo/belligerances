@@ -1,12 +1,12 @@
 <main>
   <header>
     <a (click)="l.close()" [title]="l.t['FERMER']" class="close"><mat-icon>close</mat-icon></a>
-    <h2>{{ l.t['DEL'] }}</h2>
+    <h3>{{ l.t['DEL_DESCR'] }}</h3>
   </header>
   <section>
     <article>
       <button class="annule" (click)="l.close()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
-      <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['DEL'] }}</button>
+      <button class="valide" (click)="suppr()"><mat-icon matSuffix>done</mat-icon>{{ l.t['DEL'] }}</button>
     </article>
   </section>
 </main>

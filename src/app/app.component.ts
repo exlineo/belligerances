@@ -1,12 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UtilsService } from './shared/services/utils.service';
-import { DonneesService } from './shared/services/donnees.service';
+import { EditArmeesComponent } from './edition/armees/armees.component';
+import { EditCompagniesComponent } from './edition/compagnies/compagnies.component';
+import { EditCreaturesComponent } from './edition/creatures/creatures.component';
+import { EditListesComponent } from './edition/listes/listes.component';
+import { EditUnitesComponent } from './edition/unites/unites-edit.component';
+import { SupprComponent } from './edition/suppr/suppr.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, EditArmeesComponent, EditCompagniesComponent, EditCreaturesComponent, EditListesComponent, EditUnitesComponent, SupprComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

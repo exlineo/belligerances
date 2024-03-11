@@ -58,7 +58,7 @@
       ],
       "cac": [
         {
-          "id": -1,
+          "id": 0,
           "nom": "Epée longue",
           "descr": "A fait ses preuves sur le champ de bataille",
           "degats": {

@@ -23,13 +23,15 @@
           <mat-panel-description>
             <span></span>
             <span><img [src]="c.statut | statuts" [alt]="c.nom"></span>
-            <span>
-              <img src="assets/images/pictos/del.png" [alt]="l.t['DE']">
-              <img src="assets/images/pictos/up.png" [alt]="l.t['UP']">
-            </span>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <p>{{ c.descr }}</p>
+        <article class="row">
+          <p>{{ c.descr }}</p>
+          <nav class="row">
+            <a [matTooltip]="l.t['ANNULE']" (click)="l.setEdit('compagnie', c, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['VALIDE']" (click)="l.setEdit('compagnie', c)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
+          </nav>
+        </article>
         <table>
           <thead>
             <tr>
@@ -50,21 +52,21 @@
           <tbody>
             @for (u of c.unites; track $index) {
             <tr>
-              <td>{{ d.docs.unites[u].nom }}</td>
+              <td>{{ d.getCompagniesUnites('unites', u).nom }}</td>
               <td>{{ d.getCompagniesUnites('races', u).nom }}</td>
               <td>{{ d.getCompagniesUnites('cac', u).nom }}</td>
               <td>{{ d.getCompagniesUnites('jet', u).nom }}</td>
               <td>{{ d.getCompagniesUnites('armures', u).nom }}</td>
               <td>{{ d.getCompagniesUnites('boucliers', u).nom }}</td>
-              <td>{{ d.docs.unites[u].pvMax }}</td>
-              <td>{{ d.docs.unites[u].pv }}</td>
+              <td>{{ d.getCompagniesUnites('unites', u).pvMax }}</td>
+              <td>{{ d.getCompagniesUnites('unites', u).pv }}</td>
 
               <td>{{ d.getCompagniesUnites('montures', u).nom }}</td>
-              <td>{{ d.docs.unites[u].xp }}</td>
-              <td><img [src]="d.docs.unites[u].etat | statuts"></td>
+              <td>{{ d.getCompagniesUnites('unites', u).xp }}</td>
+              <td><img [src]="d.getCompagniesUnites('unites', u).etat | statuts" [alt]="l.t['AVATAR']"></td>
               <td>
-                <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-                <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
+                <a [matTooltip]="l.t['DEL_LISTE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+                <a [matTooltip]="l.t['MAJ']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
               </td>
             </tr>
             }

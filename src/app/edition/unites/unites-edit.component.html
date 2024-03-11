@@ -1,0 +1,76 @@
+<main>
+<header>
+  <a (click)="l.close()" [title]="l.t['FERMER']" class="close"><mat-icon>close</mat-icon></a>
+  <h1>{{ l.t['UNITES'] }} ({{ d.campagne!.nom }})</h1>
+  <p>{{ l.t['UNITES_DESCR'] }}</p>
+</header>
+<section>
+<article>
+  <mat-form-field>
+    <mat-label>{{ l.t['NOM'] }}</mat-label>
+    <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="l.maj.nom" name="nom" required>
+    <mat-icon matSuffix>edit</mat-icon>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ l.t['DESCR'] }}</mat-label>
+    <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="l.maj.descr" name="descr">
+    <mat-icon matSuffix>edit</mat-icon>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select [(ngModel)]="l.maj.race" name="race" [placeholder]="l.t['RACES'] + '*'" required>
+      @for (r of d.docs.races; track r.id) {
+      <mat-option [value]="r.id">{{r.nom}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ l.t['PV_MAX'] }}</mat-label>
+    <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="l.maj.pvMax" name="pvma" required>
+    <mat-icon matSuffix>edit</mat-icon>
+  </mat-form-field>
+</article>
+<article>
+  <mat-form-field>
+    <mat-select [(ngModel)]="l.maj.cac" name="cac" [placeholder]="l.t['CAC'] + '*'" required>
+      <mat-option value="">{{ l.t['SANS'] }}</mat-option>
+      @for (cac of d.docs.cac; track cac.id) {
+      <mat-option [value]="cac.id">{{cac.nom}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select [(ngModel)]="l.maj.jet" name="cac" [placeholder]="l.t['JET'] + '*'" required>
+      <mat-option value="">{{ l.t['SANS'] }}</mat-option>
+      @for (jet of d.docs.jet; track jet.id) {
+      <mat-option [value]="jet.id">{{jet.nom}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select [(ngModel)]="l.maj.armure" name="armure" [placeholder]="l.t['ARMURES'] + '*'" required>
+      <mat-option value="">{{ l.t['SANS'] }}</mat-option>
+      @for (a of d.docs.armures; track a.id) {
+      <mat-option [value]="a.id">{{a.nom}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select [(ngModel)]="l.maj.bouclier" name="bouclier" [placeholder]="l.t['BOUCLIERS'] + '*'" required>
+      <mat-option value="">{{ l.t['SANS'] }}</mat-option>
+      @for (b of d.docs.boucliers; track b.id) {
+      <mat-option [value]="b.id">{{b.nom}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-radio-group aria-label="Statut PJ" [(ngModel)]="l.maj.pj" required>
+    <mat-radio-button value="false">{{ l.t['PNJ'] }}*</mat-radio-button>
+    <mat-radio-button value="true">{{  l.t['PJ'] }}*</mat-radio-button>
+  </mat-radio-group>
+</article>
+
+<article>
+  <button class="annule" (click)="l.close()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
+  <button class="valide" (click)="updateUnite()"><mat-icon matSuffix>done</mat-icon>{{ l.t['VALIDE'] }}</button>
+</article>
+</section>
+</main>

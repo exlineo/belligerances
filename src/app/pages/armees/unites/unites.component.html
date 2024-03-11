@@ -45,8 +45,8 @@
           <td>{{ u.xp }}</td>
           <td><img [src]="u.etat | statuts"></td>
           <td class="row">
-            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-            <a><img src="assets/images/pictos/up.png" [alt]="l.t['VALIDE']"></a>
+            <a [matTooltip]="l.t['DEL']" (click)="l.setEdit('unites', u, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('unites', u)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
           </td>
         </tr>
         }
@@ -100,7 +100,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-select [(ngModel)]="uniteCree.armure" name="armure" [placeholder]="l.t['ARMURES'] + '*'" required>
-            @for (a of d.docs.jet; track a.id) {
+            @for (a of d.docs.armures; track a.id) {
             <mat-option [value]="a.id">{{a.nom}}</mat-option>
             }
           </mat-select>

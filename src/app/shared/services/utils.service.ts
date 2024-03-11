@@ -16,6 +16,10 @@ export class UtilsService {
   t: any;
   langue: string = 'fr';
 
+  edit:any; // Variable indiquant quel élément éditer
+  maj:any; // Objet à éditer
+  suppr:boolean = false; // Suppression d'une ressource
+
   constructor(private http: HttpClient, private _snackBar: MatSnackBar) {
     this.getLangue();
   }
@@ -33,5 +37,17 @@ export class UtilsService {
   message(msg:string){
     this._snackBar.open(this.t[msg], 'OK', {duration: 3000});
     console.log(this.t[msg]);
+  }
+  /** Indiquer quelle élément est à éditer */
+  setEdit(edit:string, obj:any, suppr:boolean = false){
+    this.edit = edit;
+    this.maj = {...obj};
+    this.suppr = suppr;
+  }
+  /** Indiquer les données à éditer */
+  close(){
+    this.edit = undefined;
+    this.maj = undefined;
+    this.suppr = false;
   }
 }

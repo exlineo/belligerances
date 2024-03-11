@@ -1,1 +1,26 @@
 <router-outlet></router-outlet>
+@if(!l.suppr){
+  @if(l.edit == 'armees'){
+  <app-edit-armees id="pop"></app-edit-armees>
+  }
+
+  @if(l.edit == 'compagnies'){
+  <app-edit-compagnies id="pop"></app-edit-compagnies>
+  }
+
+  @if(l.edit == 'unites'){
+  <app-edit-unites id="pop"></app-edit-unites>
+  }
+
+  @if(l.edit == 'races' || l.edit == 'montures' || l.edit == 'animaux' || l.edit == 'monstres'){
+  <app-edit-creatures id="pop"></app-edit-creatures>
+  }
+
+  @if(l.edit == 'armes' || l.edit == 'armures' || l.edit == 'boucliers' || l.edit == 'munitions'){
+  <app-edit-listes id="pop"></app-edit-listes>
+  }
+}
+
+@if(l.suppr){
+<app-suppr id="pop"></app-suppr>
+}
