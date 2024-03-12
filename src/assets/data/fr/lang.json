@@ -110,6 +110,9 @@
   "AVATARS":"Avatars",
   "MORAL":"Moral",
   "STATUT": "Statut",
+  "STATUT_OK": "Actif",
+  "STATUT_DEAD": "Détruit",
+  "STATUT_DORT": "Inactif",
   "PJ":"PJ",
   "PNJ":"PNJ",
   "UP": "Metter à jour",
@@ -143,6 +146,7 @@
   "MSG_CREEE":"créée",
   "MSG_MAJ":"mis à jour",
   "MSG_MAJE":"mise à jour",
+  "MSG_SAVE":"Données sauvegardées",
   "LISTE_ARMES": {
     "EPEE_LONGUE": "Epée longue",
     "DAGUE": "Dague",

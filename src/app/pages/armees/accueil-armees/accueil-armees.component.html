@@ -22,6 +22,12 @@
       <img src="assets/images/pictos/creatures.png" [alt]="l.t['RCREATURES']">
       <p>{{ l.t['CREATURES'] }}</p>
     </a>
+
+    @if(d.etatSave){
+      <a [title]="l.t['RCREATURES']" (click)="d.saveCampagne()" class="btn del">
+        <mat-icon matSuffix>save</mat-icon>
+      </a>
+    }
   </nav>
 </aside>
 <main>

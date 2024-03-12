@@ -29,7 +29,9 @@ export class DonneesService {
   campagne!: CampagneI | null;
   campagnes: Array<CampagneI> = [];
   cache: { date: number, updates: Array<string> } = { date: 0, updates: [] };
-  storage:any;
+  storage:any; // Enregistrer tout ce qu'il y a des le storage
+
+  etatSave:boolean = false; // Savoir s'il faut enregistrer des données modifiées
 
   constructor(private http: HttpClient, private l: UtilsService) {
     if (sessionStorage.getItem('campagne')) {
@@ -184,5 +186,10 @@ export class DonneesService {
     listeObj[id] = obj;
     this.setCache(liste, this.docs[liste]);
     this.l.message('MAJ');
+  }
+  /** Sauvegarder les modifications */
+  saveCampagne(){
+    this.l.message('MSG_SAVE');
+    this.etatSave = false;
   }
 }

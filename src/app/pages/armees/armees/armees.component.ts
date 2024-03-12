@@ -1,10 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren, inject } from '@angular/core';
 import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from '../../../shared/services/donnees.service';
 import { ArmeesPipe, PjPipe, StatutsPipe } from '../../../shared/pipes/tris.pipe';
 import { ArmeeI, Armee, CompagnieI } from 'src/app/shared/modeles/Type';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { ColorPickerControl, Color } from '@iplab/ngx-color-picker';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-armees',
@@ -13,19 +14,21 @@ import { ColorPickerControl, Color } from '@iplab/ngx-color-picker';
   templateUrl: './armees.component.html',
   styleUrl: './armees.component.css'
 })
-export class ArmeesComponent implements OnInit{
+export class ArmeesComponent implements AfterViewInit {
 
-  l:any = inject(UtilsService);
-  d:DonneesService = inject(DonneesService);
+  l: any = inject(UtilsService);
+  d: DonneesService = inject(DonneesService);
 
-  filtre:string = '';
+  filtre: string = '';
 
-  armee!:ArmeeI;
-  compagnieChoix!:CompagnieI;
-  color!:Color;
+  armee: ArmeeI = new Armee();
+  compagnieChoix!: CompagnieI;
+  color!: Color;
   colorControl = new ColorPickerControl();
 
-  ngOnInit(){
+  @ViewChildren('chekitout') checks!:QueryList<ElementRef>;
+
+  ngAfterViewInit() {
     this.initArmee();
     this.colorControl.valueChanges.subscribe((value) => {
       this.armee.couleur = value.toHexString();
@@ -33,22 +36,33 @@ export class ArmeesComponent implements OnInit{
     });
   }
 
-  initArmee(){ this.armee = new Armee(); }
-
-  setColor(event: MouseEvent){
+  initArmee() {
+    this.armee = new Armee();
+    this.checks.map( (c:any) => c.checked = false);
+  }
+  // Attribuer une couleur
+  setColor(event: MouseEvent) {
     event.stopPropagation();
     this.armee.couleur = this.colorControl.value.toHexString();
     console.log(this.color, this.armee);
   }
-
-  dragStart(c:CompagnieI){
-    console.log(c);
-    this.compagnieChoix = c;
+  /** Ajouter des compagnies à l'armée en cours */
+  addCompagnie(event: MatCheckboxChange, id: number) {
+    console.log(event.checked);
+    if (this.armee.compagnies.includes(id)) {
+      this.armee.compagnies.splice(this.armee.compagnies.indexOf(id), 1);
+    } else {
+      this.armee.compagnies.push(id);
+    }
   }
-  dragEnd(){
-
-  }
-  drop(){
-    this.armee.compagnies.push(this.compagnieChoix.id)
+  /* Créer une armee */
+  creeArmee() {
+    console.log(this.armee);
+    if (this.armee.id == -1) {
+      this.armee.id = this.d.docs.armees.length;
+      this.d.docs.armees.push(this.armee);
+      this.initArmee();
+      console.log(this.d.docs.armees);
+    }
   }
 }

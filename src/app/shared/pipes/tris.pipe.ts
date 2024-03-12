@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ArmeeI, CompagnieI, UniteI } from '../modeles/Type';
+import { ArmeeI, CompagnieI, UniteI, ArmeI, Arme } from '../modeles/Type';
 /** Filtrer les unites pour avoir la liste des PJ */
 @Pipe({
   name: 'pj',
@@ -126,5 +126,32 @@ export class UnitesTaillePipe implements PipeTransform {
     if(!unites) return 0;
     if((!libre || libre.length < 2)) {return unites.length} else {libre = libre.toLowerCase()};
     return unites.filter(u => u.nom.indexOf(libre) != -1 || u.race == race).length;
+  }
+}
+/** Filtrer les unites pour avoir la liste des PJ */
+@Pipe({
+  name: 'unitesArray',
+  standalone: true
+})
+export class UnitesArrayPipe implements PipeTransform {
+
+  transform(unitesIds:Array<number>, unites:Array<UniteI>): Array<UniteI> {
+    if(!unites) return [];
+    if(!unitesIds) return unites;
+    return unites.filter( (u:UniteI) => unitesIds.includes(u.id));
+  }
+}
+/** Filtrer les unites pour avoir la liste des PJ */
+@Pipe({
+  name: 'armes',
+  standalone: true
+})
+export class ArmesPipe implements PipeTransform {
+
+  transform(arme:{type:number, q:number} | undefined, armes:Array<ArmeI>): string {
+    if(!arme) return '';
+    if(!armes) return '';
+    const mun = armes.find( (m:ArmeI) => m.id == arme.type)
+    return mun ? mun.nom : '';
   }
 }

@@ -63,7 +63,7 @@
     </mat-select>
   </mat-form-field>
   <mat-radio-group aria-label="Statut PJ" [(ngModel)]="l.maj.pj" required>
-    <mat-radio-button value="false">{{ l.t['PNJ'] }}*</mat-radio-button>
+    <mat-radio-button value="false" [checked]="'true'">{{ l.t['PNJ'] }}*</mat-radio-button>
     <mat-radio-button value="true">{{  l.t['PJ'] }}*</mat-radio-button>
   </mat-radio-group>
 </article>

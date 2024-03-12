@@ -252,6 +252,7 @@
       "pvMax":300,
       "pv":76,
       "moral":6,
+      "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/warrior_4.png"
     },
@@ -268,6 +269,7 @@
       "pvMax":300,
       "pv":151,
       "moral":6,
+      "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/warrior_4.png"
     },
@@ -284,6 +286,7 @@
       "pvMax":300,
       "pv":12,
       "moral":1,
+      "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/warrior_4.png"
     },
@@ -300,6 +303,7 @@
       "pv":149,
       "moral":7,
       "armee":1,
+      "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/warrior_4.png"
     },
@@ -315,6 +319,7 @@
       "pvMax":200,
       "pv":125,
       "moral":4,
+      "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/warrior_4.png"
     },
@@ -331,6 +336,7 @@
       "pvMax":330,
       "pv":258,
       "moral":9,
+      "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/warrior_4.png"
     }

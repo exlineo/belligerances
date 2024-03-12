@@ -1,0 +1,90 @@
+<main>
+  <header>
+    <a (click)="l.close()" [title]="l.t['FERMER']" class="close"><mat-icon>close</mat-icon></a>
+    <h2>{{ l.t['COMPAGNIE_MAJ'] }}</h2>
+  </header>
+  <section>
+    <form>
+      <article>
+        <mat-form-field>
+          <mat-label>{{ l.t['ARMEE_NOM'] }}</mat-label>
+          <input type="text" matInput [placeholder]="l.t['ARMEE_NOM']" [(ngModel)]="l.maj.nom" name="armeeNom" required>
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="l.maj.descr" name="armeeDescr">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select [(ngModel)]="l.maj.commandant" name="armeePj" [placeholder]="l.t['ARMEE_HEROS'] + '*'" required>
+            @for (pj of d.docs.unites | pj; track pj.id) {
+            <mat-option [value]="pj.id">{{pj.nom}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </article>
+      <article>
+        <mat-form-field>
+          <mat-select [(ngModel)]="l.maj.statut" name="armeeStatut" [placeholder]="l.t['STATUT'] + '*'" required>
+            <mat-option [value]="-1">
+              <p><img [src]="-1 | statuts" [alt]="l.t['STATUT']" class="picto"></p>
+              <p>{{ l.t['STATUT_DEAD'] }}</p>
+            </mat-option>
+            <mat-option [value]="0">
+              <p><img [src]="0 | statuts" [alt]="l.t['STATUT']" class="picto"></p>
+              <p>{{ l.t['STATUT_DORT'] }}</p>
+            </mat-option>
+            <mat-option [value]="1">
+              <p><img [src]="1 | statuts" [alt]="l.t['STATUT']" class="picto"></p>
+              <p>{{ l.t['STATUT_OK'] }}</p>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <fieldset>
+          <mat-label>{{ l.t['COUL'] }}</mat-label>
+          <span class="colorPicker" [style.background-color]="l.maj.couleur">
+            <github-picker [control]="colorControl"></github-picker>
+          </span>
+        </fieldset>
+      </article>
+    </form>
+  </section>
+  <section class="fenetres">
+    <article>
+      <header>
+        <h3>{{ l.t['COMPAGNIES'] }}</h3>
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <td></td>
+            <td>{{ l.t['NOM'] }}</td>
+            <td>{{ l.t['AVATAR'] }}</td>
+            <td>{{ l.t['UNITES'] }}</td>
+            <td>{{ l.t['PV_MAX'] }}</td>
+            <td>{{ l.t['PV'] }}</td>
+            <td>{{ l.t['STATUT'] }}</td>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of d.docs.compagnies; track c.id) {
+          <tr>
+            <td class="droite"><mat-checkbox (change)="addCompagnie($event, c.id)" #chekitout
+                [checked]="l.maj.compagnies.includes(c.id)"></mat-checkbox></td>
+            <td class="gauche">{{ c.nom }}</td>
+            <td><img [src]="c.avatar" [alt]="c.nom" class="avatar"></td>
+            <td>{{ c.unites.length }}</td>
+            <td>{{ c.pvMax }}</td>
+            <td>{{ c.pv }}</td>
+            <td><img [src]="c.statut | statuts " [alt]="c.statut" class="picto"></td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </article>
+    <article>
+      <button class="annule" (click)="l.close()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
+      <button class="valide" (click)="updateArmee()"><mat-icon matSuffix>done</mat-icon>{{ l.t['CREER'] }}</button>
+    </article>
+  </section>
+</main>

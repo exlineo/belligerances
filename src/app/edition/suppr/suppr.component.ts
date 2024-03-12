@@ -20,9 +20,14 @@ export class SupprComponent implements OnInit {
     this.liste = this.d.docs[this.l.edit];
   }
   suppr() {
-    // Suppression de l'élément de la liste demandée
-    // this.supprListe(this.d.docs[this.l.edit], this.l.maj.id);
-    this.supprUnite();
+    switch(this.l.edit){
+      case "unites":
+        this.supprUnite();
+        break;
+      case "compagnies":
+          this.supprCompagnie();
+          break;
+    }
     this.l.close();
   }
   supprUnite() {
@@ -40,7 +45,22 @@ export class SupprComponent implements OnInit {
         c.unites.splice(c.unites.indexOf(this.l.maj.id), 1);
       }
     });
+  }
+  supprCompagnie() {
+    console.log("Détecte unité indexOf", this.d.docs.unites.indexOf(this.l.maj));
+    // Suppression de l'unité
+    for(let i=0; i < this.d.docs.compagnies.length; ++i){
+      if(this.d.docs.compagnies[i].id == this.l.maj.id){
+        this.d.docs.compagnies.splice(i, 1);
+      }
+    }
 
+    // Suppression de l'unité dans la compagnie
+    this.d.docs.armees.forEach((a: any) => {
+      if (a.compagnies.indexOf(this.l.maj.id) != -1) {
+        a.compagnies.splice(a.compagnies.indexOf(this.l.maj.id), 1);
+      }
+    });
   }
   // Identifier les listes connexes
   getListe() {

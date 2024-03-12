@@ -116,9 +116,15 @@ nav img, .accueil img {
 .gauche{
   left:0;
 }
+td.gauche{
+  text-align: left;
+}
+td.droite {
+  text-align: right;
+}
 table{
   width:100%;
-  font-size:12px;
+  font-size:14px;
   background-color: var(--clair);
   padding:10px;
 }
@@ -136,6 +142,7 @@ tr:hover{
 td{
   text-align:center;
   padding:5px;
+  /* vertical-align: middle; */
 }
 td:nth-child(1){
   text-align: left;
@@ -149,6 +156,7 @@ header form fieldset{
   flex-flow:row nowrap;
   border:none;
   align-items: center;
+  height:fit-content;
 }
 header form fieldset > *{
   margin-right:5px;
@@ -246,6 +254,7 @@ button:hover, .btn:hover{
 .avatar{
   width:35px;
   margin:0 10px 0 0;
+  float:left;
 }
 .petit{
   font-size:10px;
@@ -588,7 +597,7 @@ nav.options img{
 #pop main {
   margin:auto;
   flex-flow: column nowrap;
-  width:60%;
+  width:75%;
   height:auto;
   background: none;
 }
@@ -652,6 +661,12 @@ mat-select{
   width:100%;
   justify-content: center;
 }
+.mat-mdc-tab-body-content header {
+  width:100%;
+  flex-flow:row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
 .mat-mdc-tab.mdc-tab {
   /* padding:16px 20px 12px; */
 }
@@ -697,6 +712,10 @@ mat-select{
 .mat-mdc-option .mdc-list-item__primary-text{
   display:flex;
   flex-flow:row nowrap;
+  align-items: center;
+}
+.mat-mdc-option .mdc-list-item__primary-text > *{
+  margin:5px;
 }
 article.panneau > div {
   display:flex;

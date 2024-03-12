@@ -22,5 +22,6 @@ export class EditUnitesComponent {
       }
     }
     this.l.close();
+    this.d.etatSave = true;
   }
 }

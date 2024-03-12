@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { Aleas, Compagnie, CompagnieI, UniteI } from 'src/app/shared/modeles/Type';
-import { CompagniesPipe, PjPipe, StatutsPipe, UnitesPipe } from 'src/app/shared/pipes/tris.pipe';
+import { ArmesPipe, CompagniesPipe, PjPipe, StatutsPipe, UnitesPipe } from 'src/app/shared/pipes/tris.pipe';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 import { SlicePipe } from '@angular/common';
@@ -10,7 +10,7 @@ import { SlicePipe } from '@angular/common';
 @Component({
   selector: 'app-compagnies',
   standalone: true,
-  imports: [MaterialModule, StatutsPipe, PjPipe, CompagniesPipe, UnitesPipe, SlicePipe],
+  imports: [MaterialModule, StatutsPipe, PjPipe, CompagniesPipe, UnitesPipe, SlicePipe, ArmesPipe],
   templateUrl: './compagnies.component.html',
   styleUrl: './compagnies.component.css'
 })

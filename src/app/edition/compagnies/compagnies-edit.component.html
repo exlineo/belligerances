@@ -1,0 +1,126 @@
+<main>
+  <header>
+    <a (click)="l.close()" [title]="l.t['FERMER']" class="close"><mat-icon>close</mat-icon></a>
+    <h2>{{ l.t['COMPAGNIE_MAJ'] }}</h2>
+  </header>
+  <section>
+    <!-- <form> -->
+    <article>
+      <mat-form-field>
+        <mat-label>{{ l.t['NOM'] }}</mat-label>
+        <input matInput [placeholder]="l.t['NOM']" name="nom" [(ngModel)]="l.maj.nom" required>
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ l.t['DESCR'] }}</mat-label>
+        <input matInput [placeholder]="l.t['DESCR']" name="descr" [(ngModel)]="l.maj.descr">
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ l.t['MORAL'] }}</mat-label>
+        <input matInput [placeholder]="l.t['MORAL']" name="moral" [(ngModel)]="l.maj.moral" type="number">
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{ l.t['ARMEE'] }}</mat-label>
+        <mat-select [placeholder]="l.t['ARMEE']" name="armee" [(ngModel)]="l.maj.armee" required>
+          @for (a of d.docs.armees; track a.id) {
+          <mat-option [value]="a.id">{{a.nom}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ l.t['COMMANDANT'] }}*</mat-label>
+        <mat-select [placeholder]="l.t['COMMANDANT']" name="commandant" [(ngModel)]="l.maj.commandant" required>
+          @for (com of d.docs.unites | pj; track com.id) {
+          <mat-option [value]="com.id">{{com.nom}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ l.t['MUNS'] }}</mat-label>
+        <mat-select [placeholder]="l.t['MUNS']" name="munitions" [(ngModel)]="l.maj.munitions.type">
+          <mat-option>{{l.t['SANS']}}</mat-option>
+          @for (m of d.docs.munitions; track m.id) {
+          <mat-option [value]="m.id">{{m.nom}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ l.t['MUNS_QT'] }}</mat-label>
+        <input matInput [placeholder]="l.t['MUNS_QT']" name="munitionsQT" [(ngModel)]="l.maj.munitions.q" type="number">
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+    </article>
+    <article>
+      <mat-radio-group aria-label="Sélectionner un avatar pour la compagnie" name="avatar" [(ngModel)]="l.maj.avatar"
+        required>
+        <mat-label>{{ l.t['AVATAR'] }}*</mat-label>
+        <mat-radio-button value="assets/images/avatars/armees/armor_n.png" value="assets/images/avatars/armees/armor_n.png">
+          <img src="assets/images/avatars/armees/armor_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+        <mat-radio-button value="assets/images/avatars/armees/horses.png" value="assets/images/avatars/armees/armor_n.png">
+          <img src="assets/images/avatars/armees/horses.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+        <mat-radio-button value="assets/images/avatars/armees/magic-wand.png" value="assets/images/avatars/armees/armor_n.png">
+          <img src="assets/images/avatars/armees/magic-wand.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+        <mat-radio-button value="assets/images/avatars/armees/shield_n.png" value="assets/images/avatars/armees/armor_n.png">
+          <img src="assets/images/avatars/armees/shield_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+        <mat-radio-button value="assets/images/avatars/armees/spellbook.png" value="assets/images/avatars/armees/armor_n.png">
+          <img src="assets/images/avatars/armees/spellbook.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+        <mat-radio-button value="assets/images/avatars/armees/spear.png" value="assets/images/avatars/armees/armor_n.png">
+          <img src="assets/images/avatars/armees/spear.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+        <mat-radio-button value="assets/images/avatars/armees/sword.png" value="assets/images/avatars/armees/armor_n.png">
+          <img src="assets/images/avatars/armees/sword.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+    </mat-radio-group>
+    </article>
+    <hr>
+    <h3>{{ l.t['UNITES'] }}</h3>
+    <table>
+      <thead>
+        <tr>
+          <td>{{ l.t['NOM'] }}</td>
+          <td>{{ l.t['RACE'] }}</td>
+          <td>{{ l.t['CAC'] }}</td>
+          <td>{{ l.t['JET'] }}</td>
+          <td>{{ l.t['ARMURE'] }}</td>
+          <td>{{ l.t['BOUCLIER'] }}</td>
+          <td>{{ l.t['PV_MAX'] }}</td>
+          <td>{{ l.t['PV'] }}</td>
+          <td>{{ l.t['MONTURE'] }}</td>
+          <td>{{ l.t['XP'] }}</td>
+          <td>{{ l.t['STATUT'] }}</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (u of l.maj.unites | slice:pagination.min:pagination.max | unitesArray:d.docs.unites; track $index) {
+        <tr>
+          <td>{{ u.nom }}</td>
+          <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
+          <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
+          <td>{{ d.getCompagniesUnites('jet', u.jet!).nom }}</td>
+          <td>{{ d.getCompagniesUnites('armures', u.armure!).nom }}</td>
+          <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!).nom }}</td>
+          <td>{{ u.pvMax }}</td>
+          <td>{{ u.pv }}</td>
+
+          <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
+          <td>{{ u.xp }}</td>
+          <td><img [src]="u.etat | statuts" [alt]="l.t['STATUT']"></td>
+          <td>
+            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <mat-paginator [length]="l.maj.unites.length" (page)="setPagination($event)" [pageSize]="25"
+      [pageSizeOptions]="[10, 25, 50, 100, 250]" aria-label="Avancer dans les unitées">
+    </mat-paginator>
+    <article>
+      <button class="annule" (click)="l.close()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
+      <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['COMPAGNIE_SAVE'] }}</button>
+    </article>
+  </section>
+</main>
