@@ -51,7 +51,7 @@ export interface CompagnieI {
   unites:Array<number>;
   unitesCombat?:Array<number>;
   commandant:number;
-  munitions?:{type:string,q:number},
+  munitions?:{type:number,q:number},
   pvMax:number;
   pv?:number;
   moral:number;
@@ -72,6 +72,7 @@ export class Compagnie implements CompagnieI {
   descr = '';
   statut = -1;
   unites = [];
+  munitions = {type:-1, q:0};
   pvMax = -1;
   pv = -1
   moral = -1;
@@ -182,7 +183,7 @@ sorts: Array<ArmeI>;
 armures: Array<MaterielI>;
 boucliers: Array<MaterielI>;
 montures: Array<MontureI>;
-munitions: Array<string>;
+munitions: Array<ArmeI>;
 monstres: Array<CreatureI>;
 races: Array<CreatureI>;
 animaux: Array<CreatureI>;

@@ -187,12 +187,33 @@
     }
   ],
   "munitions": [
-    "Carreau",
-    "Dart",
-    "Flèche",
-    "Balle de fronde",
-    "Javeline",
-    "Balle de plomb"
+    {
+      "id": 0,
+      "nom": "Carreau",
+      "descr":"Pour arbalètes",
+      "bonus": 0
+    },{
+      "id": 0,
+      "nom": "Dart",
+      "descr":"Un petit coup de main ?",
+      "bonus": 0
+    },{
+      "id": 0,
+      "nom": "Flèche",
+      "descr":"Floup",
+      "bonus": 0
+    },{
+      "id": 0,
+      "nom": "Javeline",
+      "descr":"Attention ça tombe !",
+      "bonus": 0
+    },
+    {
+      "id": 0,
+      "nom": "Balle de fronde",
+      "descr":"Thierry",
+      "bonus": 0
+    }
   ],
   "montures": [
     {

@@ -11,37 +11,52 @@
       </mat-option>
       }
     </mat-select>
-    <button (click)="d.getDocs()">{{ l.t['CAMP_CREER'] }}</button>
+    <a [title]="l.t['TELE']" #download [href]="href" download="campagnes.json" style="display:none"></a>
+    <button (click)="d.getDocs()" class="valide">
+      <mat-icon matSuffix>add</mat-icon>{{ l.t['CAMP_CREER'] }}</button>
+    <button (click)="downloadJson()" class="picto annule">
+      <mat-icon matSuffix>file_download</mat-icon></button>
   </header>
   @if(d.campagne && d.campagne!.id == -1){
-    <form>
-      <article>
-        <mat-form-field>
-          <mat-label>{{ l.t['NOM'] }}*</mat-label>
-          <input type="text" matInput [placeholder]="l.t['NOM'] + '*'" [(ngModel)]="d.campagne!.nom" name="nom" required>
-          <mat-icon matSuffix>edit</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="d.campagne!.descr" name="descr">
-          <mat-icon matSuffix>edit</mat-icon>
-        </mat-form-field>
-      </article>
-      <article>
-        <button class="annule" (click)="d.campagne = null"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
-        <button class="valide" (click)="creeCampagne()"><mat-icon matSuffix>done</mat-icon>{{ l.t['CAMP_CREER'] }}</button>
-      </article>
-    </form>
+  <form>
+    <article>
+      <p>{{ l.t['CAMP_CREER_DESCR'] }}</p>
+    </article>
+    <article>
+      <mat-form-field>
+        <mat-label>{{ l.t['NOM'] }}*</mat-label>
+        <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="d.campagne!.nom" name="nom" required>
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="d.campagne!.descr" name="descr">
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+    </article>
+    <article>
+      <button class="annule" (click)="d.campagne = null"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE']
+        }}</button>
+      <button class="valide" (click)="d.creeCampagne()"><mat-icon matSuffix>done</mat-icon>{{ l.t['CAMP_CREER']
+        }}</button>
+    </article>
+  </form>
   }
   @if(d.campagne && d.campagne.id > -1){
-  <article>
-    <a routerLink="/armees">
-      <h2 [innerHTML]="l.t['ACCUEIL_ARMEES']"></h2>
-    </a>
-  </article>
-  <article>
-    <a routerLink="/batailles">
-      <h2 [innerHTML]="l.t['ACCUEIL_BATAILLES']"></h2>
-    </a>
-  </article>
+  <section>
+    <header>
+      <h3>{{ d.campagne.nom }}</h3>
+      <p>{{ d.campagne.descr }}</p>
+    </header>
+    <article>
+      <a routerLink="/armees">
+        <h2 [innerHTML]="l.t['ACCUEIL_ARMEES']"></h2>
+      </a>
+    </article>
+    <article>
+      <a routerLink="/batailles">
+        <h2 [innerHTML]="l.t['ACCUEIL_BATAILLES']"></h2>
+      </a>
+    </article>
+  </section>
   }
 </section>

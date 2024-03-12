@@ -25,6 +25,9 @@ section > header {
 section > header > * {
   margin:0 10px;
 }
+section > section > header {
+  flex-flow: column nowrap;
+}
 section > form {
   flex-flow:column nowrap;
   width:100%;
@@ -37,7 +40,7 @@ article {
 article:nth-child(1){
   border-right:1px solid black;
 }
-a {
+article a {
   width: 250px;
   height: 250px;
   background: url('../../../assets/images/hex-accueil.png') 50% no-repeat;

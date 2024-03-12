@@ -82,14 +82,10 @@
   <!-- CREER UNE compagnie -->
   <mat-tab [label]="l.t['COMPAGNIES_CREER']" (click)="initCompagnie()">
     <header>
-      <!-- <div class="row">
-                <h5>{{ l.t['UNITE_TYPE'] }}</h5>
-                <p>{{ l.t['UNITE_TYPE_DESCR'] }}</p>
-            </div> -->
       <form>
         <article>
           <mat-form-field>
-            <mat-label>{{ l.t['NOM'] }}*</mat-label>
+            <mat-label>{{ l.t['NOM'] }}</mat-label>
             <input matInput [placeholder]="l.t['NOM']" name="nom" [(ngModel)]="compagnie.nom" required>
             <mat-icon matSuffix>edit</mat-icon>
           </mat-form-field>
@@ -103,14 +99,9 @@
             <input matInput [placeholder]="l.t['MORAL']" name="moral" [(ngModel)]="compagnie.moral" type="number">
             <mat-icon matSuffix>edit</mat-icon>
           </mat-form-field>
+
           <mat-form-field>
-            <mat-label>{{ l.t['MUNITIONS'] }}</mat-label>
-            <input matInput [placeholder]="l.t['MUNITIONS']" name="munitions" [(ngModel)]="compagnie.munitions"
-              type="number">
-            <mat-icon matSuffix>edit</mat-icon>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ l.t['ARMEE'] }}*</mat-label>
+            <mat-label>{{ l.t['ARMEE'] }}</mat-label>
             <mat-select [placeholder]="l.t['ARMEE']" name="armee" [(ngModel)]="compagnie.armee" required>
               @for (a of d.docs.armees; track a.id) {
               <mat-option [value]="a.id">{{a.nom}}</mat-option>
@@ -124,6 +115,21 @@
               <mat-option [value]="com.id">{{com.nom}}</mat-option>
               }
             </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ l.t['MUNS'] }}</mat-label>
+            <mat-select [placeholder]="l.t['MUNS']" name="munitions" [(ngModel)]="compagnie.munitions!.type">
+              <mat-option>{{l.t['SANS']}}</mat-option>
+              @for (m of d.docs.munitions; track m.id) {
+              <mat-option [value]="m.id">{{m.nom}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ l.t['MUNS_QT'] }}</mat-label>
+            <input matInput [placeholder]="l.t['MUNS_QT']" name="munitionsQT" [(ngModel)]="compagnie.munitions!.q"
+              type="number">
+            <mat-icon matSuffix>edit</mat-icon>
           </mat-form-field>
         </article>
         <article>

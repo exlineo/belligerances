@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Aleas, AleasI, Campagne, CampagneI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
+import { Aleas, AleasI, Campagne, CampagneI, DocumentsI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
 import { UtilsService } from './utils.service';
 
 @Injectable({
@@ -29,6 +29,7 @@ export class DonneesService {
   campagne!: CampagneI | null;
   campagnes: Array<CampagneI> = [];
   cache: { date: number, updates: Array<string> } = { date: 0, updates: [] };
+  storage:any;
 
   constructor(private http: HttpClient, private l: UtilsService) {
     if (sessionStorage.getItem('campagne')) {
@@ -60,14 +61,9 @@ export class DonneesService {
     localStorage.setItem(listeId, JSON.stringify(listeData));
     localStorage.setItem('cache', JSON.stringify(this.cache));
   }
-  /** Comparer les dates de cache des données locales et du cache */
-  compareCacheLocal() {
-
-  }
 
   // 3
   getOrdres() {
-
     if (localStorage.getItem('ordres')) {
       this.ordres = JSON.parse(localStorage.getItem('ordres')!);
     } else {
@@ -98,10 +94,22 @@ export class DonneesService {
         next: (data: any) => {
           this.setCache('campagnes', data);
           this.campagnes = data;
+          this.docs = { ...this.campagne!.docs };
         },
         error: (err) => console.error(err)
       });
     }
+  }
+  /** Créer une campagne */
+  creeCampagne(){
+    this.campagne!.dates = { creation: Date.now(), update: 0 };
+    this.campagne!.id = this.campagnes.length;
+    // récupération de données type pour la campagne
+    this.http.get<DocumentsI>('assets/data/docs.json').subscribe( docs => this.campagne!.docs = docs );
+
+    this.campagnes.push(this.campagne!);
+    localStorage.setItem('campagnes', JSON.stringify(this.campagnes));
+    sessionStorage.setItem('campagne', JSON.stringify(this.campagne));
   }
   /** Sélectionner une campagne */
   setCampagne(index: number) {

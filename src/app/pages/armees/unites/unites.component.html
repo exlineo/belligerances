@@ -79,34 +79,38 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>{{ l.t['PV_MAX'] }}</mat-label>
-          <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="uniteCree.pvMax" name="pvma" required>
+          <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="uniteCree.pvMax" name="pvma" required [value]="getPVMax()">
           <mat-icon matSuffix>edit</mat-icon>
         </mat-form-field>
       </article>
       <article>
         <mat-form-field>
-          <mat-select [(ngModel)]="uniteCree.cac" name="cac" [placeholder]="l.t['CAC'] + '*'" required>
+          <mat-select [(ngModel)]="uniteCree.cac" name="cac" [placeholder]="l.t['CAC']">
+            <mat-option>{{l.t['SANS']}}</mat-option>
             @for (cac of d.docs.cac; track cac.id) {
             <mat-option [value]="cac.id">{{cac.nom}}</mat-option>
             }
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-          <mat-select [(ngModel)]="uniteCree.jet" name="cac" [placeholder]="l.t['JET'] + '*'" required>
+          <mat-select [(ngModel)]="uniteCree.jet" name="cac" [placeholder]="l.t['JET']">
+            <mat-option>{{l.t['SANS']}}</mat-option>
             @for (jet of d.docs.jet; track jet.id) {
             <mat-option [value]="jet.id">{{jet.nom}}</mat-option>
             }
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-          <mat-select [(ngModel)]="uniteCree.armure" name="armure" [placeholder]="l.t['ARMURES'] + '*'" required>
+          <mat-select [(ngModel)]="uniteCree.armure" name="armure" [placeholder]="l.t['ARMURES']">
+            <mat-option>{{l.t['SANS']}}</mat-option>
             @for (a of d.docs.armures; track a.id) {
             <mat-option [value]="a.id">{{a.nom}}</mat-option>
             }
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-          <mat-select [(ngModel)]="uniteCree.bouclier" name="bouclier" [placeholder]="l.t['BOUCLIERS'] + '*'" required>
+          <mat-select [(ngModel)]="uniteCree.bouclier" name="bouclier" [placeholder]="l.t['BOUCLIERS']">
+            <mat-option>{{l.t['SANS']}}</mat-option>
             @for (b of d.docs.boucliers; track b.id) {
             <mat-option [value]="b.id">{{b.nom}}</mat-option>
             }
@@ -120,7 +124,7 @@
 
       <article>
         <button class="annule" type="reset"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
-        <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['VALIDE'] }}</button>
+        <button class="valide" (click)="creeUnite()" ><mat-icon matSuffix>done</mat-icon>{{ l.t['CREER'] }}</button>
       </article>
     <!-- </form> -->
   </mat-tab>

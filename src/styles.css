@@ -166,7 +166,7 @@ hr{
   width:100%;
   border-top:1px solid var(--jaune);
 }
-button{
+button, .btn{
   padding:8px 16px 8px 12px;
   color:white;
   cursor: pointer;
@@ -176,10 +176,17 @@ button{
   flex-flow: row nowrap;
   align-items: center;
 }
-button mat-icon{
+button mat-icon {
   margin-right:5px;
 }
-button:hover{
+button.picto{
+  padding:8px 12px;
+  width:fit-content;
+}
+button.picto mat-icon{
+  margin-right:0;
+}
+button:hover, .btn:hover{
   background-color:var(--noir);
 }
 .valide{
@@ -234,7 +241,7 @@ button:hover{
   margin-right:10px;
 }
 .picto{
-  width:20px !important;
+  width:20px;
 }
 .avatar{
   width:35px;
@@ -640,6 +647,10 @@ mat-select{
 .mat-mdc-tab-header {
   border-top:1px solid var(--font);
   border-bottom:1px solid var(--font);
+}
+.mat-mdc-tab-body-content article {
+  width:100%;
+  justify-content: center;
 }
 .mat-mdc-tab.mdc-tab {
   /* padding:16px 20px 12px; */

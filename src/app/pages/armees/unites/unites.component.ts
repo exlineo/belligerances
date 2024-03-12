@@ -28,4 +28,15 @@ export class UnitesComponent {
     const max = min + event.pageSize;
     this.pagination = {min, max};
    }
+   // Créer une unité
+   creeUnite(){
+    this.uniteCree.id = this.d.docs.unites.length;
+    this.uniteCree.pv = this.uniteCree.pvMax;
+    this.d.docs.unites.push({...this.uniteCree});
+    this.l.message(this.l.t['UNITE'] + ' ' + this.l.t['CREEE']);
+    this.uniteCree = new Unite();
+   }
+   getPVMax(){
+    return this.uniteCree.race != -1 ? this.d.docs.races[this.uniteCree.race].basePv : -1;
+   }
 }
