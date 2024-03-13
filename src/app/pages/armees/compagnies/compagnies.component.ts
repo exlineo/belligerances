@@ -54,4 +54,7 @@ export class CompagniesComponent implements OnInit {
     this.pagination = {min, max};
     console.log(this.pagination, event);
    }
+   supprUniteCompagnie(){
+
+   }
 }

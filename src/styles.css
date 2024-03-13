@@ -147,18 +147,20 @@ td{
 td:nth-child(1){
   text-align: left;
 }
-header form{
-  flex-flow:row wrap;
+form{
+  width:100%;
+  flex-flow:column wrap;
   justify-content: space-around;
   align-items: center;
+  overflow-x:hidden;
 }
-header form fieldset{
+fieldset{
   flex-flow:row nowrap;
   border:none;
   align-items: center;
   height:fit-content;
 }
-header form fieldset > *{
+fieldset > *{
   margin-right:5px;
 }
 form > * {
@@ -166,7 +168,8 @@ form > * {
 }
 form article{
   flex-direction: row;
-  width:100%;
+  /* width:100% !important; */
+  margin:10px auto;
   justify-content: center;
 }
 hr{
@@ -293,7 +296,7 @@ section.tab > header {
   border-bottom:1px solid var(--font);
   height: fit-content;
 }
-.fenetres article {
+.fenetres > article {
   /* max-width:40%; */
   background-color: var(--clair);
   flex-flow:row wrap;
@@ -301,6 +304,13 @@ section.tab > header {
   position:relative;
   height:fit-content;
   margin:10px;
+}
+.fenetres > article > article {
+  flex-flow:row nowrap;
+  justify-content: space-between;
+  height:fit-content;
+  margin:10px;
+  width:100%;
 }
 nav.options {
   position:absolute;

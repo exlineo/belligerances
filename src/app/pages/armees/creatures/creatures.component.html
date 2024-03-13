@@ -1,136 +1,175 @@
 <header>
-    <h1>{{ l.t['RCREATURES'] }} ({{ d.campagne!.nom }})</h1>
-    <p>{{ l.t['RCREATURES_DESCR'] }}</p>
+  <h1>{{ l.t['RCREATURES'] }} ({{ d.campagne!.nom }})</h1>
+  <p>{{ l.t['RCREATURES_DESCR'] }}</p>
 </header>
-<section class="fenetres wrap">
-    <article>
-        <nav class="options">
-          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
-          </nav>
-        <header>
-            <h3>{{ l.t['RACES'] }}</h3>
-        </header>
-        <table>
-            <thead>
-                <tr>
-                    <td>{{ l.t['NOM'] }}</td>
-                    <td>{{ l.t['PV_MAX'] }}</td>
-                    <td>{{ l.t['ARMURE'] }}</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @for (r of d.docs.races; track r.id) {
-                <tr>
-                    <td><mat-checkbox></mat-checkbox>{{ r.nom }}</td>
-                    <td>{{ r.basePv }}</td>
-                    <td>{{ r.baseArmure }}</td>
-                    <td>
-                        <div class="row">
-                            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-                            <a><img src="assets/images/pictos/up.png" [alt]="l.t['VALIDE']"></a>
-                        </div>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </article>
-    <article>
-        <nav class="options">
-          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
-          </nav>
-        <header>
-            <h3>{{ l.t['MONSTRES'] }}</h3>
-        </header>
-        <table>
-            <thead>
-                <tr>
-                    <td>{{ l.t['NOM'] }}</td>
-                    <td>{{ l.t['PV_MAX'] }}</td>
-                    <td>{{ l.t['ARMURE'] }}</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @for (m of d.docs.monstres; track m.id) {
-                <tr>
-                    <td><mat-checkbox></mat-checkbox>{{ m.nom }}</td>
-                    <td>{{ m.basePv }}</td>
-                    <td>{{ m.baseArmure }}</td>
-                    <td>
-                        <div class="row">
-                            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-                            <a><img src="assets/images/pictos/up.png" [alt]="l.t['VALIDE']"></a>
-                        </div>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </article>
-    <article>
-        <nav class="options">
-          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
-          </nav>
-        <header>
-            <h3>{{ l.t['ANIMAUX'] }}</h3>
-        </header>
-        <table>
-            <thead>
-                <tr>
-                    <td>{{ l.t['NOM'] }}</td>
-                    <td>{{ l.t['PV_MAX'] }}</td>
-                    <td>{{ l.t['ARMURE'] }}</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @for (a of d.docs.animaux; track a.id) {
-                <tr>
-                    <td><mat-checkbox></mat-checkbox>{{ a.nom }}</td>
-                    <td>{{ a.basePv }}</td>
-                    <td>{{ a.baseArmure }}</td>
-                    <td>
-                        <div class="row">
-                            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-                            <a><img src="assets/images/pictos/up.png" [alt]="l.t['VALIDE']"></a>
-                        </div>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </article>
-    <article>
-        <nav class="options">
-          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
-          </nav>
-        <header>
-            <h3>{{ l.t['MONTURES'] }}</h3>
-        </header>
-        <table>
-            <thead>
-                <tr>
-                    <td>{{ l.t['NOM'] }}</td>
-                    <td>{{ l.t['IMPACT'] }}</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @for (m of d.docs.montures; track m.id) {
-                <tr>
-                    <td><mat-checkbox></mat-checkbox>{{ m.nom }}</td>
-                    <td>{{ m.impact }}</td>
-                    <td>
-                        <div class="row">
-                            <a><img src="assets/images/pictos/del.png" [alt]="l.t['ANNULE']"></a>
-                            <a><img src="assets/images/pictos/up.png" [alt]="l.t['VALIDE']"></a>
-                        </div>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </article>
+<section class="fenetres">
+  <article>
+    <nav class="options">
+      <a [matTooltip]="l.t['VALIDE']" (click)="liste = 'races'"><mat-icon matSuffix
+          class="icone valide">add</mat-icon></a>
+    </nav>
+    <header>
+      <h3>{{ l.t['RACES'] }}</h3>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <td>{{ l.t['NOM'] }}</td>
+          <td>{{ l.t['PV_MAX'] }}</td>
+          <td>{{ l.t['ARMURE'] }}</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of d.docs.races; track r.id) {
+        <tr>
+          <td>{{ r.nom }}</td>
+          <td>{{ r.basePv }}</td>
+          <td>{{ r.baseArmure }}</td>
+          <td>
+            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('races', r, true)"><mat-icon matSuffix
+                class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('races', r)"><mat-icon matSuffix
+                class="icone annule">restart_alt</mat-icon></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </article>
+  <article>
+    <nav class="options">
+      <a [matTooltip]="l.t['VALIDE']" (click)="liste = 'monstres'"><mat-icon matSuffix
+          class="icone valide">add</mat-icon></a>
+    </nav>
+    <header>
+      <h3>{{ l.t['MONSTRES'] }}</h3>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <td>{{ l.t['NOM'] }}</td>
+          <td>{{ l.t['PV_MAX'] }}</td>
+          <td>{{ l.t['ARMURE'] }}</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (m of d.docs.monstres; track m.id) {
+        <tr>
+          <td>{{ m.nom }}</td>
+          <td>{{ m.basePv }}</td>
+          <td>{{ m.baseArmure }}</td>
+          <td>
+            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('monstres', m, true)"><mat-icon matSuffix
+                class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('monstres', m)"><mat-icon matSuffix
+                class="icone annule">restart_alt</mat-icon></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </article>
+  <article>
+    <nav class="options">
+      <a [matTooltip]="l.t['VALIDE']" (click)="liste = 'animaux'"><mat-icon matSuffix
+          class="icone valide">add</mat-icon></a>
+    </nav>
+    <header>
+      <h3>{{ l.t['ANIMAUX'] }}</h3>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <td>{{ l.t['NOM'] }}</td>
+          <td>{{ l.t['PV_MAX'] }}</td>
+          <td>{{ l.t['ARMURE'] }}</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (a of d.docs.animaux; track a.id) {
+        <tr>
+          <td>{{ a.nom }}</td>
+          <td>{{ a.basePv }}</td>
+          <td>{{ a.baseArmure }}</td>
+          <td>
+            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('animaux', a, true)"><mat-icon matSuffix
+                class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('animaux', a)"><mat-icon matSuffix
+                class="icone annule">restart_alt</mat-icon></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </article>
+  <article>
+    <nav class="options">
+      <a [matTooltip]="l.t['VALIDE']" (click)="liste = 'montures'"><mat-icon matSuffix
+          class="icone valide">add</mat-icon></a>
+    </nav>
+    <header>
+      <h3>{{ l.t['MONTURES'] }}</h3>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <td>{{ l.t['NOM'] }}</td>
+          <td>{{ l.t['IMPACT'] }}</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (m of d.docs.montures; track m.id) {
+        <tr>
+          <td>{{ m.nom }}</td>
+          <td>{{ m.impact }}</td>
+          <td>
+            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('montres', m, true)"><mat-icon matSuffix
+                class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('montures', m)"><mat-icon matSuffix
+                class="icone annule">restart_alt</mat-icon></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </article>
 </section>
+@if(liste != ''){
+<div id="pop">
+  <main>
+    <header>
+      <a (click)="initCreature()" [title]="l.t['FERMER']" class="close"><mat-icon>close</mat-icon></a>
+      <h2>{{ l.t['AJOUT'] }} : {{ liste }}</h2>
+    </header>
+    <section>
+      <form>
+        <article>
+          <mat-form-field>
+            <mat-label>{{ l.t['ARMEE_NOM'] }}</mat-label>
+            <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="creature.nom" name="nom" required>
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <input type="text" matInput [placeholder]="l.t['PV_MAX']" [(ngModel)]="creature.basePv" name="pv" required>
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <input type="text" matInput [placeholder]="l.t['ARMURE']" [(ngModel)]="creature.baseArmure" name="armure"
+              required>
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+        </article>
+        <article>
+          <button class="annule" (click)="initCreature()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE']
+            }}</button>
+          <button class="valide" (click)="addCreature()"><mat-icon matSuffix>done</mat-icon>{{ l.t['CREER'] }}</button>
+        </article>
+      </form>
+    </section>
+  </main>
+</div>
+}

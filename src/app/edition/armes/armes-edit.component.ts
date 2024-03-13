@@ -4,13 +4,14 @@ import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 
 @Component({
-  selector: 'app-edit-listes',
+  selector: 'app-edit-armes',
   standalone: true,
   imports: [MaterialModule],
-  templateUrl: './listes.component.html',
-  styleUrl: './listes.component.css'
+  templateUrl: './armes-edit.component.html',
+  styleUrl: './armes-edit.component.css'
 })
-export class EditListesComponent {
+export class EditArmesComponent {
+
   l:UtilsService = inject(UtilsService);
   d:DonneesService = inject(DonneesService);
 }

@@ -24,11 +24,8 @@
                     <td><mat-checkbox></mat-checkbox>{{ c.nom }}</td>
                     <td>{{ l.t['MIN'] }} : {{ c.degats.min }}, {{ l.t['MAX'] }} : {{ c.degats.max }}</td>
                     <td>
-                        <div class="row">
-                            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-                        <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix
-                                class="icone annule">restart_alt</mat-icon></a>
-                        </div>
+                      <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('unites', c, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+                      <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('unites', c)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
                     </td>
                 </tr>
                 }
