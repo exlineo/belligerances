@@ -127,7 +127,7 @@
           <td>{{ m.nom }}</td>
           <td>{{ m.impact }}</td>
           <td>
-            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('montres', m, true)"><mat-icon matSuffix
+            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('montures', m, true)"><mat-icon matSuffix
                 class="icone del">close</mat-icon></a>
             <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('montures', m)"><mat-icon matSuffix
                 class="icone annule">restart_alt</mat-icon></a>
@@ -149,19 +149,32 @@
       <form>
         <article>
           <mat-form-field>
-            <mat-label>{{ l.t['ARMEE_NOM'] }}</mat-label>
+            <mat-label>{{ l.t['NOM'] }}</mat-label>
             <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="creature.nom" name="nom" required>
             <mat-icon matSuffix>edit</mat-icon>
           </mat-form-field>
+
+          @if(liste !='montures'){
           <mat-form-field>
-            <input type="text" matInput [placeholder]="l.t['PV_MAX']" [(ngModel)]="creature.basePv" name="pv" required>
+            <mat-label>{{ l.t['PV'] }}*</mat-label>
+            <input type="text" matInput [placeholder]="l.t['PV']" [(ngModel)]="creature.basePv" name="pv" required>
             <mat-icon matSuffix>edit</mat-icon>
           </mat-form-field>
+
           <mat-form-field>
+            <mat-label>{{ l.t['ARMURE'] }}*</mat-label>
             <input type="text" matInput [placeholder]="l.t['ARMURE']" [(ngModel)]="creature.baseArmure" name="armure"
               required>
             <mat-icon matSuffix>edit</mat-icon>
           </mat-form-field>
+          }@else{
+          <mat-form-field>
+            <mat-label>{{ l.t['IMPACT'] }}*</mat-label>
+            <input type="text" matInput [placeholder]="l.t['IMPACT']" [(ngModel)]="creature.impact" name="armure"
+              required>
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          }
         </article>
         <article>
           <button class="annule" (click)="initCreature()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE']

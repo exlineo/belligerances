@@ -20,21 +20,27 @@ export class SupprComponent implements OnInit {
     this.liste = this.d.docs[this.l.edit];
   }
   suppr() {
-    switch(this.l.edit){
+    switch (this.l.edit) {
+      case "armees":
+        this.supprArmee();
+        break;
       case "unites":
         this.supprUnite();
         break;
       case "compagnies":
-          this.supprCompagnie();
-          break;
+        this.supprCompagnie();
+        break;
+      default:
+        this.supprListe();
+        break;
     }
     this.l.close();
   }
   supprUnite() {
     console.log("Détecte unité indexOf", this.d.docs.unites.indexOf(this.l.maj));
     // Suppression de l'unité
-    for(let i=0; i < this.d.docs.unites.length; ++i){
-      if(this.d.docs.unites[i].id == this.l.maj.id){
+    for (let i = 0; i < this.d.docs.unites.length; ++i) {
+      if (this.d.docs.unites[i].id == this.l.maj.id) {
         this.d.docs.unites.splice(i, 1);
       }
     }
@@ -45,22 +51,80 @@ export class SupprComponent implements OnInit {
         c.unites.splice(c.unites.indexOf(this.l.maj.id), 1);
       }
     });
+
+    this.d.etatSave = true;
   }
+  /** Supprimer une compagnie */
   supprCompagnie() {
     console.log("Détecte unité indexOf", this.d.docs.unites.indexOf(this.l.maj));
     // Suppression de l'unité
-    for(let i=0; i < this.d.docs.compagnies.length; ++i){
-      if(this.d.docs.compagnies[i].id == this.l.maj.id){
+    for (let i = 0; i < this.d.docs.compagnies.length; ++i) {
+      if (this.d.docs.compagnies[i].id == this.l.maj.id) {
         this.d.docs.compagnies.splice(i, 1);
       }
     }
 
-    // Suppression de l'unité dans la compagnie
+    // Suppression de la compagnie dans les armees
     this.d.docs.armees.forEach((a: any) => {
       if (a.compagnies.indexOf(this.l.maj.id) != -1) {
         a.compagnies.splice(a.compagnies.indexOf(this.l.maj.id), 1);
       }
     });
+
+    this.d.etatSave = true;
+  }
+  /** Supprimer une compagnie */
+  supprArmee() {
+    // Suppression de l'unité
+    for (let i = 0; i < this.d.docs.armees.length; ++i) {
+      if (this.d.docs.armees[i].id == this.l.maj.id) {
+        this.d.docs.armees.splice(i, 1);
+      }
+    }
+
+    // Suppression de l'armée dans la campagne
+    this.d.docs.campagnes.forEach((camp: any, i:number) => {
+      if (camp.id == this.l.maj.id) {
+        this.d.docs.campagnes.splice(i, 1);
+      }
+    });
+
+    this.d.etatSave = true;
+  }
+  /** Supprimer une arme */
+  supprListe() {
+    // Suppression de l'unité
+    for (let i = 0; i < this.d.docs[this.l.edit].length; ++i) {
+      if (this.d.docs[this.l.edit][i].id == this.l.maj.id) {
+        this.d.docs[this.l.edit].splice(i, 1);
+      }
+    }
+    const id = this.getListeId();
+    // Suppression de l'unité dans la compagnie
+    this.d.docs.unites.forEach((u: any) => {
+      if (u[id] == this.l.maj.id) {
+        u[id] = -1;
+      }
+    });
+    console.log("Suppression dans la liste", this.d.docs[this.l.edit]);
+    this.d.etatSave = true;
+  }
+  /** Récupérer l'identifiant d'une arme ou une créature pour son édition */
+  getListeId() {
+    switch (this.l.edit) {
+      case 'armures':
+        return 'armure';
+      case 'boucliers':
+        return 'bouclier'
+      case 'sorts':
+        return 'sort'
+      case 'races':
+        return 'race'
+      case 'montures':
+        return 'monture'
+      default:
+        return this.l.edit;
+    }
   }
   // Identifier les listes connexes
   getListe() {
@@ -77,24 +141,6 @@ export class SupprComponent implements OnInit {
         return this.d.docs.unites;
       default:
         return [];
-    }
-  }
-  // Supprimer d'une liste
-  supprListe(liste: Array<any>, id: number) {
-    if (liste.length > 0) {
-      liste.forEach(
-        (l: any, i: number) => {
-          // Si c'est une liste avec un ID
-          if (l.id && l.id == id) {
-            if (l.id == id) {
-              liste.splice(i, 1);
-            }
-          } else if (l == id) {
-            // Si c'est une liste sans ID
-            liste.splice(i, 1);
-          }
-        }
-      );
     }
   }
 }

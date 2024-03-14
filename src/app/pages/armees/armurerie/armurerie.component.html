@@ -1,170 +1,272 @@
 <header>
-    <h1>{{ l.t['ARMURERIE'] }} ({{ d.campagne!.nom }})</h1>
-    <p>{{ l.t['ARMURERIE_DESCR'] }}</p>
+  <h1>{{ l.t['ARMURERIE'] }} ({{ d.campagne!.nom }})</h1>
+  <p>{{ l.t['ARMURERIE_DESCR'] }}</p>
 </header>
 <section class="fenetres wrap">
-    <article>
-        <nav class="options">
-          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
-        </nav>
-        <header>
-            <h3>{{ l.t['CAC'] }}</h3>
-        </header>
-        <table>
-            <thead>
-                <tr>
-                    <td>{{ l.t['NOM'] }}</td>
-                    <td>{{ l.t['DEGATS'] }}</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @for (c of d.docs.cac; track c.id) {
-                <tr>
-                    <td><mat-checkbox></mat-checkbox>{{ c.nom }}</td>
-                    <td>{{ l.t['MIN'] }} : {{ c.degats.min }}, {{ l.t['MAX'] }} : {{ c.degats.max }}</td>
-                    <td>
-                      <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('unites', c, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-                      <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('unites', c)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </article>
-    <article>
-        <nav class="options">
-          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
-        </nav>
-        <header>
-            <h3>{{ l.t['JET'] }}</h3>
-        </header>
-        <table>
-            <thead>
-                <tr>
-                    <td>{{ l.t['NOM'] }}</td>
-                    <td>{{ l.t['DEGATS'] }}</td>
-                    <td>{{ l.t['PORTEE'] }}</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @for (j of d.docs.jet; track j.id) {
-                <tr>
-                    <td><mat-checkbox></mat-checkbox>{{ j.nom }}</td>
-                    <td>{{ l.t['MIN'] }} : {{ j.degats.min }}, {{ l.t['MAX'] }} : {{ j.degats.max }}</td>
-                    <td>{{ l.t['MIN'] }} : {{ j.portee!.min }}, {{ l.t['MAX'] }} : {{ j.portee!.max }}</td>
-                    <td>{{ j.impact }}</td>
-                    <td>
-                        <div class="row">
-                            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-                        <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix
-                                class="icone annule">restart_alt</mat-icon></a>
-                        </div>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </article>
-    <article>
-        <nav class="options">
-          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
-        </nav>
-        <header>
-            <h3>{{ l.t['SORTS'] }}</h3>
-        </header>
-        <table>
-            <thead>
-                <tr>
-                    <td>{{ l.t['NOM'] }}</td>
-                    <td>{{ l.t['DEGATS'] }}</td>
-                    <td>{{ l.t['PORTEE'] }}</td>
-                    <td>{{ l.t['IMPACT'] }}</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @for (s of d.docs.sorts; track s.id) {
-                <tr>
-                    <td><mat-checkbox></mat-checkbox>{{ s.nom }}</td>
-                    <td>{{ l.t['MIN'] }} : {{ s.degats.min }}, {{ l.t['MAX'] }} : {{ s.degats.max }}</td>
-                    <td>{{ l.t['MIN'] }} : {{ s.portee!.min }}, {{ l.t['MAX'] }} : {{ s.portee!.max }}</td>
-                    <td>{{ s.impact }}</td>
-                    <td>
-                        <div class="row">
-                            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-                        <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix
-                                class="icone annule">restart_alt</mat-icon></a>
-                        </div>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </article>
-    <article>
-        <nav class="options">
-          <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
-        </nav>
-        <header>
-            <h3>{{ l.t['ARMURES'] }}</h3>
-        </header>
-        <table>
-            <thead>
-                <tr>
-                    <td>{{ l.t['NOM'] }}</td>
-                    <td>{{ l.t['BONUS'] }}</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @for (a of d.docs.armures; track a.id) {
-                <tr>
-                    <td><mat-checkbox></mat-checkbox>{{ a.nom }}</td>
-                    <td>{{ a.bonus }}</td>
-                    <td>
-                        <div class="row">
-                            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-                        <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix
-                                class="icone annule">restart_alt</mat-icon></a>
-                        </div>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </article>
-    <article>
-        <nav class="options">
-            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone valide">add</mat-icon></a>
-        </nav>
-        <header>
-            <h3>{{ l.t['BOUCLIERS'] }}</h3>
-        </header>
-        <table>
-            <thead>
-                <tr>
-                    <td>{{ l.t['NOM'] }}</td>
-                    <td>{{ l.t['BONUS'] }}</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @for (b of d.docs.boucliers; track b.id) {
-                <tr>
-                    <td><mat-checkbox></mat-checkbox>{{ b.nom }}</td>
-                    <td>{{ b.bonus }}</td>
-                    <td>
-                        <div class="row">
-                            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-                            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix
-                                    class="icone annule">restart_alt</mat-icon></a>
-                        </div>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </article>
+  <article>
+    <nav class="options">
+      <a [matTooltip]="l.t['VALIDE']" (click)="liste = 'cac'"><mat-icon matSuffix
+          class="icone valide">add</mat-icon></a>
+    </nav>
+    <header>
+      <h3>{{ l.t['CAC'] }}</h3>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>{{ l.t['NOM'] }}</th>
+          <th colspan="2">{{ l.t['DEGATS'] }}</th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>{{ l.t['MIN'] }}</th>
+          <th>{{ l.t['MAX'] }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of d.docs.cac; track c.id) {
+        <tr>
+          <td>{{ c.nom }}</td>
+          <td>{{ c.degats.min }}</td>
+          <td>{{ c.degats.max }}</td>
+          <td>
+            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('cac', c, true)"><mat-icon matSuffix
+                class="icone del">close</mat-icon></a>
+
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('cac', c)"><mat-icon matSuffix
+                class="icone annule">restart_alt</mat-icon></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </article>
+  <article>
+    <nav class="options">
+      <a [matTooltip]="l.t['VALIDE']" (click)="liste = 'jet'"><mat-icon matSuffix
+          class="icone valide">add</mat-icon></a>
+    </nav>
+    <header>
+      <h3>{{ l.t['JET'] }}</h3>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>{{ l.t['NOM'] }}</th>
+          <th colspan="2">{{ l.t['DEGATS'] }}</th>
+          <th colspan="2">{{ l.t['PORTEE'] }}</th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>{{ l.t['MIN'] }}</th>
+          <th>{{ l.t['MAX'] }}</th>
+          <th>{{ l.t['MIN'] }}</th>
+          <th>{{ l.t['MAX'] }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (j of d.docs.jet; track j.id) {
+        <tr>
+          <td>{{ j.nom }}</td>
+          <td>{{ j.degats.min }}</td>
+          <td>{{ j.degats!.max }}</td>
+          <td>{{ j.portee!.min }}</td>
+          <td>{{ j.portee!.max }}</td>
+          <td>
+            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('jet', j, true)"><mat-icon matSuffix
+                class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('jet', j)"><mat-icon matSuffix
+                class="icone annule">restart_alt</mat-icon></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </article>
+  <article>
+    <nav class="options">
+      <a [matTooltip]="l.t['VALIDE']" (click)="liste = 'sorts'"><mat-icon matSuffix
+          class="icone valide">add</mat-icon></a>
+    </nav>
+    <header>
+      <h3>{{ l.t['SORTS'] }}</h3>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>{{ l.t['NOM'] }}</th>
+          <th colspan="2">{{ l.t['DEGATS'] }}</th>
+          <th colspan="2">{{ l.t['PORTEE'] }}</th>
+          <th>{{ l.t['IMPACT'] }}</th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>{{ l.t['MIN'] }}</th>
+          <th>{{ l.t['MAX'] }}</th>
+          <th>{{ l.t['MIN'] }}</th>
+          <th>{{ l.t['MAX'] }}</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of d.docs.sorts; track s.id) {
+        <tr>
+          <td>{{ s.nom }}</td>
+          <td>{{ s.degats.min }}</td>
+          <td>{{ s.degats!.max }}</td>
+          <td>{{ s.portee!.min }}</td>
+          <td>{{ s.portee!.max }}</td>
+          <td>{{ s.impact }}</td>
+          <td>
+            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('sorts', s, true)"><mat-icon matSuffix
+                class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('sorts', s)"><mat-icon matSuffix
+                class="icone annule">restart_alt</mat-icon></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </article>
+  <article>
+    <nav class="options">
+      <a [matTooltip]="l.t['VALIDE']" (click)="liste = 'armures'"><mat-icon matSuffix
+          class="icone valide">add</mat-icon></a>
+    </nav>
+    <header>
+      <h3>{{ l.t['ARMURES'] }}</h3>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <td>{{ l.t['NOM'] }}</td>
+          <td>{{ l.t['BONUS'] }}</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (a of d.docs.armures; track a.id) {
+        <tr>
+          <td>{{ a.nom }}</td>
+          <td>{{ a.bonus }}</td>
+          <td>
+            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('armures', a, true)"><mat-icon matSuffix
+                class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('armures', a)"><mat-icon matSuffix
+                class="icone annule">restart_alt</mat-icon></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </article>
+  <article>
+    <nav class="options">
+      <a [matTooltip]="l.t['VALIDE']" (click)="liste = 'boucliers'"><mat-icon matSuffix
+          class="icone valide">add</mat-icon></a>
+    </nav>
+    <header>
+      <h3>{{ l.t['BOUCLIERS'] }}</h3>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <td>{{ l.t['NOM'] }}</td>
+          <td>{{ l.t['BONUS'] }}</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (b of d.docs.boucliers; track b.id) {
+        <tr>
+          <td>{{ b.nom }}</td>
+          <td>{{ b.bonus }}</td>
+          <td>
+            <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('boucliers', b, true)"><mat-icon matSuffix
+                class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('bouclies', b)"><mat-icon matSuffix
+                class="icone annule">restart_alt</mat-icon></a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </article>
 </section>
+
+@if(liste != ''){
+<div id="pop">
+  <main>
+    <header>
+      <a (click)="initArme()" [title]="l.t['FERMER']" class="close"><mat-icon>close</mat-icon></a>
+      <h2>{{ l.t['AJOUT'] }} : {{ liste }}</h2>
+    </header>
+    <section>
+      <form>
+        <article>
+          <mat-form-field>
+            <mat-label>{{ l.t['NOM'] }}</mat-label>
+            <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="arme.nom" name="nom" required>
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          @if(liste != 'armures' && liste != 'bouclirs'){
+          <mat-form-field>
+            <mat-label>{{ l.t['DEGATS'] }} {{ l.t['MINIMUM'] }}</mat-label>
+            <input type="number" matInput [placeholder]="l.t['DEGATS'] + ' ' + l.t['MINIMUM']"
+              [(ngModel)]="arme.degats!.min" name="degatsMin">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ l.t['DEGATS'] }} {{ l.t['MAXIMUM'] }}</mat-label>
+            <input type="number" matInput [placeholder]="l.t['DEGATS'] + ' ' + l.t['MAXIMUM']"
+              [(ngModel)]="arme.degats!.max" name="degatsMax">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+
+          @if(liste == 'sorts'){
+          <mat-form-field>
+            <mat-label>{{ l.t['IMPACT'] }}</mat-label>
+            <input type="number" matInput [placeholder]="l.t['IMPACT']" [(ngModel)]="arme.impact" name="impact">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          }
+          }@else{
+          <mat-form-field>
+            <mat-label>{{ l.t['BONUS'] }}</mat-label>
+            <input type="number" matInput [placeholder]="l.t['BONUS']" [(ngModel)]="arme.bonus" name="bonus">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          }
+        </article>
+        @if(liste == 'jet' || liste == 'sorts'){
+        <article>
+          <mat-form-field>
+            <mat-label>{{ l.t['PORTEE'] }} {{ l.t['MINIMUM'] }}</mat-label>
+            <input type="number" matInput [placeholder]="l.t['PORTEE'] + ' ' + l.t['MINIMUM']"
+              [(ngModel)]="arme.portee!.min" name="porteeMin">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ l.t['PORTEE'] }} {{ l.t['MAXIMUM'] }}</mat-label>
+            <input type="number" matInput [placeholder]="l.t['PORTEE'] + ' ' + l.t['MAXIMUM']"
+              [(ngModel)]="arme.portee!.max" name="porteeMax">
+            <mat-icon matSuffix>edit</mat-icon>
+          </mat-form-field>
+        </article>
+        }
+        <article>
+          <button class="annule" (click)="initArme()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE']
+            }}</button>
+          <button class="valide" (click)="addArme()"><mat-icon matSuffix>done</mat-icon>{{ l.t['CREER'] }}</button>
+        </article>
+      </form>
+    </section>
+  </main>
+</div>
+}

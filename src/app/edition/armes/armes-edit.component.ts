@@ -14,4 +14,15 @@ export class EditArmesComponent {
 
   l:UtilsService = inject(UtilsService);
   d:DonneesService = inject(DonneesService);
+
+  /** Mettre à jour l'arme */
+  updateArme() {
+    for(let i=0; i<this.d.docs[this.l.edit].length; ++i){
+      if(this.d.docs[this.l.edit][i].id == this.l.maj.id){
+        this.d.docs[this.l.edit][i] = {...this.l.maj};
+      }
+    }
+    this.l.close();
+    this.d.etatSave = true;
+  }
 }

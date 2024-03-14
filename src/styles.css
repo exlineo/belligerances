@@ -172,6 +172,9 @@ form article{
   margin:10px auto;
   justify-content: center;
 }
+input[type="number"]{
+  max-width:75px;
+}
 hr{
   height:0;
   width:100%;

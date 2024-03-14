@@ -5,6 +5,7 @@ export interface UniteI {
   race:number;
   cac?:number;
   jet?:number;
+  sort?:number;
   ca?:number;
   armure?:number;
   bouclier?:number;
@@ -34,6 +35,7 @@ export class Unite implements UniteI{
   pvMax = -1;
   pv = -1;
   ca = -1;
+  sort = -1;
   xp = 0;
   impact = -1;
   attaque = -1;
@@ -102,8 +104,9 @@ export class Armee implements ArmeeI {
 export interface CreatureI {
   id:number;
   nom:string,
-  basePv:number,
-  baseArmure:number
+  basePv?:number,
+  baseArmure?:number,
+  impact?:number
 }
 export class Creature implements CreatureI {
   id = -1;
@@ -111,24 +114,14 @@ export class Creature implements CreatureI {
   basePv = -1;
   baseArmure = -1;
 }
-export interface MontureI {
-  id:number;
-  nom:string;
-  impact:number;
-}
-export interface MaterielI{
-  id:number;
-  nom:string;
-  descr:string;
-  bonus:number;
-}
 export interface ArmeI{
   id:number;
   nom:string;
-  descr:string;
-  degats:{min:number, max:number};
+  descr?:string;
+  degats?:{min:number, max:number};
   portee?:{min:number, max:number, munitions:number};
   impact?:number;
+  bonus?:number;
 }
 export class Arme implements ArmeI{
   id = -1;
@@ -180,9 +173,9 @@ export interface DocumentsI {
 cac: Array<ArmeI>;
 jet: Array<ArmeI>;
 sorts: Array<ArmeI>;
-armures: Array<MaterielI>;
-boucliers: Array<MaterielI>;
-montures: Array<MontureI>;
+armures: Array<ArmeI>;
+boucliers: Array<ArmeI>;
+montures: Array<CreatureI>;
 munitions: Array<ArmeI>;
 monstres: Array<CreatureI>;
 races: Array<CreatureI>;

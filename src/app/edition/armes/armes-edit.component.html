@@ -1,12 +1,66 @@
 <main>
   <header>
     <a (click)="l.close()" [title]="l.t['FERMER']" class="close"><mat-icon>close</mat-icon></a>
-    <h2>{{ l.t['DEL'] }}</h2>
+    <h1>{{ l.t['ARMURERIE_MAJ'] }}</h1>
   </header>
   <section>
-    <article>
-      <button class="annule" (click)="l.close()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
-      <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['DEL'] }}</button>
-    </article>
+    <form>
+      <article>
+        <mat-form-field>
+          <mat-label>{{ l.t['NOM'] }}</mat-label>
+          <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="l.maj.nom" name="nom" required>
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        @if(l.edit != 'armures' && l.edit != 'bouclirs'){
+        <mat-form-field>
+          <mat-label>{{ l.t['DEGATS'] }} {{ l.t['MINIMUM'] }}</mat-label>
+          <input type="number" matInput [placeholder]="l.t['DEGATS'] + ' ' + l.t['MINIMUM']"
+            [(ngModel)]="l.maj.degats.min" name="degatsMin">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ l.t['DEGATS'] }} {{ l.t['MAXIMUM'] }}</mat-label>
+          <input type="number" matInput [placeholder]="l.t['DEGATS'] + ' ' + l.t['MAXIMUM']"
+            [(ngModel)]="l.maj.degats.max" name="degatsMax">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+
+        @if(l.edit == 'sorts'){
+        <mat-form-field>
+          <mat-label>{{ l.t['IMPACT'] }}</mat-label>
+          <input type="number" matInput [placeholder]="l.t['IMPACT']" [(ngModel)]="l.maj.impact" name="impact">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        }
+        }@else{
+        <mat-form-field>
+          <mat-label>{{ l.t['BONUS'] }}</mat-label>
+          <input type="number" matInput [placeholder]="l.t['BONUS']" [(ngModel)]="l.maj.bonus" name="bonus">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        }
+      </article>
+      @if(l.edit == 'jet' || l.edit == 'sorts'){
+      <article>
+        <mat-form-field>
+          <mat-label>{{ l.t['PORTEE'] }} {{ l.t['MINIMUM'] }}</mat-label>
+          <input type="number" matInput [placeholder]="l.t['PORTEE'] + ' ' + l.t['MINIMUM']"
+            [(ngModel)]="l.maj.portee.min" name="porteeMin">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ l.t['PORTEE'] }} {{ l.t['MAXIMUM'] }}</mat-label>
+          <input type="number" matInput [placeholder]="l.t['PORTEE'] + ' ' + l.t['MAXIMUM']"
+            [(ngModel)]="l.maj.portee.max" name="porteeMax">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+      </article>
+      }
+      <article>
+        <button class="annule" (click)="l.close()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE']
+          }}</button>
+        <button class="valide" (click)="updateArme()"><mat-icon matSuffix>done</mat-icon>{{ l.t['VALIDE'] }}</button>
+      </article>
+    </form>
   </section>
 </main>

@@ -1,0 +1,43 @@
+<main>
+  <header>
+    <a (click)="l.close()" [title]="l.t['FERMER']" class="close"><mat-icon>close</mat-icon></a>
+    <h2>{{ l.t['RCREATURES_MAJ'] }}</h2>
+  </header>
+  <section>
+    <form>
+      <article>
+        <mat-form-field>
+          <mat-label>{{ l.t['NOM'] }}</mat-label>
+          <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="l.maj.nom" name="nom" required>
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        @if(l.edit != 'montures'){
+        <mat-form-field>
+          <mat-label>{{ l.t['PV'] }}</mat-label>
+          <input type="text" matInput [placeholder]="l.t['PV'] + '*'" [(ngModel)]="l.maj.basePv" name="pv" required>
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ l.t['ARMURE'] }}*</mat-label>
+          <input type="text" matInput [placeholder]="l.t['ARMURE'] + '*'" [(ngModel)]="l.maj.baseArmure" name="armure"
+            required>
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        }@else{
+        <mat-form-field>
+          <mat-label>{{ l.t['IMPACT'] }}</mat-label>
+          <input type="number" matInput [placeholder]="l.t['IMPACT'] + '*'" [(ngModel)]="l.maj.impact" name="impact"
+            required>
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+        }
+      </article>
+      <article>
+        <button class="annule" (click)="l.close()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE']
+          }}</button>
+        <button class="valide" (click)="updateCreature()"><mat-icon matSuffix>done</mat-icon>{{ l.t['VALIDE']
+          }}</button>
+      </article>
+    </form>
+  </section>
+</main>
