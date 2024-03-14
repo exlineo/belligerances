@@ -64,9 +64,19 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
 
   listeArmees: Array<any> = []; // Armées sur le champ de bataille
   listeCompagnies: Array<CompagnieI> = []; // Compagnies sur le champ de bataille
-  fight!: CompagnieI | undefined; // La compagnie qui attaque
+  attaque!: CompagnieI | undefined; // La compagnie qui attaque
   defend!: CompagnieI | undefined; // La compagie qui défend
-  indexFight:number = -1; // Index de la compagnie qui attaque
+  indexAttaquant: number = -1; // Index de la compagnie qui attaque
+
+  combat:any = {
+    at:{
+      type:'',
+      dg:0
+    },
+    def:{
+      armure:0
+    }
+  }
 
   drag: boolean = false;
   initPos!: PositionI; // Position initiale du champ de bataille
@@ -78,21 +88,23 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   listeTokens!: Array<unknown>;
 
   @HostListener('contextmenu')
-  actions(event:Event, c: CompagnieI, i:number) {
+  actions(event: Event, c: CompagnieI, i: number) {
     event.preventDefault();
     event.stopPropagation();
     console.log('compagnie', c);
-    this.fight = c;
-    this.indexFight = i;
+    this.attaque = c;
+    this.indexAttaquant = i;
     return false;
   }
-
+  /** Gérer la position des tokens lorsqu'ils sont déposés */
   ngAfterViewInit(): void {
     this.tokensView.changes.subscribe(
       t => {
-        const pos = this.listeCompagnies[this.listeCompagnies.length - 1].position;
-        t.last.nativeElement.style.top = pos.y + 'px';
-        t.last.nativeElement.style.left = pos.x + 'px';
+        if (this.listeCompagnies.length > 0) {
+          const pos = this.listeCompagnies[this.listeCompagnies.length - 1].position;
+          t.last.nativeElement.style.top = pos.y + 'px';
+          t.last.nativeElement.style.left = pos.x + 'px';
+        }
       }
     )
   }
@@ -100,30 +112,8 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     const map = this.mapView.nativeElement.getBoundingClientRect()
     this.initPos = { x: Math.round(map.left), y: Math.round(map.top) }; // Position intiale du champ de bataille pour calculer la position du token droppé
   }
-
-  // Déterminer l'hexagone sélectionné (déprécié)
-  selectHex(id: string) {
-    this.hexActu = id;
-  }
-  initHex() {
-    this.hexActu = '';
-  }
-  // Evénement sur le drop (déprécié)
-  drop(event: CdkDragDrop<any>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
-  }
   /** Evénements sur le drop  */
   tokenDrop(event: CdkDragEnd, compagnie: CompagnieI, libre?: boolean) {
-    console.log("event pos", event.dropPoint, "init pos", this.initPos);
     compagnie.position = { x: event.dropPoint.x - this.initPos.x - 40, y: event.dropPoint.y - this.initPos.y - 40 };
     this.listeCompagnies.push(compagnie); // Enregistrer les compagnies sur le champ de bataille
     if (!libre) event.source.reset(); // Remettre le token initial à sa place
@@ -139,5 +129,32 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   // Gérer l'overflow sur le drag au mouvement de la sourie
   setDragOverflow() {
     if (!this.drag) this.drag = true;
+  }
+  /** Supprimer un token du champ de bataille */
+  actionDel(index: number) {
+    this.listeCompagnies.splice(index, 1);
+  }
+  /** Afficher les infos sur la compagnie */
+  actionInfos(index:number){
+
+  }
+  /** Afficher les infos sur la compagnie */
+  actionMoral(index:number){
+
+  }/** Afficher les infos sur la compagnie */
+  actionCac(index:number){
+
+  }
+  /** Afficher les infos sur la compagnie */
+  actionJet(index:number){
+
+  }
+  /** Afficher les infos sur la compagnie */
+  actionSort(index:number){
+
+  }
+  /** Afficher les infos sur la compagnie */
+  actionRallie(index:number){
+
   }
 }

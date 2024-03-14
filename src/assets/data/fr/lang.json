@@ -162,6 +162,9 @@
   "MSG_MAJ":"mis à jour",
   "MSG_MAJE":"mise à jour",
   "MSG_SAVE":"Données sauvegardées",
+  "ATTAQUE":"Attaquant",
+  "ATTAQUE_TYPE":"Type d'attaque",
+  "DEFENT":"Défenseur",
   "LISTE_ARMES": {
     "EPEE_LONGUE": "Epée longue",
     "DAGUE": "Dague",

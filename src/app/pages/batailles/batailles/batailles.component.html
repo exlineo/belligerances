@@ -19,23 +19,40 @@
   </header>
   <article class="map tokens" onDragBoundary="map" cdkDrop #map [style.backgroundImage]="'url('+bg+')'">
     @for(c of listeCompagnies; track c.id; let i=$index){
-    <div [matTooltip]="c.nom"  [matTooltipClass]="(fight && c.id == fight.id && i==indexFight) ? 'tooltip' : ''"
-      class="token compagnie" cdkDrag [id]="'c'+c.id" #token (contextmenu)="actions($event, c, i)" (mouseleave)="fight = undefined">
+    <div [matTooltip]="c.nom"  [matTooltipClass]="(attaque && c.id == attaque.id && i==indexAttaquant) ? 'tooltip' : ''"
+      class="token compagnie" cdkDrag [id]="'c'+c.id" #token (contextmenu)="actions($event, c, i)" (mouseleave)="attaque = undefined">
       <!--  -->
       <img [src]="c.avatar" [alt]="c.nom">
       <span class="hex" [style.color]="d.docs.armees[c.armee!].couleur">&#x2B22;</span>
-      @if(fight && c.id == fight.id && i==indexFight){
+      @if(attaque && c.id == attaque.id && i==indexAttaquant){
         <div id="mb">
           <ul>
-            <li><a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right"><img src="assets/images/pictos/action-cac_b.png" [alt]="l.t['ACT_CAC']"></a></li>
-            <li><a [matTooltip]="l.t['ACT_JET']" matTooltipPosition="right"><img src="assets/images/pictos/action-jet_b.png" [alt]="l.t['ACT_JET']"></a></li>
-            <li><a [matTooltip]="l.t['ACT_SORT']" matTooltipPosition="below"><img src="assets/images/pictos/action-sort_b.png" [alt]="l.t['ACT_SORT']"></a></li>
-            <li><a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below"><img src="assets/images/pictos/action-rallie_b.png" [alt]="l.t['ACT_RALLIE']"></a></li>
-            <li><a [matTooltip]="l.t['ACT_MORAL']" matTooltipPosition="left"><img src="assets/images/pictos/action-moral_b.png" [alt]="l.t['ACT_MORAL']"></a></li>
-            <li><a [matTooltip]="l.t['DEL']" matTooltipPosition="left"><img src="assets/images/pictos/action-del_b.png" [alt]="l.t['DEL']"></a></li>
-            <li><a [matTooltip]="l.t['ACT_DEFI']" matTooltipPosition="above"><img src="assets/images/pictos/action-defi_b.png" [alt]="l.t['ACT_DEFI']"></a></li>
-            <li><a [matTooltip]="l.t['ACT_STATUT']" matTooltipPosition="above"><img src="assets/images/pictos/action-statut_b.png" [alt]="l.t['ACT_STATUT']"></a></li>
-            <li><a [matTooltip]="l.t['ACT_INFOS']" matTooltipPosition="after"><img src="assets/images/pictos/action-infos_b.png" [alt]="l.t['ACT_INFOS']"></a></li>
+            <li><a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right">
+              <img src="assets/images/pictos/action-cac_b.png" [alt]="l.t['ACT_CAC']"></a></li>
+
+            <li><a [matTooltip]="l.t['ACT_JET']" matTooltipPosition="right">
+              <img src="assets/images/pictos/action-jet_b.png" [alt]="l.t['ACT_JET']"></a></li>
+
+            <li><a [matTooltip]="l.t['ACT_SORT']" matTooltipPosition="below">
+              <img src="assets/images/pictos/action-sort_b.png" [alt]="l.t['ACT_SORT']"></a></li>
+
+            <li><a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below">
+              <img src="assets/images/pictos/action-rallie_b.png" [alt]="l.t['ACT_RALLIE']"></a></li>
+
+            <li><a [matTooltip]="l.t['ACT_MORAL']" matTooltipPosition="left">
+              <img src="assets/images/pictos/action-moral_b.png" [alt]="l.t['ACT_MORAL']"></a></li>
+
+            <li><a [matTooltip]="l.t['DEL']" matTooltipPosition="left" (click)="actionDel(i)">
+              <img src="assets/images/pictos/action-del_b.png" [alt]="l.t['DEL']"></a></li>
+
+            <li><a [matTooltip]="l.t['ACT_DEFI']" matTooltipPosition="above">
+              <img src="assets/images/pictos/action-defi_b.png" [alt]="l.t['ACT_DEFI']"></a></li>
+
+            <li><a [matTooltip]="l.t['ACT_STATUT']" matTooltipPosition="above">
+              <img src="assets/images/pictos/action-statut_b.png" [alt]="l.t['ACT_STATUT']"></a></li>
+
+            <li><a [matTooltip]="l.t['ACT_INFOS']" matTooltipPosition="after" (click)="actionInfos(i)">
+              <img src="assets/images/pictos/action-infos_b.png" [alt]="l.t['ACT_INFOS']"></a></li>
           </ul>
         </div>
       }
@@ -52,7 +69,6 @@
     </article>
   </footer>
   <!-- OPTION LATTERALES -->
-
 </section>
 <aside>
   <section [@tabOuvre]="tabArmees ? 'ferme' : 'ouvre'">
@@ -100,5 +116,21 @@
         <p>{{ l.t['ACTS'] }}</p>
       </a>
     </header>
+    <section>
+
+      <article>
+        @if(attaque){
+        <h5>{{ l.t['ATTAQUANT'] }} : {{ attaque.nom }}</h5>
+        <p>{{ l.t['ATTAQUE_TYPE'] }} : {{ attaque.nom }}</p>
+        <p>{{ l.t['UNITES'] }} : {{ attaque.unites.length }}</p>
+      }
+      </article>
+      <article>
+        @if(defend){
+          <h5>{{ l.t['ATTAQUANT'] }} : {{ defend.nom }}</h5>
+          <p>{{ l.t['UNITES'] }} : {{ defend.unites.length }}</p>
+        }
+      </article>
+    </section>
   </section>
 </aside>
