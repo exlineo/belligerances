@@ -15,7 +15,7 @@
   --jaune-fonce:#4f3e04;
   --clair:white;
   --gris:#d6d6d6;
-  --sm:150px;
+  --sm:200px;
   --sm-b:40px;
   --sm-m:-35px;
 }
@@ -438,39 +438,38 @@ nav.options img{
   position:absolute;
   display: flex;
   flex-flow: row wrap;
-  width:var(--sm);
-  height:var(--sm);
+  width:210px;
+  height:210px;
   border-radius: 50%;
-  border:var(--sm-b) solid rgba(0,0,0,.65);
+  border:70px solid rgba(0,0,0,.65);
   font-size:12px;
   align-items:center;
   justify-content: center;
   z-index:5;
-  margin-left:var(--sm-m);
-  margin-top:var(--sm-m);
+  transform:translate(-65px, -65px);
 }
 #mb img, #mb mat-icon {
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   color: var(--clair);
 }
 #mb ul{
   padding:0;
-  margin:35px;
-  height:150px;
-  width:150px;
+  /* margin:32px; */
+  height:210px;
+  width:210px;
+  transform:translate(34px, 24px);
   display:flex;
   position: relative;
 }
 #mb li{
   list-style: none;
   padding:0;
-  margin:-18px;
+  margin:-16px;
   display:flex;
   flex-flow:row nowrap;
-  /* height:calc(var(--sm) / 3); */
-  height:36px;
-  width:36px;
+  height:32px;
+  width:32px;
 }
 #mb a{
   height:100%;
@@ -478,33 +477,32 @@ nav.options img{
 #mb a:hover{
   transform:scale(1.2);
 }
-/* #mb ul li:nth-child(1), #mb ul li:nth-child(4){
-  width:100%;
-}
-#mb ul li:nth-child(1) a{
-  margin:0 auto auto;
-}
-#mb ul li:nth-child(4) a{
-  margin:auto auto 0;
-}*/
 #mb ul li:nth-child(1){
-  /* transform: rotate(270deg) translate(6em) rotate(-270deg); */
-  transform: rotate(0deg) translate(57px) rotate(-0deg);
+  transform: rotate(0deg) translate(76px) rotate(-0deg);
 }
 #mb ul li:nth-child(2){
-  transform: rotate(60deg) translate(57px) rotate(-60deg);
+  transform: rotate(40deg) translate(76px) rotate(-40deg);
 }
 #mb ul li:nth-child(3){
-  transform: rotate(120deg) translate(57px) rotate(-120deg);
+  transform: rotate(80deg) translate(76px) rotate(-80deg);
 }
 #mb ul li:nth-child(4){
-  transform: rotate(180deg) translate(57px) rotate(-180deg);
+  transform: rotate(120deg) translate(76px) rotate(-120deg);
 }
 #mb ul li:nth-child(5){
-  transform: rotate(240deg) translate(57px) rotate(-240deg);
+  transform: rotate(160deg) translate(76px) rotate(-160deg);
 }
 #mb ul li:nth-child(6){
-  transform: rotate(300deg) translate(57px) rotate(-300deg);
+  transform: rotate(200deg) translate(76px) rotate(-200deg);
+}
+#mb ul li:nth-child(7){
+  transform: rotate(240deg) translate(76px) rotate(-240deg);
+}
+#mb ul li:nth-child(8){
+  transform: rotate(280deg) translate(76px) rotate(-280deg);
+}
+#mb ul li:nth-child(9){
+  transform: rotate(320deg) translate(76px) rotate(-320deg);
 }
 #mb ul li:nth-child(2), #mb ul li:nth-child(3){
   /* width:50%; */
@@ -517,6 +515,9 @@ nav.options img{
 }
 .mat-mdc-tooltip-panel-below{
   /* transform: translate(40px); Tooltip plus bas pour le menu over */
+}
+.cdk-overlay-container{
+  pointer-events: none;
 }
 .tooltip{
   margin-top:50px;
@@ -641,14 +642,11 @@ nav.options img{
   border-radius:50%;
   width:50px;
   height:50px;
-  /* padding:25px; */
   position: relative;
-  /* margin:10px; */
   background-color: var(--jaune);
   cursor: pointer;
 }
 .colorPicker chrome-picker, .colorPicker github-picker{
-  /* position:absolute; */
   display:none;
 }
 .colorPicker:hover chrome-picker, .colorPicker:hover github-picker{

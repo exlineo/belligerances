@@ -11,7 +11,7 @@
           <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="l.maj.nom" name="nom" required>
           <mat-icon matSuffix>edit</mat-icon>
         </mat-form-field>
-        @if(l.edit != 'armures' && l.edit != 'bouclirs'){
+        @if(l.edit != 'armures' && l.edit != 'boucliers'){
         <mat-form-field>
           <mat-label>{{ l.t['DEGATS'] }} {{ l.t['MINIMUM'] }}</mat-label>
           <input type="number" matInput [placeholder]="l.t['DEGATS'] + ' ' + l.t['MINIMUM']"

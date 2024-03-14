@@ -4,17 +4,19 @@
 </header>
 <section id="champ" cdkDropListGroup>
   <header>
+    <mat-form-field>
+      <mat-label>{{ l.t['BATAILLES_BG'] }}</mat-label>
     <mat-select [placeholder]="l.t['BATAILLES_BG']" name="bg" [(ngModel)]="bg">
       @for(bg of d.params.cartes; track bg.id){
       <mat-option [value]="bg.img">
-        <img [src]="bg.vignette">
+        <img [src]="bg.vignette" [alt]="bg.vignette">
         <article>
           <h5>{{ bg.description }}</h5>
         </article></mat-option>
       }
     </mat-select>
+  </mat-form-field>
   </header>
-  <!-- <article class="map tokens" onDragBoundary="map" #map cdkDrop watchDomTree (dom-changed)="setDragDOMPosition($event)"> -->
   <article class="map tokens" onDragBoundary="map" cdkDrop #map [style.backgroundImage]="'url('+bg+')'">
     @for(c of listeCompagnies; track c.id; let i=$index){
     <div [matTooltip]="c.nom"  [matTooltipClass]="(fight && c.id == fight.id && i==indexFight) ? 'tooltip' : ''"
@@ -25,12 +27,15 @@
       @if(fight && c.id == fight.id && i==indexFight){
         <div id="mb">
           <ul>
-            <li><a><img src="assets/images/pictos/action-bataille_b.png" [alt]="l.t['COMBAT']"></a></li>
-            <li><a><img src="assets/images/pictos/action-go_b.png" [alt]="l.t['COMBAT']"></a></li>
-            <li><a><img src="assets/images/pictos/action-move_b.png" [alt]="l.t['COMBAT']"></a></li>
-            <li><a><img src="assets/images/pictos/action-infos_b.png" [alt]="l.t['COMBAT']"></a></li>
-            <li><a><img src="assets/images/pictos/action-move_b.png" [alt]="l.t['COMBAT']"></a></li>
-            <li><a><img src="assets/images/pictos/action-bataille_b.png" [alt]="l.t['COMBAT']"></a></li>
+            <li><a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right"><img src="assets/images/pictos/action-cac_b.png" [alt]="l.t['ACT_CAC']"></a></li>
+            <li><a [matTooltip]="l.t['ACT_JET']" matTooltipPosition="right"><img src="assets/images/pictos/action-jet_b.png" [alt]="l.t['ACT_JET']"></a></li>
+            <li><a [matTooltip]="l.t['ACT_SORT']" matTooltipPosition="below"><img src="assets/images/pictos/action-sort_b.png" [alt]="l.t['ACT_SORT']"></a></li>
+            <li><a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below"><img src="assets/images/pictos/action-rallie_b.png" [alt]="l.t['ACT_RALLIE']"></a></li>
+            <li><a [matTooltip]="l.t['ACT_MORAL']" matTooltipPosition="left"><img src="assets/images/pictos/action-moral_b.png" [alt]="l.t['ACT_MORAL']"></a></li>
+            <li><a [matTooltip]="l.t['DEL']" matTooltipPosition="left"><img src="assets/images/pictos/action-del_b.png" [alt]="l.t['DEL']"></a></li>
+            <li><a [matTooltip]="l.t['ACT_DEFI']" matTooltipPosition="above"><img src="assets/images/pictos/action-defi_b.png" [alt]="l.t['ACT_DEFI']"></a></li>
+            <li><a [matTooltip]="l.t['ACT_STATUT']" matTooltipPosition="above"><img src="assets/images/pictos/action-statut_b.png" [alt]="l.t['ACT_STATUT']"></a></li>
+            <li><a [matTooltip]="l.t['ACT_INFOS']" matTooltipPosition="after"><img src="assets/images/pictos/action-infos_b.png" [alt]="l.t['ACT_INFOS']"></a></li>
           </ul>
         </div>
       }
@@ -91,8 +96,8 @@
   <section [@tabOuvre]="tabActions ? 'ferme' : 'ouvre'">
     <header>
       <a (click)="tabActions = !tabActions">
-        <img src="assets/images/pictos/action.png" [alt]="l.t['ACTIONS']">
-        <p>{{ l.t['ACTIONS'] }}</p>
+        <img src="assets/images/pictos/action.png" [alt]="l.t['ACTS']">
+        <p>{{ l.t['ACTS'] }}</p>
       </a>
     </header>
   </section>

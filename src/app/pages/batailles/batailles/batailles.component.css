@@ -13,7 +13,6 @@ aside > section {
   position:relative;
   right:0px;
   height:fit-content;
-  /* flex-flow:row nowrap; */
 }
 aside > section > div {
   flex-flow:column nowrap;
@@ -29,6 +28,6 @@ aside > section > header a {
 aside > section > header img {
   width:50px;
 }
-section > header mat-select{
+.mat-mdc-form-field, section > header mat-select{
   max-width:500px;
 }
