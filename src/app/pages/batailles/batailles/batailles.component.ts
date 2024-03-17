@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, Directive, ElementRef, HostListener, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
 import {
   trigger,
   state,
@@ -8,7 +8,7 @@ import {
 } from '@angular/animations';
 import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
-import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { CompagnieI, PositionI } from 'src/app/shared/modeles/Type';
 import { DomChangedDirective } from 'src/app/shared/dom-directive';
@@ -20,26 +20,6 @@ import { DomChangedDirective } from 'src/app/shared/dom-directive';
   templateUrl: './batailles.component.html',
   styleUrl: './batailles.component.css',
   animations: [
-    trigger('apparait', [
-      state('invisible', style({ opacity: 0 })),
-      state('visible', style({ opacity: 1 })),
-      transition('* => visible', [
-        animate('.3s ease-out')
-      ]),
-      transition('visible => invisible', [
-        animate('.3s ease-in')
-      ]),
-    ]),
-    trigger('ouvre', [
-      state('ferme', style({ right: 0 })),
-      state('ouvre', style({ right: 250 })),
-      transition('ouvre => ferme', [
-        animate('.3s ease-out')
-      ]),
-      transition('ferme => ouvre', [
-        animate('0.3s ease-in')
-      ]),
-    ]),
     trigger('tabOuvre', [
       state('ferme', style({ right: 350 })),
       state('ouvre', style({ right: 0 })),
@@ -47,6 +27,16 @@ import { DomChangedDirective } from 'src/app/shared/dom-directive';
         animate('.3s ease')
       ]),
       transition('ferme => ouvre', [
+        animate('0.3s ease')
+      ]),
+    ]),
+    trigger('tabLeve', [
+      state('leve', style({ top: -180 })),
+      state('baisse', style({ top: 0 })),
+      transition('leve => baisse', [
+        animate('.3s ease')
+      ]),
+      transition('baisse => leve', [
         animate('0.3s ease')
       ]),
     ])
@@ -64,6 +54,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
 
   listeArmees: Array<any> = []; // Armées sur le champ de bataille
   listeCompagnies: Array<CompagnieI> = []; // Compagnies sur le champ de bataille
+  selected!:CompagnieI | undefined; // Compagnie en cours de traitement
   attaque!: CompagnieI | undefined; // La compagnie qui attaque
   defend!: CompagnieI | undefined; // La compagie qui défend
   indexAttaquant: number = -1; // Index de la compagnie qui attaque
@@ -89,10 +80,12 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
 
   @HostListener('contextmenu')
   actions(event: Event, c: CompagnieI, i: number) {
-    event.preventDefault();
-    event.stopPropagation();
+    if(event){
+      event.preventDefault();
+      event.stopPropagation();
+    }
     console.log('compagnie', c);
-    this.attaque = c;
+    this.selected = c;
     this.indexAttaquant = i;
     return false;
   }
@@ -135,15 +128,16 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     this.listeCompagnies.splice(index, 1);
   }
   /** Afficher les infos sur la compagnie */
-  actionInfos(index:number){
+  actionInfos(index:number, c:CompagnieI){
 
   }
   /** Afficher les infos sur la compagnie */
-  actionMoral(index:number){
+  actionMoral(index:number, c:CompagnieI){
 
   }/** Afficher les infos sur la compagnie */
-  actionCac(index:number){
-
+  actionCac(index:number, c:CompagnieI){
+    this.attaque = c;
+    this.tabActions = true;
   }
   /** Afficher les infos sur la compagnie */
   actionJet(index:number){
@@ -152,6 +146,17 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   /** Afficher les infos sur la compagnie */
   actionSort(index:number){
 
+  }
+  actionDefend(c:CompagnieI){
+    console.log(this.defend);
+    if(this.defend){
+      if(this.defend.id == c.id){
+        this.defend = undefined;
+      }
+    }else{
+      this.defend = c;
+      this.tabActions = true;
+    }
   }
   /** Afficher les infos sur la compagnie */
   actionRallie(index:number){

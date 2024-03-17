@@ -4,72 +4,76 @@
 </header>
 <section id="champ" cdkDropListGroup>
   <header>
+    <form>
     <mat-form-field>
       <mat-label>{{ l.t['BATAILLES_BG'] }}</mat-label>
-    <mat-select [placeholder]="l.t['BATAILLES_BG']" name="bg" [(ngModel)]="bg">
-      @for(bg of d.params.cartes; track bg.id){
-      <mat-option [value]="bg.img">
-        <img [src]="bg.vignette" [alt]="bg.vignette">
-        <article>
-          <h5>{{ bg.description }}</h5>
-        </article></mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+      <mat-select [placeholder]="l.t['BATAILLES_BG']" name="bg" [(ngModel)]="bg">
+        @for(bg of d.params.cartes; track bg.id){
+        <mat-option [value]="bg.img">
+          <img [src]="bg.vignette" [alt]="bg.vignette">
+          <article>
+            <h5>{{ bg.description }}</h5>
+          </article>
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <!-- SLIDER -->
+    <fieldset>
+    <mat-label>{{ l.t['HEX_AFFICHE'] }}</mat-label>
+    <mat-slider min="0" max="100" step="1" discrete (input)="matSlide($event)">
+      <input matSliderThumb value="50">
+    </mat-slider>
+  </fieldset>
+  </form>
   </header>
   <article class="map tokens" onDragBoundary="map" cdkDrop #map [style.backgroundImage]="'url('+bg+')'">
     @for(c of listeCompagnies; track c.id; let i=$index){
-    <div [matTooltip]="c.nom"  [matTooltipClass]="(attaque && c.id == attaque.id && i==indexAttaquant) ? 'tooltip' : ''"
-      class="token compagnie" cdkDrag [id]="'c'+c.id" #token (contextmenu)="actions($event, c, i)" (mouseleave)="attaque = undefined">
+    <div [matTooltip]="c.nom" [matTooltipClass]="(attaque && c.id == attaque.id && i==indexAttaquant) ? 'tooltip' : ''"
+      class="token compagnie" cdkDrag [id]="'c'+c.id" #token (contextmenu)="actions($event, c, i)"
+      (mouseleave)="selected = undefined">
       <!--  -->
       <img [src]="c.avatar" [alt]="c.nom">
       <span class="hex" [style.color]="d.docs.armees[c.armee!].couleur">&#x2B22;</span>
-      @if(attaque && c.id == attaque.id && i==indexAttaquant){
-        <div id="mb">
-          <ul>
-            <li><a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right">
+      @if(selected && c.id == selected.id && i==indexAttaquant){
+      <div id="mb">
+        <ul>
+          <li><a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right" (click)="actionCac(i, c)">
               <img src="assets/images/pictos/action-cac_b.png" [alt]="l.t['ACT_CAC']"></a></li>
 
-            <li><a [matTooltip]="l.t['ACT_JET']" matTooltipPosition="right">
+          <li><a [matTooltip]="l.t['ACT_JET']" matTooltipPosition="right">
               <img src="assets/images/pictos/action-jet_b.png" [alt]="l.t['ACT_JET']"></a></li>
 
-            <li><a [matTooltip]="l.t['ACT_SORT']" matTooltipPosition="below">
+          <li><a [matTooltip]="l.t['ACT_SORT']" matTooltipPosition="below">
               <img src="assets/images/pictos/action-sort_b.png" [alt]="l.t['ACT_SORT']"></a></li>
 
-            <li><a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below">
+          <li><a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below">
               <img src="assets/images/pictos/action-rallie_b.png" [alt]="l.t['ACT_RALLIE']"></a></li>
 
-            <li><a [matTooltip]="l.t['ACT_MORAL']" matTooltipPosition="left">
+          <li><a [matTooltip]="l.t['ACT_MORAL']" matTooltipPosition="left">
               <img src="assets/images/pictos/action-moral_b.png" [alt]="l.t['ACT_MORAL']"></a></li>
 
-            <li><a [matTooltip]="l.t['DEL']" matTooltipPosition="left" (click)="actionDel(i)">
+          <li><a [matTooltip]="l.t['DEL']" matTooltipPosition="left" (click)="actionDel(i)">
               <img src="assets/images/pictos/action-del_b.png" [alt]="l.t['DEL']"></a></li>
 
-            <li><a [matTooltip]="l.t['ACT_DEFI']" matTooltipPosition="above">
+          <li><a [matTooltip]="l.t['ACT_DEFI']" matTooltipPosition="above">
               <img src="assets/images/pictos/action-defi_b.png" [alt]="l.t['ACT_DEFI']"></a></li>
 
-            <li><a [matTooltip]="l.t['ACT_STATUT']" matTooltipPosition="above">
-              <img src="assets/images/pictos/action-statut_b.png" [alt]="l.t['ACT_STATUT']"></a></li>
+          <li><a [matTooltip]="l.t['ACT_INFOS']" matTooltipPosition="above" (click)="actionInfos(i, c)">
+              <img src="assets/images/pictos/action-infos_b.png" [alt]="l.t['ACT_STATUT']"></a></li>
 
-            <li><a [matTooltip]="l.t['ACT_INFOS']" matTooltipPosition="after" (click)="actionInfos(i)">
-              <img src="assets/images/pictos/action-infos_b.png" [alt]="l.t['ACT_INFOS']"></a></li>
-          </ul>
-        </div>
+          <li><a [matTooltip]="l.t['ACT_DEF']" matTooltipPosition="after" (click)="actionDefend(c)">
+              <img src="assets/images/pictos/action-statut_b.png" [alt]="l.t['ACT_DEF']"></a></li>
+
+        </ul>
+      </div>
       }
     </div>
     }
     <div id="hexagones" [style.opacity]="opacite"></div>
   </article>
-  <footer>
-    <article>
-      <p>{{ l.t['HEX_AFFICHE'] }}</p>
-      <mat-slider min="0" max="100" step="1" discrete (input)="matSlide($event)">
-        <input matSliderThumb value="50">
-      </mat-slider>
-    </article>
-  </footer>
-  <!-- OPTION LATTERALES -->
 </section>
+<!-- OPTION LATTERALES -->
 <aside>
   <section [@tabOuvre]="tabArmees ? 'ferme' : 'ouvre'">
     <header>
@@ -109,7 +113,10 @@
       }
     </mat-accordion>
   </section>
-  <section [@tabOuvre]="tabActions ? 'ferme' : 'ouvre'">
+</aside>
+<!-- OPTIONS DES BATAILLES -->
+<footer>
+  <section [@tabLeve]="tabActions ? 'leve' : 'baisse'">
     <header>
       <a (click)="tabActions = !tabActions">
         <img src="assets/images/pictos/action.png" [alt]="l.t['ACTS']">
@@ -117,20 +124,31 @@
       </a>
     </header>
     <section>
-
       <article>
         @if(attaque){
-        <h5>{{ l.t['ATTAQUANT'] }} : {{ attaque.nom }}</h5>
-        <p>{{ l.t['ATTAQUE_TYPE'] }} : {{ attaque.nom }}</p>
-        <p>{{ l.t['UNITES'] }} : {{ attaque.unites.length }}</p>
-      }
+          <h4>{{ l.t['ATTAQUANT'] }}</h4>
+        <h5>{{ attaque.nom }}</h5>
+        <p>{{ attaque.nom }}</p>
+        <p>{{ attaque.unites.length }}</p>
+        }@else {
+          {{ l.t['AT_CHOIX'] }}
+        }
       </article>
+      <span>
+        <button class="valide" [matTooltip]="l.t['ACT_AT']">
+          <img src="assets/images/pictos/action_b.png" [alt]="l.t['ACTS']">
+          <!-- <span>{{ l.t['ACT_AT'] }}</span> -->
+        </button>
+      </span>
       <article>
         @if(defend){
-          <h5>{{ l.t['ATTAQUANT'] }} : {{ defend.nom }}</h5>
-          <p>{{ l.t['UNITES'] }} : {{ defend.unites.length }}</p>
+          <h4>{{ l.t['DEFENSEUR'] }}</h4>
+        <h5>{{ defend.nom }}</h5>
+        <p>{{ defend.unites.length }}</p>
+        }@else {
+          {{ l.t['DEF_CHOIX'] }}
         }
       </article>
     </section>
   </section>
-</aside>
+</footer>

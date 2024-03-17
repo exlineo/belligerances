@@ -21,13 +21,107 @@ aside > section > header {
   padding:10px 0;
   justify-content: flex-start;
   width:100px !important;
+  background-color: white;
+  height:100%;
 }
 aside > section > header a {
   width: 100px;
+  margin:auto;
 }
 aside > section > header img {
   width:50px;
 }
-.mat-mdc-form-field, section > header mat-select{
-  max-width:500px;
+.mat-mdc-form-field, section > header form mat-select{
+  width:500px;
+}
+form{
+  overflow: visible;
+  flex-flow: row nowrap;
+}
+/* ACTIONS DANS LA BATAILLE */
+footer{
+  width:100vw;
+  position:absolute;
+  bottom:-180px;
+  justify-content:space-around;
+}
+footer > section {
+  width: 50vw;
+  border-top: 1px solid black;
+  background-color: white;
+  height:250px;
+  position:relative;
+  top:0px;
+  margin-right:25%;
+  flex-flow:column nowrap;
+}
+footer > section > header {
+  padding:10px 0;
+  justify-content: flex-start;
+  height: 70px;
+  background-color: white;
+  align-items: center;
+}
+footer > section > header a {
+  height: 100px;
+  width:fit-content;
+  display: flex;
+  flex-flow: row nowrap;
+}
+footer > section > header img {
+  width:50px;
+  height: 50px;
+  margin-right:10px;
+}
+footer > section > section {
+  flex-flow: row nowrap;
+  align-items: stretch;
+  height: 100%;
+}
+
+footer > section > section > article {
+  flex-flow: column nowrap;
+  flex:3;
+  padding:10px 20px;
+  height:100%;
+}
+footer > section > section > span {
+  display:flex;
+  flex-flow: column nowrap;
+  flex:1;
+  height:100%;
+  position:relative;
+}
+footer button {
+  border-radius: 50%;
+  flex-flow: column nowrap;
+  width:110px;
+  height: 110px;
+  text-transform: uppercase;
+  margin:auto;
+}
+footer span:before, footer span:after{
+  content:"";
+  width:1px;
+  background:black;
+  height:20px;
+  position:absolute;
+  left:55px;
+}
+footer span:after{
+  bottom:0;
+}
+footer button > * {
+  margin:auto;
+}
+footer button img {
+  margin:auto;
+
+  /* border-radius: 50%; */
+}
+footer h4{
+  margin-top:-40px;
+}
+footer h5{
+  margin:0 0 5px;
 }

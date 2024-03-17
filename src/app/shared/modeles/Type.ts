@@ -51,7 +51,7 @@ export interface CompagnieI {
   armee?:number;
   statut:number;
   unites:Array<number>;
-  unitesCombat?:Array<number>;
+  combattants?:Array<number>;
   commandant:number;
   munitions?:{type:number,q:number},
   pvMax:number;
@@ -74,6 +74,7 @@ export class Compagnie implements CompagnieI {
   descr = '';
   statut = -1;
   unites = [];
+  combattants = [];
   munitions = {type:-1, q:0};
   pvMax = -1;
   pv = -1

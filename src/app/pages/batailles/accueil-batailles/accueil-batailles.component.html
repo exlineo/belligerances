@@ -8,6 +8,11 @@
       <img src="assets/images/pictos/construire.png" [alt]="l.t['ARMEES_CONST']">
       <p>{{ l.t['ARMEES_CONST'] }}</p>
     </a>
+    @if(d.etatSave){
+      <a [title]="l.t['RCREATURES']" (click)="d.saveCampagne()" class="btn del">
+        <mat-icon matSuffix>save</mat-icon>
+      </a>
+    }
   </nav>
 </aside>
 <main>

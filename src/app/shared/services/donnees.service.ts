@@ -29,9 +29,9 @@ export class DonneesService {
   campagne!: CampagneI | null;
   campagnes: Array<CampagneI> = [];
   cache: { date: number, updates: Array<string> } = { date: 0, updates: [] };
-  storage:any; // Enregistrer tout ce qu'il y a des le storage
+  storage: any; // Enregistrer tout ce qu'il y a des le storage
 
-  etatSave:boolean = false; // Savoir s'il faut enregistrer des données modifiées
+  etatSave: boolean = false; // Savoir s'il faut enregistrer des données modifiées
 
   constructor(private http: HttpClient, private l: UtilsService) {
     if (sessionStorage.getItem('campagne')) {
@@ -103,11 +103,11 @@ export class DonneesService {
     }
   }
   /** Créer une campagne */
-  creeCampagne(){
+  creeCampagne() {
     this.campagne!.dates = { creation: Date.now(), update: 0 };
     this.campagne!.id = this.campagnes.length;
     // récupération de données type pour la campagne
-    this.http.get<DocumentsI>('assets/data/docs.json').subscribe( docs => this.campagne!.docs = docs );
+    this.http.get<DocumentsI>('assets/data/docs.json').subscribe(docs => this.campagne!.docs = docs);
 
     this.campagnes.push(this.campagne!);
     localStorage.setItem('campagnes', JSON.stringify(this.campagnes));
@@ -178,7 +178,7 @@ export class DonneesService {
    * @param id Id à récupérer
    */
   getCompagniesUnites(liste: string, id: number): any {
-    return this.docs[liste].find((l:any) => l.id == id) ?? '';
+    return this.docs[liste].find((l: any) => l.id == id) ?? '';
   }
   /** EDITION DES DONNEES */
   edit(liste: string, id: number, obj: any) {
@@ -188,8 +188,17 @@ export class DonneesService {
     this.l.message('MAJ');
   }
   /** Sauvegarder les modifications */
-  saveCampagne(){
+  saveCampagne() {
     this.l.message('MSG_SAVE');
+    for (let i = 0; i < this.campagnes.length; ++i) {
+      if (this.campagne && this.campagnes[i].id == this.campagne.id) {
+        this.campagne.docs = this.docs;
+        this.campagnes[i] = { ...this.campagne };
+
+        sessionStorage.setItem('campagne', JSON.stringify(this.campagne));
+        this.setCache('campagnes', this.campagnes);
+      }
+    }
     this.etatSave = false;
   }
 }

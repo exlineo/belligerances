@@ -367,7 +367,7 @@ nav.options img{
 #champ{
   position:relative;
   flex-flow:column nowrap;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   width:100%;
   height:100%;
   padding:0 40px;
@@ -375,9 +375,10 @@ nav.options img{
 #champ > header {
   width:100%;
   height: 60px;
+  margin-bottom:20px;
 }
 #champ > article, .map {
-  width:calc(100% - 100px);
+  width:100%;
   height:calc(100% - 120px);
   border: dashed 1px black;
 }
@@ -403,36 +404,6 @@ nav.options img{
   background-size: 1920px 1080px;
   z-index:0;
 }
-
-/*
-#champ {
-  width:100%;
-  height:100%;
-}
-#champ article{
-  margin:auto;
-  flex-flow:column nowrap;
-}
-#champ dl{
-  margin:auto;
-  display:flex;
-  flex-flow:row wrap;
-}
-#champ dl:nth-child(even){
-  padding-left:50px;
-}
-#champ dl dt{
-  list-style: none;
-  display:flex;
-  width:50px;
-  height:55px;
-  margin-top:-5px;
-}
-#champ dl dt span{
-  margin:auto;
-}
-#champ dl dt:nth-child(even) > span{
-} */
 /* MENU CONTEXTUEL DES BATAILLES */
 #mb {
   position:absolute;
