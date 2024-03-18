@@ -58,7 +58,8 @@ export interface CompagnieI {
   pv?:number;
   moral:number;
   ordre?:OrdreI;
-  nbCombats?:number;
+  morts?:number;
+  blesses?:number;
   avatar?:string;
   position:PositionI;
 }
@@ -72,6 +73,7 @@ export class Compagnie implements CompagnieI {
   id = -1;
   nom = '';
   descr = '';
+  armee = -1;
   statut = -1;
   unites = [];
   combattants = [];
@@ -79,7 +81,8 @@ export class Compagnie implements CompagnieI {
   pvMax = -1;
   pv = -1
   moral = -1;
-  nbCombats = 0;
+  blesses = 0;
+  morts = 0;
   commandant = -1;
   avatar = '';
   position = {x:0,y:0};

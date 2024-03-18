@@ -21,17 +21,22 @@
             <h5>{{ c.nom }}</h5>
           </mat-panel-title>
           <mat-panel-description>
-            <span>{{ l.t['MUNS'] }} : {{ c.munitions | armes:d.docs.munitions }} ({{ c.munitions!.q }})</span>
+            <!-- <span>{{ l.t['MUNS'] }} : {{ c.munitions | armes:d.docs.munitions }} ({{ c.munitions!.q }})</span> -->
             <span><img [src]="c.statut | statuts" [alt]="c.nom"></span>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <header>
           <p>{{ c.descr }}</p>
+          <ul>
+            <li>{{ l.t['COMMANDANT'] }} : <strong>{{ d.getCompagniesUnites('unites', c.commandant).nom }}</strong></li>
+            <li>{{ l.t['MUNS'] }} : <strong>{{ c.munitions!.type }} ({{ c.munitions!.q }})</strong></li>
+          </ul>
           <nav class="row">
             <a [matTooltip]="l.t['ANNULE']" (click)="l.setEdit('compagnies', c, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
             <a [matTooltip]="l.t['VALIDE']" (click)="l.setEdit('compagnies', c)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
           </nav>
         </header>
+        <hr>
         <table>
           <thead>
             <tr>

@@ -54,18 +54,20 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
 
   listeArmees: Array<any> = []; // Armées sur le champ de bataille
   listeCompagnies: Array<CompagnieI> = []; // Compagnies sur le champ de bataille
-  selected!:CompagnieI | undefined; // Compagnie en cours de traitement
+  selected!: CompagnieI | undefined; // Compagnie en cours de traitement
   attaque!: CompagnieI | undefined; // La compagnie qui attaque
   defend!: CompagnieI | undefined; // La compagie qui défend
+  action:string = 'ACT_AT'; // Action en cours
   indexAttaquant: number = -1; // Index de la compagnie qui attaque
+  el:unknown; // Element sélectionné
 
-  combat:any = {
-    at:{
-      type:'',
-      dg:0
+  combat: any = {
+    at: {
+      type: '',
+      dg: 0
     },
-    def:{
-      armure:0
+    def: {
+      armure: 0
     }
   }
 
@@ -80,13 +82,14 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
 
   @HostListener('contextmenu')
   actions(event: Event, c: CompagnieI, i: number) {
-    if(event){
+    if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
     console.log('compagnie', c);
     this.selected = c;
     this.indexAttaquant = i;
+    this.el = event.target;
     return false;
   }
   /** Gérer la position des tokens lorsqu'ils sont déposés */
@@ -124,42 +127,55 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     if (!this.drag) this.drag = true;
   }
   /** Supprimer un token du champ de bataille */
-  actionDel(index: number) {
+  actionDel(event:Event, index: number, id: number) {
+    if (id == this.attaque?.id) this.attaque = undefined;
+    if (id == this.defend?.id) this.defend = undefined;
     this.listeCompagnies.splice(index, 1);
   }
   /** Afficher les infos sur la compagnie */
-  actionInfos(index:number, c:CompagnieI){
-
+  actionInfos(c: CompagnieI) {
+    this.action = 'ACT_INFOS';
   }
   /** Afficher les infos sur la compagnie */
-  actionMoral(index:number, c:CompagnieI){
-
-  }/** Afficher les infos sur la compagnie */
-  actionCac(index:number, c:CompagnieI){
-    this.attaque = c;
-    this.tabActions = true;
+  actionMoral(c: CompagnieI) {
+    this.action = 'ACT_MORAL';
   }
   /** Afficher les infos sur la compagnie */
-  actionJet(index:number){
-
+  actionCac(event:Event, c: CompagnieI) {
+    if (this.attaque && this.attaque.id == c.id) {
+      this.attaque = undefined;
+      this.cacheActions();
+    } else {
+      this.attaque = c;
+      this.tabActions = true;
+      this.action = 'ACT_CAC';
+    }
   }
   /** Afficher les infos sur la compagnie */
-  actionSort(index:number){
-
+  actionJet(c:CompagnieI) {
+    this.action = 'ACT_JET';
   }
-  actionDefend(c:CompagnieI){
+  actionDefend(c: CompagnieI) {
     console.log(this.defend);
-    if(this.defend){
-      if(this.defend.id == c.id){
-        this.defend = undefined;
-      }
-    }else{
+    if (this.defend && this.defend.id == c.id) {
+      this.defend = undefined;
+      this.cacheActions();
+    } else {
       this.defend = c;
       this.tabActions = true;
     }
   }
   /** Afficher les infos sur la compagnie */
-  actionRallie(index:number){
-
+  actionRallie(index: number) {
+    this.action = 'ACT_RALLIE';
+  }
+  /** Cacher la fenêtre des actions */
+  cacheActions() {
+    !this.attaque && !this.defend ? this.tabActions = false : this.tabActions = true;
+    this.action = 'ACT';
+  }
+  /** Agir */
+  go(){
+    console.log("Ca agit");
   }
 }

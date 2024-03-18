@@ -105,6 +105,17 @@ nav > a:hover, .accueil:hover{
 nav img, .accueil img {
   width:50px;
 }
+ul{
+  display:flex;
+  flex-flow: row nowrap;
+  margin:10px;
+  padding:10px;
+}
+li{
+  list-style: none;
+  padding:5px 10px;
+  margin:5px 10px;
+}
 .accueil{
   position:absolute;
   top:0;
@@ -447,6 +458,9 @@ nav.options img{
 }
 #mb a:hover{
   transform:scale(1.2);
+}
+#mb a:active{
+  border-bottom:1px solid var(--clair);
 }
 #mb ul li:nth-child(1){
   transform: rotate(0deg) translate(76px) rotate(-0deg);

@@ -27,4 +27,14 @@ export class EditCompagniesComponent {
     this.pagination = {min, max};
     console.log(this.pagination, event);
    }
+
+   updateCompagnie() {
+    for(let i=0; i<this.d.docs.compagnies.length; ++i){
+      if(this.d.docs.compagnies[i].id == this.l.maj.id){
+        this.d.docs.compagnies[i] = {...this.l.maj};
+      }
+    }
+    this.l.close();
+    this.d.etatSave = true;
+  }
 }

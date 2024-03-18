@@ -120,7 +120,7 @@
     </mat-paginator>
     <article>
       <button class="annule" (click)="l.close()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
-      <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['COMPAGNIE_SAVE'] }}</button>
+      <button class="valide" (click)="updateCompagnie()"><mat-icon matSuffix>done</mat-icon>{{ l.t['COMPAGNIE_SAVE'] }}</button>
     </article>
   </section>
 </main>

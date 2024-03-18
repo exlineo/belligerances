@@ -255,13 +255,15 @@
           "nbCombats":0,
           "statut":1,
           "unites":[0, 1, 2, 3],
-          "unitesCombat":[],
+          "combattants":[],
+          "blesses":0,
+          "morts":0,
           "pvMax":300,
           "pv":76,
           "moral":6,
           "munitions":{"type":-1, "q":0},
           "ordre":"Mur de bouclier",
-          "avatar":"assets/images/avatars/warrior_4.png"
+          "avatar":"assets/images/avatars/armees/horses.png"
         },
         {
           "id":1,
@@ -272,13 +274,15 @@
           "armee":2,
           "statut":1,
           "unites":[0, 1, 2, 3],
-          "unitesCombat":[],
+          "combattants":[],
+          "blesses":0,
+          "morts":0,
           "pvMax":300,
           "pv":151,
           "moral":6,
           "munitions":{"type":-1, "q":0},
           "ordre":"Mur de bouclier",
-          "avatar":"assets/images/avatars/warrior_4.png"
+          "avatar":"assets/images/avatars/armees/sword_n.png"
         },
         {
           "id":2,
@@ -289,13 +293,15 @@
           "armee":0,
           "statut":1,
           "unites":[0, 2],
-          "unitesCombat":[],
+          "combattants":[],
+          "blesses":0,
+          "morts":0,
           "pvMax":300,
           "pv":12,
           "moral":1,
           "munitions":{"type":-1, "q":0},
           "ordre":"Mur de bouclier",
-          "avatar":"assets/images/avatars/warrior_4.png"
+          "avatar":"assets/images/avatars/armees/shield_n.png"
         },
         {
           "id":3,
@@ -305,14 +311,16 @@
           "nbCombats":0,
           "statut":1,
           "unites":[3],
-          "unitesCombat":[],
+          "combattants":[],
+          "blesses":0,
+          "morts":0,
           "pvMax":290,
           "pv":149,
           "moral":7,
           "armee":1,
           "munitions":{"type":-1, "q":0},
           "ordre":"Mur de bouclier",
-          "avatar":"assets/images/avatars/warrior_4.png"
+          "avatar":"assets/images/avatars/armees/armor.png"
         },
         {
           "id":4,
@@ -322,13 +330,15 @@
           "nbCombats":0,
           "statut":1,
           "unites":[4, 1],
-          "unitesCombat":[],
+          "combattants":[],
+          "blesses":0,
+          "morts":0,
           "pvMax":200,
           "pv":125,
           "moral":4,
           "munitions":{"type":-1, "q":0},
           "ordre":"Mur de bouclier",
-          "avatar":"assets/images/avatars/warrior_4.png"
+          "avatar":"assets/images/avatars/armees/spear_n.png"
         },
         {
           "id":5,
@@ -339,13 +349,15 @@
           "armee":2,
           "statut":1,
           "unites":[2,3],
-          "unitesCombat":[],
+          "combattants":[],
+          "blesses":0,
+          "morts":0,
           "pvMax":330,
           "pv":258,
           "moral":9,
           "munitions":{"type":-1, "q":0},
           "ordre":"Mur de bouclier",
-          "avatar":"assets/images/avatars/warrior_4.png"
+          "avatar":"assets/images/avatars/armees/horses.png"
         }
       ],
       "races": [

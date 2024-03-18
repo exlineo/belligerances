@@ -5,27 +5,27 @@
 <section id="champ" cdkDropListGroup>
   <header>
     <form>
-    <mat-form-field>
-      <mat-label>{{ l.t['BATAILLES_BG'] }}</mat-label>
-      <mat-select [placeholder]="l.t['BATAILLES_BG']" name="bg" [(ngModel)]="bg">
-        @for(bg of d.params.cartes; track bg.id){
-        <mat-option [value]="bg.img">
-          <img [src]="bg.vignette" [alt]="bg.vignette">
-          <article>
-            <h5>{{ bg.description }}</h5>
-          </article>
-        </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <!-- SLIDER -->
-    <fieldset>
-    <mat-label>{{ l.t['HEX_AFFICHE'] }}</mat-label>
-    <mat-slider min="0" max="100" step="1" discrete (input)="matSlide($event)">
-      <input matSliderThumb value="50">
-    </mat-slider>
-  </fieldset>
-  </form>
+      <mat-form-field>
+        <mat-label>{{ l.t['BATAILLES_BG'] }}</mat-label>
+        <mat-select [placeholder]="l.t['BATAILLES_BG']" name="bg" [(ngModel)]="bg">
+          @for(bg of d.params.cartes; track bg.id){
+          <mat-option [value]="bg.img">
+            <img [src]="bg.vignette" [alt]="bg.vignette">
+            <article>
+              <h5>{{ bg.description }}</h5>
+            </article>
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <!-- SLIDER -->
+      <fieldset>
+        <mat-label>{{ l.t['HEX_AFFICHE'] }}</mat-label>
+        <mat-slider min="0" max="100" step="1" discrete (input)="matSlide($event)">
+          <input matSliderThumb value="50">
+        </mat-slider>
+      </fieldset>
+    </form>
   </header>
   <article class="map tokens" onDragBoundary="map" cdkDrop #map [style.backgroundImage]="'url('+bg+')'">
     @for(c of listeCompagnies; track c.id; let i=$index){
@@ -38,7 +38,7 @@
       @if(selected && c.id == selected.id && i==indexAttaquant){
       <div id="mb">
         <ul>
-          <li><a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right" (click)="actionCac(i, c)">
+          <li><a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right" (click)="actionCac($event, c)">
               <img src="assets/images/pictos/action-cac_b.png" [alt]="l.t['ACT_CAC']"></a></li>
 
           <li><a [matTooltip]="l.t['ACT_JET']" matTooltipPosition="right">
@@ -53,13 +53,13 @@
           <li><a [matTooltip]="l.t['ACT_MORAL']" matTooltipPosition="left">
               <img src="assets/images/pictos/action-moral_b.png" [alt]="l.t['ACT_MORAL']"></a></li>
 
-          <li><a [matTooltip]="l.t['DEL']" matTooltipPosition="left" (click)="actionDel(i)">
+          <li><a [matTooltip]="l.t['DEL']" matTooltipPosition="left" (click)="actionDel($event, i, c.id)">
               <img src="assets/images/pictos/action-del_b.png" [alt]="l.t['DEL']"></a></li>
 
           <li><a [matTooltip]="l.t['ACT_DEFI']" matTooltipPosition="above">
               <img src="assets/images/pictos/action-defi_b.png" [alt]="l.t['ACT_DEFI']"></a></li>
 
-          <li><a [matTooltip]="l.t['ACT_INFOS']" matTooltipPosition="above" (click)="actionInfos(i, c)">
+          <li><a [matTooltip]="l.t['ACT_INFOS']" matTooltipPosition="above" (click)="actionInfos(c)">
               <img src="assets/images/pictos/action-infos_b.png" [alt]="l.t['ACT_STATUT']"></a></li>
 
           <li><a [matTooltip]="l.t['ACT_DEF']" matTooltipPosition="after" (click)="actionDefend(c)">
@@ -126,27 +126,52 @@
     <section>
       <article>
         @if(attaque){
-          <h4>{{ l.t['ATTAQUANT'] }}</h4>
+        <h4>{{ l.t['ATTAQUANT'] }}</h4>
         <h5>{{ attaque.nom }}</h5>
-        <p>{{ attaque.nom }}</p>
-        <p>{{ attaque.unites.length }}</p>
+        <ul>
+          <li>
+            <img src="assets/images/pictos/unite-cac_n.png" [alt]="l.t['COMBATTANTS']">
+            <span>{{ l.t['COMBATTANTS'] }}</span>
+            <span>{{ attaque.combattants!.length }}</span></li>
+          <li>
+            <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['COMBATTANTS']">
+            <span>{{ l.t['BLESSES'] }}</span>
+            <span>{{ attaque.blesses }}</span></li>
+          <li>
+            <img src="assets/images/pictos/morts_n.png" [alt]="l.t['COMBATTANTS']">
+            <span>{{ l.t['MORTS'] }}</span>
+            <span>{{ attaque.morts }}</span></li>
+        </ul>
         }@else {
-          {{ l.t['AT_CHOIX'] }}
+          <h3>{{ l.t['AT_CHOIX'] }}</h3>
         }
       </article>
       <span>
-        <button class="valide" [matTooltip]="l.t['ACT_AT']">
+        <button class="valide" [matTooltip]="l.t[action]" (click)="go()">
           <img src="assets/images/pictos/action_b.png" [alt]="l.t['ACTS']">
           <!-- <span>{{ l.t['ACT_AT'] }}</span> -->
         </button>
       </span>
       <article>
         @if(defend){
-          <h4>{{ l.t['DEFENSEUR'] }}</h4>
+        <h4>{{ l.t['DEFENSEUR'] }}</h4>
         <h5>{{ defend.nom }}</h5>
-        <p>{{ defend.unites.length }}</p>
+        <ul>
+          <li>
+            <img src="assets/images/pictos/unite-cac_n.png" [alt]="l.t['COMBATTANTS']">
+            <span>{{ l.t['COMBATTANTS'] }}</span>
+            <span>{{ defend.combattants!.length }}</span></li>
+          <li>
+            <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['COMBATTANTS']">
+            <span>{{ l.t['BLESSES'] }}</span>
+            <span>{{ defend.blesses }}</span></li>
+          <li>
+            <img src="assets/images/pictos/morts_n.png" [alt]="l.t['COMBATTANTS']">
+            <span>{{ l.t['MORTS'] }}</span>
+            <span>{{ defend.morts }}</span></li>
+        </ul>
         }@else {
-          {{ l.t['DEF_CHOIX'] }}
+          <h3>{{ l.t['DEF_CHOIX'] }}</h3>
         }
       </article>
     </section>

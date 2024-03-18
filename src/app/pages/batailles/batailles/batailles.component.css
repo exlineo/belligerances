@@ -82,7 +82,7 @@ footer > section > section {
 footer > section > section > article {
   flex-flow: column nowrap;
   flex:3;
-  padding:10px 20px;
+  padding:20px;
   height:100%;
 }
 footer > section > section > span {
@@ -100,28 +100,53 @@ footer button {
   text-transform: uppercase;
   margin:auto;
 }
-footer span:before, footer span:after{
+footer > section > section > span:before, footer > section > section > span:after{
+  position:absolute;
+}
+footer > section > section > span:before{
+  content:"vs";
+  font-weight: 600;
+  left:50px;
+}
+footer > section > section > span:after{
   content:"";
   width:1px;
   background:black;
   height:20px;
-  position:absolute;
-  left:55px;
-}
-footer span:after{
   bottom:0;
+  left:60px;
 }
 footer button > * {
   margin:auto;
 }
 footer button img {
   margin:auto;
-
-  /* border-radius: 50%; */
 }
 footer h4{
   margin-top:-40px;
 }
 footer h5{
   margin:0 0 5px;
+}
+footer article:nth-child(1) h3, footer article:nth-child(1) h4, footer article:nth-child(1) h5{
+  text-align: right;
+}
+footer ul{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  margin:15px 0;
+  padding:10px;
+}
+footer li{
+  list-style: none;
+  display:flex;
+  flex-flow:column nowrap;
+  text-align: center;
+  font-size:12px;
+}
+footer li img{
+  margin:0 auto;
+  width:32px;
+  height:32px;
 }
