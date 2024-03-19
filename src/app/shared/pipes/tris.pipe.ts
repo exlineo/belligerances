@@ -33,7 +33,7 @@ export class StatutsPipe implements PipeTransform {
 
 /** Bonus en fonction des points d'expérience */
 @Pipe({
-  name: 'bonusXP',
+  name: 'xp',
   standalone: true
 })
 export class BonusXpPipe implements PipeTransform {
@@ -55,7 +55,7 @@ export class BonusXpPipe implements PipeTransform {
 }
 /** Bonus d'expérience du commandement */
 @Pipe({
-  name: 'bonusCMD',
+  name: 'cmd',
   standalone: true
 })
 export class BonusCmdPipe implements PipeTransform {
@@ -72,6 +72,24 @@ export class BonusCmdPipe implements PipeTransform {
       return 5;
     }else{
       return 6;
+    }
+  }
+}
+/** Bonus d'expérience du commandement */
+@Pipe({
+  name: 'moral',
+  standalone: true
+})
+export class BonusMoralPipe implements PipeTransform {
+  transform(moral: number): number {
+    if(!moral || moral == 6){
+      return 0;
+    }else if(moral == 5 || moral == 4){
+      return -1;
+    }else if(moral == 3 || moral == 2){
+      return -2;
+    }else{
+      return -3;
     }
   }
 }

@@ -132,32 +132,6 @@ export class DonneesService {
     });
   }
   /**
-   * Générer des unités plus ou moins aléatoires pour créer une compagnie
-   * @param uniteType L'unité qu'il faut dupliquer
-   * @param d Le nombre d'unités à générer
-   * @param alea Aléa entre chaque unité
-   */
-  genereUnites(aleas: AleasI = new Aleas(), unitesTypes: Array<UniteI>): Array<UniteI> {
-    const unites: Array<UniteI> = [];
-    let j: number = 0;
-
-    for (let i = 0; i < aleas.n; ++i) {
-      const unite = { ...unitesTypes[j] };
-      if (aleas.race) unite.race = this.randListe(this.docs.races).id;
-      if (aleas.cac) unite.cac = this.randListe(this.docs.cac).id;
-      if (aleas.jet) unite.jet = this.randListe(this.docs.jet).id;
-      if (aleas.armure) unite.armure = this.randListe(this.docs.armures).id;
-      if (aleas.bouclier) unite.bouclier = this.randListe(this.docs.boucliers).id;
-      if (aleas.monture) unite.monture = this.randListe(this.docs.montures).id;
-      unite.pvMax = this.rand(unite.pvMax, aleas.pourcent);
-      unite.pv = unite.pvMax;
-      unites.push(unite);
-      j == unitesTypes.length - 1 ? j = 0 : ++j;
-    }
-    console.log(unitesTypes, unites);
-    return unites;
-  }
-  /**
    *
    * @param init Valeur de départ à partir de laquelle on applique le pourcentage
    * @param p Pourcentage à calculer

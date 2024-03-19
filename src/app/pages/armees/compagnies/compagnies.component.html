@@ -214,6 +214,7 @@
             <mat-checkbox name="aleaArmures" [(ngModel)]="aleas.armure">{{ l.t['ARMURES'] }}</mat-checkbox>
             <mat-checkbox name="aleaBoucliers" [(ngModel)]="aleas.bouclier">{{
               l.t['BOUCLIERS']}}</mat-checkbox>
+            <mat-checkbox name="aleaMontures" [(ngModel)]="aleas.monture">{{ l.t['MONTURES'] }}</mat-checkbox>
           </fieldset>
         </article>
         <article>
@@ -301,8 +302,8 @@
     </mat-paginator>
 
     <article>
-      <button class="del" (click)="unitesGenerees = []" type="reset"><mat-icon matSuffix>cancel</mat-icon>{{ l.t['ANNULE'] }}</button>
-      <button class="valide"><mat-icon matSuffix>done</mat-icon>{{ l.t['COMPAGNIE_SAVE'] }}</button>
+      <button class="del" (click)="initCompagnie()" type="reset"><mat-icon matSuffix>cancel</mat-icon>{{ l.t['ANNULE'] }}</button>
+      <button class="valide" (click)="addCompagnie()"><mat-icon matSuffix>done</mat-icon>{{ l.t['COMPAGNIE_SAVE'] }}</button>
     </article>
     }
   </mat-tab>

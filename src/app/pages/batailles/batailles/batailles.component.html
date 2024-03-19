@@ -38,14 +38,14 @@
       @if(selected && c.id == selected.id && i==indexAttaquant){
       <div id="mb">
         <ul>
-          <li><a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right" (click)="actionCac($event, c)">
+          <li><a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right" (click)="actionBaston($event, c, 'ACT_CAC')">
               <img src="assets/images/pictos/action-cac_b.png" [alt]="l.t['ACT_CAC']"></a></li>
 
           <li><a [matTooltip]="l.t['ACT_JET']" matTooltipPosition="right">
-              <img src="assets/images/pictos/action-jet_b.png" [alt]="l.t['ACT_JET']"></a></li>
+              <img src="assets/images/pictos/action-jet_b.png" [alt]="l.t['ACT_JET']" (click)="actionBaston($event, c, 'ACT_JET')"></a></li>
 
           <li><a [matTooltip]="l.t['ACT_SORT']" matTooltipPosition="below">
-              <img src="assets/images/pictos/action-sort_b.png" [alt]="l.t['ACT_SORT']"></a></li>
+              <img src="assets/images/pictos/action-sort_b.png" [alt]="l.t['ACT_SORT']" (click)="actionBaston($event, c, 'ACT_SORT')"></a></li>
 
           <li><a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below">
               <img src="assets/images/pictos/action-rallie_b.png" [alt]="l.t['ACT_RALLIE']"></a></li>
@@ -131,8 +131,8 @@
         <ul>
           <li>
             <img src="assets/images/pictos/unite-cac_n.png" [alt]="l.t['COMBATTANTS']">
-            <span>{{ l.t['COMBATTANTS'] }}</span>
-            <span>{{ attaque.combattants!.length }}</span></li>
+            <span>{{ l.t['UNITES'] }}</span>
+            <span>{{ attaque.unites.length }}</span></li>
           <li>
             <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['BLESSES'] }}</span>
@@ -147,7 +147,7 @@
         }
       </article>
       <span>
-        <button class="valide" [matTooltip]="l.t[action]" (click)="go()">
+        <button class="valide" [matTooltip]="l.t[action]" (click)="goCombat()">
           <img src="assets/images/pictos/action_b.png" [alt]="l.t['ACTS']">
           <!-- <span>{{ l.t['ACT_AT'] }}</span> -->
         </button>
@@ -159,8 +159,8 @@
         <ul>
           <li>
             <img src="assets/images/pictos/unite-cac_n.png" [alt]="l.t['COMBATTANTS']">
-            <span>{{ l.t['COMBATTANTS'] }}</span>
-            <span>{{ defend.combattants!.length }}</span></li>
+            <span>{{ l.t['UNITES'] }}</span>
+            <span>{{ defend.unites.length }}</span></li>
           <li>
             <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['BLESSES'] }}</span>

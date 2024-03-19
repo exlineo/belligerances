@@ -10,13 +10,14 @@ import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MaterialModule } from 'src/app/shared/material.module';
-import { CompagnieI, PositionI } from 'src/app/shared/modeles/Type';
+import { ArmeI, CompagnieI, PositionI, UniteI } from 'src/app/shared/modeles/Type';
 import { DomChangedDirective } from 'src/app/shared/dom-directive';
+import { BonusCmdPipe, BonusMoralPipe, BonusXpPipe } from 'src/app/shared/pipes/tris.pipe';
 
 @Component({
   selector: 'app-batailles',
   standalone: true,
-  imports: [MaterialModule, CdkDrag, DomChangedDirective],
+  imports: [MaterialModule, CdkDrag, DomChangedDirective, BonusCmdPipe, BonusMoralPipe, BonusXpPipe],
   templateUrl: './batailles.component.html',
   styleUrl: './batailles.component.css',
   animations: [
@@ -54,12 +55,21 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
 
   listeArmees: Array<any> = []; // Armées sur le champ de bataille
   listeCompagnies: Array<CompagnieI> = []; // Compagnies sur le champ de bataille
+
   selected!: CompagnieI | undefined; // Compagnie en cours de traitement
   attaque!: CompagnieI | undefined; // La compagnie qui attaque
   defend!: CompagnieI | undefined; // La compagie qui défend
-  action:string = 'ACT_AT'; // Action en cours
+  uAt: Array<UniteI> = []; // Unités en attaque
+  uDef: Array<UniteI> = []; // Unités en défense
+
+  action: string = 'ACT_AT'; // Action en cours
   indexAttaquant: number = -1; // Index de la compagnie qui attaque
-  el:unknown; // Element sélectionné
+  el: unknown; // Element sélectionné
+
+  // Pipes pour les combats
+  xpPipe:BonusXpPipe = new BonusXpPipe();
+  cmdPipe:BonusCmdPipe = new BonusCmdPipe();
+  moralPipe:BonusMoralPipe = new BonusMoralPipe();
 
   combat: any = {
     at: {
@@ -86,7 +96,6 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       event.preventDefault();
       event.stopPropagation();
     }
-    console.log('compagnie', c);
     this.selected = c;
     this.indexAttaquant = i;
     this.el = event.target;
@@ -127,9 +136,15 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     if (!this.drag) this.drag = true;
   }
   /** Supprimer un token du champ de bataille */
-  actionDel(event:Event, index: number, id: number) {
-    if (id == this.attaque?.id) this.attaque = undefined;
-    if (id == this.defend?.id) this.defend = undefined;
+  actionDel(event: Event, index: number, id: number) {
+    if (id == this.attaque?.id) {
+      this.attaque = undefined;
+      this.uAt = [];
+    };
+    if (id == this.defend?.id) {
+      this.defend = undefined;
+      this.uDef = [];
+    };
     this.listeCompagnies.splice(index, 1);
   }
   /** Afficher les infos sur la compagnie */
@@ -141,27 +156,27 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     this.action = 'ACT_MORAL';
   }
   /** Afficher les infos sur la compagnie */
-  actionCac(event:Event, c: CompagnieI) {
+  actionBaston(event: Event, c: CompagnieI, l: string = 'ACT_CAC') {
     if (this.attaque && this.attaque.id == c.id) {
       this.attaque = undefined;
+      this.uAt = [];
       this.cacheActions();
     } else {
       this.attaque = c;
+      this.uAt = this.d.docs.unites.filter((u: UniteI) => this.attaque?.unites.includes(u.id));
       this.tabActions = true;
-      this.action = 'ACT_CAC';
+      this.action = l; // La traduction de l'action, permet de connaître son type
     }
-  }
-  /** Afficher les infos sur la compagnie */
-  actionJet(c:CompagnieI) {
-    this.action = 'ACT_JET';
   }
   actionDefend(c: CompagnieI) {
     console.log(this.defend);
     if (this.defend && this.defend.id == c.id) {
       this.defend = undefined;
+      this.uDef = [];
       this.cacheActions();
     } else {
       this.defend = c;
+      this.uDef = this.d.docs.unites.filter((u: UniteI) => this.defend?.unites.includes(u.id));
       this.tabActions = true;
     }
   }
@@ -175,7 +190,46 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     this.action = 'ACT';
   }
   /** Agir */
-  go(){
+  go() {
     console.log("Ca agit");
+  }
+  goCombat() {
+    let def: UniteI;
+    let xp = 0; // Bonus d'expérience d'une unité
+    let ml = this.moralPipe.transform(this.attaque!.moral); // Bonus de moral de la compagnie
+    let cmd = this.moralPipe.transform(this.d.docs.unite.filter((u:UniteI) => u.id == this.attaque?.commandant).xp); // Bonus du commandant
+    let arme = {};
+    let act: string = 'cac';
+    switch (this.action) {
+      case 'ACT_CAC':
+        act = 'cac';
+        break;
+      case 'ACT_JET':
+        act = 'jet';
+        break;
+      case 'ACT_SORT':
+        act = 'sort';
+        break;
+    };
+
+    this.uAt.forEach((u: any, i: number) => {
+      xp = this.xpPipe.transform(u.xp); // Bonus d'xp de l'attaquant
+      arme = this.d.docs.armes.find((a:ArmeI) => a.id == u['act'].id); // Arme de l'attaquant
+
+      // Le defenseur subissant une attaque, choisi au hasard
+      def = this.uDef[Math.round(Math.random() * (this.uDef.length - 1))];
+      let defB = this.d.docs.armures.find((ar:ArmeI) => ar.id == def.armure);
+
+    });
+  }
+  /** Jet d'attaque aléatoire */
+  atAlea() {
+    return Math.ceil(Math.random() * 20);
+  }
+  /* Calcul du score de combat */
+
+  /** Dégats calculés en fonction de l'arme */
+  atDeg(min: number, max: number) {
+    return Math.ceil(Math.random() * (max - min)) + min;
   }
 }
