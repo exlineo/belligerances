@@ -31,7 +31,7 @@
     @for(c of listeCompagnies; track c.id; let i=$index){
     <div [matTooltip]="c.nom" [matTooltipClass]="(attaque && c.id == attaque.id && i==indexAttaquant) ? 'tooltip' : ''"
       class="token compagnie" cdkDrag [id]="'c'+c.id" #token (contextmenu)="actions($event, c, i)"
-      (mouseleave)="selected = undefined">
+      (mouseleave)="tokenLeave($event)">
       <!--  -->
       <img [src]="c.avatar" [alt]="c.nom">
       <span class="hex" [style.color]="d.docs.armees[c.armee!].couleur">&#x2B22;</span>

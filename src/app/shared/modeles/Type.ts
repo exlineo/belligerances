@@ -19,6 +19,7 @@ export interface UniteI {
   nbCombats?:number;
   etat: EtatE;
   pj:boolean;
+  cmd?:number;
   avatar?:string;
 }
 export enum EtatE{
@@ -42,6 +43,7 @@ export class Unite implements UniteI{
   degats = -1;
   etat = EtatE.combattant;
   pj = false;
+  cmd = 0;
   avatar = '';
 }
 export interface CompagnieI {
@@ -67,7 +69,7 @@ export interface OrdreI{
   id:number;
   ordre:string;
   descr:string;
-  effets:[{type?:string,bonus?:number,statut?:string,cible?:string}]
+  effets:{type:string,bonus:number,statut?:string,cible?:string}
 }
 export class Compagnie implements CompagnieI {
   id = -1;
@@ -134,6 +136,7 @@ export class Arme implements ArmeI{
   degats = {min:0, max:0};
   portee = {min:0, max:0, munitions:-1};
   impact = 0;
+  bonus = 0;
 }
 export interface ParamsI {
 cartes:Array<CarteI>;
@@ -205,4 +208,11 @@ descr = '';
 statut = 1;
 docs = {} as DocumentsI;
 // docs = {cac:[], jet:[], sorts:[], armures:[], boucliers:[], montures:[], munitions:[], monstres:[], races:[], animaux:[], ordres:[], armees:[], compagnie:[], unites:[], params:new Params()};
+}
+enum OrdresE{
+  cac = 'cac',
+  jet = 'jet',
+  sort = 'sort',
+  def = 'def',
+  moral = 'moral',
 }

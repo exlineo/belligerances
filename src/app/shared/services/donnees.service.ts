@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Aleas, AleasI, Campagne, CampagneI, DocumentsI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
+import { Campagne, CampagneI, DocumentsI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
 import { UtilsService } from './utils.service';
+import { BonusCmdPipe, BonusMoralPipe, BonusXpPipe } from '../pipes/tris.pipe';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,10 @@ export class DonneesService {
   storage: any; // Enregistrer tout ce qu'il y a des le storage
 
   etatSave: boolean = false; // Savoir s'il faut enregistrer des données modifiées
+
+  xpPipe:BonusXpPipe = new BonusXpPipe();
+  cmdPipe:BonusCmdPipe = new BonusCmdPipe();
+  moralPipe:BonusMoralPipe = new BonusMoralPipe();
 
   constructor(private http: HttpClient, private l: UtilsService) {
     if (sessionStorage.getItem('campagne')) {
@@ -174,5 +179,20 @@ export class DonneesService {
       }
     }
     this.etatSave = false;
+  }
+  /** Créer une unite avec tous les paramètres dedans */
+  /** Set Unité totale */
+  setUnite(unite: UniteI) {
+    console.log(unite);
+    let u: any = {};
+    u.armure = this.docs.armures[unite.armure!];
+    u.cac = this.docs.cac[unite.cac!];
+    u.jet = this.docs.jet[unite.jet!];
+    u.sort = this.docs.sorts[unite.sort!];
+    u.bouclier = this.docs.boucliers[unite.bouclier!];
+    u.monture = this.docs.montures[unite.monture!];
+    u.xp = this.xpPipe.transform(unite.xp); // Bonus d'xp de l'attaquant
+
+    return u;
   }
 }
