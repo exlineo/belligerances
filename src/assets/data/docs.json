@@ -291,7 +291,7 @@
       "morts":0,
       "pvMax":300,
       "pv":12,
-      "moral":1,
+      "moral":6,
       "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/armees/shield_n.png"
@@ -309,7 +309,7 @@
       "morts":0,
       "pvMax":290,
       "pv":149,
-      "moral":7,
+      "moral":6,
       "armee":1,
       "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
@@ -328,7 +328,7 @@
       "morts":0,
       "pvMax":200,
       "pv":125,
-      "moral":4,
+      "moral":6,
       "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/armees/spear_n.png"
@@ -347,7 +347,7 @@
       "morts":0,
       "pvMax":330,
       "pv":258,
-      "moral":9,
+      "moral":6,
       "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/armees/horses.png"

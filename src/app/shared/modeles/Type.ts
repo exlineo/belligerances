@@ -117,8 +117,8 @@ export interface CreatureI {
 export class Creature implements CreatureI {
   id = -1;
   nom = '';
-  basePv = -1;
-  baseArmure = -1;
+  basePv = 10;
+  baseArmure = 10;
 }
 export interface ArmeI{
   id:number;

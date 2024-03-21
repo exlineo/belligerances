@@ -67,11 +67,11 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   el: any; // Element sélectionné
 
   // Pipes pour les combats
-  xpPipe:BonusXpPipe = new BonusXpPipe();
-  cmdPipe:BonusCmdPipe = new BonusCmdPipe();
-  moralPipe:BonusMoralPipe = new BonusMoralPipe();
+  xpPipe: BonusXpPipe = new BonusXpPipe();
+  cmdPipe: BonusCmdPipe = new BonusCmdPipe();
+  moralPipe: BonusMoralPipe = new BonusMoralPipe();
 
-  ordre?:OrdreI; // Ordre en cours
+  ordre?: OrdreI; // Ordre en cours
 
   combat: any = {
     at: {
@@ -101,7 +101,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     this.selected = c;
     this.indexAttaquant = i;
     this.el = event.target;
-    if(this.el) this.el.style.zIndex = 1000;
+    if (this.el) this.el.style.zIndex = 1000;
     return false;
   }
   /** Gérer la position des tokens lorsqu'ils sont déposés */
@@ -128,9 +128,11 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     this.drag = false; // Fin de l'événement drag
   }
   tokenLeave(event: any) {
-    this.el.style.zIndex = 1;
+    if (this.el) {
+      this.el.style.zIndex = 1;
+      this.el = undefined;
+    }
     this.selected = undefined;
-    this.el = undefined;
   }
   // Ajustement en temps réel du slide
   matSlide(event: any) {
@@ -175,7 +177,6 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   }
   /** Déterminer la compagnie qui défend */
   actionDefend(c: CompagnieI) {
-    console.log(this.defend);
     if (this.defend && this.defend.id == c.id) {
       this.defend = undefined;
       this.uDefs = [];
@@ -187,8 +188,16 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     }
   }
   /** Afficher les infos sur la compagnie */
-  actionRallie(index: number) {
+  actionRallie(c: CompagnieI) {
     this.action = 'ACT_RALLIE';
+    if (c.moral > 0) {
+      this.l.message('ER_MORAL');
+    } else if (c.commandant && this.d.docs.unites.find((u: UniteI) => u.id == c.commandant)) {
+      const commandant = this.d.docs.unites.find((u: UniteI) => u.id == c.commandant);
+      const jet = this.jetAttaque(commandant.cmd);
+      console.log(jet);
+      if (jet >= 12) c.moral = 2; // Moral remonte de 2
+    }
   }
   /** Cacher la fenêtre des actions */
   cacheActions() {
@@ -216,67 +225,72 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
         break;
     };
 
-    this.uAts.forEach((u: any, i: number) => {
+    this.uAts.forEach((u: UniteI, i: number) => {
+      console.log("Unité", u);
       // L'attaquant peuplé des données utiles
       let uAt = this.d.setUnite(u);
       let bonusAt = ml + uAt.xp + this.getBonusOrdre(act);
       let impact = this.getImpact(uAt, act);
-      console.log(bonusAt, ml, uAt.xp, this.getBonusOrdre(act))
-      let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
+
+      console.log("Bonus At", bonusAt, "Bonus moral", ml, "Attaquant", uAt, "Bonus ordres", this.getBonusOrdre(act));
+
+
 
       // Défenseur choisi au hasard et peuplé des données utiles
       let uDef = this.d.setUnite(this.uDefs[Math.round(Math.random() * (this.uDefs.length - 1))]);
 
-      let def = uDef.armure ? uDef.armure.bonus : 0
-                + uDef.bouclier ? uDef.bouclier.bonus : 0
-                 + this.getBonusOrdre('def');
+      let def = uDef.race.baseArmure
+        + uDef.armure.bonus
+        + uDef.bouclier.bonus
+        + this.getBonusOrdre('def');
 
-      if(at > def){
-        console.log("Dans ta gueule !!!");
-        console.log(uAt);
-        let dg = Math.ceil(Math.random() * (uAt[act].degats.min - uAt[act].degats.max)) + uAt[act].degats.min;
-        u.xp += dg;
-        uDef.pv -= dg;
-        console.log(u.xp, uDef.pv);
-      }else{
-        console.log("Attaque ratée");
+      for (let n = 0; n < impact; ++n) {
+        let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
+        if (at > def) {
+          let dg = Math.ceil(Math.random() * (uAt[act].degats.max - uAt[act].degats.min)) + uAt[act].degats.min;
+          u.xp += dg;
+          uDef.pv -= dg;
+          console.log("XP unité", u.xp, "Dégats", dg, "Def", uDef, "Pv def", uDef.pv);
+        } else {
+          console.log("Attaque ratée");
+        }
+        console.log("Attaque", at, "Défense", def);
       }
-      console.log(at, def);
     });
+
+    this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
   }
   /** Jet de moral : malus = 1 / 5% des pertes*/
-  jetMoral(malus:number):boolean{
-    let result =  malus + Math.ceil(Math.random() * 20);
+  jetMoral(malus: number): boolean {
+    let result = malus + Math.ceil(Math.random() * 20);
     return result >= 15
   }
   /** Jet d'attaque : */
-  jetAttaque(bonus:number){
+  jetAttaque(bonus: number) {
     return bonus + Math.ceil(Math.random() * 20);
   }
   /** Dégats calculés en fonction de l'arme */
-  atDeg(min: number, max: number) {
+  jetDegats(min: number, max: number) {
     return Math.ceil(Math.random() * (max - min)) + min;
   }
   /**  */
-  getBonusOrdre(condition:string){
+  getBonusOrdre(condition: string) {
     return this.ordre && this.ordre.effets.type == condition ? this.ordre.effets.bonus : 0;
   }
   /** OBSOLETE Calculer un malus de sané */
-  getBonusSante(pvMax:number, pv:number):number{
-    const pct = pv*100/pvMax;
+  getBonusSante(pvMax: number, pv: number): number {
+    const pct = pv * 100 / pvMax;
     console.log(pct);
-
-
     return 0;
   }
   /** Calculer le nombre d'attaques à effectuer */
-  getImpact(plein:any, attaque:string = 'cac'){
+  getImpact(plein: any, attaque: string = 'cac') {
     let impact = 0;
-    if(plein.impact) impact += impact;
-    if(plein.monture?.impact) impact += plein.monture.impact;
-    if(attaque == 'cac' && plein.cac?.impact) impact += plein.arme.impact;
-    if(attaque == 'jet' && plein.jet?.impact) impact += plein.jet.impact;
-    if(attaque == 'sort' && plein.sort?.impact) impact += plein.sort.impact;
+    if (plein.impact) impact += impact;
+    if (plein.monture?.impact) impact += plein.monture.impact;
+    if (attaque == 'cac' && plein.cac?.impact) impact += plein.arme.impact;
+    if (attaque == 'jet' && plein.jet?.impact) impact += plein.jet.impact;
+    if (attaque == 'sort' && plein.sort?.impact) impact += plein.sort.impact;
 
     return impact;
   }

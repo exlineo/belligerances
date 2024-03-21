@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Campagne, CampagneI, DocumentsI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
+import { Arme, Campagne, CampagneI, Creature, DocumentsI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
 import { UtilsService } from './utils.service';
 import { BonusCmdPipe, BonusMoralPipe, BonusXpPipe } from '../pipes/tris.pipe';
 
@@ -34,15 +34,14 @@ export class DonneesService {
 
   etatSave: boolean = false; // Savoir s'il faut enregistrer des données modifiées
 
-  xpPipe:BonusXpPipe = new BonusXpPipe();
-  cmdPipe:BonusCmdPipe = new BonusCmdPipe();
-  moralPipe:BonusMoralPipe = new BonusMoralPipe();
+  xpPipe: BonusXpPipe = new BonusXpPipe();
+  cmdPipe: BonusCmdPipe = new BonusCmdPipe();
+  moralPipe: BonusMoralPipe = new BonusMoralPipe();
 
   constructor(private http: HttpClient, private l: UtilsService) {
     if (sessionStorage.getItem('campagne')) {
       this.campagne = JSON.parse(sessionStorage.getItem('campagne')!);
       this.docs = { ...this.campagne!.docs };
-      console.log(this.campagne, this.docs);
     }
     // Récupérer les données
     this.getCampagnes();
@@ -96,12 +95,14 @@ export class DonneesService {
   getCampagnes() {
     if (localStorage.getItem('campagnes')) {
       this.campagnes = JSON.parse(localStorage.getItem('campagnes')!);
+      console.log("Campagnes locales chargées");
     } else {
       this.http.get('assets/data/campagnes.json').subscribe({
         next: (data: any) => {
           this.setCache('campagnes', data);
           this.campagnes = data;
           this.docs = { ...this.campagne!.docs };
+          console.log("Récupération des campagnes sauvegardées");
         },
         error: (err) => console.error(err)
       });
@@ -111,12 +112,14 @@ export class DonneesService {
   creeCampagne() {
     this.campagne!.dates = { creation: Date.now(), update: 0 };
     this.campagne!.id = this.campagnes.length;
-    // récupération de données type pour la campagne
-    this.http.get<DocumentsI>('assets/data/docs.json').subscribe(docs => this.campagne!.docs = docs);
-
-    this.campagnes.push(this.campagne!);
-    localStorage.setItem('campagnes', JSON.stringify(this.campagnes));
-    sessionStorage.setItem('campagne', JSON.stringify(this.campagne));
+    // Récupération de données type pour la campagne
+    this.http.get<DocumentsI>('assets/data/docs.json').subscribe(docs => {
+      this.campagne!.docs = docs;
+      this.campagnes.push(this.campagne!);
+      localStorage.setItem('campagnes', JSON.stringify(this.campagnes));
+      sessionStorage.setItem('campagne', JSON.stringify(this.campagne));
+      this.l.message('MSG_CAMP_CREE');
+    });
   }
   /** Sélectionner une campagne */
   setCampagne(index: number) {
@@ -183,15 +186,16 @@ export class DonneesService {
   /** Créer une unite avec tous les paramètres dedans */
   /** Set Unité totale */
   setUnite(unite: UniteI) {
-    console.log(unite);
     let u: any = {};
-    u.armure = this.docs.armures[unite.armure!];
-    u.cac = this.docs.cac[unite.cac!];
-    u.jet = this.docs.jet[unite.jet!];
-    u.sort = this.docs.sorts[unite.sort!];
-    u.bouclier = this.docs.boucliers[unite.bouclier!];
-    u.monture = this.docs.montures[unite.monture!];
+    u.race = this.docs.races[unite.race] ? this.docs.races[unite.race] : new Creature();
+    u.armure = this.docs.armures[unite.armure!] ? this.docs.armures[unite.armure!] : new Arme();
+    u.cac = this.docs.cac[unite.cac!] ? this.docs.cac[unite.cac!] : new Arme();
+    u.jet = this.docs.jet[unite.jet!] ? this.docs.jet[unite.jet!] : new Arme();
+    u.sort = this.docs.sorts[unite.sort!] ? this.docs.sorts[unite.sort!] : new Arme();
+    u.bouclier = this.docs.boucliers[unite.bouclier!] ? this.docs.boucliers[unite.bouclier!] : new Arme();
+    u.monture = this.docs.montures[unite.monture!] ? this.docs.montures[unite.monture!] : new Creature();
     u.xp = this.xpPipe.transform(unite.xp); // Bonus d'xp de l'attaquant
+    u.pv = unite.pv ? unite.pv : unite.pvMax;
 
     return u;
   }

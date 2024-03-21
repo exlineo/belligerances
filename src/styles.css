@@ -439,7 +439,7 @@ nav.options img{
   padding:0;
   height:210px;
   width:210px;
-  transform:translate(34px, 24px);
+  transform:translate(24px, 24px);
   display:flex;
   position: relative;
 }
@@ -499,6 +499,10 @@ nav.options img{
 }
 .mat-mdc-tooltip-panel-below{
   /* transform: translate(40px); Tooltip plus bas pour le menu over */
+}
+.token.mat-badge-medium.mat-badge-overlap .mat-badge-content{
+  margin-left:-25px;
+  margin-bottom: -15px;
 }
 .cdk-overlay-container{
   pointer-events: none;

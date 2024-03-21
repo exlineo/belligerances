@@ -35,9 +35,9 @@ export class UtilsService {
     }
     )
   }
+  /** Informer l'utilisateur */
   message(msg:string){
     this._snackBar.open(this.t[msg], 'OK', {duration: 3000});
-    console.log(this.t[msg]);
   }
   /**
    * Identifier ce qui est à éditer
