@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Arme, Campagne, CampagneI, Creature, DocumentsI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
 import { UtilsService } from './utils.service';
 import { BonusCmdPipe, BonusMoralPipe, BonusXpPipe } from '../pipes/tris.pipe';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -38,10 +39,16 @@ export class DonneesService {
   cmdPipe: BonusCmdPipe = new BonusCmdPipe();
   moralPipe: BonusMoralPipe = new BonusMoralPipe();
 
-  constructor(private http: HttpClient, private l: UtilsService) {
+  http:HttpClient = inject(HttpClient);
+  l:UtilsService = inject(UtilsService);
+  router:Router = inject(Router);
+
+  constructor() {
     if (sessionStorage.getItem('campagne')) {
       this.campagne = JSON.parse(sessionStorage.getItem('campagne')!);
       this.docs = { ...this.campagne!.docs };
+    }else{
+      this.router.navigateByUrl('/');
     }
     // Récupérer les données
     this.getCampagnes();
@@ -83,13 +90,17 @@ export class DonneesService {
     }
   };
   getParams() {
-    this.http.get('assets/data/params.json').subscribe({
+    if (localStorage.getItem('params')) {
+      this.params = JSON.parse(localStorage.getItem('params')!);
+    } else {
+      this.http.get('assets/data/params.json').subscribe({
       next: (data: any) => {
         this.params = data;
         this.getOrdres();
       },
       error: (err) => console.error(err)
     });
+  }
   }
   // 1
   getCampagnes() {
@@ -103,6 +114,7 @@ export class DonneesService {
           this.campagnes = data;
           this.docs = { ...this.campagne!.docs };
           console.log("Récupération des campagnes sauvegardées");
+          this.l.message('MSG_LOAD');
         },
         error: (err) => console.error(err)
       });
@@ -171,7 +183,6 @@ export class DonneesService {
   }
   /** Sauvegarder les modifications */
   saveCampagne() {
-    this.l.message('MSG_SAVE');
     for (let i = 0; i < this.campagnes.length; ++i) {
       if (this.campagne && this.campagnes[i].id == this.campagne.id) {
         this.campagne.docs = this.docs;
@@ -181,6 +192,7 @@ export class DonneesService {
         this.setCache('campagnes', this.campagnes);
       }
     }
+    this.l.message('MSG_SAVE');
     this.etatSave = false;
   }
   /** Créer une unite avec tous les paramètres dedans */

@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MaterialModule } from 'src/app/shared/material.module';
+import { ArmeeI } from 'src/app/shared/modeles/Type';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 
@@ -83,12 +84,12 @@ export class SupprComponent implements OnInit {
     }
 
     // Suppression de l'armée dans la campagne
-    this.d.docs.campagnes.forEach((camp: any, i:number) => {
-      if (camp.id == this.l.maj.id) {
-        this.d.docs.campagnes.splice(i, 1);
-      }
+    this.d.campagnes.forEach((camp: any, i:number) => {
+      camp.docs.armees.forEach((ar:ArmeeI, index:number) => {
+        if(ar.id == this.l.maj.id) camp.docs.armees.splice(index, 1);
+      });
     });
-
+    console.log("Armée supprimée");
     this.d.etatSave = true;
   }
   /** Supprimer une arme */
@@ -106,7 +107,7 @@ export class SupprComponent implements OnInit {
         u[id] = -1;
       }
     });
-    console.log("Suppression dans la liste", this.d.docs[this.l.edit]);
+
     this.d.etatSave = true;
   }
   /** Récupérer l'identifiant d'une arme ou une créature pour son édition */

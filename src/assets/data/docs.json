@@ -51,7 +51,7 @@
   ],
   "cac": [
     {
-      "id": -1,
+      "id": 0,
       "nom": "Epée longue",
       "descr": "A fait ses preuves sur le champ de bataille",
       "degats": {
@@ -108,7 +108,7 @@
       "impact": 0
     },
     {
-      "id": 0,
+      "id": 1,
       "nom": "Arc court",
       "descr": "Pratique en toutes circonstances",
       "degats": {
@@ -193,23 +193,23 @@
       "descr":"Pour arbalètes",
       "bonus": 0
     },{
-      "id": 0,
+      "id": 1,
       "nom": "Dart",
       "descr":"Un petit coup de main ?",
       "bonus": 0
     },{
-      "id": 0,
+      "id": 2,
       "nom": "Flèche",
       "descr":"Floup",
       "bonus": 0
     },{
-      "id": 0,
+      "id": 3,
       "nom": "Javeline",
       "descr":"Attention ça tombe !",
       "bonus": 0
     },
     {
-      "id": 0,
+      "id": 4,
       "nom": "Balle de fronde",
       "descr":"Thierry",
       "bonus": 0

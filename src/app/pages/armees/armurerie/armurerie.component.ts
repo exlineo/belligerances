@@ -22,11 +22,15 @@ export class ArmurerieComponent {
   initArme(){
     this.arme = new Arme();
     this.liste = '';
+
+    this.d.etatSave = false;
   }
   /** Ajouter la créature nouvellement créée */
   addArme(){
     this.arme.id = this.d.docs[this.liste].length;
     this.d.docs[this.liste].push(this.arme);
     this.initArme();
+
+    this.d.etatSave = true;
   }
 }

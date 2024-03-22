@@ -18,6 +18,8 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatChipsModule} from '@angular/material/chips';
 import { ColorPickerModule } from '@iplab/ngx-color-picker';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+
 
 @NgModule({
   declarations: [],
@@ -40,7 +42,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatRadioModule,
     MatChipsModule,
     ColorPickerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatButtonToggleModule
   ],
   exports:[
     RouterLink,
@@ -61,7 +64,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatRadioModule,
     MatChipsModule,
     ColorPickerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatButtonToggleModule
   ]
 })
 export class MaterialModule { }

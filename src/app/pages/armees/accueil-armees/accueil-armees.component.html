@@ -24,7 +24,7 @@
     </a>
 
     @if(d.etatSave){
-      <a [title]="l.t['RCREATURES']" (click)="d.saveCampagne()" class="btn del">
+      <a [title]="l.t['RCREATURES']" (click)="d.saveCampagne()" class="btn del" [matTooltip]="l.t['SAVE_DATA']">
         <mat-icon matSuffix>save</mat-icon>
       </a>
     }

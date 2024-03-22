@@ -1,7 +1,7 @@
 <main>
   <header>
     <a (click)="l.close()" [title]="l.t['FERMER']" class="close"><mat-icon>close</mat-icon></a>
-    <h2>{{ l.t['COMPAGNIE_MAJ'] }}</h2>
+    <h2>{{ l.t['ARMEES_MAJ'] }} : {{ l.maj.nom }}</h2>
   </header>
   <section>
     <form>
@@ -16,7 +16,7 @@
           <mat-icon matSuffix>edit</mat-icon>
         </mat-form-field>
         <mat-form-field>
-          <mat-select [(ngModel)]="l.maj.commandant" name="armeePj" [placeholder]="l.t['ARMEE_HEROS'] + '*'" required>
+          <mat-select [(ngModel)]="l.maj.commandant" name="armeePj" [placeholder]="l.t['GENERAL'] + '*'" required>
             @for (pj of d.docs.unites | pj; track pj.id) {
             <mat-option [value]="pj.id">{{pj.nom}}</mat-option>
             }
@@ -46,6 +46,26 @@
             <github-picker [control]="colorControl"></github-picker>
           </span>
         </fieldset>
+      </article>
+      <article>
+        <mat-radio-group aria-label="Sélectionner un avatar pour la compagnie" name="avatar" [(ngModel)]="l.maj.avatar"
+          required>
+          <mat-label>{{ l.t['AVATAR'] }}*</mat-label>
+          <mat-radio-button value="assets/images/avatars/armees/armor_n.png" value="assets/images/avatars/armees/armor_n.png">
+            <img src="assets/images/avatars/armees/armor_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+          <mat-radio-button value="assets/images/avatars/armees/horses.png" value="assets/images/avatars/armees/armor_n.png">
+            <img src="assets/images/avatars/armees/horses.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+          <mat-radio-button value="assets/images/avatars/armees/magic-wand.png" value="assets/images/avatars/armees/armor_n.png">
+            <img src="assets/images/avatars/armees/magic-wand.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+          <mat-radio-button value="assets/images/avatars/armees/shield_n.png" value="assets/images/avatars/armees/armor_n.png">
+            <img src="assets/images/avatars/armees/shield_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+          <mat-radio-button value="assets/images/avatars/armees/spellbook.png" value="assets/images/avatars/armees/armor_n.png">
+            <img src="assets/images/avatars/armees/spellbook.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+          <mat-radio-button value="assets/images/avatars/armees/spear.png" value="assets/images/avatars/armees/armor_n.png">
+            <img src="assets/images/avatars/armees/spear.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+          <mat-radio-button value="assets/images/avatars/armees/sword.png" value="assets/images/avatars/armees/armor_n.png">
+            <img src="assets/images/avatars/armees/sword.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+      </mat-radio-group>
       </article>
     </form>
   </section>
@@ -84,7 +104,7 @@
     </article>
     <article>
       <button class="annule" (click)="l.close()"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
-      <button class="valide" (click)="updateArmee()"><mat-icon matSuffix>done</mat-icon>{{ l.t['CREER'] }}</button>
+      <button class="valide" (click)="updateArmee()"><mat-icon matSuffix>done</mat-icon>{{ l.t['ARMEE_SAVE'] }}</button>
     </article>
   </section>
 </main>

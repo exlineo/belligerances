@@ -25,16 +25,19 @@ export class UtilsService {
     this.getLangue();
   }
   getLangue() {
+    if (localStorage.getItem('lang')) {
+      this.t = JSON.parse(localStorage.getItem('lang')!);
+    } else {
     this.http.get(`assets/data/${this.langue}/lang.json`).subscribe({
       next: data => {
         this.t = data;
-        // this.message('MSG_LANG');
+        localStorage.setItem('lang', JSON.stringify(data));
       },
       error: () => this.message('ER_LANG'),
       complete: () => console.log('Langue chargée')
     }
     )
-  }
+  }}
   /** Informer l'utilisateur */
   message(msg:string){
     this._snackBar.open(this.t[msg], 'OK', {duration: 3000});

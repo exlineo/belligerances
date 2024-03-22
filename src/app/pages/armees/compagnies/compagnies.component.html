@@ -55,7 +55,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (u of c.unites; track $index) {
+            @for (u of c.unites | slice:pagination.min:pagination.max; track $index) {
             <tr>
               <td>{{ d.getCompagniesUnites('unites', u).nom }}</td>
               <td>{{ d.getCompagniesUnites('races', u).nom }}</td>
@@ -77,6 +77,9 @@
             }
           </tbody>
         </table>
+        <mat-paginator [length]="c.unites.length" (page)="setPagination($event)" [pageSize]="10"
+          [pageSizeOptions]="[10, 25, 50, 100, 250]" aria-label="Avancer dans les unitées">
+        </mat-paginator>
       </mat-expansion-panel>
       }
       @empty {
@@ -162,7 +165,7 @@
           <mat-form-field>
             <mat-label>{{ l.t['UNITE_GENERE'] }}</mat-label>
             <mat-select [placeholder]="l.t['UNITE_TYPE_SEL']" name="unites" [(ngModel)]="unitesTypes" multiple>
-              @for (u of d.docs.unites | triUnites:filtreUnites:filtreRaces; track u.id) {
+              @for (u of d.docs.unites | triUnites:filtreUnites; track u.id) {
               <mat-option [value]="u">{{u.nom}}</mat-option>
               }
             </mat-select>

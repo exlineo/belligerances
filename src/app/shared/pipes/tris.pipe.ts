@@ -21,11 +21,11 @@ export class StatutsPipe implements PipeTransform {
 
   transform(statut: number): string {
     let img = 'assets/images/pictos/';
-    if (statut == 1 || statut == 2)
+    if (statut == 2)
       img += "statut-actif.png";
-    else if (statut == 0)
+    else if (statut == 0 || statut == 1)
       img += "statut-attente.png";
-    else if (statut == -1)
+    else if (statut == -1 || statut == -2)
       img += "statut-inactif.png";
     return img;
   }
@@ -93,7 +93,7 @@ export class BonusMoralPipe implements PipeTransform {
     }
   }
 }
-/** Filtrer les unites pour avoir la liste des PJ */
+/** Filter es armées */
 @Pipe({
   name: 'triArmees',
   standalone: true
@@ -106,7 +106,7 @@ export class ArmeesPipe implements PipeTransform {
     return armees.filter(a => a.nom.toLocaleLowerCase().indexOf(libre.toLocaleLowerCase()) != -1);
   }
 }
-/** Filtrer les unites pour avoir la liste des PJ */
+/** Filtrer les compagnies */
 @Pipe({
   name: 'triCompagnies',
   standalone: true
@@ -120,33 +120,24 @@ export class CompagniesPipe implements PipeTransform {
   }
 }
 
-/** Filtrer les unites pour avoir la liste des PJ */
+/** FIltrer les unites */
 @Pipe({
   name: 'triUnites',
   standalone: true
 })
 export class UnitesPipe implements PipeTransform {
 
-  transform(unites:Array<UniteI>, libre:string, race?:number, t?:boolean): Array<UniteI> {
+  transform(unites:Array<UniteI>, libre:string , pj:any = 'null', etat:any = 'null'): Array<UniteI> {
     if(!unites) return [];
-    if((!libre || libre.length < 2)) {return unites} else {libre = libre.toLowerCase()};
-    return unites.filter(u => u.nom.indexOf(libre) != -1 || u.race == race);
-  }
-}
-/** Filtrer les unites pour avoir la liste des PJ */
-@Pipe({
-  name: 'tailleUnites',
-  standalone: true
-})
-export class UnitesTaillePipe implements PipeTransform {
+    if(libre.length < 3 && (pj == 'null' && etat == 'null')) return unites;
 
-  transform(unites:Array<UniteI>, libre:string, race?:number, t?:boolean): number {
-    if(!unites) return 0;
-    if((!libre || libre.length < 2)) {return unites.length} else {libre = libre.toLowerCase()};
-    return unites.filter(u => u.nom.indexOf(libre) != -1 || u.race == race).length;
+    return unites.filter(u =>
+      ((libre.length > 2 && JSON.stringify(u).toLowerCase().indexOf(libre.toLowerCase()) != -1))
+      || (pj != 'null' && u.pj == JSON.parse(pj))
+      || (etat != 'null' && u.etat == parseInt(etat)));
   }
 }
-/** Filtrer les unites pour avoir la liste des PJ */
+/** Filtrer les unites aussi */
 @Pipe({
   name: 'unitesArray',
   standalone: true
@@ -171,5 +162,25 @@ export class ArmesPipe implements PipeTransform {
     if(!armes) return '';
     const mun = armes.find( (m:ArmeI) => m.id == arme.type)
     return mun ? mun.nom : '';
+  }
+}
+/** Filtrer les unites pour avoir la liste des PJ */
+@Pipe({
+  name: 'bool',
+  standalone: true
+})
+export class BoolPipe implements PipeTransform {
+  transform(val:any): string {
+    return JSON.parse(val);
+  }
+}
+/** Filtrer les unites pour avoir la liste des PJ */
+@Pipe({
+  name: 'int',
+  standalone: true
+})
+export class IntPipe implements PipeTransform {
+  transform(val:any): number {
+    return parseInt(val);
   }
 }

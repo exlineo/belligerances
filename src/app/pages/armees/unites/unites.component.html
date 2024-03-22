@@ -7,15 +7,32 @@
   <!-- LISTE DES UNITES -->
   <mat-tab [label]="l.t['UNITES_TYPE']">
     <!-- FILTRER LES UNITES -->
-    <mat-form-field>
-      <mat-label>{{ l.t['FILTRER'] }}</mat-label>
-      <input type="text" matInput [placeholder]="l.t['FILTRER_NOM']" [(ngModel)]="filtre" name="filtre">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
+    <header>
+      <mat-form-field>
+        <mat-label>{{ l.t['FILTRER'] }}</mat-label>
+        <input type="text" matInput [placeholder]="l.t['FILTRER_NOM']" [(ngModel)]="libre" name="filtreLibre">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <mat-button-toggle-group name="filtrePj" aria-label="PJ" [(ngModel)]="pj">
+        <mat-button-toggle value=null>{{ l.t['TOUS'] }}</mat-button-toggle>
+        <mat-button-toggle value=false>{{ l.t['PNJ'] }}</mat-button-toggle>
+        <mat-button-toggle value=true>{{ l.t['PJ'] }}</mat-button-toggle>
+      </mat-button-toggle-group>
+      <mat-button-toggle-group name="filtreEtat" aria-label="Etat" [(ngModel)]="etat">
+        <mat-button-toggle value=null>{{ l.t['TOUS'] }}</mat-button-toggle>
+        <mat-button-toggle value=-2>{{ l.t['MORT'] }}</mat-button-toggle>
+        <mat-button-toggle value=-1>{{ l.t['ALITE'] }}</mat-button-toggle>
+        <mat-button-toggle value=0>{{ l.t['BLESSE_GRAVE'] }}</mat-button-toggle>
+        <mat-button-toggle value=1>{{ l.t['BLESSE'] }}</mat-button-toggle>
+        <mat-button-toggle value=2>{{ l.t['NORMAL'] }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </header>
     <table>
       <thead>
         <tr>
           <td>{{ l.t['NOM'] }}</td>
+          <td>{{ l.t['STATUT'] }}</td>
+          <td>{{ l.t['PJ'] }} ?</td>
           <td>{{ l.t['RACE'] }}</td>
           <td>{{ l.t['CAC'] }}</td>
           <td>{{ l.t['JET'] }}</td>
@@ -25,14 +42,21 @@
           <td>{{ l.t['PV'] }}</td>
           <td>{{ l.t['MONTURE'] }}</td>
           <td>{{ l.t['XP'] }}</td>
-          <td>{{ l.t['STATUT'] }}</td>
           <td></td>
         </tr>
       </thead>
       <tbody>
-        @for (u of d.docs.unites | triUnites:filtre; track $index) {
+        @for (u of d.docs.unites | triUnites:libre:pj:etat | slice:pagination.min:pagination.max;
+        track u.id) {
         <tr>
           <td>{{ u.nom }}</td>
+          <td><img [src]="u.etat | statuts" [alt]="u.etat"></td>
+          <td>@if(u.pj){
+            <mat-icon matSuffix class="valide">check_box</mat-icon>
+            }@else {
+            <mat-icon matSuffix class="annule">indeterminate_check_box</mat-icon>
+            }
+          </td>
           <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
           <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
           <td>{{ d.getCompagniesUnites('jet', u.jet!).nom }}</td>
@@ -43,10 +67,11 @@
 
           <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
           <td>{{ u.xp }}</td>
-          <td><img [src]="u.etat | statuts"></td>
           <td class="row">
-            <a [matTooltip]="l.t['DEL']" (click)="l.setEdit('unites', u, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('unites', u)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
+            <a [matTooltip]="l.t['DEL']" (click)="l.setEdit('unites', u, true)"><mat-icon matSuffix
+                class="icone del">close</mat-icon></a>
+            <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('unites', u)"><mat-icon matSuffix
+                class="icone annule">restart_alt</mat-icon></a>
           </td>
         </tr>
         }
@@ -59,73 +84,74 @@
 
   <mat-tab [label]="l.t['UNITE_CREER']">
     <!-- <form> -->
-      <article>
-        <mat-form-field>
-          <mat-label>{{ l.t['NOM'] }}</mat-label>
-          <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="uniteCree.nom" name="nom" required>
-          <mat-icon matSuffix>edit</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ l.t['DESCR'] }}</mat-label>
-          <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="uniteCree.descr" name="descr">
-          <mat-icon matSuffix>edit</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-select [(ngModel)]="uniteCree.race" name="race" [placeholder]="l.t['RACES'] + '*'" required>
-            @for (r of d.docs.races; track r.id) {
-            <mat-option [value]="r.id">{{r.nom}}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ l.t['PV_MAX'] }}</mat-label>
-          <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="uniteCree.pvMax" name="pvma" required [value]="getPVMax()">
-          <mat-icon matSuffix>edit</mat-icon>
-        </mat-form-field>
-      </article>
-      <article>
-        <mat-form-field>
-          <mat-select [(ngModel)]="uniteCree.cac" name="cac" [placeholder]="l.t['CAC']">
-            <mat-option>{{l.t['SANS']}}</mat-option>
-            @for (cac of d.docs.cac; track cac.id) {
-            <mat-option [value]="cac.id">{{cac.nom}}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-select [(ngModel)]="uniteCree.jet" name="cac" [placeholder]="l.t['JET']">
-            <mat-option>{{l.t['SANS']}}</mat-option>
-            @for (jet of d.docs.jet; track jet.id) {
-            <mat-option [value]="jet.id">{{jet.nom}}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-select [(ngModel)]="uniteCree.armure" name="armure" [placeholder]="l.t['ARMURES']">
-            <mat-option>{{l.t['SANS']}}</mat-option>
-            @for (a of d.docs.armures; track a.id) {
-            <mat-option [value]="a.id">{{a.nom}}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-select [(ngModel)]="uniteCree.bouclier" name="bouclier" [placeholder]="l.t['BOUCLIERS']">
-            <mat-option>{{l.t['SANS']}}</mat-option>
-            @for (b of d.docs.boucliers; track b.id) {
-            <mat-option [value]="b.id">{{b.nom}}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-radio-group aria-label="Statut PJ" [(ngModel)]="uniteCree.pj" required>
-          <mat-radio-button value="false">{{ l.t['PNJ'] }}*</mat-radio-button>
-          <mat-radio-button value="true">{{  l.t['PJ'] }}*</mat-radio-button>
-        </mat-radio-group>
-      </article>
+    <article>
+      <mat-form-field>
+        <mat-label>{{ l.t['NOM'] }}</mat-label>
+        <input type="text" matInput [placeholder]="l.t['NOM']" [(ngModel)]="uniteCree.nom" name="nom" required>
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ l.t['DESCR'] }}</mat-label>
+        <input type="text" matInput [placeholder]="l.t['DESCR']" [(ngModel)]="uniteCree.descr" name="descr">
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select [(ngModel)]="uniteCree.race" name="race" [placeholder]="l.t['RACES'] + '*'" required>
+          @for (r of d.docs.races; track r.id) {
+          <mat-option [value]="r.id">{{r.nom}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ l.t['PV_MAX'] }}</mat-label>
+        <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="uniteCree.pvMax" name="pvma"
+          required [value]="getPVMax()">
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+    </article>
+    <article>
+      <mat-form-field>
+        <mat-select [(ngModel)]="uniteCree.cac" name="cac" [placeholder]="l.t['CAC']">
+          <mat-option>{{l.t['SANS']}}</mat-option>
+          @for (cac of d.docs.cac; track cac.id) {
+          <mat-option [value]="cac.id">{{cac.nom}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select [(ngModel)]="uniteCree.jet" name="cac" [placeholder]="l.t['JET']">
+          <mat-option>{{l.t['SANS']}}</mat-option>
+          @for (jet of d.docs.jet; track jet.id) {
+          <mat-option [value]="jet.id">{{jet.nom}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select [(ngModel)]="uniteCree.armure" name="armure" [placeholder]="l.t['ARMURES']">
+          <mat-option>{{l.t['SANS']}}</mat-option>
+          @for (a of d.docs.armures; track a.id) {
+          <mat-option [value]="a.id">{{a.nom}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select [(ngModel)]="uniteCree.bouclier" name="bouclier" [placeholder]="l.t['BOUCLIERS']">
+          <mat-option>{{l.t['SANS']}}</mat-option>
+          @for (b of d.docs.boucliers; track b.id) {
+          <mat-option [value]="b.id">{{b.nom}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-radio-group aria-label="Statut PJ" [(ngModel)]="uniteCree.pj" required>
+        <mat-radio-button value="false">{{ l.t['PNJ'] }}*</mat-radio-button>
+        <mat-radio-button value="true">{{ l.t['PJ'] }}*</mat-radio-button>
+      </mat-radio-group>
+    </article>
 
-      <article>
-        <button class="annule" type="reset"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
-        <button class="valide" (click)="creeUnite()" ><mat-icon matSuffix>done</mat-icon>{{ l.t['CREER'] }}</button>
-      </article>
+    <article>
+      <button class="annule" type="reset"><mat-icon matSuffix>restart_alt</mat-icon>{{ l.t['ANNULE'] }}</button>
+      <button class="valide" (click)="creeUnite()"><mat-icon matSuffix>done</mat-icon>{{ l.t['CREER'] }}</button>
+    </article>
     <!-- </form> -->
   </mat-tab>
 </mat-tab-group>

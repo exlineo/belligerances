@@ -80,7 +80,7 @@
             <mat-icon matSuffix>edit</mat-icon>
           </mat-form-field>
           <mat-form-field>
-            <mat-select [(ngModel)]="armee.commandant" name="armeePj" [placeholder]="l.t['ARMEE_HEROS'] + '*'" required>
+            <mat-select [(ngModel)]="armee.commandant" name="armeePj" [placeholder]="l.t['GENERAL'] + '*'" required>
               @for (pj of d.docs.unites | pj; track pj.id) {
               <mat-option [value]="pj.id">{{pj.nom}}</mat-option>
               }
