@@ -30,7 +30,7 @@ export class ArmurerieComponent {
     this.arme.id = this.d.docs[this.liste].length;
     this.d.docs[this.liste].push(this.arme);
     this.initArme();
-
     this.d.etatSave = true;
+    this.l.message('ARMURERIE_ADD');
   }
 }

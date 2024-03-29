@@ -50,6 +50,7 @@ export class UtilsService {
    */
   setEdit(edit:string, obj:any, suppr:boolean = false){
     this.edit = edit;
+    console.log("Maj obj", obj);
     this.maj = {...obj};
     this.suppr = suppr;
   }

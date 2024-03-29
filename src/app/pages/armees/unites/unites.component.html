@@ -96,7 +96,7 @@
         <mat-icon matSuffix>edit</mat-icon>
       </mat-form-field>
       <mat-form-field>
-        <mat-select [(ngModel)]="uniteCree.race" name="race" [placeholder]="l.t['RACES'] + '*'" required>
+        <mat-select [(ngModel)]="uniteCree.race" name="race" [placeholder]="l.t['RACES'] + '*'" required (selectionChange)="getPVMax()">
           @for (r of d.docs.races; track r.id) {
           <mat-option [value]="r.id">{{r.nom}}</mat-option>
           }
@@ -104,8 +104,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>{{ l.t['PV_MAX'] }}</mat-label>
-        <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="uniteCree.pvMax" name="pvma"
-          required [value]="getPVMax()">
+        <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="uniteCree.pvMax" name="pvma" required>
         <mat-icon matSuffix>edit</mat-icon>
       </mat-form-field>
     </article>
@@ -142,9 +141,14 @@
           }
         </mat-select>
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ l.t['XP'] }}</mat-label>
+        <input type="number" matInput [placeholder]="l.t['XP']" [(ngModel)]="uniteCree.xp" name="xp">
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
       <mat-radio-group aria-label="Statut PJ" [(ngModel)]="uniteCree.pj" required>
-        <mat-radio-button value="false">{{ l.t['PNJ'] }}*</mat-radio-button>
-        <mat-radio-button value="true">{{ l.t['PJ'] }}*</mat-radio-button>
+        <mat-radio-button [value]=false>{{ l.t['PNJ'] }}*</mat-radio-button>
+        <mat-radio-button [value]=true>{{ l.t['PJ'] }}*</mat-radio-button>
       </mat-radio-group>
     </article>
 

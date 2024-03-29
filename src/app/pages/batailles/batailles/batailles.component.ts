@@ -1,23 +1,17 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MaterialModule } from 'src/app/shared/material.module';
-import { ArmeI, CompagnieI, OrdreI, PositionI, UniteI } from 'src/app/shared/modeles/Type';
+import { CompagnieI, OrdreI, PositionI, UniteI } from 'src/app/shared/modeles/Type';
 import { DomChangedDirective } from 'src/app/shared/dom-directive';
-import { BonusCmdPipe, BonusMoralPipe, BonusXpPipe } from 'src/app/shared/pipes/tris.pipe';
+import { BlessurePipe, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe } from 'src/app/shared/pipes/tris.pipe';
 
 @Component({
   selector: 'app-batailles',
   standalone: true,
-  imports: [MaterialModule, CdkDrag, DomChangedDirective, BonusCmdPipe, BonusMoralPipe, BonusXpPipe],
+  imports: [MaterialModule, CdkDrag, DomChangedDirective, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe, BlessurePipe],
   templateUrl: './batailles.component.html',
   styleUrl: './batailles.component.css',
   animations: [
@@ -32,7 +26,7 @@ import { BonusCmdPipe, BonusMoralPipe, BonusXpPipe } from 'src/app/shared/pipes/
       ]),
     ]),
     trigger('tabLeve', [
-      state('leve', style({ top: -180 })),
+      state('leve', style({ top: -250 })),
       state('baisse', style({ top: 0 })),
       transition('leve => baisse', [
         animate('.3s ease')
@@ -63,31 +57,25 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   uDefs: Array<UniteI> = []; // Unités en défense
 
   action: string = 'ACT_AT'; // Action en cours
+  distance:number = 0;
   indexAttaquant: number = -1; // Index de la compagnie qui attaque
   el: any; // Element sélectionné
+  blesses: number = 0;
+  morts: number = 0;
 
   // Pipes pour les combats
   xpPipe: BonusXpPipe = new BonusXpPipe();
   cmdPipe: BonusCmdPipe = new BonusCmdPipe();
   moralPipe: BonusMoralPipe = new BonusMoralPipe();
+  jetPipe:MalusJetPipe = new MalusJetPipe();
+  blessurePipe:BlessurePipe = new BlessurePipe();
 
   ordre?: OrdreI; // Ordre en cours
-
-  combat: any = {
-    at: {
-      type: '',
-      dg: 0
-    },
-    def: {
-      armure: 0
-    }
-  }
 
   drag: boolean = false;
   initPos!: PositionI; // Position initiale du champ de bataille
 
-  bg: string = '';
-
+  bg: string = ''; // Arrière plan de la bataille
   @ViewChildren('token') tokensView!: QueryList<ElementRef>;
   @ViewChild('map') mapView!: ElementRef;
   listeTokens!: Array<unknown>;
@@ -100,8 +88,10 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     }
     this.selected = c;
     this.indexAttaquant = i;
-    this.el = event.target;
-    if (this.el) this.el.style.zIndex = 1000;
+    if (this.el) {
+      this.el.style.zIndex = 1000;
+      this.el = event.target;
+    };
     return false;
   }
   /** Gérer la position des tokens lorsqu'ils sont déposés */
@@ -137,6 +127,9 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   // Ajustement en temps réel du slide
   matSlide(event: any) {
     this.opacite = event.target.value / 200;
+  }
+  matDistance(event: any) {
+    this.distance = event.target.value;
   }
   // Gérer l'overflow sur le drag au mouvement de la sourie
   setDragOverflow() {
@@ -185,6 +178,9 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       this.defend = c;
       this.uDefs = this.d.docs.unites.filter((u: UniteI) => this.defend?.unites.includes(u.id));
       this.tabActions = true;
+      // Réunitialiser les états des blessés et des morts
+      this.blesses = 0;
+      this.morts = 0;
     }
   }
   /** Afficher les infos sur la compagnie */
@@ -194,9 +190,14 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       this.l.message('ER_MORAL');
     } else if (c.commandant && this.d.docs.unites.find((u: UniteI) => u.id == c.commandant)) {
       const commandant = this.d.docs.unites.find((u: UniteI) => u.id == c.commandant);
-      const jet = this.jetAttaque(commandant.cmd);
+      const jet = this.jetAttaque(commandant.cmd); // Prendre en compte les pertes dans la compagnie et l'absence de général ou de commandant comme variable
       console.log(jet);
-      if (jet >= 12) c.moral = 2; // Moral remonte de 2
+      if (jet >= 12) {
+        c.moral = 2;
+        this.l.message('MSG_MORAL_GAIN');
+      } else {
+        this.l.message('MSG_MORAL_NULL');
+      } // Moral remonte de 2
     }
   }
   /** Cacher la fenêtre des actions */
@@ -205,14 +206,13 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     this.action = 'ACT';
   }
   /** Agir */
-  go() {
-    console.log("Ca agit");
-  }
   goCombat() {
+    this.blesses = 0;
+    this.morts = 0;
     let ml = this.moralPipe.transform(this.attaque!.moral); // Bonus de moral de la compagnie
     // let cmd = this.cmdPipe.transform(this.d.docs.unite.filter((u:UniteI) => u.id == this.attaque?.commandant).xp); // Bonus du commandant
-
     let act: string = 'cac';
+    console.log("Act", this.action.slice(4, this.action.length).toLocaleLowerCase());
     switch (this.action) {
       case 'ACT_CAC':
         act = 'cac';
@@ -226,16 +226,10 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     };
 
     this.uAts.forEach((u: UniteI, i: number) => {
-      console.log("Unité", u);
       // L'attaquant peuplé des données utiles
       let uAt = this.d.setUnite(u);
-      let bonusAt = ml + uAt.xp + this.getBonusOrdre(act);
+      let bonusAt = ml + uAt.xp + this.getBonusOrdre(act); // Bonus de l'attaquant
       let impact = this.getImpact(uAt, act);
-
-      console.log("Bonus At", bonusAt, "Bonus moral", ml, "Attaquant", uAt, "Bonus ordres", this.getBonusOrdre(act));
-
-
-
       // Défenseur choisi au hasard et peuplé des données utiles
       let uDef = this.d.setUnite(this.uDefs[Math.round(Math.random() * (this.uDefs.length - 1))]);
 
@@ -246,19 +240,36 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
 
       for (let n = 0; n < impact; ++n) {
         let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
-        if (at > def) {
-          let dg = Math.ceil(Math.random() * (uAt[act].degats.max - uAt[act].degats.min)) + uAt[act].degats.min;
-          u.xp += dg;
-          uDef.pv -= dg;
-          console.log("XP unité", u.xp, "Dégats", dg, "Def", uDef, "Pv def", uDef.pv);
-        } else {
-          console.log("Attaque ratée");
+        if (at >= def) {
+          let dg = Math.round(Math.random() * (uAt[act].degats.max - uAt[act].degats.min)) + uAt[act].degats.min;
+          // Si c'est un jet ou un sort, on calcul les dégats relativement à la distance
+          if(act == 'jet' || act == 'sort'){
+            dg = Math.round(dg * this.jetPipe.transform(uAt[act].portee.min, uAt[act].portee.max, this.distance));
+          }
+          u.xp += dg; // L'attaquant gagne de l'expérience
+          uDef.unite.pv - dg < 0 ? uDef.unite.pv = 0 : uDef.unite.pv -= dg; // Appliquer les dégâts à l'unité qui défend
         }
-        console.log("Attaque", at, "Défense", def);
+        ++this.blesses; // Marquer le nouveau blessé
+        if(uDef.pv <= 0) ++this.morts;
       }
     });
-
+    // Calculer les morts et les blessés de la compagnie
+    this.calculeBlesses();
     this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
+  }
+  /** Calculer le nombre de morts et de blessés dans une compagnie */
+  calculeBlesses(){
+    this.defend!.blesses = this.defend!.morts = 0;
+    this.uDefs.forEach((u:any) => {
+      if(u.pv && u.pv <= 0) {
+        ++this.defend!.morts!;
+      }else if(u.pvMax > u.pv && u.pv >=0 ) {
+        ++this.defend!.blesses!;
+      };
+      // Etablir l'état de l'unité en fonction de ses blessures
+      u.etat = this.blessurePipe.transform(u);
+    });
+    console.log("Calcul des blessés", this.defend, this.uDefs);
   }
   /** Jet de moral : malus = 1 / 5% des pertes*/
   jetMoral(malus: number): boolean {
@@ -269,21 +280,19 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   jetAttaque(bonus: number) {
     return bonus + Math.ceil(Math.random() * 20);
   }
-  /** Dégats calculés en fonction de l'arme */
-  jetDegats(min: number, max: number) {
-    return Math.ceil(Math.random() * (max - min)) + min;
-  }
   /**  */
   getBonusOrdre(condition: string) {
     return this.ordre && this.ordre.effets.type == condition ? this.ordre.effets.bonus : 0;
   }
   /** OBSOLETE Calculer un malus de sané */
-  getBonusSante(pvMax: number, pv: number): number {
-    const pct = pv * 100 / pvMax;
-    console.log(pct);
-    return 0;
-  }
-  /** Calculer le nombre d'attaques à effectuer */
+  // getBonusSante(pvMax: number, pv: number): number {
+  //   const pct = pv * 100 / pvMax;
+  //   console.log(pct);
+  //   return 0;
+  // }
+  /** Calculer le nombre d'attaques à effectuer
+   * @param plein unité avec toutes ses valeurs
+  */
   getImpact(plein: any, attaque: string = 'cac') {
     let impact = 0;
     if (plein.impact) impact += impact;

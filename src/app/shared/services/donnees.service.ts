@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Arme, Campagne, CampagneI, Creature, DocumentsI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
+import { Arme, Campagne, CampagneI, CompagnieI, Creature, DocumentsI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
 import { UtilsService } from './utils.service';
 import { BonusCmdPipe, BonusMoralPipe, BonusXpPipe } from '../pipes/tris.pipe';
 import { Router } from '@angular/router';
@@ -159,7 +159,7 @@ export class DonneesService {
    */
   rand(init: number, p: number) {
     const ecart = init * p / 100;
-    return init + (Math.round(Math.random() * ecart) - p / 2);
+    return Math.abs(init + (Math.round(Math.random() * ecart) - p / 2)); // Calcul de l'écart pour le nombre calculé en valeur absolue pour éviter les négatifs
   }
   randListe(liste: Array<any>) {
     const val = Math.floor(Math.random() * liste.length)
@@ -207,7 +207,8 @@ export class DonneesService {
     u.bouclier = this.docs.boucliers[unite.bouclier!] ? this.docs.boucliers[unite.bouclier!] : new Arme();
     u.monture = this.docs.montures[unite.monture!] ? this.docs.montures[unite.monture!] : new Creature();
     u.xp = this.xpPipe.transform(unite.xp); // Bonus d'xp de l'attaquant
-    u.pv = unite.pv ? unite.pv : unite.pvMax;
+    u.unite = unite; // Pointeur vers l'unité pour attribuer les dégats
+    u.id = unite.id;
 
     return u;
   }

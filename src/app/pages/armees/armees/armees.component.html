@@ -25,7 +25,10 @@
           </mat-panel-title>
           <mat-panel-description>
             <h2 [style.color]="a.couleur">&#x2B22;</h2>
-            <span><img [src]="a.statut | statuts" [alt]="a.nom"></span>
+            @if(a.commandant && a.commandant >= 0){
+              <span>{{ l.t['GENERAL'] }} {{ d.getCompagniesUnites('unites', a.commandant! ).nom }}</span>
+            }
+            <span><img [src]="a.statut | statuts" [alt]="l.t['STATUT']"></span>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <header>
@@ -92,6 +95,26 @@
               <github-picker [control]="colorControl"></github-picker>
             </span>
           </fieldset>
+        </article>
+        <article>
+          <mat-radio-group aria-label="Sélectionner un avatar pour la compagnie" name="avatar"
+            [(ngModel)]="armee.avatar" required>
+            <mat-label>{{ l.t['AVATAR'] }}*</mat-label>
+            <mat-radio-button value="assets/images/avatars/armees/armor_n.png" value="assets/images/avatars/armees/armor_n.png">
+              <img src="assets/images/avatars/armees/armor_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+            <mat-radio-button value="assets/images/avatars/armees/horses.png" value="assets/images/avatars/armees/armor_n.png">
+              <img src="assets/images/avatars/armees/horses.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+            <mat-radio-button value="assets/images/avatars/armees/magic-wand.png" value="assets/images/avatars/armees/armor_n.png">
+              <img src="assets/images/avatars/armees/magic-wand.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+            <mat-radio-button value="assets/images/avatars/armees/shield_n.png" value="assets/images/avatars/armees/armor_n.png">
+              <img src="assets/images/avatars/armees/shield_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+            <mat-radio-button value="assets/images/avatars/armees/spellbook.png" value="assets/images/avatars/armees/armor_n.png">
+              <img src="assets/images/avatars/armees/spellbook.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+            <mat-radio-button value="assets/images/avatars/armees/spear.png" value="assets/images/avatars/armees/armor_n.png">
+              <img src="assets/images/avatars/armees/spear.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+            <mat-radio-button value="assets/images/avatars/armees/sword.png" value="assets/images/avatars/armees/armor_n.png">
+              <img src="assets/images/avatars/armees/sword.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+          </mat-radio-group>
         </article>
       </form>
     </header>

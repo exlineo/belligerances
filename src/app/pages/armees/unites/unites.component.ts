@@ -43,7 +43,8 @@ export class UnitesComponent {
     this.d.etatSave = true;
    }
    getPVMax(){
-    return this.uniteCree.race != -1 ? this.d.docs.races[this.uniteCree.race].basePv : -1;
+    this.uniteCree.pvMax = this.uniteCree.race != -1 ? this.d.docs.races[this.uniteCree.race].basePv : -1;
+    console.log(this.uniteCree);
    }
    getFiltre(){
     console.log(this.filtre);

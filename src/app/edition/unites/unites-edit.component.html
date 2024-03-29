@@ -27,6 +27,11 @@
     <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="l.maj.pvMax" name="pvma" required>
     <mat-icon matSuffix>edit</mat-icon>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ l.t['PV'] }}</mat-label>
+    <input type="number" matInput [placeholder]="l.t['PV'] + '*'" [(ngModel)]="l.maj.pv" name="pv" required>
+    <mat-icon matSuffix>edit</mat-icon>
+  </mat-form-field>
 </article>
 <article>
   <mat-form-field>
@@ -61,9 +66,14 @@
       }
     </mat-select>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ l.t['XP'] }}</mat-label>
+    <input type="number" matInput [placeholder]="l.t['XP'] + '*'" [(ngModel)]="l.maj.xp" name="xp">
+    <mat-icon matSuffix>edit</mat-icon>
+  </mat-form-field>
   <mat-radio-group aria-label="Statut PJ" [(ngModel)]="l.maj.pj" required>
-    <mat-radio-button value="false" [checked]="'true'">{{ l.t['PNJ'] }}*</mat-radio-button>
-    <mat-radio-button value="true">{{  l.t['PJ'] }}*</mat-radio-button>
+    <mat-radio-button [value]=false [checked]="'true'">{{ l.t['PNJ'] }}*</mat-radio-button>
+    <mat-radio-button [value]=true>{{  l.t['PJ'] }}*</mat-radio-button>
   </mat-radio-group>
 </article>
 

@@ -42,10 +42,11 @@
               <img src="assets/images/pictos/action-cac_b.png" [alt]="l.t['ACT_CAC']"></a></li>
 
           <li><a [matTooltip]="l.t['ACT_JET']" matTooltipPosition="right">
-              <img src="assets/images/pictos/action-jet_b.png" [alt]="l.t['ACT_JET']" (click)="actionBaston($event, c, 'ACT_JET')"></a></li>
+              <img src="assets/images/pictos/action-jet_b.png" [alt]="l.t['ACT_JET']"
+                (click)="actionBaston($event, c, 'ACT_JET')"></a></li>
 
-          <li><a [matTooltip]="l.t['ACT_SORT']" matTooltipPosition="below">
-              <img src="assets/images/pictos/action-sort_b.png" [alt]="l.t['ACT_SORT']" (click)="actionBaston($event, c, 'ACT_SORT')"></a></li>
+          <!-- <li><a [matTooltip]="l.t['ACT_SORT']" matTooltipPosition="below">
+              <img src="assets/images/pictos/action-sort_b.png" [alt]="l.t['ACT_SORT']" (click)="actionBaston($event, c, 'ACT_SORT')"></a></li> -->
 
           <li><a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below" (click)="actionRallie(c)">
               <img src="assets/images/pictos/action-rallie_b.png" [alt]="l.t['ACT_RALLIE']"></a></li>
@@ -132,18 +133,29 @@
           <li>
             <img src="assets/images/pictos/unite-cac_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['UNITES'] }}</span>
-            <span>{{ attaque.unites.length }}</span></li>
+            <span>{{ attaque.unites.length }}</span>
+          </li>
           <li>
             <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['BLESSES'] }}</span>
-            <span>{{ attaque.blesses }}</span></li>
+            <span>{{ attaque.blesses }}</span>
+          </li>
           <li>
             <img src="assets/images/pictos/morts_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['MORTS'] }}</span>
-            <span>{{ attaque.morts }}</span></li>
+            <span>{{ attaque.morts }}</span>
+          </li>
         </ul>
+        @if(action == 'ACT_JET' || action == 'ACT_SORT'){
+        <fieldset>
+          <mat-label>{{ l.t['JET_AT'] }}</mat-label>
+          <mat-slider min="0" max="100" step="1" discrete (input)="matDistance($event)">
+            <input matSliderThumb value="0">
+          </mat-slider>
+        </fieldset>
+        }
         }@else {
-          <h3>{{ l.t['AT_CHOIX'] }}</h3>
+        <h3>{{ l.t['AT_CHOIX'] }}</h3>
         }
       </article>
       <span>
@@ -160,18 +172,21 @@
           <li>
             <img src="assets/images/pictos/unite-cac_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['UNITES'] }}</span>
-            <span>{{ defend.unites.length }}</span></li>
-          <li>
+            <span>{{ defend.unites.length }}</span>
+          </li>
+          <li [matBadge]="blesses" matBadgeColor="warn">
             <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['BLESSES'] }}</span>
-            <span>{{ defend.blesses }}</span></li>
-          <li>
+            <span>{{ defend.blesses }}</span>
+          </li>
+          <li [matBadge]="morts" matBadgeColor="warn">
             <img src="assets/images/pictos/morts_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['MORTS'] }}</span>
-            <span>{{ defend.morts }}</span></li>
+            <span>{{ defend.morts }}</span>
+          </li>
         </ul>
         }@else {
-          <h3>{{ l.t['DEF_CHOIX'] }}</h3>
+        <h3>{{ l.t['DEF_CHOIX'] }}</h3>
         }
       </article>
     </section>

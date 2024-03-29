@@ -21,9 +21,9 @@ export class StatutsPipe implements PipeTransform {
 
   transform(statut: number): string {
     let img = 'assets/images/pictos/';
-    if (statut == 2)
+    if (statut == 2 || statut == 1)
       img += "statut-actif.png";
-    else if (statut == 0 || statut == 1)
+    else if (statut == 0)
       img += "statut-attente.png";
     else if (statut == -1 || statut == -2)
       img += "statut-inactif.png";
@@ -90,6 +90,44 @@ export class BonusMoralPipe implements PipeTransform {
       return -2;
     }else{
       return -3;
+    }
+  }
+}
+/** Malus de distance */
+@Pipe({
+  name: 'jet',
+  standalone: true
+})
+export class MalusJetPipe implements PipeTransform {
+  transform(min:number, max:number, dist:number): number {
+    if(dist <= min){
+      return 1;
+    }else if(dist <= max){
+      return 1 - (dist / (max - min));
+    }else{
+      return 0;
+    }
+
+  }
+}
+
+/** Malus de distance */
+@Pipe({
+  name: 'blessure',
+  standalone: true
+})
+export class BlessurePipe implements PipeTransform {
+  transform(unite:UniteI): number {
+    if(unite.pv <= 0){
+      return -2;
+    }else if(unite.pv <= unite.pvMax * 0.25){
+      return -1;
+    }else if(unite.pv <= unite.pvMax * 0.5){
+      return 0;
+    }else if(unite.pv <= unite.pvMax * 0.75){
+      return 1;
+    }else{
+      return 2;
     }
   }
 }

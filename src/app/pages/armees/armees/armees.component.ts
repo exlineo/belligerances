@@ -64,6 +64,7 @@ export class ArmeesComponent implements AfterViewInit {
       this.initArmee();
       console.log(this.d.docs.armees);
       this.d.etatSave = true;
+      this.l.message('ARMEES_ADD');
     }
   }
 }

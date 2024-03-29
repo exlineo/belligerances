@@ -602,6 +602,7 @@ nav.options img{
   width:75%;
   height:auto;
   background: none;
+  overflow-y: auto;
 }
 #pop main > * {
   width:100%;
@@ -698,6 +699,7 @@ mat-select{
 .mat-expansion-panel-header-description > *{
   flex:1;
   text-align: right;
+  font-weight: 400;
 }
 .mat-expansion-panel-body{
   /* overflow:hidden !important; */

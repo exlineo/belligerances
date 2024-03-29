@@ -11,7 +11,7 @@
       </mat-option>
       }
     </mat-select>
-    <a [title]="l.t['TELE']" #download [href]="href" download="campagnes.json" style="display:none"></a>
+    <a [title]="l.t['TELE']" #tele [href]="href" [download]="fichier" style="display:none"></a>
     <button (click)="d.getDocs()" class="valide">
       <mat-icon matSuffix>add</mat-icon>{{ l.t['CAMP_CREER'] }}</button>
     <button (click)="downloadJson()" class="picto annule">

@@ -28,5 +28,6 @@ export class CreaturesComponent {
     this.creature.id = this.d.docs[this.liste].length;
     this.d.docs[this.liste].push(this.creature);
     this.initCreature();
+    this.l.message('RCREATURES_ADD');
   }
 }
