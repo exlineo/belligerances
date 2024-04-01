@@ -7,11 +7,16 @@ import { EditCreaturesComponent } from './edition/creatures/creatures-edit.compo
 import { EditUnitesComponent } from './edition/unites/unites-edit.component';
 import { SupprComponent } from './edition/suppr/suppr.component';
 import { EditArmesComponent } from './edition/armes/armes-edit.component';
-
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, EditArmeesComponent, EditCompagniesComponent, EditCreaturesComponent, EditArmesComponent, EditUnitesComponent, SupprComponent],
+  imports: [
+    RouterOutlet,
+    EditArmeesComponent, EditCompagniesComponent,
+    EditCreaturesComponent, EditArmesComponent,
+    EditUnitesComponent, SupprComponent, MatIconModule
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

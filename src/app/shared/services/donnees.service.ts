@@ -44,6 +44,9 @@ export class DonneesService {
   router:Router = inject(Router);
 
   constructor() {
+    this.init();
+  }
+  init(){
     if (sessionStorage.getItem('campagne')) {
       this.campagne = JSON.parse(sessionStorage.getItem('campagne')!);
       this.docs = { ...this.campagne!.docs };

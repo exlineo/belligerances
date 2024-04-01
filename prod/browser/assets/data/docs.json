@@ -51,7 +51,7 @@
   ],
   "cac": [
     {
-      "id": -1,
+      "id": 0,
       "nom": "Epée longue",
       "descr": "A fait ses preuves sur le champ de bataille",
       "degats": {
@@ -108,7 +108,7 @@
       "impact": 0
     },
     {
-      "id": 0,
+      "id": 1,
       "nom": "Arc court",
       "descr": "Pratique en toutes circonstances",
       "degats": {
@@ -193,23 +193,23 @@
       "descr":"Pour arbalètes",
       "bonus": 0
     },{
-      "id": 0,
+      "id": 1,
       "nom": "Dart",
       "descr":"Un petit coup de main ?",
       "bonus": 0
     },{
-      "id": 0,
+      "id": 2,
       "nom": "Flèche",
       "descr":"Floup",
       "bonus": 0
     },{
-      "id": 0,
+      "id": 3,
       "nom": "Javeline",
       "descr":"Attention ça tombe !",
       "bonus": 0
     },
     {
-      "id": 0,
+      "id": 4,
       "nom": "Balle de fronde",
       "descr":"Thierry",
       "bonus": 0
@@ -291,7 +291,7 @@
       "morts":0,
       "pvMax":300,
       "pv":12,
-      "moral":1,
+      "moral":6,
       "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/armees/shield_n.png"
@@ -309,7 +309,7 @@
       "morts":0,
       "pvMax":290,
       "pv":149,
-      "moral":7,
+      "moral":6,
       "armee":1,
       "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
@@ -328,7 +328,7 @@
       "morts":0,
       "pvMax":200,
       "pv":125,
-      "moral":4,
+      "moral":6,
       "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/armees/spear_n.png"
@@ -347,7 +347,7 @@
       "morts":0,
       "pvMax":330,
       "pv":258,
-      "moral":9,
+      "moral":6,
       "munitions":{"type":-1, "q":0},
       "ordre":"Mur de bouclier",
       "avatar":"assets/images/avatars/armees/horses.png"
@@ -458,8 +458,8 @@
       "jet":2,
       "armure":3,
       "bouclier":2,
-      "pvMax":120,
-      "pv":232,
+      "pvMax":30,
+      "pv":30,
       "monture":0,
       "impact":1,
       "attaque":1,
@@ -478,8 +478,8 @@
       "jet":1,
       "armure":3,
       "bouclier":2,
-      "pvMax":110,
-      "pv":232,
+      "pvMax":15,
+      "pv":15,
       "monture":3,
       "impact":1,
       "attaque":1,
@@ -518,8 +518,8 @@
       "jet":3,
       "armure":3,
       "bouclier":2,
-      "pvMax":110,
-      "pv":232,
+      "pvMax":10,
+      "pv":10,
       "monture":1,
       "impact":2,
       "attaque":1,
@@ -538,8 +538,8 @@
       "jet":2,
       "armure":3,
       "bouclier":2,
-      "pvMax":110,
-      "pv":232,
+      "pvMax":10,
+      "pv":10,
       "monture":2,
       "impact":2,
       "attaque":1,

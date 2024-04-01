@@ -328,8 +328,8 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       const commandant = this.d.getCompagniesUnites('unites', this.defend!.commandant);
       if (commandant.pv <= 0) malus += 3;
 
-      const result = malus + Math.ceil(Math.random() * 20);
-      if (result >= 12) {
+      const result = Math.ceil(Math.random() * 20);
+      if (result >= 12 + malus) {
         this.defend!.moral -= 1;
         this.l.message('MSG_MORAL_LOOSE');
       } else {
