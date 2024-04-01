@@ -51,8 +51,8 @@
           <li><a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below" (click)="actionRallie(c)">
               <img src="assets/images/pictos/action-rallie_b.png" [alt]="l.t['ACT_RALLIE']"></a></li>
 
-          <li><a [matTooltip]="l.t['ACT_MORAL']" matTooltipPosition="left">
-              <img src="assets/images/pictos/action-moral_b.png" [alt]="l.t['ACT_MORAL']"></a></li>
+          <!-- <li><a [matTooltip]="l.t['ACT_MORAL']" matTooltipPosition="left">
+              <img src="assets/images/pictos/action-moral_b.png" [alt]="l.t['ACT_MORAL']"></a></li> -->
 
           <li><a [matTooltip]="l.t['DEL']" matTooltipPosition="left" (click)="actionDel($event, i, c.id)">
               <img src="assets/images/pictos/action-del_b.png" [alt]="l.t['DEL']"></a></li>
@@ -145,6 +145,11 @@
             <span>{{ l.t['MORTS'] }}</span>
             <span>{{ attaque.morts }}</span>
           </li>
+          <li>
+            <img src="assets/images/pictos/action-moral_n.png" [alt]="l.t['ACT_MORAL']">
+            <span>{{ l.t['MORAL'] }}</span>
+            <span>{{ attaque.moral }}</span>
+          </li>
         </ul>
         @if(action == 'ACT_JET' || action == 'ACT_SORT'){
         <fieldset>
@@ -184,6 +189,11 @@
             <span>{{ l.t['MORTS'] }}</span>
             <span>{{ defend.morts }}</span>
           </li>
+          <li>
+            <img src="assets/images/pictos/action-moral_b.png" [alt]="l.t['ACT_MORAL']">
+            <span>{{ l.t['MORAL'] }}</span>
+            <span>{{ defend.moral }}</span>
+          </li>
         </ul>
         }@else {
         <h3>{{ l.t['DEF_CHOIX'] }}</h3>
@@ -192,3 +202,83 @@
     </section>
   </section>
 </footer>
+@if(infos){
+<section id="pop">
+  <main>
+    <header>
+      <a (click)="infos = false" [title]="l.t['FERMER']" class="close"><mat-icon>close</mat-icon></a>
+      <h2>{{ l.t['COMPAGNIE'] }} : {{ selected!.nom }}</h2>
+      <p>{{ selected!.descr }}</p>
+    </header>
+    <section>
+      <table>
+        <thead>
+          <tr>
+            <th>{{ l.t['COMMANDANT'] }}</th>
+            <th>{{ l.t['ARMEE'] }}</th>
+            <th>{{ l.t['PV'] }}</th>
+            <th>{{ l.t['MORAL'] }}</th>
+            <th colspan="2">{{ l.t['MUNS'] }}</th>
+            <th>{{ l.t['STATUT'] }}</th>
+          </tr>
+          <tr>
+            <th colspan="4"></th>
+            <th>{{ l.t['TYPE'] }}</th>
+            <th>{{ l.t['QT'] }}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ d.getCompagniesUnites('unites', selected!.commandant).nom }}</td>
+            <td>{{ d.getCompagniesUnites('armees', selected!.armee!).nom }}</td>
+            <td>{{ selected!.pv }}</td>
+            <td>{{ selected!.moral }}</td>
+            <td>{{ selected!.munitions?.type }}</td>
+            <td>{{ selected!.munitions?.q }}</td>
+            <td><img [src]="selected!.statut | statuts" [alt]="selected!.nom"></td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <td>{{ l.t['NOM'] }}</td>
+            <td>{{ l.t['RACE'] }}</td>
+            <td>{{ l.t['CAC'] }}</td>
+            <td>{{ l.t['JET'] }}</td>
+            <td>{{ l.t['ARMURE'] }}</td>
+            <td>{{ l.t['BOUCLIER'] }}</td>
+            <td>{{ l.t['PV_MAX'] }}</td>
+            <td>{{ l.t['PV'] }}</td>
+            <td>{{ l.t['MONTURE'] }}</td>
+            <td>{{ l.t['XP'] }}</td>
+            <td>{{ l.t['STATUT'] }}</td>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of selected!.unites | slice:pagination.min:pagination.max; track $index) {
+          <tr>
+            <td>{{ d.getCompagniesUnites('unites', u).nom }}</td>
+            <td>{{ d.getCompagniesUnites('races', u).nom }}</td>
+            <td>{{ d.getCompagniesUnites('cac', u).nom }}</td>
+            <td>{{ d.getCompagniesUnites('jet', u).nom }}</td>
+            <td>{{ d.getCompagniesUnites('armures', u).nom }}</td>
+            <td>{{ d.getCompagniesUnites('boucliers', u).nom }}</td>
+            <td>{{ d.getCompagniesUnites('unites', u).pvMax }}</td>
+            <td>{{ d.getCompagniesUnites('unites', u).pv }}</td>
+
+            <td>{{ d.getCompagniesUnites('montures', u).nom }}</td>
+            <td>{{ d.getCompagniesUnites('unites', u).xp }}</td>
+            <td><img [src]="d.getCompagniesUnites('unites', u).etat | statuts" [alt]="l.t['AVATAR']"></td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      <mat-paginator [length]="selected?.unites?.length" (page)="setPagination($event)" [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50, 100, 250]" aria-label="Avancer dans les unitées">
+      </mat-paginator>
+    </section>
+  </main>
+</section>
+}

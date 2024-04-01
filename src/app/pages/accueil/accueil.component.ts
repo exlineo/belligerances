@@ -41,7 +41,6 @@ export class AccueilComponent implements AfterViewInit{
     if (this.d.campagne) {
       this.fichier = 'campagnes_'+ Date.now() +'.json';
       const json = JSON.stringify(this.d.campagnes);
-      console.log(this.d.campagnes, json);
       this.href = this.sain.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(json));
       this.tele.nativeElement.click();
     } else {

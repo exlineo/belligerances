@@ -44,8 +44,11 @@
           <thead>
             <tr>
               <th>{{ l.t['COMPAGNIES'] }}</th>
+              <th>{{ l.t['PV'] }}</th>
               <th>{{ l.t['XP'] }}</th>
               <th>{{ l.t['UNITES_NB'] }}</th>
+              <th>{{ l.t['BLESSES'] }}</th>
+              <th>{{ l.t['MORTS'] }}</th>
               <th>{{ l.t['STATUT'] }}</th>
             </tr>
           </thead>
@@ -53,8 +56,11 @@
             @for (c of a.compagnies; track $index) {
             <tr>
               <td><img [src]="d.docs.compagnies[c].avatar" [alt]="l.t['AVATAR']" class="avatar"><p>{{ d.docs.compagnies[c].nom }}</p></td>
+              <td>{{ d.docs.compagnies[c].pv }}</td>
               <td>{{ d.docs.compagnies[c].xp }}</td>
               <td>{{ d.docs.compagnies[c].unites.length }}</td>
+              <td>{{ d.docs.compagnies[c].blesses}}</td>
+              <td>{{ d.docs.compagnies[c].morts }}</td>
               <td>{{ d.docs.compagnies[c].statut }}</td>
             </tr>
             }

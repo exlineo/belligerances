@@ -47,16 +47,19 @@ footer{
 }
 footer > section {
   width: 50vw;
+  min-width:860px;
   border-top: 1px solid black;
   background-color: white;
   height:320px;
   position:relative;
   top:0px;
-  margin-right:25%;
+  left:-200px;
+  /* margin-right:25%; */
   flex-flow:column nowrap;
 }
 footer > section > header {
   padding:10px 0;
+  width:100%;
   justify-content: flex-start;
   height: 70px;
   background-color: white;
@@ -77,12 +80,13 @@ footer > section > section {
   flex-flow: row nowrap;
   align-items: stretch;
   height: 100%;
+  width:100%;
 }
 
 footer > section > section > article {
   flex-flow: column nowrap;
   flex:3;
-  padding:20px;
+  padding:0 40px 0 20px;
   height:100%;
 }
 footer > section > section > span {
@@ -123,12 +127,14 @@ footer button img {
   margin:auto;
 }
 footer h4{
-  margin-top:-40px;
+  width:100%;
+  margin-top:-50px;
+  text-align:center;
 }
 footer h5{
   margin:0 0 5px;
 }
-footer article:nth-child(1) h3, footer article:nth-child(1) h4, footer article:nth-child(1) h5{
+footer article:nth-child(1) h5{
   text-align: right;
 }
 footer ul{

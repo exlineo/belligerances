@@ -119,6 +119,8 @@
   "MUN":"Munition",
   "MUNS":"Munitions",
   "MUNS_QT":"Quantité de munitions",
+  "QT":"Quantité",
+  "TYPE":"Type",
   "AVATAR":"Avatar",
   "AVATARS":"Avatars",
   "MORAL":"Moral",
@@ -198,6 +200,8 @@
   "ER_MORAL":"La compagnie doit être démoralisée pour tenter un ralliement",
   "MSG_MORAL_GAIN":"La compagnie a gagné 2 pts de moral",
   "MSG_MORAL_NULL":"Désolé, jet de moral raté...",
+  "MSG_MORAL_LOOSE":"Trop de blessés, la compagnie perd 1 point de moral",
+  "MSG_DEMORAL":"La compagnie est démoralisée, elle ne peut pas combattre, faites-lui faire un jet de ralliement d'abord",
   "LISTE_ARMES": {
     "EPEE_LONGUE": "Epée longue",
     "DAGUE": "Dague",

@@ -5,13 +5,14 @@ import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { CompagnieI, OrdreI, PositionI, UniteI } from 'src/app/shared/modeles/Type';
-import { DomChangedDirective } from 'src/app/shared/dom-directive';
-import { BlessurePipe, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe } from 'src/app/shared/pipes/tris.pipe';
+import { BlessurePipe, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe, StatutsPipe } from 'src/app/shared/pipes/tris.pipe';
+import { PageEvent } from '@angular/material/paginator';
+import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'app-batailles',
   standalone: true,
-  imports: [MaterialModule, CdkDrag, DomChangedDirective, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe, BlessurePipe],
+  imports: [MaterialModule, CdkDrag, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe, BlessurePipe, SlicePipe, StatutsPipe],
   templateUrl: './batailles.component.html',
   styleUrl: './batailles.component.css',
   animations: [
@@ -57,23 +58,26 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   uDefs: Array<UniteI> = []; // Unités en défense
 
   action: string = 'ACT_AT'; // Action en cours
-  distance:number = 0;
+  distance: number = 0;
+  infos: boolean = false;
   indexAttaquant: number = -1; // Index de la compagnie qui attaque
   el: any; // Element sélectionné
   blesses: number = 0;
   morts: number = 0;
+  moral: number = 0;
 
   // Pipes pour les combats
   xpPipe: BonusXpPipe = new BonusXpPipe();
   cmdPipe: BonusCmdPipe = new BonusCmdPipe();
   moralPipe: BonusMoralPipe = new BonusMoralPipe();
-  jetPipe:MalusJetPipe = new MalusJetPipe();
-  blessurePipe:BlessurePipe = new BlessurePipe();
+  jetPipe: MalusJetPipe = new MalusJetPipe();
+  blessurePipe: BlessurePipe = new BlessurePipe();
 
   ordre?: OrdreI; // Ordre en cours
 
   drag: boolean = false;
   initPos!: PositionI; // Position initiale du champ de bataille
+  pagination = { min: 0, max: 10 };
 
   bg: string = ''; // Arrière plan de la bataille
   @ViewChildren('token') tokensView!: QueryList<ElementRef>;
@@ -88,6 +92,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     }
     this.selected = c;
     this.indexAttaquant = i;
+    this.infos = false;
     if (this.el) {
       this.el.style.zIndex = 1000;
       this.el = event.target;
@@ -150,6 +155,8 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   /** Afficher les infos sur la compagnie */
   actionInfos(c: CompagnieI) {
     this.action = 'ACT_INFOS';
+    this.infos = true;
+    console.log(this.infos, this.selected, c);
   }
   /** Afficher les infos sur la compagnie */
   actionMoral(c: CompagnieI) {
@@ -207,74 +214,97 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   }
   /** Agir */
   goCombat() {
-    this.blesses = 0;
-    this.morts = 0;
-    let ml = this.moralPipe.transform(this.attaque!.moral); // Bonus de moral de la compagnie
-    // let cmd = this.cmdPipe.transform(this.d.docs.unite.filter((u:UniteI) => u.id == this.attaque?.commandant).xp); // Bonus du commandant
-    let act: string = 'cac';
-    console.log("Act", this.action.slice(4, this.action.length).toLocaleLowerCase());
-    switch (this.action) {
-      case 'ACT_CAC':
-        act = 'cac';
-        break;
-      case 'ACT_JET':
-        act = 'jet';
-        break;
-      case 'ACT_SORT':
-        act = 'sort';
-        break;
-    };
+    if (this.attaque && this.attaque.moral <= 0) {
+      this.l.message('MSG_DEMORAL');
+    } else {
+      this.blesses = 0;
+      this.morts = 0;
+      let ml = this.moralPipe.transform(this.attaque!.moral); // Bonus de moral de la compagnie
+      // let cmd = this.cmdPipe.transform(this.d.docs.unite.filter((u:UniteI) => u.id == this.attaque?.commandant).xp); // Bonus du commandant
+      let act: string = 'cac';
+      console.log("Act", this.action.slice(4, this.action.length).toLocaleLowerCase());
+      switch (this.action) {
+        case 'ACT_CAC':
+          act = 'cac';
+          break;
+        case 'ACT_JET':
+          act = 'jet';
+          break;
+        case 'ACT_SORT':
+          act = 'sort';
+          break;
+      };
 
-    this.uAts.forEach((u: UniteI, i: number) => {
-      // L'attaquant peuplé des données utiles
-      let uAt = this.d.setUnite(u);
-      let bonusAt = ml + uAt.xp + this.getBonusOrdre(act); // Bonus de l'attaquant
-      let impact = this.getImpact(uAt, act);
-      // Défenseur choisi au hasard et peuplé des données utiles
-      let uDef = this.d.setUnite(this.uDefs[Math.round(Math.random() * (this.uDefs.length - 1))]);
+      this.uAts.forEach((u: UniteI, i: number) => {
+        // L'attaquant peuplé des données utiles
+        let uAt = this.d.setUnite(u);
+        let bonusAt = ml + uAt.xp + this.getBonusOrdre(act); // Bonus de l'attaquant
+        let impact = this.getImpact(uAt, act);
+        // Défenseur choisi au hasard et peuplé des données utiles
+        let uDef = this.d.setUnite(this.uDefs[Math.round(Math.random() * (this.uDefs.length - 1))]);
 
-      let def = uDef.race.baseArmure
-        + uDef.armure.bonus
-        + uDef.bouclier.bonus
-        + this.getBonusOrdre('def');
+        let def = uDef.race.baseArmure
+          + uDef.armure.bonus
+          + uDef.bouclier.bonus
+          + this.getBonusOrdre('def');
 
-      for (let n = 0; n < impact; ++n) {
-        let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
-        if (at >= def) {
-          let dg = Math.round(Math.random() * (uAt[act].degats.max - uAt[act].degats.min)) + uAt[act].degats.min;
-          // Si c'est un jet ou un sort, on calcul les dégats relativement à la distance
-          if(act == 'jet' || act == 'sort'){
-            dg = Math.round(dg * this.jetPipe.transform(uAt[act].portee.min, uAt[act].portee.max, this.distance));
+        for (let n = 0; n < impact; ++n) {
+          let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
+          if (at >= def) {
+            let dg = Math.round(Math.random() * (uAt[act].degats.max - uAt[act].degats.min)) + uAt[act].degats.min;
+            // Si c'est un jet ou un sort, on calcul les dégats relativement à la distance
+            if (act == 'jet' || act == 'sort') {
+              dg = Math.round(dg * this.jetPipe.transform(uAt[act].portee.min, uAt[act].portee.max, this.distance));
+            }
+            u.xp += dg; // L'attaquant gagne de l'expérience
+            uDef.unite.pv - dg < 0 ? uDef.unite.pv = 0 : uDef.unite.pv -= dg; // Appliquer les dégâts à l'unité qui défend
           }
-          u.xp += dg; // L'attaquant gagne de l'expérience
-          uDef.unite.pv - dg < 0 ? uDef.unite.pv = 0 : uDef.unite.pv -= dg; // Appliquer les dégâts à l'unité qui défend
+          ++this.blesses; // Marquer le nouveau blessé
+          if (uDef.pv <= 0) ++this.morts;
         }
-        ++this.blesses; // Marquer le nouveau blessé
-        if(uDef.pv <= 0) ++this.morts;
-      }
-    });
-    // Calculer les morts et les blessés de la compagnie
-    this.calculeBlesses();
-    this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
+      });
+      // Calculer les morts et les blessés de la compagnie
+      this.calculeBlesses();
+      this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
+    }
   }
   /** Calculer le nombre de morts et de blessés dans une compagnie */
-  calculeBlesses(){
+  calculeBlesses() {
     this.defend!.blesses = this.defend!.morts = 0;
-    this.uDefs.forEach((u:any) => {
-      if(u.pv && u.pv <= 0) {
+    let pv = 0; // Calculer les points de vie globaux de la compagnie
+    this.uDefs.forEach((u: any) => {
+      if (u.pv && u.pv <= 0) {
         ++this.defend!.morts!;
-      }else if(u.pvMax > u.pv && u.pv >=0 ) {
+      } else if (u.pvMax > u.pv && u.pv >= 0) {
         ++this.defend!.blesses!;
       };
+      pv += u.pv;
       // Etablir l'état de l'unité en fonction de ses blessures
       u.etat = this.blessurePipe.transform(u);
     });
+    this.defend!.pv = pv;
     console.log("Calcul des blessés", this.defend, this.uDefs);
   }
   /** Jet de moral : malus = 1 / 5% des pertes*/
-  jetMoral(malus: number): boolean {
-    let result = malus + Math.ceil(Math.random() * 20);
-    return result >= 15
+  jetMoral() {
+    if ((this.blesses > 0 || this.morts > 0) && this.defend?.morts! > this.defend!.unites.length / 20) {
+      let malus = Math.ceil(20 * this.defend?.morts! / this.defend!.unites.length); // Ne fois 5% de morts
+      const armee = this.d.docs.armees.find(this.defend!.armee);
+
+      const general = this.d.getCompagniesUnites('unites', armee.commandant);
+      if (general.pv <= 0) malus += 5;
+
+      const commandant = this.d.getCompagniesUnites('unites', this.defend!.commandant);
+      if (commandant.pv <= 0) malus += 3;
+
+      const result = malus + Math.ceil(Math.random() * 20);
+      if (result >= 12) {
+        this.defend!.moral -= 1;
+        this.l.message('MSG_MORAL_LOOSE');
+      }else{
+        this.l.message('MSG_MORAL_OK')
+      }
+    }
   }
   /** Jet d'attaque : */
   jetAttaque(bonus: number) {
@@ -284,12 +314,6 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   getBonusOrdre(condition: string) {
     return this.ordre && this.ordre.effets.type == condition ? this.ordre.effets.bonus : 0;
   }
-  /** OBSOLETE Calculer un malus de sané */
-  // getBonusSante(pvMax: number, pv: number): number {
-  //   const pct = pv * 100 / pvMax;
-  //   console.log(pct);
-  //   return 0;
-  // }
   /** Calculer le nombre d'attaques à effectuer
    * @param plein unité avec toutes ses valeurs
   */
@@ -302,5 +326,11 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     if (attaque == 'sort' && plein.sort?.impact) impact += plein.sort.impact;
 
     return impact;
+  }
+  /** Pagination */
+  setPagination(event: PageEvent) {
+    const min = event.pageIndex * event.pageSize;
+    const max = min + event.pageSize;
+    this.pagination = { min, max };
   }
 }

@@ -104,6 +104,7 @@ export class DonneesService {
   }
   // 1
   getCampagnes() {
+    console.log("Get camapagnes");
     if (localStorage.getItem('campagnes')) {
       this.campagnes = JSON.parse(localStorage.getItem('campagnes')!);
       console.log("Campagnes locales chargées");
