@@ -64,7 +64,9 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   el: any; // Element sélectionné
   blesses: number = 0;
   morts: number = 0;
-  moral: number = 0;
+
+  officierAt: UniteI | undefined; // Officier attaquant
+  officierDef: UniteI | undefined; // Officier défenseur
 
   // Pipes pour les combats
   xpPipe: BonusXpPipe = new BonusXpPipe();
@@ -158,12 +160,9 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     this.infos = true;
     console.log(this.infos, this.selected, c);
   }
-  /** Afficher les infos sur la compagnie */
-  actionMoral(c: CompagnieI) {
-    this.action = 'ACT_MORAL';
-  }
   /** Déterminer la compagnie qui va se battre */
   actionBaston(event: Event, c: CompagnieI, l: string = 'ACT_CAC') {
+    this.officierAt = this.officierDef = undefined; // On vire les officiers s'il y a lieu
     if (this.attaque && this.attaque.id == c.id) {
       this.attaque = undefined;
       this.uAts = [];
@@ -177,6 +176,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   }
   /** Déterminer la compagnie qui défend */
   actionDefend(c: CompagnieI) {
+    this.officierAt = this.officierDef = undefined; // On vire les officiers s'il y a lieu
     if (this.defend && this.defend.id == c.id) {
       this.defend = undefined;
       this.uDefs = [];
@@ -207,13 +207,41 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       } // Moral remonte de 2
     }
   }
+  /** Défier un adversaire */
+  actionDefi(id: number, type: boolean) {
+    this.action = 'ACT_DEFI';
+    // Initialisation des compagniers
+    this.attaque = this.defend = undefined;
+    this.uAts = this.uDefs = [];
+
+    // Si type == true, c'est l'attaquant, sinon le défenseur
+    const unite = this.d.docs.unites.find((u: UniteI) => u.id == id);
+
+    if (type) {
+      this.officierAt == unite ? this.officierAt = undefined : this.officierAt = unite;
+    } else {
+      this.officierDef == unite ? this.officierDef = undefined : this.officierDef = unite;
+    }
+    this.cacheActions();
+  }
   /** Cacher la fenêtre des actions */
   cacheActions() {
-    !this.attaque && !this.defend ? this.tabActions = false : this.tabActions = true;
+    (!this.attaque && !this.defend) || (!this.officierAt && !this.officierDef) ? this.tabActions = false : this.tabActions = true;
     this.action = 'ACT';
   }
   /** Agir */
   goCombat() {
+    if ((this.attaque && !this.defend) || (!this.attaque && this.defend) || (this.officierAt && !this.officierDef) || (!this.officierAt && this.officierDef)) {
+      this.l.message('MSG_BELLI_CHOIX');
+    } else if (this.attaque && this.defend) {
+      this.combatCompagnies();
+    } else if (this.officierAt && this.officierDef) {
+      this.combatChefs();
+    } else {
+      this.l.message('MSG_BELLI_CHOIX');
+    }
+  }
+  combatCompagnies() {
     if (this.attaque && this.attaque.moral <= 0) {
       this.l.message('MSG_DEMORAL');
     } else {
@@ -268,6 +296,9 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
     }
   }
+  combatChefs() {
+
+  }
   /** Calculer le nombre de morts et de blessés dans une compagnie */
   calculeBlesses() {
     this.defend!.blesses = this.defend!.morts = 0;
@@ -301,7 +332,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       if (result >= 12) {
         this.defend!.moral -= 1;
         this.l.message('MSG_MORAL_LOOSE');
-      }else{
+      } else {
         this.l.message('MSG_MORAL_OK')
       }
     }

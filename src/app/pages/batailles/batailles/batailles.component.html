@@ -57,14 +57,18 @@
           <li><a [matTooltip]="l.t['DEL']" matTooltipPosition="left" (click)="actionDel($event, i, c.id)">
               <img src="assets/images/pictos/action-del_b.png" [alt]="l.t['DEL']"></a></li>
 
-          <li><a [matTooltip]="l.t['ACT_DEFI']" matTooltipPosition="above">
-              <img src="assets/images/pictos/action-defi_b.png" [alt]="l.t['ACT_DEFI']"></a></li>
-
           <li><a [matTooltip]="l.t['ACT_INFOS']" matTooltipPosition="above" (click)="actionInfos(c)">
               <img src="assets/images/pictos/action-infos_b.png" [alt]="l.t['ACT_STATUT']"></a></li>
 
           <li><a [matTooltip]="l.t['ACT_DEF']" matTooltipPosition="after" (click)="actionDefend(c)">
               <img src="assets/images/pictos/action-statut_b.png" [alt]="l.t['ACT_DEF']"></a></li>
+
+
+          <li><a [matTooltip]="l.t['ACT_DEFI_AT']" matTooltipPosition="above" (click)="actionDefi(c.id, true)">
+            <img src="assets/images/pictos/action-defi_b.png" [alt]="l.t['ACT_DEFI_AT']"></a></li>
+
+          <li><a [matTooltip]="l.t['ACT_DEFI_DEF']" matTooltipPosition="above" (click)="actionDefi(c.id, false)">
+            <img src="assets/images/pictos/action-defi_b.png" [alt]="l.t['ACT_DEFI_DEF']"></a></li>
 
         </ul>
       </div>
@@ -126,12 +130,13 @@
     </header>
     <section>
       <article>
+        <!-- Compagnie attaque -->
         @if(attaque){
         <h4>{{ l.t['ATTAQUANT'] }}</h4>
         <h5>{{ attaque.nom }}</h5>
         <ul>
           <li>
-            <img src="assets/images/pictos/unite-cac_n.png" [alt]="l.t['COMBATTANTS']">
+            <img src="assets/images/pictos/unite-bouclier_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['UNITES'] }}</span>
             <span>{{ attaque.unites.length }}</span>
           </li>
@@ -151,17 +156,66 @@
             <span>{{ attaque.moral }}</span>
           </li>
         </ul>
-        @if(action == 'ACT_JET' || action == 'ACT_SORT'){
-        <fieldset>
-          <mat-label>{{ l.t['JET_AT'] }}</mat-label>
-          <mat-slider min="0" max="100" step="1" discrete (input)="matDistance($event)">
-            <input matSliderThumb value="0">
-          </mat-slider>
-        </fieldset>
         }
-        }@else {
-        <h3>{{ l.t['AT_CHOIX'] }}</h3>
-        }
+        <!-- Commandant attaque -->
+        @if(officierAt){
+          <h4>{{ l.t['ATTAQUANT'] }}</h4>
+          <h5>{{ officierAt.nom }}</h5>
+          <ul>
+            <li>
+              <img src="assets/images/pictos/coeur_n.png" [alt]="l.t['PV']">
+              <span>{{ l.t['PV'] }}</span>
+              <span><strong>{{ officierAt.pv }}</strong></span>
+            </li>
+            @if(officierAt.cac){
+              <li>
+                <img src="assets/images/pictos/action-cac_n.png" [alt]="l.t['CAC']">
+                <span>{{ l.t['CAC'] }}</span>
+                <span><strong>{{ d.getCompagniesUnites('cac', officierAt.cac!).nom }}</strong></span>
+              </li>
+            }
+            @if(officierAt.jet){
+              <li>
+                <img src="assets/images/pictos/action-jet_n.png" [alt]="l.t['JET']">
+                <span>{{ l.t['JET'] }}</span>
+                <span><strong>{{ d.getCompagniesUnites('jet', officierAt.jet!).nom }}</strong></span>
+              </li>
+            }
+            @if(officierAt.monture){
+              <li>
+                <img src="assets/images/pictos/cavalerie_n.png" [alt]="l.t['MONTURE']">
+                <span>{{ l.t['BLESSES'] }}</span>
+                <span><strong>{{ d.getCompagniesUnites('montures', officierAt.monture!).nom }}</strong></span>
+              </li>
+            }
+            </ul>
+            <ul>
+            <li>
+              <img src="assets/images/pictos/armor_pn.png" [alt]="l.t['ARMURE']">
+              <span>{{ l.t['ARMURE'] }}</span>
+              <span><strong>{{ d.getCompagniesUnites('armures', officierAt.armure!).nom }}</strong></span>
+            </li>
+            <li>
+              <img src="assets/images/pictos/shield_pn.png" [alt]="l.t['BOUCLIER']">
+              <span>{{ l.t['BOUCLIER'] }}</span>
+              <span><strong>{{ d.getCompagniesUnites('boucliers', officierAt.bouclier!).nom }}</strong></span>
+            </li>
+            <li>
+              <img [src]="officierAt.etat | statuts" [alt]="officierAt.nom" [alt]="l.t['STATUT']">
+            </li>
+          </ul>
+          }
+          @if(action == 'ACT_JET' || action == 'ACT_SORT' || (officierAt && officierAt.jet && officierAt.jet != -1)){
+            <fieldset>
+              <mat-label>{{ l.t['JET_AT'] }}</mat-label>
+              <mat-slider min="0" max="100" step="1" discrete (input)="matDistance($event)">
+                <input matSliderThumb value="0">
+              </mat-slider>
+            </fieldset>
+          }
+          @if(!attaque && !officierAt) {
+            <h3>{{ l.t['AT_CHOIX'] }}</h3>
+          }
       </article>
       <span>
         <button class="valide" [matTooltip]="l.t[action]" (click)="goCombat()">
@@ -175,28 +229,77 @@
         <h5>{{ defend.nom }}</h5>
         <ul>
           <li>
-            <img src="assets/images/pictos/unite-cac_n.png" [alt]="l.t['COMBATTANTS']">
+            <img src="assets/images/pictos/unite-bouclier_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['UNITES'] }}</span>
-            <span>{{ defend.unites.length }}</span>
+            <span><strong>{{ defend.unites.length }}</strong></span>
           </li>
           <li [matBadge]="blesses" matBadgeColor="warn">
             <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['BLESSES'] }}</span>
-            <span>{{ defend.blesses }}</span>
+            <span><strong>{{ defend.blesses }}</strong></span>
           </li>
           <li [matBadge]="morts" matBadgeColor="warn">
             <img src="assets/images/pictos/morts_n.png" [alt]="l.t['COMBATTANTS']">
             <span>{{ l.t['MORTS'] }}</span>
-            <span>{{ defend.morts }}</span>
+            <span><strong>{{ defend.morts }}</strong></span>
           </li>
           <li>
             <img src="assets/images/pictos/action-moral_b.png" [alt]="l.t['ACT_MORAL']">
             <span>{{ l.t['MORAL'] }}</span>
-            <span>{{ defend.moral }}</span>
+            <span><strong>{{ defend.moral }}</strong></span>
           </li>
         </ul>
-        }@else {
-        <h3>{{ l.t['DEF_CHOIX'] }}</h3>
+        }
+        <!-- Commandant attaque -->
+        @if(officierDef){
+          <h4>{{ l.t['ATTAQUANT'] }}</h4>
+          <h5>{{ officierDef.nom }}</h5>
+          <ul>
+            <li>
+              <img src="assets/images/pictos/coeur_n.png" [alt]="l.t['PV']">
+              <span>{{ l.t['PV'] }}</span>
+              <span><strong>{{ officierDef.pv }}</strong></span>
+            </li>
+            @if(officierDef.cac){
+              <li>
+                <img src="assets/images/pictos/action-cac_n.png" [alt]="l.t['CAC']">
+                <span>{{ l.t['CAC'] }}</span>
+                <span><strong>{{ d.getCompagniesUnites('cac', officierDef.cac!).nom }}</strong></span>
+              </li>
+            }
+            @if(officierDef.jet){
+              <li>
+                <img src="assets/images/pictos/action-jet_n.png" [alt]="l.t['JET']">
+                <span>{{ l.t['JET'] }}</span>
+                <span><strong>{{ d.getCompagniesUnites('jet', officierDef.jet!).nom }}</strong></span>
+              </li>
+            }
+            @if(officierDef.monture){
+              <li>
+                <img src="assets/images/pictos/cavalerie_n.png" [alt]="l.t['MONTURE']">
+                <span>{{ l.t['BLESSES'] }}</span>
+                <span><strong>{{ d.getCompagniesUnites('montures', officierDef.monture!).nom }}</strong></span>
+              </li>
+            }
+            </ul>
+            <ul>
+            <li>
+              <img src="assets/images/pictos/armor_pn.png" [alt]="l.t['ARMURE']">
+              <span>{{ l.t['ARMURE'] }}</span>
+              <span><strong>{{ d.getCompagniesUnites('armures', officierDef.armure!).nom }}</strong></span>
+            </li>
+            <li>
+              <img src="assets/images/pictos/shield_pn.png" [alt]="l.t['BOUCLIER']">
+              <span>{{ l.t['BOUCLIER'] }}</span>
+              <span><strong>{{ d.getCompagniesUnites('boucliers', officierDef.bouclier!).nom }}</strong></span>
+            </li>
+            <li>
+              <img [src]="officierDef.etat | statuts" [alt]="officierDef!.nom" [alt]="l.t['STATUT']">
+            </li>
+          </ul>
+          }
+        @if(!defend && !officierDef) {
+          <h3>{{ l.t['DEF_CHOIX'] }}</h3>
         }
       </article>
     </section>

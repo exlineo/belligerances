@@ -157,7 +157,8 @@
   "ACT_ORDRE":"Ordres",
   "ACT_INFOS":"Infos sur la compagnie",
   "ACT_STATUT":"Changer de statut",
-  "ACT_DEFI":"Défier un officier",
+  "ACT_DEFI_AT":"Défier un officier",
+  "ACT_DEFI_DEF":"Défendre d'un défi",
   "MORT":"Mort",
   "MORTS":"Morts",
   "BLESSE":"Blessé",
@@ -202,6 +203,8 @@
   "MSG_MORAL_NULL":"Désolé, jet de moral raté...",
   "MSG_MORAL_LOOSE":"Trop de blessés, la compagnie perd 1 point de moral",
   "MSG_DEMORAL":"La compagnie est démoralisée, elle ne peut pas combattre, faites-lui faire un jet de ralliement d'abord",
+  "MSG_MORAL_OK":"Les unités tiennent bon ! Aucun point de moral perdu",
+  "MSG_BELLI_CHOIX":"Choisissez deux belligérants pour lancer l'attaque",
   "LISTE_ARMES": {
     "EPEE_LONGUE": "Epée longue",
     "DAGUE": "Dague",
