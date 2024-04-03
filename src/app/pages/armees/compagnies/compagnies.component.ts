@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MaterialModule } from 'src/app/shared/material.module';
-import { Aleas, Compagnie, CompagnieI, UniteI } from 'src/app/shared/modeles/Type';
+import { Aleas, ArmeeI, Compagnie, CompagnieI, UniteI } from 'src/app/shared/modeles/Type';
 import { ArmesPipe, CompagniesPipe, PjPipe, StatutsPipe, UnitesPipe } from 'src/app/shared/pipes/tris.pipe';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
@@ -74,6 +74,7 @@ export class CompagniesComponent implements OnInit {
 
         unite.pvMax = this.d.rand(unite.pvMax, this.aleas.pourcent);
         unite.pv = unite.pvMax;
+        !this.compagnie.pv ? this.compagnie.pv = unite.pv : this.compagnie.pv += unite.pv; // Donner des points de vie à la compagnie
         this.unitesGenerees.push(unite);
 
         // Un peu d'aléatoire dans la gestion des unités
@@ -99,7 +100,7 @@ export class CompagniesComponent implements OnInit {
     this.compagnie.id = this.d.docs.compagnies.length; // Nouvelle ID de la compagnie
     this.d.docs.unites = this.d.docs.unites.concat(this.unitesGenerees); // Ajouter les unités créées à la liste des unités disponibles
     this.d.docs.compagnies.push(this.compagnie);
-    console.log(this.d.docs);
+    if(this.compagnie.armee) this.d.addCompagnieToArmee(this.compagnie.id, this.compagnie.armee!);
 
     this.l.message(this.l.t['COMPAGNIE_ADD']);
 

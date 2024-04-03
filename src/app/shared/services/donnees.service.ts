@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Arme, Campagne, CampagneI, CompagnieI, Creature, DocumentsI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
+import { Arme, ArmeeI, Campagne, CampagneI, CompagnieI, Creature, DocumentsI, OrdreI, Params, ParamsI, UniteI } from '../modeles/Type';
 import { UtilsService } from './utils.service';
 import { BonusCmdPipe, BonusMoralPipe, BonusXpPipe } from '../pipes/tris.pipe';
 import { Router } from '@angular/router';
@@ -137,6 +137,13 @@ export class DonneesService {
       this.l.message('MSG_CAMP_CREE');
     });
   }
+  /** Calculer le nombre de points de vie d'une compagnie */
+  setCompagniePV(c:CompagnieI){
+    let pv = 0;
+    c.unites.forEach((id:number) => {
+      pv += this.docs.unites.find((u:UniteI) => u.id == id).pv;
+    })
+  }
   /** Sélectionner une campagne */
   setCampagne(index: number) {
     this.campagne = this.campagnes[index];
@@ -215,5 +222,20 @@ export class DonneesService {
     u.id = unite.id;
 
     return u;
+  }
+  /**
+   * Ajouter une compagnie à une armée
+   * @param idC Id de la compagnie
+   * @param idA Id de l'armée dans laquelle elle est ajoutée
+   */
+  addCompagnieToArmee(idC:number, idA:number){
+    this.docs.armees.forEach((ar:ArmeeI) => {
+      if(idA != ar.id && ar.compagnies.includes(idC)){
+        let index = ar.compagnies.indexOf(idC);
+        ar.compagnies.splice(index, 1);
+      } else if(idA == ar.id && !ar.compagnies.includes(idC)){
+        ar.compagnies.push(idC);
+      }
+    })
   }
 }

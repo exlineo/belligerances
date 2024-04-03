@@ -96,7 +96,8 @@
         <mat-icon matSuffix>edit</mat-icon>
       </mat-form-field>
       <mat-form-field>
-        <mat-select [(ngModel)]="uniteCree.race" name="race" [placeholder]="l.t['RACES'] + '*'" required (selectionChange)="getPVMax()">
+        <mat-select [(ngModel)]="uniteCree.race" name="race" [placeholder]="l.t['RACES'] + '*'" required
+          (selectionChange)="getPVMax()">
           @for (r of d.docs.races; track r.id) {
           <mat-option [value]="r.id">{{r.nom}}</mat-option>
           }
@@ -104,11 +105,10 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>{{ l.t['PV_MAX'] }}</mat-label>
-        <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="uniteCree.pvMax" name="pvma" required>
+        <input type="number" matInput [placeholder]="l.t['PV_MAX'] + '*'" [(ngModel)]="uniteCree.pvMax" name="pvma"
+          required>
         <mat-icon matSuffix>edit</mat-icon>
       </mat-form-field>
-    </article>
-    <article>
       <mat-form-field>
         <mat-select [(ngModel)]="uniteCree.cac" name="cac" [placeholder]="l.t['CAC']">
           <mat-option>{{l.t['SANS']}}</mat-option>
@@ -125,6 +125,8 @@
           }
         </mat-select>
       </mat-form-field>
+    </article>
+    <article>
       <mat-form-field>
         <mat-select [(ngModel)]="uniteCree.armure" name="armure" [placeholder]="l.t['ARMURES']">
           <mat-option>{{l.t['SANS']}}</mat-option>
@@ -150,6 +152,13 @@
         <mat-radio-button [value]=false>{{ l.t['PNJ'] }}*</mat-radio-button>
         <mat-radio-button [value]=true>{{ l.t['PJ'] }}*</mat-radio-button>
       </mat-radio-group>
+      @if(uniteCree.pj){
+      <mat-form-field>
+        <mat-label>{{ l.t['CMD_PTS'] }}</mat-label>
+        <input type="number" matInput [placeholder]="l.t['CMD_PTS']" [(ngModel)]="uniteCree.cmd" name="cmd">
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+      }
     </article>
 
     <article>

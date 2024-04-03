@@ -36,6 +36,10 @@ export class AccueilComponent implements AfterViewInit{
     // this.d.setCache('campagne-' + this.d.campagne?.id, this.d.campagne);
     this.d.etatSave = true;
   }
+  annuleCampagne(){
+    this.d.campagne = null;
+    this.index = -1;
+  }
   /** Télécharger les données des campagnes */
   downloadJson() {
     if (this.d.campagne) {

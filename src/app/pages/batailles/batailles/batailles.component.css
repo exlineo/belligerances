@@ -31,7 +31,7 @@ aside > section > header a {
 aside > section > header img {
   width:50px;
 }
-.mat-mdc-form-field, section > header form mat-select{
+header .mat-mdc-form-field, section > header form mat-select{
   width:500px;
 }
 form{
@@ -44,6 +44,7 @@ footer{
   position:absolute;
   bottom:-250px;
   justify-content:space-around;
+  z-index:1001;
 }
 footer > section {
   width: 50vw;
@@ -141,7 +142,7 @@ footer ul{
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
-  margin:15px 0;
+  margin:0;
   padding:10px;
 }
 footer li{

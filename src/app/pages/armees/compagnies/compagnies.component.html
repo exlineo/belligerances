@@ -29,6 +29,7 @@
           <p>{{ c.descr }}</p>
           <ul>
             <li>{{ l.t['COMMANDANT'] }} : <strong>{{ d.getCompagniesUnites('unites', c.commandant).nom }}</strong></li>
+            <li>{{ l.t['PV'] }} : <strong>{{ c.pv }}</strong></li>
             <li>{{ l.t['MUNS'] }} : @if(c.munitions!.type != -1){<strong>{{ d.getCompagniesUnites('munitions', c.munitions!.type).nom }} ({{ c.munitions!.q }})</strong>}</li>
           </ul>
           <nav class="row">

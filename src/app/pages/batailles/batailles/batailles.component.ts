@@ -4,7 +4,7 @@ import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MaterialModule } from 'src/app/shared/material.module';
-import { CompagnieI, OrdreI, PositionI, UniteI } from 'src/app/shared/modeles/Type';
+import { ArmeI, CompagnieI, OrdreI, PositionI, UniteI } from 'src/app/shared/modeles/Type';
 import { BlessurePipe, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe, StatutsPipe } from 'src/app/shared/pipes/tris.pipe';
 import { PageEvent } from '@angular/material/paginator';
 import { SlicePipe } from '@angular/common';
@@ -19,22 +19,14 @@ import { SlicePipe } from '@angular/common';
     trigger('tabOuvre', [
       state('ferme', style({ right: 350 })),
       state('ouvre', style({ right: 0 })),
-      transition('ouvre => ferme', [
-        animate('.3s ease')
-      ]),
-      transition('ferme => ouvre', [
-        animate('0.3s ease')
-      ]),
+      transition('ouvre => ferme', [animate('.3s ease')]),
+      transition('ferme => ouvre', [animate('0.3s ease')]),
     ]),
     trigger('tabLeve', [
       state('leve', style({ top: -250 })),
       state('baisse', style({ top: 0 })),
-      transition('leve => baisse', [
-        animate('.3s ease')
-      ]),
-      transition('baisse => leve', [
-        animate('0.3s ease')
-      ]),
+      transition('leve => baisse', [animate('.3s ease')]),
+      transition('baisse => leve', [animate('0.3s ease')]),
     ])
   ]
 })
@@ -193,18 +185,18 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   /** Afficher les infos sur la compagnie */
   actionRallie(c: CompagnieI) {
     this.action = 'ACT_RALLIE';
-    if (c.moral > 0) {
+    if (c.moral > 0) { // Si la compagnie n'est pas désorganisée
       this.l.message('ER_MORAL');
     } else if (c.commandant && this.d.docs.unites.find((u: UniteI) => u.id == c.commandant)) {
       const commandant = this.d.docs.unites.find((u: UniteI) => u.id == c.commandant);
       const jet = this.jetAttaque(commandant.cmd); // Prendre en compte les pertes dans la compagnie et l'absence de général ou de commandant comme variable
       console.log(jet);
       if (jet >= 12) {
-        c.moral = 2;
+        c.moral = 2; // Jet réussi, Moral remonte de 2
         this.l.message('MSG_MORAL_GAIN');
       } else {
         this.l.message('MSG_MORAL_NULL');
-      } // Moral remonte de 2
+      }
     }
   }
   /** Défier un adversaire */
@@ -213,10 +205,9 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     // Initialisation des compagniers
     this.attaque = this.defend = undefined;
     this.uAts = this.uDefs = [];
-
+    this.blesses = this.morts = 0;
     // Si type == true, c'est l'attaquant, sinon le défenseur
     const unite = this.d.docs.unites.find((u: UniteI) => u.id == id);
-
     if (type) {
       this.officierAt == unite ? this.officierAt = undefined : this.officierAt = unite;
     } else {
@@ -245,12 +236,8 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     if (this.attaque && this.attaque.moral <= 0) {
       this.l.message('MSG_DEMORAL');
     } else {
-      this.blesses = 0;
-      this.morts = 0;
       let ml = this.moralPipe.transform(this.attaque!.moral); // Bonus de moral de la compagnie
-      // let cmd = this.cmdPipe.transform(this.d.docs.unite.filter((u:UniteI) => u.id == this.attaque?.commandant).xp); // Bonus du commandant
       let act: string = 'cac';
-      console.log("Act", this.action.slice(4, this.action.length).toLocaleLowerCase());
       switch (this.action) {
         case 'ACT_CAC':
           act = 'cac';
@@ -279,7 +266,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
         for (let n = 0; n < impact; ++n) {
           let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
           if (at >= def) {
-            let dg = Math.round(Math.random() * (uAt[act].degats.max - uAt[act].degats.min)) + uAt[act].degats.min;
+            let dg = this.dgCac(uAt[act]);
             // Si c'est un jet ou un sort, on calcul les dégats relativement à la distance
             if (act == 'jet' || act == 'sort') {
               dg = Math.round(dg * this.jetPipe.transform(uAt[act].portee.min, uAt[act].portee.max, this.distance));
@@ -293,11 +280,61 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       });
       // Calculer les morts et les blessés de la compagnie
       this.calculeBlesses();
+      this.jetMoral();
       this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
     }
   }
   combatChefs() {
+    let atAt = 0;
+    let atDef = 0;
+    const at = this.d.setUnite(this.officierAt!);
+    const def = this.d.setUnite(this.officierDef!)
+    const atImpact = this.getImpact(at);
+    const defImpact = this.getImpact(def);
+    let dg = 0;
+    this.attaque = this.defend = undefined;
+    console.log("Combat des chefs", this.officierAt, this.officierDef, atImpact, defImpact);
+    console.log(!this.officierAt || !this.officierAt!.cmd, !this.officierDef || !this.officierDef!.cmd);
+    // Vérifier d'abord si les officiers peuvent bien participer
+    if (!this.officierAt || !this.officierAt!.cmd) {
+      this.l.message('MSG_CMD_AT');
+      return;
+    }else if (!this.officierDef || !this.officierDef!.cmd) {
+      this.l.message('MSG_CMD_DEF');
+      return
+    };
 
+    // Gérer les attaques
+    for (let i = 0; i < 4; ++i) {
+      // Attaque chacun son tour en fonction de l'impact de chacun
+      if (i % 2 == 0) {
+        for (let m = 0; m < atImpact; ++m) {
+          if (atAt >= atDef) {
+            dg = this.dgCac(at.cac);
+            this.officierDef.pv -= dg;
+            this.officierAt.xp += dg;
+            this.morts += dg;
+            console.log("At", atAt,"Def", atDef, "Dégats attaquant", dg);
+          }
+        }
+      } else {
+        for (let n = 0; n < defImpact; ++n) {
+          atAt = this.jetAttaque(this.officierAt!.cmd!);
+          atDef = this.jetAttaque(this.officierDef!.cmd);
+          if (atDef >= atAt) {
+            dg = this.dgCac(def.cac);
+            this.officierAt.pv -= dg;
+            this.officierDef.xp += dg;
+            this.blesses += dg;
+            console.log("At", atAt,"Def", atDef, "Dégats défenseur", dg);
+          }
+        }
+      }
+    }
+  }
+  /** Calculer les dégats en fonction de l'arme de corps à corps */
+  dgCac(arme: ArmeI) {
+    return Math.round(Math.random() * (arme.degats!.max - arme.degats!.min)) + arme.degats!.min;
   }
   /** Calculer le nombre de morts et de blessés dans une compagnie */
   calculeBlesses() {
