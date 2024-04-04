@@ -76,6 +76,7 @@ export class DonneesService {
 
     localStorage.setItem(listeId, JSON.stringify(listeData));
     localStorage.setItem('cache', JSON.stringify(this.cache));
+    this.l.sendFiles(this.campagnes);
   }
 
   // 3

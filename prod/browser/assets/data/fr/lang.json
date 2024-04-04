@@ -1,5 +1,5 @@
 {
-  "BELLI": "Belligérances",
+  "BELLI": "Belligérances™",
   "SLOGAN": "Animez vos batailles",
   "CAMP":"Campagne",
   "CAMPS":"Campagnes",
@@ -82,6 +82,7 @@
   "NOM": "Nom",
   "DESCR":"Description",
   "COMMANDANT":"Commandant",
+  "CMD_PTS":"Points de commandement",
   "GENERAL":"Général",
   "RACE": "Race",
   "RACES": "Races",
@@ -205,6 +206,8 @@
   "MSG_DEMORAL":"La compagnie est démoralisée, elle ne peut pas combattre, faites-lui faire un jet de ralliement d'abord",
   "MSG_MORAL_OK":"Les unités tiennent bon ! Aucun point de moral perdu",
   "MSG_BELLI_CHOIX":"Choisissez deux belligérants pour lancer l'attaque",
+  "MSG_CMD_AT":"Attention, le commandant attaquant n'a pas de potentiel de commandement",
+  "MSG_CMD_DEF":"Attention, le commandant défenseur n'a pas de potentiel de commandement",
   "LISTE_ARMES": {
     "EPEE_LONGUE": "Epée longue",
     "DAGUE": "Dague",

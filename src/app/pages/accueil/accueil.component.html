@@ -11,11 +11,13 @@
       </mat-option>
       }
     </mat-select>
-    <a [title]="l.t['TELE']" #tele [href]="href" [download]="fichier" style="display:none"></a>
     <button (click)="d.getDocs()" class="valide">
       <mat-icon matSuffix>add</mat-icon>{{ l.t['CAMP_CREER'] }}</button>
-    <button (click)="downloadJson()" class="picto annule">
-      <mat-icon matSuffix>file_download</mat-icon></button>
+      @if(d.campagne){
+        <a [title]="l.t['TELE']" #tele [href]="href" [download]="fichier" style="display:none"></a>
+      <button (click)="downloadJson()" class="picto annule">
+        <mat-icon matSuffix>file_download</mat-icon></button>
+    }
   </header>
   @if(d.campagne && d.campagne!.id == -1){
   <form>

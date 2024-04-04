@@ -303,7 +303,6 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       this.l.message('MSG_CMD_DEF');
       return
     };
-
     // Gérer les attaques
     for (let i = 0; i < 4; ++i) {
       // Attaque chacun son tour en fonction de l'impact de chacun
