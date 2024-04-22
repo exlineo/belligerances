@@ -163,20 +163,9 @@ export class DonneesService {
       error: (err) => console.error(err)
     });
   }
-  /**
-   *
-   * @param init Valeur de départ à partir de laquelle on applique le pourcentage
-   * @param p Pourcentage à calculer
-   * @returns écart
-   */
-  rand(init: number, p: number) {
-    const ecart = init * p / 100;
-    return Math.abs(init + (Math.round(Math.random() * ecart) - p / 2)); // Calcul de l'écart pour le nombre calculé en valeur absolue pour éviter les négatifs
-  }
-  randListe(liste: Array<any>) {
-    const val = Math.floor(Math.random() * liste.length)
-    const str = liste[val];
-    return str;
+  /** Récupérer une unité à partir de son ID */
+  getUnite(id:number){
+    return this.docs.unites.find((u:UniteI) => u.id == id);
   }
   /**
    * Récupérer une donnée d'un tableau loadé au démarrage
@@ -184,7 +173,9 @@ export class DonneesService {
    * @param id Id à récupérer
    */
   getCompagniesUnites(liste: string, id: number): any {
-    return this.docs[liste].find((l: any) => l.id == id) ?? '';
+    let val = this.docs[liste].find((l: any) => l.id == id) ?? '';
+    // console.log(liste, id, val);
+    return val;
   }
   /** EDITION DES DONNEES */
   edit(liste: string, id: number, obj: any) {

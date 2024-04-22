@@ -1,5 +1,6 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { ArmeeI, CompagnieI, UniteI, ArmeI, Arme } from '../modeles/Type';
+import { Pipe, PipeTransform, inject } from '@angular/core';
+import { ArmeeI, CompagnieI, UniteI, ArmeI } from '../modeles/Type';
+import { DonneesService } from '../services/donnees.service';
 /** Filtrer les unites pour avoir la liste des PJ */
 @Pipe({
   name: 'pj',
@@ -131,6 +132,20 @@ export class BlessurePipe implements PipeTransform {
     }
   }
 }
+
+/** Filter es armées */
+@Pipe({
+  name: 'unite',
+  standalone: true
+})
+export class UnitePipe implements PipeTransform {
+
+  private d:DonneesService = inject(DonneesService);
+
+  transform(id:number): UniteI {
+    return this.d.docs.unites.find((u:UniteI) => u.id == id);
+  }
+}
 /** Filter es armées */
 @Pipe({
   name: 'triArmees',
@@ -175,7 +190,7 @@ export class UnitesPipe implements PipeTransform {
       || (etat != 'null' && u.etat == parseInt(etat)));
   }
 }
-/** Filtrer les unites aussi */
+/** Récupérer une liste d'unités à partir de leurs ids */
 @Pipe({
   name: 'unitesArray',
   standalone: true
@@ -186,6 +201,19 @@ export class UnitesArrayPipe implements PipeTransform {
     if(!unites) return [];
     if(!unitesIds) return unites;
     return unites.filter( (u:UniteI) => unitesIds.includes(u.id));
+  }
+}
+/** Récupérer une liste de compagnies à partir des ids */
+@Pipe({
+  name: 'compagniesArray',
+  standalone: true
+})
+export class CompagniesArrayPipe implements PipeTransform {
+
+  transform(cIds:Array<number>, comps:Array<CompagnieI>): Array<CompagnieI> {
+    if(!comps) return [];
+    if(!cIds) return comps;
+    return comps.filter( (c:CompagnieI) => cIds.includes(c.id));
   }
 }
 /** Filtrer les unites pour avoir la liste des PJ */

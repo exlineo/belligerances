@@ -4,7 +4,7 @@ import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MaterialModule } from 'src/app/shared/material.module';
-import { ArmeI, CompagnieI, OrdreI, PositionI, UniteI } from 'src/app/shared/modeles/Type';
+import { CompagnieI, OrdreI, PositionI, UniteI } from 'src/app/shared/modeles/Type';
 import { BlessurePipe, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe, StatutsPipe } from 'src/app/shared/pipes/tris.pipe';
 import { PageEvent } from '@angular/material/paginator';
 import { SlicePipe } from '@angular/common';
@@ -38,18 +38,12 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
 
   tabArmees: boolean = false; // Déclencher l'ouverture ou la fermeture d'une fenêtre
   tabActions: boolean = false; // Déclencher l'ouverture ou la fermeture d'une fenêtre
+  ordre:boolean = false; // Afficher la liste des ordres disponibles
 
   hexActu: string = '';
   opacite: number = 0.25;
 
   el: any; // Element sélectionné
-
-  // Pipes pour les combats
-  xpPipe: BonusXpPipe = new BonusXpPipe();
-  cmdPipe: BonusCmdPipe = new BonusCmdPipe();
-  moralPipe: BonusMoralPipe = new BonusMoralPipe();
-  jetPipe: MalusJetPipe = new MalusJetPipe();
-  blessurePipe: BlessurePipe = new BlessurePipe();
 
   drag: boolean = false;
   initPos!: PositionI; // Position initiale du champ de bataille
@@ -114,7 +108,6 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       this.el.style.zIndex = 1;
       this.el = undefined;
     }
-    this.c.selected = undefined;
   }
   // Ajustement en temps réel du slide
   matSlide(event: any) {
@@ -143,7 +136,6 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   actionInfos(c: CompagnieI) {
     this.c.action = 'ACT_INFOS';
     this.c.infos = true;
-    console.log(this.c.infos, this.c.selected, c);
   }
   /** Déterminer la compagnie qui va se battre */
   actionBaston(event: Event, c: CompagnieI, l: string = 'ACT_CAC') {
@@ -192,6 +184,10 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       }
     }
   }
+  /** Choisir un ordre */
+  actionOrdre(comp:CompagnieI){
+    this.ordre = true;
+  }
   /** Défier un adversaire */
   actionDefi(id: number, type: boolean) {
     this.c.action = 'ACT_DEFI';
@@ -224,6 +220,11 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     } else {
       this.l.message('MSG_BELLI_CHOIX');
     }
+  }
+  /** Attribuer un ordre à une compagnie */
+  setOrdre(ordre:OrdreI){
+    console.log(this.c.selected, ordre);
+    this.c.selected!.ordre = ordre;
   }
   /** Pagination */
   setPagination(event: PageEvent) {

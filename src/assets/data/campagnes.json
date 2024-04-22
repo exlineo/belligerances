@@ -30,30 +30,6 @@
             3,
             2
           ]
-        },
-        {
-          "id": 2,
-          "nom": "Armée des cosmonautes",
-          "statut": -1,
-          "couleur":"#FF8A00",
-          "avatar":"assets/images/avatars/warrior_3.png",
-          "descr": "Armée perdue dans l'espace, toutes ses troupes sont perdues.",
-          "compagnies": [
-            3,
-            2
-          ]
-        },
-        {
-          "id": 3,
-          "nom": "Armée de la petite fontaine",
-          "statut": 1,
-          "couleur":"#15AD1B",
-          "avatar":"assets/images/avatars/warrior_1.png",
-          "descr": "L'armée des vivants est une armée de guerre qui est constituée de plusieurs compagnies de chevaliers et de magiciens.",
-          "compagnies": [
-            4,
-            5
-          ]
         }
       ],
       "cac": [
@@ -321,43 +297,6 @@
           "munitions":{"type":-1, "q":0},
           "ordre":"Mur de bouclier",
           "avatar":"assets/images/avatars/armees/armor.png"
-        },
-        {
-          "id":4,
-          "nom":"Compagnie de la mort",
-          "descr":"Des guerriers de la mort qui tue",
-          "xp":12,
-          "nbCombats":0,
-          "statut":1,
-          "unites":[4, 1],
-          "combattants":[],
-          "blesses":0,
-          "morts":0,
-          "pvMax":200,
-          "pv":125,
-          "moral":4,
-          "munitions":{"type":-1, "q":0},
-          "ordre":"Mur de bouclier",
-          "avatar":"assets/images/avatars/armees/spear_n.png"
-        },
-        {
-          "id":5,
-          "nom":"Compagnie de la morpré-mortt",
-          "descr":"Des guerriers de la mort qui tue",
-          "xp":12,
-          "nbCombats":0,
-          "armee":2,
-          "statut":1,
-          "unites":[2,3],
-          "combattants":[],
-          "blesses":0,
-          "morts":0,
-          "pvMax":330,
-          "pv":258,
-          "moral":9,
-          "munitions":{"type":-1, "q":0},
-          "ordre":"Mur de bouclier",
-          "avatar":"assets/images/avatars/armees/horses.png"
         }
       ],
       "races": [

@@ -56,20 +56,19 @@
             </tr>
           </thead>
           <tbody>
-            @for (u of c.unites | slice:pagination.min:pagination.max; track $index) {
+            @for (u of c.unites | slice:pagination.min:pagination.max | unitesArray:d.docs.unites; track u.id) {
             <tr>
-              <td>{{ d.getCompagniesUnites('unites', u).nom }}</td>
-              <td>{{ d.getCompagniesUnites('races', u).nom }}</td>
-              <td>{{ d.getCompagniesUnites('cac', u).nom }}</td>
-              <td>{{ d.getCompagniesUnites('jet', u).nom }}</td>
-              <td>{{ d.getCompagniesUnites('armures', u).nom }}</td>
-              <td>{{ d.getCompagniesUnites('boucliers', u).nom }}</td>
-              <td>{{ d.getCompagniesUnites('unites', u).pvMax }}</td>
-              <td>{{ d.getCompagniesUnites('unites', u).pv }}</td>
-
-              <td>{{ d.getCompagniesUnites('montures', u).nom }}</td>
-              <td>{{ d.getCompagniesUnites('unites', u).xp }}</td>
-              <td><img [src]="d.getCompagniesUnites('unites', u).etat | statuts" [alt]="l.t['AVATAR']"></td>
+              <td>{{ u.nom }}</td>
+              <td>@if(u.race){ {{ d.getCompagniesUnites('races', u.race).nom }} }</td>
+              <td>@if(u.cac){ {{ d.getCompagniesUnites('cac', u.cac).nom }} }</td>
+              <td>@if(u.jet){ {{ d.getCompagniesUnites('jet', u.jet).nom }} }</td>
+              <td>@if(u.armure){ {{ d.getCompagniesUnites('armures', u.armure).nom }} }</td>
+              <td>@if(u.bouclier){ {{ d.getCompagniesUnites('boucliers', u.bouclier).nom }} }</td>
+              <td>{{ u.pvMax }}</td>
+              <td>{{ u.pv }}</td>
+              <td>@if(u.monture){ {{ d.getCompagniesUnites('montures', u.monture).nom }} }</td>
+              <td>{{ u.xp }}</td>
+              <td><img [src]="u.etat | statuts" [alt]="l.t['AVATAR']"></td>
               <td>
                 <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('unites', c, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
                 <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('unites', c)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
@@ -279,7 +278,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (u of unitesGenerees | slice:pagination.min:pagination.max; track $index) {
+        @for (u of unitesGenerees | slice:pagination.min:pagination.max; track u.id) {
         <tr>
           <td>{{ u.nom }}</td>
           <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
@@ -294,8 +293,8 @@
           <td>{{ u.xp }}</td>
           <td><img [src]="u.etat | statuts"></td>
           <td>
-            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
+            <a [matTooltip]="l.t['ANNULE']" (click)="delUnite($index)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+            <!-- <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a> -->
           </td>
         </tr>
         }

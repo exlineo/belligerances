@@ -24,7 +24,7 @@
 
       <mat-form-field>
         <mat-label>{{ l.t['ARMEE'] }}</mat-label>
-        <mat-select [placeholder]="l.t['ARMEE']" name="armee" [(ngModel)]="l.maj.armee" required>
+        <mat-select [placeholder]="l.t['ARMEE']" name="armee" [(ngModel)]="l.maj.armee" (change)="setArmee()" required>
           @for (a of d.docs.armees; track a.id) {
           <mat-option [value]="a.id">{{a.nom}}</mat-option>
           }
@@ -93,7 +93,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (u of l.maj.unites | slice:pagination.min:pagination.max | unitesArray:d.docs.unites; track $index) {
+        @for (u of l.maj.unites | slice:pagination.min:pagination.max | unitesArray:d.docs.unites; track u.id) {
         <tr>
           <td>{{ u.nom }}</td>
           <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
@@ -108,14 +108,14 @@
           <td>{{ u.xp }}</td>
           <td><img [src]="u.etat | statuts" [alt]="l.t['STATUT']"></td>
           <td>
-            <a [matTooltip]="l.t['ANNULE']"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-            <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
+            <a [matTooltip]="l.t['ANNULE']" (click)="delUnite($index, u.id)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+            <!-- <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a> -->
           </td>
         </tr>
         }
       </tbody>
     </table>
-    <mat-paginator [length]="l.maj.unites.length" (page)="setPagination($event)" [pageSize]="25"
+    <mat-paginator [length]="l.maj.unites.length" (page)="setPagination($event)" [pageSize]="10"
       [pageSizeOptions]="[10, 25, 50, 100, 250]" aria-label="Avancer dans les unitées">
     </mat-paginator>
     <article>

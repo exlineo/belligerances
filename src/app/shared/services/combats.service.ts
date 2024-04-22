@@ -65,7 +65,7 @@ export class CombatsService {
       this.uAts.forEach((u: UniteI, i: number) => {
         // L'attaquant peuplé des données utiles
         let uAt = this.d.setUnite(u);
-        let bonusAt = ml + uAt.xp + this.getBonusOrdre(act); // Bonus de l'attaquant
+        let bonusAt = ml + uAt.xp + this.getBonusOrdre(this.attaque!, act); // Bonus de l'attaquant
         let impact = this.getImpact(uAt, act);
         // Défenseur choisi au hasard et peuplé des données utiles
         let uDef = this.d.setUnite(this.uDefs[Math.round(Math.random() * (this.uDefs.length - 1))]);
@@ -73,7 +73,7 @@ export class CombatsService {
         let def = uDef.race.baseArmure
           + uDef.armure.bonus
           + uDef.bouclier.bonus
-          + this.getBonusOrdre('def');
+          + this.getBonusOrdre(this.defend!, 'def');
 
         for (let n = 0; n < impact; ++n) {
           let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
@@ -191,8 +191,8 @@ export class CombatsService {
     return bonus + Math.ceil(Math.random() * 20);
   }
   /**  */
-  getBonusOrdre(condition: string) {
-    return this.ordre && this.ordre.effets.type == condition ? this.ordre.effets.bonus : 0;
+  getBonusOrdre(comp:CompagnieI, condition: string) {
+    return comp.ordre && comp.ordre.effets.type == condition ? comp.ordre.effets.bonus : 0;
   }
   /** Calculer le nombre d'attaques à effectuer
    * @param plein unité avec toutes ses valeurs

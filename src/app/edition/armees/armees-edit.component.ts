@@ -5,6 +5,7 @@ import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ColorPickerControl, Color } from '@iplab/ngx-color-picker';
+import { CompagnieI } from 'src/app/shared/modeles/Type';
 
 @Component({
   selector: 'app-edit-armees',
@@ -54,6 +55,8 @@ export class EditArmeesComponent implements AfterViewInit {
       this.l.maj.compagnies.splice(this.l.maj.compagnies.indexOf(id), 1);
     } else {
       this.l.maj.compagnies.push(id);
+      const c = this.d.docs.compagnies.find( (c:CompagnieI) => c.id == id);
+      c.armee = this.l.maj.id; // Attribuer l'armée aussi à la compagnie
     }
     this.d.etatSave = true;
   }

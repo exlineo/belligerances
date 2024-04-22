@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { Aleas, ArmeeI, Compagnie, CompagnieI, UniteI } from 'src/app/shared/modeles/Type';
-import { ArmesPipe, CompagniesPipe, PjPipe, StatutsPipe, UnitesPipe } from 'src/app/shared/pipes/tris.pipe';
+import { ArmesPipe, CompagniesPipe, PjPipe, StatutsPipe, UnitePipe, UnitesArrayPipe, UnitesPipe } from 'src/app/shared/pipes/tris.pipe';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 import { SlicePipe } from '@angular/common';
@@ -10,7 +10,7 @@ import { SlicePipe } from '@angular/common';
 @Component({
   selector: 'app-compagnies',
   standalone: true,
-  imports: [MaterialModule, StatutsPipe, PjPipe, CompagniesPipe, UnitesPipe, SlicePipe, ArmesPipe],
+  imports: [MaterialModule, StatutsPipe, PjPipe, CompagniesPipe, UnitesPipe, SlicePipe, ArmesPipe, UnitesArrayPipe],
   templateUrl: './compagnies.component.html',
   styleUrl: './compagnies.component.css'
 })
@@ -65,29 +65,50 @@ export class CompagniesComponent implements OnInit {
         unite.id = this.d.docs.unites[this.d.docs.unites.length - 1].id + i + 1; // Un ID pour l'unité
         this.compagnie.unites.push(unite.id);
 
-        if (this.aleas.race) unite.race = this.d.randListe(this.d.docs.races).id;
-        if (this.aleas.cac) unite.cac = this.d.randListe(this.d.docs.cac).id;
-        if (this.aleas.jet) unite.jet = this.d.randListe(this.d.docs.jet).id;
-        if (this.aleas.armure) unite.armure = this.d.randListe(this.d.docs.armures).id;
-        if (this.aleas.bouclier) unite.bouclier = this.d.randListe(this.d.docs.boucliers).id;
-        if (this.aleas.monture) unite.monture = this.d.randListe(this.d.docs.montures).id;
+        if (this.aleas.race) unite.race = this.randListe(this.d.docs.races).id;
+        if (this.aleas.cac) unite.cac = this.randListe(this.d.docs.cac).id;
+        if (this.aleas.jet) unite.jet = this.randListe(this.d.docs.jet).id;
+        if (this.aleas.armure) unite.armure = this.randListe(this.d.docs.armures).id;
+        if (this.aleas.bouclier) unite.bouclier = this.randListe(this.d.docs.boucliers).id;
+        if (this.aleas.monture) unite.monture = this.randListe(this.d.docs.montures).id;
 
-        unite.pvMax = this.d.rand(unite.pvMax, this.aleas.pourcent);
+        unite.pvMax = this.rand(unite.pvMax, this.aleas.pourcent);
         unite.pv = unite.pvMax;
         !this.compagnie.pv ? this.compagnie.pv = unite.pv : this.compagnie.pv += unite.pv; // Donner des points de vie à la compagnie
         this.unitesGenerees.push(unite);
 
         // Un peu d'aléatoire dans la gestion des unités
-        if (this.aleas.pourcent > 25) {
-          j = Math.floor(Math.random() * this.unitesTypes.length); // Tirer au hasard dans le tableau des unites types
-        } else {
-          j == this.unitesTypes.length - 1 ? j = 0 : ++j;
-        }
+        // if (this.aleas.pourcent > 25) {
+        //   j = Math.floor(Math.random() * this.unitesTypes.length); // Tirer au hasard dans le tableau des unites types
+        // } else {
+        j == this.unitesTypes.length - 1 ? j = 0 : ++j;
+        // }
       }
       console.log(this.unitesGenerees, this.compagnie);
     } else {
       this.l.message('ER_UNITES_NB');
     }
+  }
+  /**
+   *
+   * @param init Valeur de départ à partir de laquelle on applique le pourcentage
+   * @param p Pourcentage à calculer
+   * @returns écart
+   */
+  rand(init: number, p: number) {
+    const ecart = init * p / 100; // Ecart à calculter pour tirer au hasard
+    let pv = Math.abs(init - 3 + Math.round((Math.random() * ecart) - p / 2)); // Calcul de l'écart pour le nombre calculé en valeur absolue pour éviter les négatifs
+    return pv > 1 ? pv : 2;
+  }
+  /** Tirer une valeur au hasard dans une liste */
+  randListe(liste: Array<any>) {
+    const val = Math.floor(Math.random() * liste.length);
+    const str = liste[val];
+    return str;
+  }
+  /** Supprimer une unité dans les unités générées */
+  delUnite(index:number){
+    this.unitesGenerees.splice(index, 1);
   }
   /** Pagination */
   setPagination(event: PageEvent) {

@@ -469,28 +469,28 @@ nav.options img{
   transform: rotate(0deg) translate(76px) rotate(-0deg);
 }
 #mb ul li:nth-child(2){
-  transform: rotate(45deg) translate(76px) rotate(-45deg);
+  transform: rotate(40deg) translate(76px) rotate(-40deg);
 }
 #mb ul li:nth-child(3){
-  transform: rotate(90deg) translate(76px) rotate(-90deg);
+  transform: rotate(80deg) translate(76px) rotate(-80deg);
 }
 #mb ul li:nth-child(4){
-  transform: rotate(135deg) translate(76px) rotate(-135deg);
+  transform: rotate(120deg) translate(76px) rotate(-120deg);
 }
 #mb ul li:nth-child(5){
-  transform: rotate(180deg) translate(76px) rotate(-180deg);
+  transform: rotate(160deg) translate(76px) rotate(-160deg);
 }
 #mb ul li:nth-child(6){
-  transform: rotate(225deg) translate(76px) rotate(-225deg);
+  transform: rotate(200deg) translate(76px) rotate(-200deg);
 }
 #mb ul li:nth-child(7){
-  transform: rotate(270deg) translate(76px) rotate(-270deg);
+  transform: rotate(240deg) translate(76px) rotate(-240deg);
 }
 #mb ul li:nth-child(8){
-  transform: rotate(315deg) translate(76px) rotate(-315deg);
+  transform: rotate(280deg) translate(76px) rotate(-280deg);
 }
 #mb ul li:nth-child(9){
-  transform: rotate(360deg) translate(76px) rotate(-360deg);
+  transform: rotate(320deg) translate(76px) rotate(-320deg);
 }
 #mb ul li:nth-child(2), #mb ul li:nth-child(3){
   /* width:50%; */
@@ -606,7 +606,7 @@ nav.options img{
   width:75%;
   height:auto;
   background: none;
-  overflow-y: auto;
+  height:100%;
 }
 #pop main > * {
   width:100%;
@@ -617,6 +617,7 @@ nav.options img{
 }
 #pop main > section {
   overflow-y:auto;
+  overflow-x:hidden;
   flex-flow: column nowrap;
   margin-bottom: 50px;
 }

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren, inject } from '@angular/core';
 import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from '../../../shared/services/donnees.service';
-import { ArmeesPipe, PjPipe, StatutsPipe } from '../../../shared/pipes/tris.pipe';
+import { ArmeesPipe, CompagniesArrayPipe, PjPipe, StatutsPipe } from '../../../shared/pipes/tris.pipe';
 import { ArmeeI, Armee, CompagnieI } from 'src/app/shared/modeles/Type';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { ColorPickerControl, Color } from '@iplab/ngx-color-picker';
@@ -10,7 +10,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 @Component({
   selector: 'app-armees',
   standalone: true,
-  imports: [MaterialModule, StatutsPipe, PjPipe, ArmeesPipe],
+  imports: [MaterialModule, StatutsPipe, PjPipe, ArmeesPipe, CompagniesArrayPipe],
   templateUrl: './armees.component.html',
   styleUrl: './armees.component.css'
 })
