@@ -7,7 +7,7 @@
     <form>
       <mat-form-field>
         <mat-label>{{ l.t['BATAILLES_BG'] }}</mat-label>
-        <mat-select [placeholder]="l.t['BATAILLES_BG']" name="bg" [(ngModel)]="bg">
+        <mat-select [placeholder]="l.t['BATAILLES_BG']" name="bg" [(ngModel)]="c.bg">
           @for(bg of d.params.cartes; track bg.id){
           <mat-option [value]="bg.img">
             <img [src]="bg.vignette" [alt]="bg.vignette">
@@ -27,7 +27,7 @@
       </fieldset>
     </form>
   </header>
-  <article class="map tokens" onDragBoundary="map" cdkDrop #map [style.backgroundImage]="'url('+bg+')'">
+  <article class="map tokens" onDragBoundary="map" cdkDrop #map [style.backgroundImage]="'url('+ c.bg +')'" (click)="initActions()">
     @for(comp of c.listeCompagnies; track comp.id; let i=$index){
     <div [matTooltip]="comp.nom"
       [matTooltipClass]="(c.attaque && comp.id == c.attaque.id && i==c.indexAttaquant) ? 'tooltip' : ''"

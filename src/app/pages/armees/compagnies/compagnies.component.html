@@ -26,18 +26,38 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <header>
-          <p>{{ c.descr }}</p>
-          <ul>
-            <li>{{ l.t['COMMANDANT'] }} : <strong>{{ d.getCompagniesUnites('unites', c.commandant).nom }}</strong></li>
-            <li>{{ l.t['PV'] }} : <strong>{{ c.pv }}</strong></li>
-            <li>{{ l.t['MUNS'] }} : @if(c.munitions!.type != -1){<strong>{{ d.getCompagniesUnites('munitions', c.munitions!.type).nom }} ({{ c.munitions!.q }})</strong>}</li>
-          </ul>
-          <nav class="row">
+          <div>
+            <p>{{ c.descr }}</p>
+            <nav class="row">
             <a [matTooltip]="l.t['ANNULE']" (click)="l.setEdit('compagnies', c, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
             <a [matTooltip]="l.t['VALIDE']" (click)="l.setEdit('compagnies', c)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
           </nav>
+        </div>
+          <table>
+            <thead>
+              <tr>
+                <th>{{ l.t['COMMANDANT'] }}</th>
+                <th>{{ l.t['PV'] }}</th>
+                <th colspan="2">{{ l.t['MUNS'] }}</th>
+                <th>{{ l.t['BLESSES'] }}</th>
+                <th>{{ l.t['MORTS'] }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ d.getCompagniesUnites('unites', c.commandant).nom }}</td>
+                <td>{{ c.pv }}</td>
+                <td>@if(c.munitions!.type != -1){ {{ d.getCompagniesUnites('munitions', c.munitions!.type).nom }} }</td>
+                <td>@if(c.munitions!.type != -1){ {{ c.munitions!.q }} }</td>
+                <td>{{ c.blesses }}</td>
+                <td>{{ c.morts }}</td>
+              </tr>
+            </tbody>
+          </table>
+
         </header>
         <hr>
+        <h4>{{ l.t['UNITES'] }}</h4>
         <table>
           <thead>
             <tr>
@@ -59,19 +79,19 @@
             @for (u of c.unites | slice:pagination.min:pagination.max | unitesArray:d.docs.unites; track u.id) {
             <tr>
               <td>{{ u.nom }}</td>
-              <td>@if(u.race){ {{ d.getCompagniesUnites('races', u.race).nom }} }</td>
-              <td>@if(u.cac){ {{ d.getCompagniesUnites('cac', u.cac).nom }} }</td>
-              <td>@if(u.jet){ {{ d.getCompagniesUnites('jet', u.jet).nom }} }</td>
-              <td>@if(u.armure){ {{ d.getCompagniesUnites('armures', u.armure).nom }} }</td>
-              <td>@if(u.bouclier){ {{ d.getCompagniesUnites('boucliers', u.bouclier).nom }} }</td>
+              <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
+              <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
+              <td>{{ d.getCompagniesUnites('jet', u.jet!).nom }}</td>
+              <td>{{ d.getCompagniesUnites('armures', u.armure!).nom }}</td>
+              <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!).nom }}</td>
               <td>{{ u.pvMax }}</td>
               <td>{{ u.pv }}</td>
-              <td>@if(u.monture){ {{ d.getCompagniesUnites('montures', u.monture).nom }} }</td>
+              <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
               <td>{{ u.xp }}</td>
               <td><img [src]="u.etat | statuts" [alt]="l.t['AVATAR']"></td>
               <td>
-                <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('unites', c, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-                <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('unites', c)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
+                <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('unites', u, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
+                <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('unites', u)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
               </td>
             </tr>
             }

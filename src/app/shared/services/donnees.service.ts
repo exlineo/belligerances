@@ -173,9 +173,7 @@ export class DonneesService {
    * @param id Id à récupérer
    */
   getCompagniesUnites(liste: string, id: number): any {
-    let val = this.docs[liste].find((l: any) => l.id == id) ?? '';
-    // console.log(liste, id, val);
-    return val;
+    return this.docs[liste].find((l: any) => l.id == id) ?? '';
   }
   /** EDITION DES DONNEES */
   edit(liste: string, id: number, obj: any) {

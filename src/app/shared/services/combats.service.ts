@@ -41,6 +41,8 @@ export class CombatsService {
   jetPipe: MalusJetPipe = new MalusJetPipe();
   blessurePipe: BlessurePipe = new BlessurePipe();
 
+  bg: string = ''; // Arrière plan de la bataille
+
   constructor() { }
 
   /** Combat de compagnies */
@@ -79,6 +81,8 @@ export class CombatsService {
           let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
           if (at >= def) {
             let dg = this.dgCac(uAt[act]);
+            // Ajouter le bonus d'ordre si utile
+            if(this.attaque?.ordre && this.attaque?.ordre.effets && this.attaque.ordre.effets.type == 'degats') dg += this.attaque.ordre.effets.bonus;
             // Si c'est un jet ou un sort, on calcul les dégats relativement à la distance
             if (act == 'jet' || act == 'sort') {
               dg = Math.round(dg * this.jetPipe.transform(uAt[act].portee.min, uAt[act].portee.max, this.distance));
@@ -192,7 +196,8 @@ export class CombatsService {
   }
   /**  */
   getBonusOrdre(comp:CompagnieI, condition: string) {
-    return comp.ordre && comp.ordre.effets.type == condition ? comp.ordre.effets.bonus : 0;
+    console.log("Obtenir un bonus d'ordre", comp);
+    return comp.ordre && comp.ordre.effets && comp.ordre.effets.type == condition ? comp.ordre.effets.bonus : 0;
   }
   /** Calculer le nombre d'attaques à effectuer
    * @param plein unité avec toutes ses valeurs

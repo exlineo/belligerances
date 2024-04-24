@@ -49,7 +49,6 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   initPos!: PositionI; // Position initiale du champ de bataille
   pagination = { min: 0, max: 10 };
 
-  bg: string = ''; // Arrière plan de la bataille
   @ViewChildren('token') tokensView!: QueryList<ElementRef>;
   @ViewChild('map') mapView!: ElementRef;
   listeTokens!: Array<unknown>;
@@ -68,6 +67,11 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       this.el = event.target;
     };
     return false;
+  }
+  initActions(){
+    this.c.selected = undefined;
+    this.c.indexAttaquant = -1;
+    this.c.infos = false;
   }
   /** Gérer la position des tokens lorsqu'ils sont déposés */
   ngAfterViewInit(): void {

@@ -37,8 +37,9 @@ export class SupprComponent implements OnInit {
     }
     this.l.close();
   }
+  /** Supprimer une unité */
   supprUnite() {
-    console.log("Détecte unité indexOf", this.d.docs.unites.indexOf(this.l.maj));
+    console.log("Détecte unité indexOf", this.d.docs.unites.indexOf(this.l.maj.id), this.l.maj);
     // Suppression de l'unité
     for (let i = 0; i < this.d.docs.unites.length; ++i) {
       if (this.d.docs.unites[i].id == this.l.maj.id) {
@@ -57,7 +58,6 @@ export class SupprComponent implements OnInit {
   }
   /** Supprimer une compagnie */
   supprCompagnie() {
-    console.log("Détecte unité indexOf", this.d.docs.unites.indexOf(this.l.maj));
     // Suppression de l'unité
     for (let i = 0; i < this.d.docs.compagnies.length; ++i) {
       if (this.d.docs.compagnies[i].id == this.l.maj.id) {

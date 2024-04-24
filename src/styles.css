@@ -606,7 +606,9 @@ nav.options img{
   width:75%;
   height:auto;
   background: none;
-  height:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  /* height:100%; */
 }
 #pop main > * {
   width:100%;
@@ -616,8 +618,6 @@ nav.options img{
 #pop main > header {
 }
 #pop main > section {
-  overflow-y:auto;
-  overflow-x:hidden;
   flex-flow: column nowrap;
   margin-bottom: 50px;
 }
@@ -668,9 +668,18 @@ mat-select{
 }
 .mat-mdc-tab-body-content header {
   width:100%;
-  flex-flow:row nowrap;
+  flex-flow:column nowrap;
   justify-content: space-between;
   align-items: center;
+}
+.mat-mdc-tab-body-content nav {
+  padding:0;
+}
+.mat-mdc-tab-body-content header > div {
+  display:flex;
+  flex-flow: row nowrap;
+  width:100%;
+  justify-content: space-between;
 }
 .mat-mdc-tab.mdc-tab {
   /* padding:16px 20px 12px; */
