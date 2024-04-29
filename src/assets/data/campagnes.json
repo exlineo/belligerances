@@ -247,7 +247,7 @@
           "descr":"Des guerriers de la mort qui tue",
           "xp":12,
           "nbCombats":0,
-          "armee":2,
+          "armee":0,
           "statut":1,
           "unites":[0, 1, 2, 3],
           "combattants":[],
@@ -266,7 +266,7 @@
           "descr":"Des guerriers de la vie qui résurectionne",
           "xp":12,
           "nbCombats":0,
-          "armee":0,
+          "armee":1,
           "statut":1,
           "unites":[0, 2],
           "combattants":[],
@@ -412,6 +412,7 @@
           "degats":1,
           "xp":76,
           "nbCombats":0,
+          "cmd":0,
           "etat":2,
           "pj":false,
           "avatar":"assets/images/avatars/artemis.png"
@@ -432,6 +433,7 @@
           "degats":1,
           "xp":76,
           "nbCombats":0,
+          "cmd":0,
           "etat":1,
           "pj":false,
           "avatar":"assets/images/avatars/warrior_2.png"
@@ -452,6 +454,7 @@
           "degats":1,
           "xp":76,
           "nbCombats":0,
+          "cmd":0,
           "etat":2,
           "pj":false,
           "avatar":"assets/images/avatars/warrior_1.png"
@@ -472,6 +475,7 @@
           "degats":10,
           "xp":178,
           "nbCombats":0,
+          "cmd":4,
           "etat":2,
           "pj":true,
           "avatar":"assets/images/avatars/warrior_3.png"
@@ -492,6 +496,7 @@
           "degats":10,
           "xp":178,
           "nbCombats":0,
+          "cmd":6,
           "etat":2,
           "pj":true,
           "avatar":"assets/images/avatars/warrior_4.png"

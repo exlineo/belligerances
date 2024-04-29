@@ -63,7 +63,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     this.c.indexAttaquant = i;
     this.c.infos = false;
     if (this.el) {
-      this.el.style.zIndex = 1000;
+      this.el.style.zIndex = 900;
       this.el = event.target;
     };
     return false;
@@ -72,6 +72,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     this.c.selected = undefined;
     this.c.indexAttaquant = -1;
     this.c.infos = false;
+    console.log("Mouse down");
   }
   /** Gérer la position des tokens lorsqu'ils sont déposés */
   ngAfterViewInit(): void {
@@ -111,7 +112,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     if (this.el) {
       this.el.style.zIndex = 1;
       this.el = undefined;
-    }
+    };
   }
   // Ajustement en temps réel du slide
   matSlide(event: any) {
@@ -179,7 +180,6 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     } else if (c.commandant && this.d.docs.unites.find((u: UniteI) => u.id == c.commandant)) {
       const commandant = this.d.docs.unites.find((u: UniteI) => u.id == c.commandant);
       const jet = this.c.jetAttaque(commandant.cmd); // Prendre en compte les pertes dans la compagnie et l'absence de général ou de commandant comme variable
-      console.log(jet);
       if (jet >= 12) {
         c.moral = 2; // Jet réussi, Moral remonte de 2
         this.l.message('MSG_MORAL_GAIN');
@@ -227,7 +227,6 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   }
   /** Attribuer un ordre à une compagnie */
   setOrdre(ordre:OrdreI){
-    console.log(this.c.selected, ordre);
     this.c.selected!.ordre = ordre;
   }
   /** Pagination */

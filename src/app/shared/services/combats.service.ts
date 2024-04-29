@@ -110,8 +110,6 @@ export class CombatsService {
     const defImpact = this.getImpact(def);
     let dg = 0;
     this.attaque= this.defend = undefined;
-    console.log("Combat des chefs", this.officierAt, this.officierDef, atImpact, defImpact);
-    console.log(!this.officierAt || !this.officierAt!.cmd, !this.officierDef || !this.officierDef!.cmd);
     // Vérifier d'abord si les officiers peuvent bien participer
     if (!this.officierAt || !this.officierAt!.cmd) {
       this.l.message('MSG_CMD_AT');
@@ -127,10 +125,9 @@ export class CombatsService {
         for (let m = 0; m < atImpact; ++m) {
           if (atAt >= atDef) {
             dg = this.dgCac(at.cac);
-            this.officierDef.pv -= dg;
+            this.officierDef.pv - dg < 0 ? this.officierDef.pv = 0 : this.officierDef.pv -= dg;
             this.officierAt.xp += dg;
-            this.morts += dg;
-            console.log("At", atAt,"Def", atDef, "Dégats attaquant", dg);
+            this.morts += dg; // On utilise la valeur de 'morts' pour calculer les dégats que subit l'officier
           }
         }
       } else {
@@ -139,10 +136,9 @@ export class CombatsService {
           atDef = this.jetAttaque(this.officierDef!.cmd);
           if (atDef >= atAt) {
             dg = this.dgCac(def.cac);
-            this.officierAt.pv -= dg;
+            this.officierAt.pv - dg < 0 ? this.officierAt.pv = 0 : this.officierAt.pv -= dg;
             this.officierDef.xp += dg;
-            this.blesses += dg;
-            console.log("At", atAt,"Def", atDef, "Dégats défenseur", dg);
+            this.blesses += dg; // On utilise la valeur de 'blesses' pour calculer les dégats que subit l'officier
           }
         }
       }
@@ -167,7 +163,6 @@ export class CombatsService {
       u.etat = this.blessurePipe.transform(u);
     });
     this.defend!.pv = pv;
-    console.log("Calcul des blessés", this.defend, this.uDefs);
   }
   /** Jet de moral : malus = 1 / 5% des pertes*/
   jetMoral() {
@@ -196,7 +191,6 @@ export class CombatsService {
   }
   /**  */
   getBonusOrdre(comp:CompagnieI, condition: string) {
-    console.log("Obtenir un bonus d'ordre", comp);
     return comp.ordre && comp.ordre.effets && comp.ordre.effets.type == condition ? comp.ordre.effets.bonus : 0;
   }
   /** Calculer le nombre d'attaques à effectuer

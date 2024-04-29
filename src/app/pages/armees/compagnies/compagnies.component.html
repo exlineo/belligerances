@@ -36,6 +36,7 @@
           <table>
             <thead>
               <tr>
+                <th>{{ l.t['ARMEE'] }}</th>
                 <th>{{ l.t['COMMANDANT'] }}</th>
                 <th>{{ l.t['PV'] }}</th>
                 <th colspan="2">{{ l.t['MUNS'] }}</th>
@@ -45,6 +46,7 @@
             </thead>
             <tbody>
               <tr>
+                <td>{{ d.getCompagniesUnites('armees', c.armee!).nom }}</td>
                 <td>{{ d.getCompagniesUnites('unites', c.commandant).nom }}</td>
                 <td>{{ c.pv }}</td>
                 <td>@if(c.munitions!.type != -1){ {{ d.getCompagniesUnites('munitions', c.munitions!.type).nom }} }</td>
