@@ -52,7 +52,7 @@
     </article>
     <article>
       <mat-form-field>
-        <mat-select [(ngModel)]="l.maj.armure" name="armure" [placeholder]="l.t['ARMURES'] + '*'" required>
+        <mat-select [(ngModel)]="l.maj.armure" name="armure" [placeholder]="l.t['ARMURES']" required>
           <mat-option value="">{{ l.t['SANS'] }}</mat-option>
           @for (a of d.docs.armures; track a.id) {
           <mat-option [value]="a.id">{{a.nom}}</mat-option>
@@ -60,7 +60,8 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select [(ngModel)]="l.maj.bouclier" name="bouclier" [placeholder]="l.t['BOUCLIERS'] + '*'" required>
+        <mat-label></mat-label>
+        <mat-select [(ngModel)]="l.maj.bouclier" name="bouclier" [placeholder]="l.t['BOUCLIERS']" required>
           <mat-option value="">{{ l.t['SANS'] }}</mat-option>
           @for (b of d.docs.boucliers; track b.id) {
           <mat-option [value]="b.id">{{b.nom}}</mat-option>
@@ -72,9 +73,17 @@
         <input type="number" matInput [placeholder]="l.t['XP'] + '*'" [(ngModel)]="l.maj.xp" name="xp">
         <mat-icon matSuffix>edit</mat-icon>
       </mat-form-field>
+    </article>
+    <article>
+      <mat-radio-group aria-label="Statut archétype" [(ngModel)]="l.maj.archetype" required>
+        <p>{{ l.t['ARCH_DESCR'] }}</p>
+        <mat-radio-button [value]=false>{{ l.t['NON'] }}*</mat-radio-button>
+        <mat-radio-button [value]=true>{{ l.t['OUI'] }}*</mat-radio-button>
+      </mat-radio-group>
       <mat-radio-group aria-label="Statut PJ" [(ngModel)]="l.maj.pj" required>
-        <mat-radio-button [value]=false [checked]="'true'">{{ l.t['PNJ'] }}*</mat-radio-button>
-        <mat-radio-button [value]=true>{{ l.t['PJ'] }}*</mat-radio-button>
+        <p>{{ l.t['PJ_DESCR'] }}</p>
+        <mat-radio-button [value]=false>{{ l.t['NON'] }}*</mat-radio-button>
+        <mat-radio-button [value]=true>{{ l.t['OUI'] }}*</mat-radio-button>
       </mat-radio-group>
       @if(l.maj.pj){
       <mat-form-field>

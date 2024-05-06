@@ -652,6 +652,9 @@ nav.options img{
 .cdk-drag-animating {
   transition: none;
 }
+mat-radio-group{
+  margin: 0 15px;
+}
 mat-select{
   max-width: 350px;
 }
@@ -677,9 +680,10 @@ mat-select{
 }
 .mat-mdc-tab-body-content header > div {
   display:flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   width:100%;
   justify-content: space-between;
+  align-items: center;
 }
 .mat-mdc-tab.mdc-tab {
   /* padding:16px 20px 12px; */

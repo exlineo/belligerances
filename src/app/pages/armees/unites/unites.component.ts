@@ -23,6 +23,7 @@ export class UnitesComponent {
   filtre:any = {libre:'', pj:null, etat:null }
   libre:string = '';
   pj:boolean | undefined = undefined;
+  archetype:boolean | undefined = undefined;
   etat:boolean | undefined = undefined;
 
   pagination = {min:0,max:25};

@@ -1,16 +1,16 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
 import { ArmeeI, CompagnieI, UniteI, ArmeI } from '../modeles/Type';
 import { DonneesService } from '../services/donnees.service';
-/** Filtrer les unites pour avoir la liste des PJ */
+/** Récupérer les PJ ou les archétypes (type = true) */
 @Pipe({
   name: 'pj',
   standalone: true
 })
 export class PjPipe implements PipeTransform {
 
-  transform(unites:Array<UniteI>): Array<UniteI> {
+  transform(unites:Array<UniteI>, type:boolean = false): Array<UniteI> {
     if(!unites) return [];
-    return unites.filter(u => u.pj == true);
+    return !type ? unites.filter(u => u.pj == true) : unites.filter(u => u.archetype == true);
   }
 }
 /** Afficher le statut des unités et compagnies avec des images */
@@ -180,13 +180,16 @@ export class CompagniesPipe implements PipeTransform {
 })
 export class UnitesPipe implements PipeTransform {
 
-  transform(unites:Array<UniteI>, libre:string , pj:any = 'null', etat:any = 'null'): Array<UniteI> {
+  transform(unites:Array<UniteI>, libre:string , pj:any = 'null', archetype:any = 'null', etat:any = 'null'): Array<UniteI> {
     if(!unites) return [];
-    if(libre.length < 3 && (pj == 'null' && etat == 'null')) return unites;
+    if(libre.length < 3 && (pj == 'null' && archetype == 'null' && etat == 'null')) return unites;
+
+    console.log(pj, archetype, etat);
 
     return unites.filter(u =>
       ((libre.length > 2 && JSON.stringify(u).toLowerCase().indexOf(libre.toLowerCase()) != -1))
       || (pj != 'null' && u.pj == JSON.parse(pj))
+      || (archetype != 'null' && u.archetype == JSON.parse(archetype))
       || (etat != 'null' && u.etat == parseInt(etat)));
   }
 }
@@ -216,7 +219,7 @@ export class CompagniesArrayPipe implements PipeTransform {
     return comps.filter( (c:CompagnieI) => cIds.includes(c.id));
   }
 }
-/** Filtrer les unites pour avoir la liste des PJ */
+/** Filtrer les armes et autres matériels */
 @Pipe({
   name: 'armes',
   standalone: true
@@ -230,7 +233,7 @@ export class ArmesPipe implements PipeTransform {
     return mun ? mun.nom : '';
   }
 }
-/** Filtrer les unites pour avoir la liste des PJ */
+/** Parser une valeur en booléen */
 @Pipe({
   name: 'bool',
   standalone: true

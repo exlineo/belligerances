@@ -134,6 +134,10 @@
   "STATUT_DORT": "Inactif",
   "PJ":"PJ",
   "PNJ":"PNJ",
+  "PJ_DESCR":"Commandant or not commandant ?",
+  "ARCH":"Archétype",
+  "ARCH_NON":"Non archétypale",
+  "ARCH_DESCR":"Unité archétypale",
   "TOUS":"Tous",
   "TOUT":"Tout",
   "UP": "Metter à jour",
@@ -186,6 +190,8 @@
   "ATTAQUE":"Attaquant",
   "ATTAQUE_TYPE":"Type d'attaque",
   "DEFENT":"Défenseur",
+  "OUI":"OUI",
+  "NON":"NON",
   "404":"Oups, il n'y a rien ici",
   "SANS":"Sans",
   "TELE":"Télécharger les données",
@@ -210,45 +216,5 @@
   "MSG_MORAL_OK":"Les unités tiennent bon ! Aucun point de moral perdu",
   "MSG_BELLI_CHOIX":"Choisissez deux belligérants pour lancer l'attaque",
   "MSG_CMD_AT":"Attention, le commandant attaquant n'a pas de potentiel de commandement",
-  "MSG_CMD_DEF":"Attention, le commandant défenseur n'a pas de potentiel de commandement",
-  "LISTE_ARMES": {
-    "EPEE_LONGUE": "Epée longue",
-    "DAGUE": "Dague",
-    "EPEE_BATARDE": "Epée batarde",
-    "ESPADON": "Espadon",
-    "HACHE": "Hache",
-    "MASSE": "Masse",
-    "LANCE": "Lance",
-    "EPIEU": "Epieu",
-    "JAVELINE": "Javeline",
-    "ARC_COURT": "Arc court",
-    "ARC_LONG": "Arc long",
-    "ARBALETE": "Arbalète",
-    "AK47": "AK47",
-    "MAGNUM_44": "44 Magnum"
-  },
-  "LISTE_ARMURES": {
-    "CUIR": "Cuir",
-    "COTTE_MAILLE": "Cotte de maille",
-    "PLATE":"Armure à plaques",
-    "HARNOIS":"Harnois",
-    "BROIGNE":"Broigne",
-    "GILET_BALLES":"Gilet pareballes"
-  },
-  "LISTE_BOUCLIERS":{
-    "ECU":"Ecu",
-    "PAVOIS":"Pavois",
-    "NORMAND":"Normand",
-    "RONDACHE":"Rondache",
-    "TARGE":"Targe",
-    "TARJA":"Tarja"
-  },
-  "LISTE_MUNITIONS":{
-    "CARREAU":"Carreau d'arbalète",
-    "DART":"Dart",
-    "FLECHE":"Flèche",
-    "BALLE_FRONDE":"Balle de frondre",
-    "JAVELINE":"Javeline",
-    "BALLE_PLOMB":"Balle en plomb"
-  }
+  "MSG_CMD_DEF":"Attention, le commandant défenseur n'a pas de potentiel de commandement"
 }

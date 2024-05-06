@@ -16,6 +16,7 @@ export interface UniteI {
   nbCombats?:number;
   etat: number;
   pj:boolean;
+  archetype:boolean;
   cmd?:number;
   avatar?:string;
 }
@@ -37,6 +38,7 @@ export class Unite implements UniteI{
   impact = -1;
   etat = 2;
   pj = false;
+  archetype = false;
   cmd = 0;
   avatar = '';
 }

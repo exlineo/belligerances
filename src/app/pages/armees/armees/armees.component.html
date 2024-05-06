@@ -26,19 +26,21 @@
           <mat-panel-description>
             <h2 [style.color]="a.couleur">&#x2B22;</h2>
             @if(a.commandant && a.commandant >= 0){
-              <span>{{ l.t['GENERAL'] }} {{ d.getCompagniesUnites('unites', a.commandant! ).nom }}</span>
+            <span>{{ l.t['GENERAL'] }} {{ d.getCompagniesUnites('unites', a.commandant! ).nom }}</span>
             }
             <span><img [src]="a.statut | statuts" [alt]="l.t['STATUT']"></span>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <header>
-          <p>{{ a.descr }}</p>
-          <nav class="row">
-            <a [matTooltip]="l.t['ANNULE']" (click)="l.setEdit('armees', a, true)"><mat-icon matSuffix
-                class="icone del">close</mat-icon></a>
-            <a [matTooltip]="l.t['VALIDE']" (click)="l.setEdit('armees', a)"><mat-icon matSuffix
-                class="icone annule">restart_alt</mat-icon></a>
-          </nav>
+          <div>
+            <p>{{ a.descr }}</p>
+            <nav class="row">
+              <a [matTooltip]="l.t['ANNULE']" (click)="l.setEdit('armees', a, true)"><mat-icon matSuffix
+                  class="icone del">close</mat-icon></a>
+              <a [matTooltip]="l.t['VALIDE']" (click)="l.setEdit('armees', a)"><mat-icon matSuffix
+                  class="icone annule">restart_alt</mat-icon></a>
+            </nav>
+          </div>
         </header>
         <table>
           <thead>
@@ -55,7 +57,9 @@
           <tbody>
             @for (c of a.compagnies | compagniesArray:d.docs.compagnies; track $index) {
             <tr>
-              <td><img [src]="c.avatar" [alt]="l.t['AVATAR']" class="avatar"><p>{{ c.nom }}</p></td>
+              <td><img [src]="c.avatar" [alt]="l.t['AVATAR']" class="avatar">
+                <p>{{ c.nom }}</p>
+              </td>
               <td>{{ c.pv }}</td>
               <!-- <td>{{ c.xp }}</td> -->
               <td>{{ c.unites.length }}</td>
@@ -106,19 +110,26 @@
           <mat-radio-group aria-label="Sélectionner un avatar pour la compagnie" name="avatar"
             [(ngModel)]="armee.avatar" required>
             <mat-label>{{ l.t['AVATAR'] }}*</mat-label>
-            <mat-radio-button value="assets/images/avatars/armees/armor_n.png" value="assets/images/avatars/armees/armor_n.png">
+            <mat-radio-button value="assets/images/avatars/armees/armor_n.png"
+              value="assets/images/avatars/armees/armor_n.png">
               <img src="assets/images/avatars/armees/armor_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/horses.png" value="assets/images/avatars/armees/armor_n.png">
+            <mat-radio-button value="assets/images/avatars/armees/horses.png"
+              value="assets/images/avatars/armees/armor_n.png">
               <img src="assets/images/avatars/armees/horses.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/magic-wand.png" value="assets/images/avatars/armees/armor_n.png">
+            <mat-radio-button value="assets/images/avatars/armees/magic-wand.png"
+              value="assets/images/avatars/armees/armor_n.png">
               <img src="assets/images/avatars/armees/magic-wand.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/shield_n.png" value="assets/images/avatars/armees/armor_n.png">
+            <mat-radio-button value="assets/images/avatars/armees/shield_n.png"
+              value="assets/images/avatars/armees/armor_n.png">
               <img src="assets/images/avatars/armees/shield_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/spellbook.png" value="assets/images/avatars/armees/armor_n.png">
+            <mat-radio-button value="assets/images/avatars/armees/spellbook.png"
+              value="assets/images/avatars/armees/armor_n.png">
               <img src="assets/images/avatars/armees/spellbook.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/spear.png" value="assets/images/avatars/armees/armor_n.png">
+            <mat-radio-button value="assets/images/avatars/armees/spear.png"
+              value="assets/images/avatars/armees/armor_n.png">
               <img src="assets/images/avatars/armees/spear.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/sword.png" value="assets/images/avatars/armees/armor_n.png">
+            <mat-radio-button value="assets/images/avatars/armees/sword.png"
+              value="assets/images/avatars/armees/armor_n.png">
               <img src="assets/images/avatars/armees/sword.png" [alt]="l.t['AVATAR']"></mat-radio-button>
           </mat-radio-group>
         </article>
