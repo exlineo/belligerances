@@ -187,7 +187,7 @@
           <mat-form-field>
             <mat-label>{{ l.t['UNITE_GENERE'] }}</mat-label>
             <mat-select [placeholder]="l.t['UNITE_TYPE_SEL']" name="unites" [(ngModel)]="unitesTypes" multiple>
-              @for (u of d.docs.unites | triUnites:filtreUnites; track u.id) {
+              @for (u of d.docs.unites | pj:true; track u.id) {
               <mat-option [value]="u">{{u.nom}}</mat-option>
               }
             </mat-select>
