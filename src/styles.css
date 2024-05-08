@@ -615,7 +615,8 @@ nav.options img{
   background: none;
   overflow-y:auto;
   overflow-x:hidden;
-  /* height:100%; */
+  background-color: var(--clair);
+  max-height:100%;
 }
 #pop main > * {
   width:100%;
