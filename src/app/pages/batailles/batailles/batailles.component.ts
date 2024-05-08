@@ -215,9 +215,9 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   }
   /** Agir */
   goCombat() {
-    if ((this.c.attaque&& !this.c.defend) || (!this.c.attaque&& this.c.defend) || (this.c.officierAt && !this.c.officierDef) || (!this.c.officierAt && this.c.officierDef)) {
+    if ((this.c.attaque && !this.c.defend) || (!this.c.attaque&& this.c.defend) || (this.c.officierAt && !this.c.officierDef) || (!this.c.officierAt && this.c.officierDef)) {
       this.l.message('MSG_BELLI_CHOIX');
-    } else if (this.c.attaque&& this.c.defend) {
+    } else if (this.c.attaque && this.c.defend) {
       this.c.combatCompagnies();
     } else if (this.c.officierAt && this.c.officierDef) {
       this.c.combatChefs();

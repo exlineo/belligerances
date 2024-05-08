@@ -415,6 +415,7 @@
           "cmd":0,
           "etat":2,
           "pj":false,
+          "archetype":true,
           "avatar":"assets/images/avatars/artemis.png"
         },
         {
@@ -436,6 +437,7 @@
           "cmd":0,
           "etat":1,
           "pj":false,
+          "archetype":true,
           "avatar":"assets/images/avatars/warrior_2.png"
         },
         {
@@ -457,6 +459,7 @@
           "cmd":0,
           "etat":2,
           "pj":false,
+          "archetype":true,
           "avatar":"assets/images/avatars/warrior_1.png"
         },
         {
@@ -478,6 +481,7 @@
           "cmd":4,
           "etat":2,
           "pj":true,
+          "archetype":false,
           "avatar":"assets/images/avatars/warrior_3.png"
         },
         {
@@ -499,6 +503,7 @@
           "cmd":6,
           "etat":2,
           "pj":true,
+          "archetype":false,
           "avatar":"assets/images/avatars/warrior_4.png"
         }
       ]

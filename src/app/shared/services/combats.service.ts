@@ -9,8 +9,8 @@ import { DonneesService } from './donnees.service';
 })
 export class CombatsService {
 
-  l:UtilsService = inject(UtilsService);
-  d:DonneesService = inject(DonneesService);
+  l: UtilsService = inject(UtilsService);
+  d: DonneesService = inject(DonneesService);
 
   listeArmees: Array<any> = []; // Armées sur le champ de bataille
   listeCompagnies: Array<CompagnieI> = []; // Compagnies sur le champ de bataille
@@ -47,7 +47,7 @@ export class CombatsService {
 
   /** Combat de compagnies */
   combatCompagnies() {
-    if (this.attaque&& this.attaque.moral <= 0) {
+    if (this.attaque && this.attaque.moral <= 0) {
       this.l.message('MSG_DEMORAL');
     } else {
       let ml = this.moralPipe.transform(this.attaque!.moral); // Bonus de moral de la compagnie
@@ -82,7 +82,7 @@ export class CombatsService {
           if (at >= def) {
             let dg = this.dgCac(uAt[act]);
             // Ajouter le bonus d'ordre si utile
-            if(this.attaque?.ordre && this.attaque?.ordre.effets && this.attaque.ordre.effets.type == 'degats') dg += this.attaque.ordre.effets.bonus;
+            if (this.attaque?.ordre && this.attaque?.ordre.effets && this.attaque.ordre.effets.type == 'degats') dg += this.attaque.ordre.effets.bonus;
             // Si c'est un jet ou un sort, on calcul les dégats relativement à la distance
             if (act == 'jet' || act == 'sort') {
               dg = Math.round(dg * this.jetPipe.transform(uAt[act].portee.min, uAt[act].portee.max, this.distance));
@@ -102,6 +102,7 @@ export class CombatsService {
   }
   /** Les chefs se bagarrent */
   combatChefs() {
+    console.log("Combat des chefs");
     let atAt = 0;
     let atDef = 0;
     const at = this.d.setUnite(this.officierAt!);
@@ -109,12 +110,12 @@ export class CombatsService {
     const atImpact = this.getImpact(at);
     const defImpact = this.getImpact(def);
     let dg = 0;
-    this.attaque= this.defend = undefined;
+    this.attaque = this.defend = undefined;
     // Vérifier d'abord si les officiers peuvent bien participer
     if (!this.officierAt || !this.officierAt!.cmd) {
       this.l.message('MSG_CMD_AT');
       return;
-    }else if (!this.officierDef || !this.officierDef!.cmd) {
+    } else if (!this.officierDef || !this.officierDef!.cmd) {
       this.l.message('MSG_CMD_DEF');
       return
     };
@@ -122,24 +123,36 @@ export class CombatsService {
     for (let i = 0; i < 4; ++i) {
       // Attaque chacun son tour en fonction de l'impact de chacun
       if (i % 2 == 0) {
-        for (let m = 0; m < atImpact; ++m) {
-          if (atAt >= atDef) {
-            dg = this.dgCac(at.cac);
-            this.officierDef.pv - dg < 0 ? this.officierDef.pv = 0 : this.officierDef.pv -= dg;
-            this.officierAt.xp += dg;
-            this.morts += dg; // On utilise la valeur de 'morts' pour calculer les dégats que subit l'officier
+        if (this.officierAt.pv > 0) {
+          for (let m = 0; m < atImpact; ++m) { // Boucle dans la valeur d'impact, une attaque par point
+            atAt = this.jetAttaque(this.officierAt!.cmd!);
+            atDef = this.jetAttaque(this.officierDef!.cmd);
+            if (atAt > atDef) {
+              dg = this.dgCac(at.cac);
+              this.officierDef.pv - dg < 0 ? this.officierDef.pv = 0 : this.officierDef.pv -= dg;
+              this.officierAt.xp += dg;
+              this.morts += dg; // On utilise la valeur de 'morts' pour calculer les dégats que subit l'officier
+              this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
+            }
           }
+        } else {
+          this.l.t.message('MSG_OFF_MORT');
         }
       } else {
-        for (let n = 0; n < defImpact; ++n) {
-          atAt = this.jetAttaque(this.officierAt!.cmd!);
-          atDef = this.jetAttaque(this.officierDef!.cmd);
-          if (atDef >= atAt) {
-            dg = this.dgCac(def.cac);
-            this.officierAt.pv - dg < 0 ? this.officierAt.pv = 0 : this.officierAt.pv -= dg;
-            this.officierDef.xp += dg;
-            this.blesses += dg; // On utilise la valeur de 'blesses' pour calculer les dégats que subit l'officier
+        if (this.officierDef.pv > 0) {
+          for (let n = 0; n < defImpact; ++n) {
+            atAt = this.jetAttaque(this.officierAt!.cmd!);
+            atDef = this.jetAttaque(this.officierDef!.cmd);
+            if (atDef > atAt) {
+              dg = this.dgCac(def.cac);
+              this.officierAt.pv - dg < 0 ? this.officierAt.pv = 0 : this.officierAt.pv -= dg;
+              this.officierDef.xp += dg;
+              this.blesses += dg; // On utilise la valeur de 'blesses' pour calculer les dégats que subit l'officier
+              this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
+            }
           }
+        } else {
+          this.l.t.message('MSG_OFF_MORT');
         }
       }
     }
@@ -190,7 +203,7 @@ export class CombatsService {
     return bonus + Math.ceil(Math.random() * 20);
   }
   /**  */
-  getBonusOrdre(comp:CompagnieI, condition: string) {
+  getBonusOrdre(comp: CompagnieI, condition: string) {
     return comp.ordre && comp.ordre.effets && comp.ordre.effets.type == condition ? comp.ordre.effets.bonus : 0;
   }
   /** Calculer le nombre d'attaques à effectuer

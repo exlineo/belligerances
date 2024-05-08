@@ -16,8 +16,8 @@
       </mat-form-field>
       <mat-button-toggle-group name="filtrePj" aria-label="PJ" [(ngModel)]="pj">
         <mat-button-toggle value=null>{{ l.t['TOUS'] }}</mat-button-toggle>
-        <mat-button-toggle value=false>{{ l.t['PNJ'] }}</mat-button-toggle>
-        <mat-button-toggle value=true>{{ l.t['PJ'] }}</mat-button-toggle>
+        <mat-button-toggle value=false>{{ l.t['COMD_NOT'] }}</mat-button-toggle>
+        <mat-button-toggle value=true>{{ l.t['COMMANDANT'] }}</mat-button-toggle>
       </mat-button-toggle-group>
       <mat-button-toggle-group name="filtreaArch" aria-label="Archetype" [(ngModel)]="archetype">
         <mat-button-toggle value=null>{{ l.t['TOUS'] }}</mat-button-toggle>
@@ -37,9 +37,10 @@
     <table>
       <thead>
         <tr>
+          <td>ID</td>
           <td>{{ l.t['NOM'] }}</td>
           <td>{{ l.t['STATUT'] }}</td>
-          <td>{{ l.t['PJ'] }} ?</td>
+          <td>{{ l.t['COMMANDANT'] }} ?</td>
           <td>{{ l.t['ARCH'] }} ?</td>
           <td>{{ l.t['RACE'] }}</td>
           <td>{{ l.t['CAC'] }}</td>
@@ -57,6 +58,7 @@
         @for (u of d.docs.unites | triUnites:libre:pj:archetype:etat | slice:pagination.min:pagination.max;
         track u.id) {
         <tr>
+          <td>{{ u.id }}</td>
           <td>{{ u.nom }}</td>
           <td><img [src]="u.etat | statuts" [alt]="u.etat"></td>
           <td>@if(u.pj){

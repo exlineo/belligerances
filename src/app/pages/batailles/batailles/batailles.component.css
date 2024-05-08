@@ -44,7 +44,7 @@ footer{
   position:absolute;
   bottom:-250px;
   justify-content:space-around;
-  z-index:1001;
+  z-index:910;
 }
 footer > section {
   width: 50vw;

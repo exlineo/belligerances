@@ -49,10 +49,12 @@ export class CompagniesComponent implements OnInit {
    * @param alea Aléa entre chaque unité
    */
   genereUnites() {
+    this.unitesGenerees = [];
     if (this.aleas.n > 0) {
       this.unitesTypes.forEach((u: UniteI) => {
         u.xp = 0;
         u.pj = false;
+        u.archetype = false;
         u.nbCombats = 0;
         u.cmd = 0;
       });
@@ -61,7 +63,7 @@ export class CompagniesComponent implements OnInit {
 
       for (let i = 0; i < this.aleas.n; ++i) {
 
-        const unite = { ...this.unitesTypes[j] };
+        let unite = { ...this.unitesTypes[j] };
         unite.id = this.d.docs.unites[this.d.docs.unites.length - 1].id + i + 1; // Un ID pour l'unité
         this.compagnie.unites.push(unite.id);
 
@@ -72,7 +74,8 @@ export class CompagniesComponent implements OnInit {
         if (this.aleas.bouclier) unite.bouclier = this.randListe(this.d.docs.boucliers).id;
         if (this.aleas.monture) unite.monture = this.randListe(this.d.docs.montures).id;
 
-        unite.pvMax = this.rand(unite.pvMax, this.aleas.pourcent);
+
+        unite.pvMax = this.rand(this.d.docs.races[unite.race].basePv, this.aleas.pourcent);
         unite.pv = unite.pvMax;
         !this.compagnie.pv ? this.compagnie.pv = unite.pv : this.compagnie.pv += unite.pv; // Donner des points de vie à la compagnie
         this.compagnie.pvMax = this.compagnie.pv;
@@ -85,7 +88,7 @@ export class CompagniesComponent implements OnInit {
         j == this.unitesTypes.length - 1 ? j = 0 : ++j;
         // }
       }
-      console.log(this.unitesGenerees, this.compagnie);
+      // console.log(this.unitesGenerees, this.compagnie);
     } else {
       this.l.message('ER_UNITES_NB');
     }
@@ -97,8 +100,9 @@ export class CompagniesComponent implements OnInit {
    * @returns écart
    */
   rand(init: number, p: number) {
-    const ecart = init * p / 100; // Ecart à calculter pour tirer au hasard
-    let pv = Math.abs(init - 3 + Math.round((Math.random() * ecart) - p / 2)); // Calcul de l'écart pour le nombre calculé en valeur absolue pour éviter les négatifs
+    let ecart = Math.round(init * p / 100); // Ecart à calculter pour tirer au hasard
+    let r = Math.round(Math.random() * (ecart * 2));
+    let pv = Math.round(init - ecart + r);
     return pv > 1 ? pv : 2;
   }
   /** Tirer une valeur au hasard dans une liste */

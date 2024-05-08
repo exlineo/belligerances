@@ -36,7 +36,7 @@
       <!--  -->
       <img [src]="comp.avatar" [alt]="comp.nom">
       <span class="hex" [style.color]="d.docs.armees[comp.armee!].couleur">&#x2B22;</span>
-      <span [matBadge]="comp.unites.length" matBadgeColor="warn"></span>
+      <span [matBadge]="comp.unites.length" matBadgeColor="warn" matBadgeSize="large"></span>
       @if(c.selected && comp.id == c.selected.id && i==c.indexAttaquant){
       <div id="mb">
         <ul>
@@ -134,7 +134,7 @@
         <!-- Compagnie attaque -->
         @if(c.attaque){
         <h4>{{ l.t['ATTAQUANT'] }}</h4>
-        <h5>{{ c.attaque.nom }}</h5>
+        <h5>{{ c.attaque.nom }} ({{ c.attaque.id }})</h5>
         <ul>
           <li>
             <img src="assets/images/pictos/unite-bouclier_n.png" [alt]="l.t['COMBATTANTS']">
@@ -170,7 +170,7 @@
         <!-- Commandant attaque -->
         @if(c.officierAt){
         <h4>{{ l.t['ATTAQUANT'] }}</h4>
-        <h5>{{ c.officierAt.nom }}</h5>
+        <h5>{{ c.officierAt.nom }} ({{ c.officierAt.id }})</h5>
         <ul>
           <li>
             <img src="assets/images/pictos/coeur_n.png" [alt]="l.t['PV']">
@@ -221,7 +221,7 @@
       <article>
         @if(c.defend){
         <h4>{{ l.t['DEFENSEUR'] }}</h4>
-        <h5>{{ c.defend.nom }}</h5>
+        <h5>{{ c.defend.nom }} ({{ c.defend.id }})</h5>
         <ul>
           <li>
             <img src="assets/images/pictos/unite-bouclier_n.png" [alt]="l.t['COMBATTANTS']">
@@ -248,7 +248,7 @@
         <!-- COMMANDANT ATTAQUE -->
         @if(c.officierDef){
         <h4>{{ l.t['DEFENSEUR'] }}</h4>
-        <h5>{{ c.officierDef.nom }}</h5>
+        <h5>{{ c.officierDef.nom }} ({{ c.officierDef.id }})</h5>
         <ul>
           <li>
             <img src="assets/images/pictos/coeur_n.png" [alt]="l.t['PV']">

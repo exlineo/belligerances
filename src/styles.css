@@ -159,9 +159,9 @@ th, td{
   padding:5px;
   /* vertical-align: middle; */
 }
-td:nth-child(1){
+/* td:nth-child(1){
   text-align: left;
-}
+} */
 form{
   width:100%;
   flex-flow:column wrap;
@@ -507,6 +507,13 @@ nav.options img{
 .token.mat-badge-medium.mat-badge-overlap .mat-badge-content{
   margin-left:-25px;
   margin-bottom: -15px;
+}
+.mat-badge-content {
+  text-overflow:clip !important;
+}
+.mat-badge-large .mat-badge-content {
+  width:32px !important;
+  height:32px !important;
 }
 .cdk-overlay-container{
   pointer-events: none;

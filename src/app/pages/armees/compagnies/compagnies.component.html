@@ -63,23 +63,25 @@
         <table>
           <thead>
             <tr>
-              <td>{{ l.t['NOM'] }}</td>
-              <td>{{ l.t['RACE'] }}</td>
-              <td>{{ l.t['CAC'] }}</td>
-              <td>{{ l.t['JET'] }}</td>
-              <td>{{ l.t['ARMURE'] }}</td>
-              <td>{{ l.t['BOUCLIER'] }}</td>
-              <td>{{ l.t['PV_MAX'] }}</td>
-              <td>{{ l.t['PV'] }}</td>
-              <td>{{ l.t['MONTURE'] }}</td>
-              <td>{{ l.t['XP'] }}</td>
-              <td>{{ l.t['STATUT'] }}</td>
-              <td></td>
+              <th>ID</th>
+              <th>{{ l.t['NOM'] }}</th>
+              <th>{{ l.t['RACE'] }}</th>
+              <th>{{ l.t['CAC'] }}</th>
+              <th>{{ l.t['JET'] }}</th>
+              <th>{{ l.t['ARMURE'] }}</th>
+              <th>{{ l.t['BOUCLIER'] }}</th>
+              <th>{{ l.t['PV_MAX'] }}</th>
+              <th>{{ l.t['PV'] }}</th>
+              <th>{{ l.t['MONTURE'] }}</th>
+              <th>{{ l.t['XP'] }}</th>
+              <th>{{ l.t['STATUT'] }}</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             @for (u of c.unites | slice:pagination.min:pagination.max | unitesArray:d.docs.unites; track u.id) {
             <tr>
+              <td>{{ u.id }}</td>
               <td>{{ u.nom }}</td>
               <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
               <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
@@ -134,7 +136,7 @@
             <mat-label>{{ l.t['ARMEE'] }}</mat-label>
             <mat-select [placeholder]="l.t['ARMEE']" name="armee" [(ngModel)]="compagnie.armee" required>
               @for (a of d.docs.armees; track a.id) {
-              <mat-option [value]="a.id">{{a.nom}}</mat-option>
+              <mat-option [value]="a.id">{{a.nom}} ({{a.id}})</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -142,7 +144,7 @@
             <mat-label>{{ l.t['COMMANDANT'] }}*</mat-label>
             <mat-select [placeholder]="l.t['COMMANDANT']" name="commandant" [(ngModel)]="compagnie.commandant" required>
               @for (com of d.docs.unites | pj; track com.id) {
-              <mat-option [value]="com.id">{{com.nom}}</mat-option>
+              <mat-option [value]="com.id">{{com.nom}} ({{com.id}})</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -188,7 +190,7 @@
             <mat-label>{{ l.t['UNITE_GENERE'] }}</mat-label>
             <mat-select [placeholder]="l.t['UNITE_TYPE_SEL']" name="unites" [(ngModel)]="unitesTypes" multiple>
               @for (u of d.docs.unites | pj:true; track u.id) {
-              <mat-option [value]="u">{{u.nom}}</mat-option>
+              <mat-option [value]="u">{{u.nom}} ({{u.id}})</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -198,6 +200,7 @@
           <table>
             <thead>
               <tr>
+                <th>ID</th>
                 <th>{{ l.t['NOM'] }}</th>
                 <th>{{ l.t['RACE'] }}</th>
                 <th>{{ l.t['CAC'] }}</th>
@@ -214,15 +217,16 @@
             <tbody>
               @for(uniteType of unitesTypes; track uniteType.id){
               <tr>
+                <td>{{ uniteType.id }}</td>
                 <td>{{ uniteType.nom }}</td>
-                <td>{{ d.getCompagniesUnites('races', uniteType.id).nom }}</td>
-                <td>{{ d.getCompagniesUnites('cac', uniteType.id).nom }}</td>
-                <td>{{ d.getCompagniesUnites('jet', uniteType.id).nom }}</td>
-                <td>{{ d.getCompagniesUnites('armures', uniteType.id).nom }}</td>
-                <td>{{ d.getCompagniesUnites('boucliers', uniteType.id).nom }}</td>
+                <td>{{ d.getCompagniesUnites('races', uniteType.race).nom }}</td>
+                <td>{{ d.getCompagniesUnites('cac', uniteType.cac!).nom }}</td>
+                <td>{{ d.getCompagniesUnites('jet', uniteType.jet!).nom }}</td>
+                <td>{{ d.getCompagniesUnites('armures', uniteType.armure!).nom }}</td>
+                <td>{{ d.getCompagniesUnites('boucliers', uniteType.bouclier!).nom }}</td>
                 <td>{{ uniteType.pvMax }}</td>
                 <td>{{ uniteType.pv }}</td>
-                <td>{{ d.getCompagniesUnites('montures', uniteType.id).nom }}</td>
+                <td>{{ d.getCompagniesUnites('montures', uniteType.monture!).nom }}</td>
                 <td>{{ uniteType.xp }}</td>
                 <td><img [src]="uniteType.etat | statuts"></td>
               </tr>
@@ -285,6 +289,7 @@
     <table>
       <thead>
         <tr>
+          <td>ID</td>
           <td>{{ l.t['NOM'] }}</td>
           <td>{{ l.t['RACE'] }}</td>
           <td>{{ l.t['CAC'] }}</td>
@@ -302,6 +307,7 @@
       <tbody>
         @for (u of unitesGenerees | slice:pagination.min:pagination.max; track u.id) {
         <tr>
+          <td>{{ u.id }}</td>
           <td>{{ u.nom }}</td>
           <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
           <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>

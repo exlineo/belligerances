@@ -180,14 +180,16 @@ export class CompagniesPipe implements PipeTransform {
 })
 export class UnitesPipe implements PipeTransform {
 
-  transform(unites:Array<UniteI>, libre:string , pj:any = 'null', archetype:any = 'null', etat:any = 'null'): Array<UniteI> {
+  transform(unites:Array<UniteI>, libre:string, pj:any = 'null', archetype:any = 'null', etat:any = 'null'): Array<UniteI> {
     if(!unites) return [];
-    if(libre.length < 3 && (pj == 'null' && archetype == 'null' && etat == 'null')) return unites;
+    // console.log()
+    if((libre.length < 3 && isNaN(parseInt(libre))) && (pj == 'null' && archetype == 'null' && etat == 'null')) return unites;
 
-    console.log(pj, archetype, etat);
+    console.log(pj, archetype, etat, libre, parseInt(libre), isNaN(parseInt(libre)));
 
     return unites.filter(u =>
       ((libre.length > 2 && JSON.stringify(u).toLowerCase().indexOf(libre.toLowerCase()) != -1))
+      || parseInt(libre) == u.id
       || (pj != 'null' && u.pj == JSON.parse(pj))
       || (archetype != 'null' && u.archetype == JSON.parse(archetype))
       || (etat != 'null' && u.etat == parseInt(etat)));
