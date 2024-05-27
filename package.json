@@ -1,6 +1,6 @@
 {
   "name": "belligerance",
-  "version": "0.8.0",
+  "version": "1.0.1",
   "main": "belligerances.js",
   "scripts": {
     "ng": "ng",
