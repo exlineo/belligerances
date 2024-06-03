@@ -40,7 +40,9 @@
       @if(c.selected && comp.id == c.selected.id && i==c.indexAttaquant){
       <div id="mb">
         <ul>
-          <li><a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right"
+          <li [class.disabled]="(comp.armee! < 0 || comp.commandant < 0)">
+          <!-- <li> -->
+            <a [matTooltip]="l.t['ACT_CAC']" matTooltipPosition="right"
               (click)="actionBaston($event, comp, 'ACT_CAC')">
               <img src="assets/images/pictos/action-cac_b.png" [alt]="l.t['ACT_CAC']"></a></li>
 
@@ -48,29 +50,35 @@
               <img src="assets/images/pictos/action-jet_b.png" [alt]="l.t['ACT_JET']"
                 (click)="actionBaston($event, comp, 'ACT_JET')"></a></li>
 
-          <li><a [matTooltip]="l.t['ACT_DEF']" matTooltipPosition="below" (click)="actionDefend(comp)">
+          <li [class.disabled]="(comp.armee! < 0 || comp.commandant < 0)">
+            <a [matTooltip]="l.t['ACT_DEF']" matTooltipPosition="below" (click)="actionDefend(comp)">
               <img src="assets/images/pictos/action-statut_b.png" [alt]="l.t['ACT_DEF']"></a></li>
           <!-- <li><a [matTooltip]="l.t['ACT_SORT']" matTooltipPosition="below">
               <img src="assets/images/pictos/action-sort_b.png" [alt]="l.t['ACT_SORT']" (click)="actionBaston($event, c, 'ACT_SORT')"></a></li> -->
 
-          <li><a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below" (click)="actionRallie(comp)">
+          <li [class.disabled]="comp.armee! < 0">
+            <a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below" (click)="actionRallie(comp)">
               <img src="assets/images/pictos/action-rallie_b.png" [alt]="l.t['ACT_RALLIE']"></a></li>
 
-          <li><a [matTooltip]="l.t['ACT_ORDRE']" matTooltipPosition="left" (click)="actionOrdre(comp)">
+          <li [class.disabled]="comp.commandant < 0">
+            <a [matTooltip]="l.t['ACT_ORDRE']" matTooltipPosition="left" (click)="actionOrdre(comp)">
               <img src="assets/images/pictos/action-ordres_b.png" [alt]="l.t['ACT_ORDRE']"></a></li>
 
-          <li><a [matTooltip]="l.t['DEL']" matTooltipPosition="left" (click)="actionDel($event, i, comp.id)">
+          <li>
+            <a [matTooltip]="l.t['DEL']" matTooltipPosition="left" (click)="actionDel($event, i, comp.id)">
               <img src="assets/images/pictos/action-del_b.png" [alt]="l.t['DEL']"></a></li>
 
-          <li><a [matTooltip]="l.t['ACT_INFOS']" matTooltipPosition="above" (click)="actionInfos(comp)">
+          <li>
+            <a [matTooltip]="l.t['ACT_INFOS']" matTooltipPosition="above" (click)="actionInfos(comp)">
               <img src="assets/images/pictos/action-infos_b.png" [alt]="l.t['ACT_STATUT']"></a></li>
 
-          <li><a [matTooltip]="l.t['ACT_DEFI_AT']" matTooltipPosition="above" (click)="actionDefi(comp.id, true)">
+          <li [class.disabled]="comp.commandant < 0">
+            <a [matTooltip]="l.t['ACT_DEFI_AT']" matTooltipPosition="above" (click)="actionDefi(comp, true)">
               <img src="assets/images/pictos/action-officierAt_b.png" [alt]="l.t['ACT_DEFI_AT']"></a></li>
 
-          <li><a [matTooltip]="l.t['ACT_DEFI_DEF']" matTooltipPosition="after" (click)="actionDefi(comp.id, false)">
+          <li [class.disabled]="comp.commandant < 0">
+            <a [matTooltip]="l.t['ACT_DEFI_DEF']" matTooltipPosition="after" (click)="actionDefi(comp, false)">
               <img src="assets/images/pictos/action-officierDef_b.png" [alt]="l.t['ACT_DEFI_DEF']"></a></li>
-
         </ul>
       </div>
       }
@@ -102,7 +110,7 @@
         <article class="col panneau">
           <p>{{ a.descr }}</p>
           @for(c of a.compagnies; track c; let j=$index){
-          <div>
+          <div><!-- Compagnie grisée si un problème dans les données -->
             <div class="token" cdkDrag (cdkDragEnded)="tokenDrop($event, d.docs.compagnies[c])"
               (cdkDragMoved)="setDragOverflow()" [matTooltip]="d.docs.compagnies[c].nom">
               <img [src]="d.docs.compagnies[c].avatar" [alt]="d.docs.compagnies[c].nom">
@@ -239,7 +247,7 @@
             <span><strong>{{ c.defend.morts }}</strong></span>
           </li>
           <li>
-            <img src="assets/images/pictos/action-moral_b.png" [alt]="l.t['ACT_MORAL']">
+            <img src="assets/images/pictos/action-moral_n.png" [alt]="l.t['ACT_MORAL']">
             <span>{{ l.t['MORAL'] }}</span>
             <span><strong>{{ c.defend.moral }}</strong></span>
           </li>

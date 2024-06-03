@@ -63,7 +63,7 @@ export class CombatsService {
           act = 'sort';
           break;
       };
-
+      console.log("Baston action", act);
       this.uAts.forEach((u: UniteI, i: number) => {
         // L'attaquant peuplé des données utiles
         let uAt = this.d.setUnite(u);
@@ -79,6 +79,7 @@ export class CombatsService {
 
         for (let n = 0; n < impact; ++n) {
           let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
+          // console.log("Combat at / dev", at, def);
           if (at >= def) {
             let dg = this.dgCac(uAt[act]);
             // Ajouter le bonus d'ordre si utile
@@ -89,9 +90,9 @@ export class CombatsService {
             }
             u.xp += dg; // L'attaquant gagne de l'expérience
             uDef.unite.pv - dg < 0 ? uDef.unite.pv = 0 : uDef.unite.pv -= dg; // Appliquer les dégâts à l'unité qui défend
+            ++this.blesses; // Marquer le nouveau blessé
+            if (uDef.pv <= 0) ++this.morts;
           }
-          ++this.blesses; // Marquer le nouveau blessé
-          if (uDef.pv <= 0) ++this.morts;
         }
       });
       // Calculer les morts et les blessés de la compagnie

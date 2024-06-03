@@ -34,11 +34,11 @@ import { CombatsService } from 'src/app/shared/services/combats.service';
 export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   l: UtilsService = inject(UtilsService); // Service de traduction
   d: DonneesService = inject(DonneesService); // Service de données
-  c:CombatsService = inject(CombatsService);
+  c: CombatsService = inject(CombatsService);
 
   tabArmees: boolean = false; // Déclencher l'ouverture ou la fermeture d'une fenêtre
   tabActions: boolean = false; // Déclencher l'ouverture ou la fermeture d'une fenêtre
-  ordre:boolean = false; // Afficher la liste des ordres disponibles
+  ordre: boolean = false; // Afficher la liste des ordres disponibles
 
   hexActu: string = '';
   opacite: number = 0.25;
@@ -68,11 +68,10 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     };
     return false;
   }
-  initActions(){
+  initActions() {
     this.c.selected = undefined;
     this.c.indexAttaquant = -1;
     this.c.infos = false;
-    console.log("Mouse down");
   }
   /** Gérer la position des tokens lorsqu'ils sont déposés */
   ngAfterViewInit(): void {
@@ -92,13 +91,13 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     this.initPos = { x: Math.round(map.left), y: Math.round(map.top) }; // Position intiale du champ de bataille pour calculer la position du token droppé
   }
   /** Positionner les tokens */
-  posTokens(){
+  posTokens() {
     if (this.c.listeCompagnies.length > 0) {
-      this.tokensView.forEach((t:any, index:number) => {
-          const pos = this.c.listeCompagnies[index].position;
-          t.nativeElement.style.top = pos.y + 'px';
-          t.nativeElement.style.left = pos.x + 'px';
-        })
+      this.tokensView.forEach((t: any, index: number) => {
+        const pos = this.c.listeCompagnies[index].position;
+        t.nativeElement.style.top = pos.y + 'px';
+        t.nativeElement.style.left = pos.x + 'px';
+      })
     }
   }
   /** Evénements sur le drop  */
@@ -144,69 +143,84 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   }
   /** Déterminer la compagnie qui va se battre */
   actionBaston(event: Event, c: CompagnieI, l: string = 'ACT_CAC') {
-    this.c.officierAt = this.c.officierDef = undefined; // On vire les officiers s'il y a lieu
-    if (this.c.attaque && this.c.attaque.id == c.id) {
-      this.c.attaque = undefined;
-      this.c.uAts = [];
-      this.cacheActions();
+    if (c.armee! >= 0 && c.commandant >= 0) {
+      this.c.officierAt = this.c.officierDef = undefined; // On vire les officiers s'il y a lieu
+      if (this.c.attaque && this.c.attaque.id == c.id) {
+        this.c.attaque = undefined;
+        this.c.uAts = [];
+        this.cacheActions();
+      } else {
+        this.c.attaque = c;
+        this.c.uAts = this.d.docs.unites.filter((u: UniteI) => this.c.attaque?.unites.includes(u.id));
+        this.tabActions = true;
+        this.c.action = l; // La traduction de l'action, permet de connaître son type
+      }
     } else {
-      this.c.attaque = c;
-      this.c.uAts = this.d.docs.unites.filter((u: UniteI) => this.c.attaque?.unites.includes(u.id));
-      this.tabActions = true;
-      this.c.action = l; // La traduction de l'action, permet de connaître son type
+      this.l.message('ER_COMP_ARMEE_COM');
     }
   }
   /** Déterminer la compagnie qui défend */
   actionDefend(c: CompagnieI) {
-    this.c.officierAt = this.c.officierDef = undefined; // On vire les officiers s'il y a lieu
-    if (this.c.defend && this.c.defend.id == c.id) {
-      this.c.defend = undefined;
-      this.c.uDefs = [];
-      this.cacheActions();
+    if (c.armee! >= 0 && c.commandant >= 0) {
+      this.c.officierAt = this.c.officierDef = undefined; // On vire les officiers s'il y a lieu
+      if (this.c.defend && this.c.defend.id == c.id) {
+        this.c.defend = undefined;
+        this.c.uDefs = [];
+        this.cacheActions();
+      } else {
+        this.c.defend = c;
+        this.c.uDefs = this.d.docs.unites.filter((u: UniteI) => this.c.defend?.unites.includes(u.id));
+        this.tabActions = true;
+        // Réunitialiser les états des blessés et des morts
+        this.c.blesses = this.c.morts = 0;
+      }
     } else {
-      this.c.defend = c;
-      this.c.uDefs = this.d.docs.unites.filter((u: UniteI) => this.c.defend?.unites.includes(u.id));
-      this.tabActions = true;
-      // Réunitialiser les états des blessés et des morts
-      this.c.blesses = 0;
-      this.c.morts = 0;
+      this.l.message('ER_COMP_ARMEE_COM');
     }
   }
   /** Afficher les infos sur la compagnie */
   actionRallie(c: CompagnieI) {
-    this.c.action = 'ACT_RALLIE';
-    if (c.moral > 0) { // Si la compagnie n'est pas désorganisée
-      this.l.message('ER_MORAL');
-    } else if (c.commandant && this.d.docs.unites.find((u: UniteI) => u.id == c.commandant)) {
-      const commandant = this.d.docs.unites.find((u: UniteI) => u.id == c.commandant);
-      const jet = this.c.jetAttaque(commandant.cmd); // Prendre en compte les pertes dans la compagnie et l'absence de général ou de commandant comme variable
-      if (jet >= 12) {
-        c.moral = 2; // Jet réussi, Moral remonte de 2
-        this.l.message('MSG_MORAL_GAIN');
-      } else {
-        this.l.message('MSG_MORAL_NULL');
+    if (c.commandant >= 0) {
+      this.c.action = 'ACT_RALLIE';
+      if (c.moral > 0) { // Si la compagnie n'est pas désorganisée
+        this.l.message('ER_MORAL');
+      } else if (c.commandant && this.d.docs.unites.find((u: UniteI) => u.id == c.commandant)) {
+        const commandant = this.d.docs.unites.find((u: UniteI) => u.id == c.commandant);
+        const jet = this.c.jetAttaque(commandant.cmd); // Prendre en compte les pertes dans la compagnie et l'absence de général ou de commandant comme variable
+        if (jet >= 12) {
+          c.moral = 2; // Jet réussi, Moral remonte de 2
+          this.l.message('MSG_MORAL_GAIN');
+        } else {
+          this.l.message('MSG_MORAL_NULL');
+        }
       }
+    } else {
+      this.l.message('ER_COMP_COM');
     }
   }
   /** Choisir un ordre */
-  actionOrdre(comp:CompagnieI){
+  actionOrdre(comp: CompagnieI) {
     this.ordre = true;
   }
   /** Défier un adversaire */
-  actionDefi(id: number, type: boolean) {
-    this.c.action = 'ACT_DEFI';
-    // Initialisation des compagniers
-    this.c.attaque = this.c.defend = undefined;
-    this.c.uAts = this.c.uDefs = [];
-    this.c.blesses = this.c.morts = 0;
-    // Si type == true, c'est l'attaquant, sinon le défenseur
-    const unite = this.d.docs.unites.find((u: UniteI) => u.id == id);
-    if (type) {
-      this.c.officierAt == unite ? this.c.officierAt = undefined : this.c.officierAt = unite;
+  actionDefi(c: CompagnieI, type: boolean) {
+    if (c.commandant >= 0) {
+      this.c.action = 'ACT_DEFI';
+      // Initialisation des compagniers
+      this.c.attaque = this.c.defend = undefined;
+      this.c.uAts = this.c.uDefs = [];
+      this.c.blesses = this.c.morts = 0;
+      // Si type == true, c'est l'attaquant, sinon le défenseur
+      const unite = this.d.docs.unites.find((u: UniteI) => u.id == c.id);
+      if (type) {
+        this.c.officierAt == unite ? this.c.officierAt = undefined : this.c.officierAt = unite;
+      } else {
+        this.c.officierDef == unite ? this.c.officierDef = undefined : this.c.officierDef = unite;
+      }
+      this.cacheActions();
     } else {
-      this.c.officierDef == unite ? this.c.officierDef = undefined : this.c.officierDef = unite;
+      this.l.message('ER_COMP_COM');
     }
-    this.cacheActions();
   }
   /** Cacher la fenêtre des actions */
   cacheActions() {
@@ -215,7 +229,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   }
   /** Agir */
   goCombat() {
-    if ((this.c.attaque && !this.c.defend) || (!this.c.attaque&& this.c.defend) || (this.c.officierAt && !this.c.officierDef) || (!this.c.officierAt && this.c.officierDef)) {
+    if ((this.c.attaque && !this.c.defend) || (!this.c.attaque && this.c.defend) || (this.c.officierAt && !this.c.officierDef) || (!this.c.officierAt && this.c.officierDef)) {
       this.l.message('MSG_BELLI_CHOIX');
     } else if (this.c.attaque && this.c.defend) {
       this.c.combatCompagnies();
@@ -226,7 +240,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
     }
   }
   /** Attribuer un ordre à une compagnie */
-  setOrdre(ordre:OrdreI){
+  setOrdre(ordre: OrdreI) {
     this.c.selected!.ordre = ordre;
   }
   /** Pagination */

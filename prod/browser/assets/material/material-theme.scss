@@ -33,13 +33,13 @@ $theme-dark:null;
     ),
   );
 
-$palette-primary-light: mat.define-palette($palette-blue-1, 800, 100, 900);
+$palette-primary-light: mat.m2-define-palette($palette-blue-1, 800, 100, 900);
 $theme-light: mat.define-light-theme((color: (primary: $palette-primary-light,
         accent: $palette-primary-light,
       ),
     ));
 
-$palette-primary-dark: mat.define-palette($palette-blue-1, 800, 300, 900);
+$palette-primary-dark: mat.m2-define-palette($palette-blue-1, 800, 300, 900);
 $theme-dark: mat.define-dark-theme((color: (primary: $palette-primary-dark,
         accent: $palette-primary-dark,
       ),
