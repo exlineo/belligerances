@@ -37,7 +37,7 @@ export class UtilsService {
       this.ipc = (window as any).require('electron').ipcRenderer;
       this.fs = (window as any).require('fs');
 
-      this.sendFiles("Coucou");
+      this.sendFiles("Fichier transmis");
       this.ipc.on('ecoute', (event: IpcRendererEvent, arg: any) => {
         console.log(arg);
       });
@@ -66,19 +66,19 @@ export class UtilsService {
     // });
   }
   getLangue() {
-    if (localStorage.getItem('lang')) {
-      this.t = JSON.parse(localStorage.getItem('lang')!);
-    } else {
-      this.http.get(`assets/data/${this.langue}/lang.json`).subscribe({
-        next: data => {
-          this.t = data;
-          localStorage.setItem('lang', JSON.stringify(data));
-        },
-        error: () => this.message('ER_LANG'),
-        complete: () => console.log('Langue chargée')
-      }
-      )
+    // if (localStorage.getItem('lang')) {
+    //   this.t = JSON.parse(localStorage.getItem('lang')!);
+    // } else {
+    this.http.get(`assets/data/${this.langue}/lang.json`).subscribe({
+      next: data => {
+        this.t = data;
+        localStorage.setItem('lang', JSON.stringify(data));
+      },
+      error: () => this.message('ER_LANG'),
+      complete: () => console.log('Langue chargée')
     }
+    )
+    // }
   }
   /** Informer l'utilisateur */
   message(msg: string) {

@@ -13,10 +13,11 @@
     </mat-select>
     <button (click)="d.getDocs()" class="valide">
       <mat-icon matSuffix>add</mat-icon>{{ l.t['CAMP_CREER'] }}</button>
-      @if(d.campagne){
-        <a [title]="l.t['TELE']" #tele [href]="href" [download]="fichier" style="display:none"></a>
-      <button (click)="downloadJson()" class="picto annule">
-        <mat-icon matSuffix>file_download</mat-icon></button>
+
+    @if(d.campagne){
+    <a [title]="l.t['TELE']" #tele [href]="href" [download]="fichier" style="display:none"></a>
+    <button (click)="downloadJson()" class="picto annule" [matTooltip]="l.t['CAMP_DEL']">
+      <mat-icon matSuffix>file_download</mat-icon></button>
     }
   </header>
   @if(d.campagne && d.campagne!.id == -1){
@@ -46,7 +47,9 @@
   @if(d.campagne && d.campagne.id > -1){
   <section>
     <header>
-      <h3>{{ d.campagne.nom }}</h3>
+      <h3>{{ d.campagne.nom }} <button (click)="l.setEdit('campagne', d.campagne, true)" class="icone del"
+          [matTooltip]="l.t['CAMP_DEL']">
+          <mat-icon matSuffix>restart_alt</mat-icon></button></h3>
       <p>{{ d.campagne.descr }}</p>
     </header>
     <article>
@@ -60,5 +63,12 @@
       </a>
     </article>
   </section>
-  }
+}
+@if(d.etatSave){
+<section>
+  <a [title]="l.t['SAVE_DATA']" (click)="d.saveCampagne()" class="btn del" [matTooltip]="l.t['SAVE_DATA']">
+    <mat-icon matSuffix>save</mat-icon>
+  </a>
+</section>
+}
 </section>

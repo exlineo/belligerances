@@ -31,6 +31,9 @@ export class SupprComponent implements OnInit {
       case "compagnies":
         this.supprCompagnie();
         break;
+      case "campagne":
+        this.supprCampagne();
+        break;
       default:
         this.supprListe();
         break;
@@ -84,9 +87,9 @@ export class SupprComponent implements OnInit {
     }
 
     // Suppression de l'armée dans la campagne
-    this.d.campagnes.forEach((camp: any, i:number) => {
-      camp.docs.armees.forEach((ar:ArmeeI, index:number) => {
-        if(ar.id == this.l.maj.id) camp.docs.armees.splice(index, 1);
+    this.d.campagnes.forEach((camp: any, i: number) => {
+      camp.docs.armees.forEach((ar: ArmeeI, index: number) => {
+        if (ar.id == this.l.maj.id) camp.docs.armees.splice(index, 1);
       });
     });
     console.log("Armée supprimée");
@@ -107,8 +110,16 @@ export class SupprComponent implements OnInit {
         u[id] = -1;
       }
     });
-
     this.d.etatSave = true;
+  }
+  /** Détruire une campagne */
+  supprCampagne() {
+    if (this.d.campagne) {
+      const index = this.d.campagnes.indexOf(this.d.campagne);
+      this.d.campagnes.splice(index, 1);
+      this.d.campagne = null;
+      this.d.etatSave = true;
+    }
   }
   /** Récupérer l'identifiant d'une arme ou une créature pour son édition */
   getListeId() {

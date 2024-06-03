@@ -4,6 +4,7 @@ import { UtilsService } from '../../shared/services/utils.service';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Campagne } from 'src/app/shared/modeles/Type';
 
 @Component({
   selector: 'app-accueil',

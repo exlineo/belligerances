@@ -77,7 +77,7 @@ export class DonneesService {
     localStorage.setItem(listeId, JSON.stringify(listeData));
     localStorage.setItem('cache', JSON.stringify(this.cache));
     this.l.sendFiles(this.campagnes);
-  }
+  };
 
   // 3
   getOrdres() {
@@ -136,6 +136,7 @@ export class DonneesService {
       localStorage.setItem('campagnes', JSON.stringify(this.campagnes));
       sessionStorage.setItem('campagne', JSON.stringify(this.campagne));
       this.l.message('MSG_CAMP_CREE');
+      this.l.save = true;
     });
   }
   /** Calculer le nombre de points de vie d'une compagnie */
