@@ -49,6 +49,8 @@ export class CombatsService {
   combatCompagnies() {
     if (this.attaque && this.attaque.moral <= 0) {
       this.l.message('MSG_DEMORAL');
+    } else if(this.defend!.morts! >= this.defend!.unites.length) {
+      this.l.message('MSG_MORTS');
     } else {
       let ml = this.moralPipe.transform(this.attaque!.moral); // Bonus de moral de la compagnie
       let act: string = 'cac';
@@ -91,7 +93,9 @@ export class CombatsService {
             u.xp += dg; // L'attaquant gagne de l'expérience
             uDef.unite.pv - dg < 0 ? uDef.unite.pv = 0 : uDef.unite.pv -= dg; // Appliquer les dégâts à l'unité qui défend
             ++this.blesses; // Marquer le nouveau blessé
-            if (uDef.pv <= 0) ++this.morts;
+            if (uDef.unite.pv <= 0) {
+              ++this.morts;
+            };
           }
         }
       });
@@ -167,7 +171,7 @@ export class CombatsService {
     this.defend!.blesses = this.defend!.morts = 0;
     let pv = 0; // Calculer les points de vie globaux de la compagnie
     this.uDefs.forEach((u: any) => {
-      if (u.pv && u.pv <= 0) {
+      if (u.pv <= 0) {
         ++this.defend!.morts!;
       } else if (u.pvMax > u.pv && u.pv >= 0) {
         ++this.defend!.blesses!;

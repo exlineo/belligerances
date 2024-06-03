@@ -222,5 +222,6 @@
   "MSG_MORAL_OK":"Les unités tiennent bon ! Aucun point de moral perdu",
   "MSG_BELLI_CHOIX":"Choisissez deux belligérants pour lancer l'attaque",
   "MSG_CMD_AT":"Attention, le commandant attaquant n'a pas de potentiel de commandement",
+  "MSG_MORTS":"Toutes les unités sont mortes :/",
   "MSG_CMD_DEF":"Attention, le commandant défenseur n'a pas de potentiel de commandement"
 }

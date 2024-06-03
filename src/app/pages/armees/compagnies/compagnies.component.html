@@ -5,198 +5,66 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
   <!-- LISTE DES compagnieS -->
   <mat-tab [label]="l.t['COMPAGNIES']">
-    <!-- FILTRER LES compagnies -->
-    <mat-form-field>
-      <mat-label>{{ l.t['FILTRER'] }}</mat-label>
-      <input type="text" matInput [placeholder]="l.t['FILTRER_NOM']" [(ngModel)]="filtre" name="filtre">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-    <!-- LISTE DES compagnieS -->
-    <mat-accordion>
-      @for (c of d.docs.compagnies | triCompagnies:filtre; track c.id) {
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <img [src]="c.avatar" [alt]="c.nom" class="avatar">
-            <h5>{{ c.nom }}</h5>
-          </mat-panel-title>
-          <mat-panel-description>
-            <!-- <span>{{ l.t['MUNS'] }} : {{ c.munitions | armes:d.docs.munitions }} ({{ c.munitions!.q }})</span> -->
-            <span><img [src]="c.statut | statuts" [alt]="c.nom"></span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <header>
-          <div>
-            <p>{{ c.descr }}</p>
-            <nav class="row">
-            <a [matTooltip]="l.t['ANNULE']" (click)="l.setEdit('compagnies', c, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-            <a [matTooltip]="l.t['VALIDE']" (click)="l.setEdit('compagnies', c)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
-          </nav>
-        </div>
-          <table>
-            <thead>
-              <tr>
-                <th>{{ l.t['ARMEE'] }}</th>
-                <th>{{ l.t['COMMANDANT'] }}</th>
-                <th>{{ l.t['PV'] }}</th>
-                <th colspan="2">{{ l.t['MUNS'] }}</th>
-                <th>{{ l.t['BLESSES'] }}</th>
-                <th>{{ l.t['MORTS'] }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{ d.getCompagniesUnites('armees', c.armee!).nom }}</td>
-                <td>{{ d.getCompagniesUnites('unites', c.commandant).nom }}</td>
-                <td>{{ c.pv }}</td>
-                <td>@if(c.munitions!.type != -1){ {{ d.getCompagniesUnites('munitions', c.munitions!.type).nom }} }</td>
-                <td>@if(c.munitions!.type != -1){ {{ c.munitions!.q }} }</td>
-                <td>{{ c.blesses }}</td>
-                <td>{{ c.morts }}</td>
-              </tr>
-            </tbody>
-          </table>
 
-        </header>
-        <hr>
-        <h4>{{ l.t['UNITES'] }}</h4>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>{{ l.t['NOM'] }}</th>
-              <th>{{ l.t['RACE'] }}</th>
-              <th>{{ l.t['CAC'] }}</th>
-              <th>{{ l.t['JET'] }}</th>
-              <th>{{ l.t['ARMURE'] }}</th>
-              <th>{{ l.t['BOUCLIER'] }}</th>
-              <th>{{ l.t['PV_MAX'] }}</th>
-              <th>{{ l.t['PV'] }}</th>
-              <th>{{ l.t['MONTURE'] }}</th>
-              <th>{{ l.t['XP'] }}</th>
-              <th>{{ l.t['STATUT'] }}</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (u of c.unites | slice:pagination.min:pagination.max | unitesArray:d.docs.unites; track u.id) {
-            <tr>
-              <td>{{ u.id }}</td>
-              <td>{{ u.nom }}</td>
-              <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
-              <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
-              <td>{{ d.getCompagniesUnites('jet', u.jet!).nom }}</td>
-              <td>{{ d.getCompagniesUnites('armures', u.armure!).nom }}</td>
-              <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!).nom }}</td>
-              <td>{{ u.pvMax }}</td>
-              <td>{{ u.pv }}</td>
-              <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
-              <td>{{ u.xp }}</td>
-              <td><img [src]="u.etat | statuts" [alt]="l.t['AVATAR']"></td>
-              <td>
-                <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('unites', u, true)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-                <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('unites', u)"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
-        <mat-paginator [length]="c.unites.length" (page)="setPagination($event)" [pageSize]="10"
-          [pageSizeOptions]="[10, 25, 50, 100, 250]" aria-label="Avancer dans les unitées">
-        </mat-paginator>
-      </mat-expansion-panel>
-      }
-      @empty {
-      Il n'existe pas encore d'armée
-      }
-    </mat-accordion>
-  </mat-tab>
-  <!-- CREER UNE compagnie -->
-  <mat-tab [label]="l.t['COMPAGNIES_CREER']" (click)="initCompagnie()">
-    <header>
-      <form>
-        <article>
-          <mat-form-field>
-            <mat-label>{{ l.t['NOM'] }}</mat-label>
-            <input matInput [placeholder]="l.t['NOM']" name="nom" [(ngModel)]="compagnie.nom" required>
-            <mat-icon matSuffix>edit</mat-icon>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ l.t['DESCR'] }}</mat-label>
-            <input matInput [placeholder]="l.t['DESCR']" name="descr" [(ngModel)]="compagnie.descr">
-            <mat-icon matSuffix>edit</mat-icon>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ l.t['MORAL'] }}</mat-label>
-            <input matInput [placeholder]="l.t['MORAL']" name="moral" [(ngModel)]="compagnie.moral" type="number">
-            <mat-icon matSuffix>edit</mat-icon>
-          </mat-form-field>
+    <ng-template matTabContent>
+      <!-- FILTRER LES compagnies -->
+      <mat-form-field>
+        <mat-label>{{ l.t['FILTRER'] }}</mat-label>
+        <input type="text" matInput [placeholder]="l.t['FILTRER_NOM']" [(ngModel)]="filtre" name="filtre">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <!-- LISTE DES compagnieS -->
+      <mat-accordion>
+        @for (c of d.docs.compagnies | triCompagnies:filtre; track c.id) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <img [src]="c.avatar" [alt]="c.nom" class="avatar">
+              <h5>{{ c.nom }}</h5>
+            </mat-panel-title>
+            <mat-panel-description>
+              <!-- <span>{{ l.t['MUNS'] }} : {{ c.munitions | armes:d.docs.munitions }} ({{ c.munitions!.q }})</span> -->
+              <span><img [src]="c.statut | statuts" [alt]="c.nom"></span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <header>
+            <div>
+              <p>{{ c.descr }}</p>
+              <nav class="row">
+                <a [matTooltip]="l.t['ANNULE']" (click)="l.setEdit('compagnies', c, true)"><mat-icon matSuffix
+                    class="icone del">close</mat-icon></a>
+                <a [matTooltip]="l.t['VALIDE']" (click)="l.setEdit('compagnies', c)"><mat-icon matSuffix
+                    class="icone annule">restart_alt</mat-icon></a>
+              </nav>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>{{ l.t['ARMEE'] }}</th>
+                  <th>{{ l.t['COMMANDANT'] }}</th>
+                  <th>{{ l.t['PV'] }}</th>
+                  <th colspan="2">{{ l.t['MUNS'] }}</th>
+                  <th>{{ l.t['BLESSES'] }}</th>
+                  <th>{{ l.t['MORTS'] }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ d.getCompagniesUnites('armees', c.armee!).nom }}</td>
+                  <td>{{ d.getCompagniesUnites('unites', c.commandant).nom }}</td>
+                  <td>{{ c.pv }}</td>
+                  <td>@if(c.munitions!.type != -1){ {{ d.getCompagniesUnites('munitions', c.munitions!.type).nom }} }
+                  </td>
+                  <td>@if(c.munitions!.type != -1){ {{ c.munitions!.q }} }</td>
+                  <td>{{ c.blesses }}</td>
+                  <td>{{ c.morts }}</td>
+                </tr>
+              </tbody>
+            </table>
 
-          <mat-form-field>
-            <mat-label>{{ l.t['ARMEE'] }}</mat-label>
-            <mat-select [placeholder]="l.t['ARMEE']" name="armee" [(ngModel)]="compagnie.armee" required>
-              @for (a of d.docs.armees; track a.id) {
-              <mat-option [value]="a.id">{{a.nom}} ({{a.id}})</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ l.t['COMMANDANT'] }}*</mat-label>
-            <mat-select [placeholder]="l.t['COMMANDANT']" name="commandant" [(ngModel)]="compagnie.commandant" required>
-              @for (com of d.docs.unites | pj; track com.id) {
-              <mat-option [value]="com.id">{{com.nom}} ({{com.id}})</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ l.t['MUNS'] }}</mat-label>
-            <mat-select [placeholder]="l.t['MUNS']" name="munitions" [(ngModel)]="compagnie.munitions!.type">
-              <mat-option>{{l.t['SANS']}}</mat-option>
-              @for (m of d.docs.munitions; track m.id) {
-              <mat-option [value]="m.id">{{m.nom}}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ l.t['MUNS_QT'] }}</mat-label>
-            <input matInput [placeholder]="l.t['MUNS_QT']" name="munitionsQT" [(ngModel)]="compagnie.munitions!.q"
-              type="number">
-            <mat-icon matSuffix>edit</mat-icon>
-          </mat-form-field>
-        </article>
-        <article>
-          <mat-radio-group aria-label="Sélectionner un avatar pour la compagnie" name="avatar"
-            [(ngModel)]="compagnie.avatar" required>
-            <mat-label>{{ l.t['AVATAR'] }}*</mat-label>
-            <mat-radio-button value="assets/images/avatars/armees/armor_n.png" value="assets/images/avatars/armees/armor_n.png">
-              <img src="assets/images/avatars/armees/armor_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/horses.png" value="assets/images/avatars/armees/armor_n.png">
-              <img src="assets/images/avatars/armees/horses.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/magic-wand.png" value="assets/images/avatars/armees/armor_n.png">
-              <img src="assets/images/avatars/armees/magic-wand.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/shield_n.png" value="assets/images/avatars/armees/armor_n.png">
-              <img src="assets/images/avatars/armees/shield_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/spellbook.png" value="assets/images/avatars/armees/armor_n.png">
-              <img src="assets/images/avatars/armees/spellbook.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/spear.png" value="assets/images/avatars/armees/armor_n.png">
-              <img src="assets/images/avatars/armees/spear.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-            <mat-radio-button value="assets/images/avatars/armees/sword.png" value="assets/images/avatars/armees/armor_n.png">
-              <img src="assets/images/avatars/armees/sword.png" [alt]="l.t['AVATAR']"></mat-radio-button>
-          </mat-radio-group>
-        </article>
-        <hr>
-        <article>
-          <mat-form-field>
-            <mat-label>{{ l.t['UNITE_GENERE'] }}</mat-label>
-            <mat-select [placeholder]="l.t['UNITE_TYPE_SEL']" name="unites" [(ngModel)]="unitesTypes" multiple>
-              @for (u of d.docs.unites | pj:true; track u.id) {
-              <mat-option [value]="u">{{u.nom}} ({{u.id}})</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </article>
-        @if(unitesTypes.length > 0){
-        <article>
+          </header>
+          <hr>
+          <h4>{{ l.t['UNITES'] }}</h4>
           <table>
             <thead>
               <tr>
@@ -212,130 +80,284 @@
                 <th>{{ l.t['MONTURE'] }}</th>
                 <th>{{ l.t['XP'] }}</th>
                 <th>{{ l.t['STATUT'] }}</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              @for(uniteType of unitesTypes; track uniteType.id){
+              @for (u of c.unites | slice:pagination.min:pagination.max | unitesArray:d.docs.unites; track u.id) {
               <tr>
-                <td>{{ uniteType.id }}</td>
-                <td>{{ uniteType.nom }}</td>
-                <td>{{ d.getCompagniesUnites('races', uniteType.race).nom }}</td>
-                <td>{{ d.getCompagniesUnites('cac', uniteType.cac!).nom }}</td>
-                <td>{{ d.getCompagniesUnites('jet', uniteType.jet!).nom }}</td>
-                <td>{{ d.getCompagniesUnites('armures', uniteType.armure!).nom }}</td>
-                <td>{{ d.getCompagniesUnites('boucliers', uniteType.bouclier!).nom }}</td>
-                <td>{{ uniteType.pvMax }}</td>
-                <td>{{ uniteType.pv }}</td>
-                <td>{{ d.getCompagniesUnites('montures', uniteType.monture!).nom }}</td>
-                <td>{{ uniteType.xp }}</td>
-                <td><img [src]="uniteType.etat | statuts"></td>
+                <td>{{ u.id }}</td>
+                <td>{{ u.nom }}</td>
+                <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
+                <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
+                <td>{{ d.getCompagniesUnites('jet', u.jet!).nom }}</td>
+                <td>{{ d.getCompagniesUnites('armures', u.armure!).nom }}</td>
+                <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!).nom }}</td>
+                <td>{{ u.pvMax }}</td>
+                <td>{{ u.pv }}</td>
+                <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
+                <td>{{ u.xp }}</td>
+                <td><img [src]="u.etat | statuts" [alt]="l.t['AVATAR']"></td>
+                <td>
+                  <a [matTooltip]="l.t['DEL_LISTE']" (click)="l.setEdit('unites', u, true)"><mat-icon matSuffix
+                      class="icone del">close</mat-icon></a>
+                  <a [matTooltip]="l.t['MAJ']" (click)="l.setEdit('unites', u)"><mat-icon matSuffix
+                      class="icone annule">restart_alt</mat-icon></a>
+                </td>
               </tr>
               }
             </tbody>
           </table>
-        </article>
-        <article>
-          <!-- DUPLICATION -->
-          <fieldset>
-            <mat-checkbox name="aleaRaces" [(ngModel)]="aleas.race">{{ l.t['RACES'] }}</mat-checkbox>
-            <mat-checkbox name="aleaCac" [(ngModel)]="aleas.cac">{{ l.t['CAC'] }}</mat-checkbox>
-            <mat-checkbox name="aleaJet" [(ngModel)]="aleas.jet">{{ l.t['JET'] }}</mat-checkbox>
-            <mat-checkbox name="aleaArmures" [(ngModel)]="aleas.armure">{{ l.t['ARMURES'] }}</mat-checkbox>
-            <mat-checkbox name="aleaBoucliers" [(ngModel)]="aleas.bouclier">{{
-              l.t['BOUCLIERS']}}</mat-checkbox>
-            <mat-checkbox name="aleaMontures" [(ngModel)]="aleas.monture">{{ l.t['MONTURES'] }}</mat-checkbox>
-          </fieldset>
-        </article>
-        <article>
-          <fieldset>
-            <mat-label>{{ l.t['UNITES_DUPLIQUE'] }} : </mat-label>
-            <span class="petit">0</span>
-            <mat-slider min=0 max=1000 step=1 showTickMarks discrete [(ngModel)]="aleas.n" name="aleaN"
-              ngDefaultControl>
-              <input matSliderThumb>
-            </mat-slider>
-            <span class="petit">1000</span>
-          </fieldset>
-          <fieldset>
-            <mat-label>{{ l.t['ALEA'] }} : </mat-label>
-            <span class="petit">0</span>
-            <mat-slider min=0 max=100 step=1 showTickMarks discrete [(ngModel)]="aleas.pourcent" name="aleaPourcent"
-              ngDefaultControl>
-              <input matSliderThumb>
-            </mat-slider>
-            <span class="petit">100</span>
-          </fieldset>
-
-          <fieldset>
-            <button class="del" (click)="unitesGenerees = []"><mat-icon matSuffix>cancel</mat-icon>{{
-              l.t['ANNULE']
-              }}</button>
-            @if(unitesGenerees.length > 0){
-            <button class="annule" (click)="genereUnites()"><mat-icon matSuffix>restart_alt</mat-icon>{{
-              l.t['RELANCER']
-              }}</button>
-            }@else{
-            <button class="valide" (click)="genereUnites()"><mat-icon matSuffix>done</mat-icon>{{
-              l.t['UNITE_GENERE']
-              }}</button>
-            }
-          </fieldset>
-
-        </article>
+          <mat-paginator [length]="c.unites.length" (page)="setPagination($event)" [pageSize]="10"
+            [pageSizeOptions]="[10, 25, 50, 100, 250]" aria-label="Avancer dans les unitées">
+          </mat-paginator>
+        </mat-expansion-panel>
         }
-      </form>
-    </header>
-    @if(unitesGenerees.length > 0){
-    <table>
-      <thead>
-        <tr>
-          <td>ID</td>
-          <td>{{ l.t['NOM'] }}</td>
-          <td>{{ l.t['RACE'] }}</td>
-          <td>{{ l.t['CAC'] }}</td>
-          <td>{{ l.t['JET'] }}</td>
-          <td>{{ l.t['ARMURE'] }}</td>
-          <td>{{ l.t['BOUCLIER'] }}</td>
-          <td>{{ l.t['PV_MAX'] }}</td>
-          <td>{{ l.t['PV'] }}</td>
-          <td>{{ l.t['MONTURE'] }}</td>
-          <td>{{ l.t['XP'] }}</td>
-          <td>{{ l.t['STATUT'] }}</td>
-          <td></td>
-        </tr>
-      </thead>
-      <tbody>
-        @for (u of unitesGenerees | slice:pagination.min:pagination.max; track u.id) {
-        <tr>
-          <td>{{ u.id }}</td>
-          <td>{{ u.nom }}</td>
-          <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
-          <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
-          <td>{{ d.getCompagniesUnites('jet', u.jet!).nom }}</td>
-          <td>{{ d.getCompagniesUnites('armures', u.armure!).nom }}</td>
-          <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!).nom }}</td>
-          <td>{{ u.pvMax }}</td>
-          <td>{{ u.pv }}</td>
-
-          <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
-          <td>{{ u.xp }}</td>
-          <td><img [src]="u.etat | statuts"></td>
-          <td>
-            <a [matTooltip]="l.t['ANNULE']" (click)="delUnite($index)"><mat-icon matSuffix class="icone del">close</mat-icon></a>
-            <!-- <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a> -->
-          </td>
-        </tr>
+        @empty {
+        Il n'existe pas encore d'armée
         }
-      </tbody>
-    </table>
-    <mat-paginator [length]="unitesGenerees.length" (page)="setPagination($event)" [pageSize]="25"
-      [pageSizeOptions]="[10, 25, 50, 100, 250]" aria-label="Avancer dans les unitées">
-    </mat-paginator>
+      </mat-accordion>
+    </ng-template>
+  </mat-tab>
+  <!-- CREER UNE compagnie -->
+  <mat-tab [label]="l.t['COMPAGNIES_CREER']" (click)="initCompagnie()">
 
-    <article>
-      <button class="del" (click)="initCompagnie()" type="reset"><mat-icon matSuffix>cancel</mat-icon>{{ l.t['ANNULE'] }}</button>
-      <button class="valide" (click)="addCompagnie()"><mat-icon matSuffix>done</mat-icon>{{ l.t['COMPAGNIE_SAVE'] }}</button>
-    </article>
-    }
+    <ng-template matTabContent>
+      <header>
+        <form>
+          <article>
+            <mat-form-field>
+              <mat-label>{{ l.t['NOM'] }}</mat-label>
+              <input matInput [placeholder]="l.t['NOM']" name="nom" [(ngModel)]="compagnie.nom" required>
+              <mat-icon matSuffix>edit</mat-icon>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ l.t['DESCR'] }}</mat-label>
+              <input matInput [placeholder]="l.t['DESCR']" name="descr" [(ngModel)]="compagnie.descr">
+              <mat-icon matSuffix>edit</mat-icon>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ l.t['MORAL'] }}</mat-label>
+              <input matInput [placeholder]="l.t['MORAL']" name="moral" [(ngModel)]="compagnie.moral" type="number">
+              <mat-icon matSuffix>edit</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>{{ l.t['ARMEE'] }}</mat-label>
+              <mat-select [placeholder]="l.t['ARMEE']" name="armee" [(ngModel)]="compagnie.armee" required>
+                @for (a of d.docs.armees; track a.id) {
+                <mat-option [value]="a.id">{{a.nom}} ({{a.id}})</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ l.t['COMMANDANT'] }}*</mat-label>
+              <mat-select [placeholder]="l.t['COMMANDANT']" name="commandant" [(ngModel)]="compagnie.commandant"
+                required>
+                @for (com of d.docs.unites | pj; track com.id) {
+                <mat-option [value]="com.id">{{com.nom}} ({{com.id}})</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ l.t['MUNS'] }}</mat-label>
+              <mat-select [placeholder]="l.t['MUNS']" name="munitions" [(ngModel)]="compagnie.munitions!.type">
+                <mat-option>{{l.t['SANS']}}</mat-option>
+                @for (m of d.docs.munitions; track m.id) {
+                <mat-option [value]="m.id">{{m.nom}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ l.t['MUNS_QT'] }}</mat-label>
+              <input matInput [placeholder]="l.t['MUNS_QT']" name="munitionsQT" [(ngModel)]="compagnie.munitions!.q"
+                type="number">
+              <mat-icon matSuffix>edit</mat-icon>
+            </mat-form-field>
+          </article>
+          <article>
+            <mat-radio-group aria-label="Sélectionner un avatar pour la compagnie" name="avatar"
+              [(ngModel)]="compagnie.avatar" required>
+              <mat-label>{{ l.t['AVATAR'] }}*</mat-label>
+              <mat-radio-button value="assets/images/avatars/armees/armor_n.png"
+                value="assets/images/avatars/armees/armor_n.png">
+                <img src="assets/images/avatars/armees/armor_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+              <mat-radio-button value="assets/images/avatars/armees/horses.png"
+                value="assets/images/avatars/armees/armor_n.png">
+                <img src="assets/images/avatars/armees/horses.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+              <mat-radio-button value="assets/images/avatars/armees/magic-wand.png"
+                value="assets/images/avatars/armees/armor_n.png">
+                <img src="assets/images/avatars/armees/magic-wand.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+              <mat-radio-button value="assets/images/avatars/armees/shield_n.png"
+                value="assets/images/avatars/armees/armor_n.png">
+                <img src="assets/images/avatars/armees/shield_n.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+              <mat-radio-button value="assets/images/avatars/armees/spellbook.png"
+                value="assets/images/avatars/armees/armor_n.png">
+                <img src="assets/images/avatars/armees/spellbook.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+              <mat-radio-button value="assets/images/avatars/armees/spear.png"
+                value="assets/images/avatars/armees/armor_n.png">
+                <img src="assets/images/avatars/armees/spear.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+              <mat-radio-button value="assets/images/avatars/armees/sword.png"
+                value="assets/images/avatars/armees/armor_n.png">
+                <img src="assets/images/avatars/armees/sword.png" [alt]="l.t['AVATAR']"></mat-radio-button>
+            </mat-radio-group>
+          </article>
+          <hr>
+          <article>
+            <mat-form-field>
+              <mat-label>{{ l.t['UNITE_GENERE'] }}</mat-label>
+              <mat-select [placeholder]="l.t['UNITE_TYPE_SEL']" name="unites" [(ngModel)]="unitesTypes" multiple>
+                @for (u of d.docs.unites | pj:true; track u.id) {
+                <mat-option [value]="u">{{u.nom}} ({{u.id}})</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </article>
+          @if(unitesTypes.length > 0){
+          <article>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>{{ l.t['NOM'] }}</th>
+                  <th>{{ l.t['RACE'] }}</th>
+                  <th>{{ l.t['CAC'] }}</th>
+                  <th>{{ l.t['JET'] }}</th>
+                  <th>{{ l.t['ARMURE'] }}</th>
+                  <th>{{ l.t['BOUCLIER'] }}</th>
+                  <th>{{ l.t['PV_MAX'] }}</th>
+                  <th>{{ l.t['PV'] }}</th>
+                  <th>{{ l.t['MONTURE'] }}</th>
+                  <th>{{ l.t['XP'] }}</th>
+                  <th>{{ l.t['STATUT'] }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(uniteType of unitesTypes; track uniteType.id){
+                <tr>
+                  <td>{{ uniteType.id }}</td>
+                  <td>{{ uniteType.nom }}</td>
+                  <td>{{ d.getCompagniesUnites('races', uniteType.race).nom }}</td>
+                  <td>{{ d.getCompagniesUnites('cac', uniteType.cac!).nom }}</td>
+                  <td>{{ d.getCompagniesUnites('jet', uniteType.jet!).nom }}</td>
+                  <td>{{ d.getCompagniesUnites('armures', uniteType.armure!).nom }}</td>
+                  <td>{{ d.getCompagniesUnites('boucliers', uniteType.bouclier!).nom }}</td>
+                  <td>{{ uniteType.pvMax }}</td>
+                  <td>{{ uniteType.pv }}</td>
+                  <td>{{ d.getCompagniesUnites('montures', uniteType.monture!).nom }}</td>
+                  <td>{{ uniteType.xp }}</td>
+                  <td><img [src]="uniteType.etat | statuts"></td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </article>
+          <article>
+            <!-- DUPLICATION -->
+            <fieldset>
+              <mat-checkbox name="aleaRaces" [(ngModel)]="aleas.race">{{ l.t['RACES'] }}</mat-checkbox>
+              <mat-checkbox name="aleaCac" [(ngModel)]="aleas.cac">{{ l.t['CAC'] }}</mat-checkbox>
+              <mat-checkbox name="aleaJet" [(ngModel)]="aleas.jet">{{ l.t['JET'] }}</mat-checkbox>
+              <mat-checkbox name="aleaArmures" [(ngModel)]="aleas.armure">{{ l.t['ARMURES'] }}</mat-checkbox>
+              <mat-checkbox name="aleaBoucliers" [(ngModel)]="aleas.bouclier">{{
+                l.t['BOUCLIERS']}}</mat-checkbox>
+              <mat-checkbox name="aleaMontures" [(ngModel)]="aleas.monture">{{ l.t['MONTURES'] }}</mat-checkbox>
+            </fieldset>
+          </article>
+          <article>
+            <fieldset>
+              <mat-label>{{ l.t['UNITES_DUPLIQUE'] }} : </mat-label>
+              <span class="petit">0</span>
+              <mat-slider min=0 max=1000 step=1 showTickMarks discrete [(ngModel)]="aleas.n" name="aleaN"
+                ngDefaultControl>
+                <input matSliderThumb>
+              </mat-slider>
+              <span class="petit">1000</span>
+            </fieldset>
+            <fieldset>
+              <mat-label>{{ l.t['ALEA'] }} : </mat-label>
+              <span class="petit">0</span>
+              <mat-slider min=0 max=100 step=1 showTickMarks discrete [(ngModel)]="aleas.pourcent" name="aleaPourcent"
+                ngDefaultControl>
+                <input matSliderThumb>
+              </mat-slider>
+              <span class="petit">100</span>
+            </fieldset>
+
+            <fieldset>
+              <button class="del" (click)="unitesGenerees = []"><mat-icon matSuffix>cancel</mat-icon>{{
+                l.t['ANNULE']
+                }}</button>
+              @if(unitesGenerees.length > 0){
+              <button class="annule" (click)="genereUnites()"><mat-icon matSuffix>restart_alt</mat-icon>{{
+                l.t['RELANCER']
+                }}</button>
+              }@else{
+              <button class="valide" (click)="genereUnites()"><mat-icon matSuffix>done</mat-icon>{{
+                l.t['UNITE_GENERE']
+                }}</button>
+              }
+            </fieldset>
+
+          </article>
+          }
+        </form>
+      </header>
+      @if(unitesGenerees.length > 0){
+      <table>
+        <thead>
+          <tr>
+            <td>ID</td>
+            <td>{{ l.t['NOM'] }}</td>
+            <td>{{ l.t['RACE'] }}</td>
+            <td>{{ l.t['CAC'] }}</td>
+            <td>{{ l.t['JET'] }}</td>
+            <td>{{ l.t['ARMURE'] }}</td>
+            <td>{{ l.t['BOUCLIER'] }}</td>
+            <td>{{ l.t['PV_MAX'] }}</td>
+            <td>{{ l.t['PV'] }}</td>
+            <td>{{ l.t['MONTURE'] }}</td>
+            <td>{{ l.t['XP'] }}</td>
+            <td>{{ l.t['STATUT'] }}</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of unitesGenerees | slice:pagination.min:pagination.max; track u.id) {
+          <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.nom }}</td>
+            <td>{{ d.getCompagniesUnites('races', u.race).nom }}</td>
+            <td>{{ d.getCompagniesUnites('cac', u.cac!).nom }}</td>
+            <td>{{ d.getCompagniesUnites('jet', u.jet!).nom }}</td>
+            <td>{{ d.getCompagniesUnites('armures', u.armure!).nom }}</td>
+            <td>{{ d.getCompagniesUnites('boucliers', u.bouclier!).nom }}</td>
+            <td>{{ u.pvMax }}</td>
+            <td>{{ u.pv }}</td>
+
+            <td>{{ d.getCompagniesUnites('montures', u.monture!).nom }}</td>
+            <td>{{ u.xp }}</td>
+            <td><img [src]="u.etat | statuts"></td>
+            <td>
+              <a [matTooltip]="l.t['ANNULE']" (click)="delUnite($index)"><mat-icon matSuffix
+                  class="icone del">close</mat-icon></a>
+              <!-- <a [matTooltip]="l.t['VALIDE']"><mat-icon matSuffix class="icone annule">restart_alt</mat-icon></a> -->
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      <mat-paginator [length]="unitesGenerees.length" (page)="setPagination($event)" [pageSize]="25"
+        [pageSizeOptions]="[10, 25, 50, 100, 250]" aria-label="Avancer dans les unitées">
+      </mat-paginator>
+
+      <article>
+        <button class="del" (click)="initCompagnie()" type="reset"><mat-icon matSuffix>cancel</mat-icon>{{ l.t['ANNULE']
+          }}</button>
+        <button class="valide" (click)="addCompagnie()"><mat-icon matSuffix>done</mat-icon>{{ l.t['COMPAGNIE_SAVE']
+          }}</button>
+      </article>
+      }
+    </ng-template>
   </mat-tab>
 </mat-tab-group>
