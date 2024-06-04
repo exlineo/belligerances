@@ -202,6 +202,7 @@
   "ER_DATA":"Erreur dans le chargement des données",
   "ER_COMP_ARMEE_COM":"Attention, la compagnie doit appartenir à une armée et avoir un commandant pour être active",
   "ER_COMP_COM":"Attention, la compagnie doit avoir un commandant (vivant)",
+  "ER_COMP_COM_PTS":"Le commandant n'a plus de points de commandement.",
   "ER_COMP_ARMEE":"Attention, la compagnie doit appartenir une armee",
   "ER_UNITES_NB":"Merci de sélectionner un nombre d'unités à générer",
   "ER_TELECHARGE":"Sélectionnez une campagne pour télécharger les données",

@@ -200,7 +200,13 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   }
   /** Choisir un ordre */
   actionOrdre(comp: CompagnieI) {
-    this.ordre = true;
+    if(comp.commandant > -1) {
+      this.ordre = true;
+      let com = this.d.getUnite(comp.commandant);
+      com.cmd > 0 ? this.ordre = true : this.l.message('ER_COMP_COM_PTS');
+    } else{
+      this.l.message('ER_COMP_COM')
+    }
   }
   /** Défier un adversaire */
   actionDefi(c: CompagnieI, type: boolean) {

@@ -5,6 +5,7 @@
 <section>
   <header>
     <mat-select [placeholder]="l.t['CAMP_SEL']" [(value)]="index" (selectionChange)="d.setCampagne(index)">
+      <mat-option>{{ l.t['CAMP_SEL'] }}</mat-option>
       @for(camp of d.campagnes; track camp.id; let i=$index){
       <mat-option [value]="i">
         {{ camp.nom }}

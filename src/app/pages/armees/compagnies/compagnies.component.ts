@@ -75,8 +75,8 @@ export class CompagniesComponent implements OnInit {
         if (this.aleas.monture) unite.monture = this.randListe(this.d.docs.montures).id;
 
 
-        unite.pvMax = this.rand(this.d.docs.races[unite.race].basePv, this.aleas.pourcent);
-        unite.pv = unite.pvMax;
+        unite.pvMax = unite.pv = this.rand(this.d.docs.races[unite.race].basePv, this.aleas.pourcent);
+
         !this.compagnie.pv ? this.compagnie.pv = unite.pv : this.compagnie.pv += unite.pv; // Donner des points de vie à la compagnie
         this.compagnie.pvMax = this.compagnie.pv;
         this.unitesGenerees.push(unite);

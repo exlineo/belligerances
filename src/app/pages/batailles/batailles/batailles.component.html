@@ -60,7 +60,7 @@
             <a [matTooltip]="l.t['ACT_RALLIE']" matTooltipPosition="below" (click)="actionRallie(comp)">
               <img src="assets/images/pictos/action-rallie_b.png" [alt]="l.t['ACT_RALLIE']"></a></li>
 
-          <li [class.disabled]="comp.commandant < 0">
+          <li [class.disabled]="comp.commandant > -1">
             <a [matTooltip]="l.t['ACT_ORDRE']" matTooltipPosition="left" (click)="actionOrdre(comp)">
               <img src="assets/images/pictos/action-ordres_b.png" [alt]="l.t['ACT_ORDRE']"></a></li>
 
