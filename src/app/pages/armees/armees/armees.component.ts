@@ -49,6 +49,9 @@ export class ArmeesComponent implements AfterViewInit {
   /** Ajouter des compagnies à l'armée en cours */
   addCompagnie(event: MatCheckboxChange, id: number) {
     console.log(event.checked);
+
+    this.d.addCompagnieToArmee(id, -1); // ENlever les compagnies qui sont dans d'autres arméess
+    // Ajouter une compagnie à l'armée en cours d'édition
     if (this.armee.compagnies.includes(id)) {
       this.armee.compagnies.splice(this.armee.compagnies.indexOf(id), 1);
     } else {

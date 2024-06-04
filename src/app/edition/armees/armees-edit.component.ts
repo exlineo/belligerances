@@ -50,14 +50,9 @@ export class EditArmeesComponent implements AfterViewInit {
   }
   /** Ajouter des compagnies à l'armée en cours */
   addCompagnie(event: MatCheckboxChange, id: number) {
+    this.d.addCompagnieToArmee(id, this.l.maj.id);
     console.log(event.checked);
-    if (this.l.maj.compagnies.includes(id)) {
-      this.l.maj.compagnies.splice(this.l.maj.compagnies.indexOf(id), 1);
-    } else {
-      this.l.maj.compagnies.push(id);
-      const c = this.d.docs.compagnies.find( (c:CompagnieI) => c.id == id);
-      c.armee = this.l.maj.id; // Attribuer l'armée aussi à la compagnie
-    }
+
     this.d.etatSave = true;
   }
 }
