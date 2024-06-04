@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren, inject, ChangeDetectorRef } from '@angular/core';
 import { UtilsService } from '../../../shared/services/utils.service';
 import { DonneesService } from '../../../shared/services/donnees.service';
 import { ArmeesPipe, CompagniesArrayPipe, PjPipe, StatutsPipe } from '../../../shared/pipes/tris.pipe';
@@ -26,6 +26,8 @@ export class ArmeesComponent implements AfterViewInit {
   color!: Color;
   colorControl = new ColorPickerControl();
 
+  private changeDetect:ChangeDetectorRef = inject(ChangeDetectorRef); // Forcer la détection des changements de DOM
+
   @ViewChildren('chekitout') checks!:QueryList<ElementRef>;
 
   ngAfterViewInit() {
@@ -48,9 +50,9 @@ export class ArmeesComponent implements AfterViewInit {
   }
   /** Ajouter des compagnies à l'armée en cours */
   addCompagnie(event: MatCheckboxChange, id: number) {
-    console.log(event.checked);
+    console.log(event.checked, id);
 
-    this.d.addCompagnieToArmee(id, -1); // ENlever les compagnies qui sont dans d'autres arméess
+    this.d.addCompagnieToArmee(id, -1); // Enlever les compagnies qui sont dans d'autres arméess
     // Ajouter une compagnie à l'armée en cours d'édition
     if (this.armee.compagnies.includes(id)) {
       this.armee.compagnies.splice(this.armee.compagnies.indexOf(id), 1);
@@ -69,5 +71,7 @@ export class ArmeesComponent implements AfterViewInit {
       this.d.etatSave = true;
       this.l.message('ARMEES_ADD');
     }
+
+    // this.changeDetect.detectChanges();
   }
 }

@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, QueryList, ViewChildren, inject  } from '@angular/core';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { PjPipe, StatutsPipe } from 'src/app/shared/pipes/tris.pipe';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ColorPickerControl, Color } from '@iplab/ngx-color-picker';
-import { CompagnieI } from 'src/app/shared/modeles/Type';
 
 @Component({
   selector: 'app-edit-armees',
@@ -51,8 +50,7 @@ export class EditArmeesComponent implements AfterViewInit {
   /** Ajouter des compagnies à l'armée en cours */
   addCompagnie(event: MatCheckboxChange, id: number) {
     this.d.addCompagnieToArmee(id, this.l.maj.id);
-    console.log(event.checked);
-
+    // console.log(event.checked);
     this.d.etatSave = true;
   }
 }

@@ -5,7 +5,7 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
   <!-- LISTE DES ARMEES -->
   <mat-tab [label]="l.t['ARMEE']">
-    <ng-template matTabContent>
+    <!-- <ng-template matTabContent> -->
       <!-- FILTRER LES ARMEES -->
       <mat-form-field>
         <mat-label>{{ l.t['FILTRER'] }}</mat-label>
@@ -32,57 +32,57 @@
               <span><img [src]="a.statut | statuts" [alt]="l.t['STATUT']"></span>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <header>
-            <div>
-              <p>{{ a.descr }}</p>
-              <nav class="row">
-                <a [matTooltip]="l.t['ANNULE']" (click)="l.setEdit('armees', a, true)"><mat-icon matSuffix
-                    class="icone del">close</mat-icon></a>
-                <a [matTooltip]="l.t['VALIDE']" (click)="l.setEdit('armees', a)"><mat-icon matSuffix
-                    class="icone annule">restart_alt</mat-icon></a>
-              </nav>
-            </div>
-          </header>
-          <table>
-            <thead>
-              <tr>
-                <th>{{ l.t['COMPAGNIES'] }}</th>
-                <th>{{ l.t['PV'] }}</th>
-                <!-- <th>{{ l.t['XP'] }}</th> -->
-                <th>{{ l.t['UNITES_NB'] }}</th>
-                <th>{{ l.t['BLESSES'] }}</th>
-                <th>{{ l.t['MORTS'] }}</th>
-                <th>{{ l.t['STATUT'] }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (c of a.compagnies | compagniesArray:d.docs.compagnies; track $index) {
-              <tr>
-                <td><img [src]="c.avatar" [alt]="l.t['AVATAR']" class="avatar">
-                  <p>{{ c.nom }}</p>
-                </td>
-                <td>{{ c.pv }}</td>
-                <!-- <td>{{ c.xp }}</td> -->
-                <td>{{ c.unites.length }}</td>
-                <td>{{ c.blesses}}</td>
-                <td>{{ c.morts }}</td>
-                <td><img [src]="c.statut | statuts" [alt]="l.t['AVATAR']"></td>
-              </tr>
-              }
-            </tbody>
-          </table>
+            <header>
+              <div>
+                <p>{{ a.descr }}</p>
+                <nav class="row">
+                  <a [matTooltip]="l.t['ANNULE']" (click)="l.setEdit('armees', a, true)"><mat-icon matSuffix
+                      class="icone del">close</mat-icon></a>
+                  <a [matTooltip]="l.t['VALIDE']" (click)="l.setEdit('armees', a)"><mat-icon matSuffix
+                      class="icone annule">restart_alt</mat-icon></a>
+                </nav>
+              </div>
+            </header>
+            <table>
+              <thead>
+                <tr>
+                  <th>{{ l.t['COMPAGNIES'] }}</th>
+                  <th>{{ l.t['PV'] }}</th>
+                  <!-- <th>{{ l.t['XP'] }}</th> -->
+                  <th>{{ l.t['UNITES_NB'] }}</th>
+                  <th>{{ l.t['BLESSES'] }}</th>
+                  <th>{{ l.t['MORTS'] }}</th>
+                  <th>{{ l.t['STATUT'] }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (c of a.compagnies | compagniesArray:d.docs.compagnies; track $index) {
+                <tr>
+                  <td><img [src]="c.avatar" [alt]="l.t['AVATAR']" class="avatar">
+                    <p>{{ c.nom }}</p>
+                  </td>
+                  <td>{{ c.pv }}</td>
+                  <!-- <td>{{ c.xp }}</td> -->
+                  <td>{{ c.unites.length }}</td>
+                  <td>{{ c.blesses}}</td>
+                  <td>{{ c.morts }}</td>
+                  <td><img [src]="c.statut | statuts" [alt]="l.t['AVATAR']"></td>
+                </tr>
+                }
+              </tbody>
+            </table>
         </mat-expansion-panel>
         }
         @empty {
         Il n'existe pas encore d'armée
         }
       </mat-accordion>
-    </ng-template>
+    <!-- </ng-template> -->
   </mat-tab>
   <!-- CREER UNE ARMEE -->
   <mat-tab [label]="l.t['ARMEES_CREER']" (selectedTabChange)="initArmee()">
 
-    <ng-template matTabContent>
+    <!-- <ng-template matTabContent> -->
       <header>
         <form>
           <article>
@@ -182,6 +182,6 @@
           <button class="valide" (click)="creeArmee()"><mat-icon matSuffix>done</mat-icon>{{ l.t['CREER'] }}</button>
         </article>
       </section>
-    </ng-template>
+    <!-- </ng-template> -->
   </mat-tab>
 </mat-tab-group>
