@@ -20,14 +20,13 @@ export class AccueilComponent implements AfterViewInit{
   sain: DomSanitizer = inject(DomSanitizer);
 
   index!: number;
-  href: any;
+  href: any = '';
 
   @ViewChild('tele') tele!: ElementRef;
   fichier:string = '';
 
   ngAfterViewInit(): void {
       this.fichier = 'campagnes.json';
-      this.href = this.sain.bypassSecurityTrustUrl('');
   }
 
   creeCampagne() {

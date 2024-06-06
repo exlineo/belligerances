@@ -109,16 +109,16 @@
         </mat-expansion-panel-header>
         <article class="col panneau">
           <p>{{ a.descr }}</p>
-          @for(c of a.compagnies; track c; let j=$index){
+          @for(c of a.compagnies | compagniesArray:d.docs.compagnies; track c.id; let j=$index){
           <div><!-- Compagnie grisée si un problème dans les données -->
-            <div class="token" cdkDrag (cdkDragEnded)="tokenDrop($event, d.docs.compagnies[c])"
-              (cdkDragMoved)="setDragOverflow()" [matTooltip]="d.docs.compagnies[c].nom">
-              <img [src]="d.docs.compagnies[c].avatar" [alt]="d.docs.compagnies[c].nom">
+            <div class="token" cdkDrag (cdkDragEnded)="tokenDrop($event, c)"
+              (cdkDragMoved)="setDragOverflow()" [matTooltip]="c.nom">
+              <img [src]="c.avatar" [alt]="c.nom">
               <span class="hex" [style.color]="a.couleur">&#x2B22;</span>
             </div>
             <div>
-              <h5>{{ d.docs.compagnies[c].nom }}</h5>
-              <p>{{ l.t['UNITES'] }} : {{ d.docs.compagnies[c].unites.length }}</p>
+              <h5>{{ c.nom }}</h5>
+              <p>{{ l.t['UNITES'] }} : {{ c.unites.length }}</p>
             </div>
           </div>
           }

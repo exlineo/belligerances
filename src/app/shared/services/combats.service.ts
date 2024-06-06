@@ -110,12 +110,13 @@ export class CombatsService {
     console.log("Combat des chefs");
     let atAt = 0;
     let atDef = 0;
-    const at = this.d.setUnite(this.officierAt!);
-    const def = this.d.setUnite(this.officierDef!)
-    const atImpact = this.getImpact(at);
-    const defImpact = this.getImpact(def);
+    const at = this.d.setUnite(this.officierAt!); // Commandant attaquant
+    const def = this.d.setUnite(this.officierDef!) // Commandant défendant
+    const atImpact = this.getImpact(at); // Impact attaquant
+    const defImpact = this.getImpact(def); // Impact défenseur
     let dg = 0;
     this.attaque = this.defend = undefined;
+    console.log("Officiers", this.officierAt, at, atImpact, this.officierDef, defImpact, def);
     // Vérifier d'abord si les officiers peuvent bien participer
     if (!this.officierAt || !this.officierAt!.cmd) {
       this.l.message('MSG_CMD_AT');
@@ -137,11 +138,12 @@ export class CombatsService {
               this.officierDef.pv - dg < 0 ? this.officierDef.pv = 0 : this.officierDef.pv -= dg;
               this.officierAt.xp += dg;
               this.morts += dg; // On utilise la valeur de 'morts' pour calculer les dégats que subit l'officier
+              --this.officierAt.cmd;
               this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
             }
           }
         } else {
-          this.l.t.message('MSG_OFF_MORT');
+          this.l.message('MSG_OFF_MORT');
         }
       } else {
         if (this.officierDef.pv > 0) {
@@ -157,7 +159,7 @@ export class CombatsService {
             }
           }
         } else {
-          this.l.t.message('MSG_OFF_MORT');
+          this.l.message('MSG_OFF_MORT');
         }
       }
     }
@@ -215,7 +217,7 @@ export class CombatsService {
    * @param plein unité avec toutes ses valeurs
   */
   getImpact(plein: any, attaque: string = 'cac') {
-    let impact = 0;
+    let impact = 1;
     if (plein.impact) impact += impact;
     if (plein.monture?.impact) impact += plein.monture.impact;
     if (attaque == 'cac' && plein.cac?.impact) impact += plein.arme.impact;

@@ -94,7 +94,6 @@ export class CompagniesComponent implements OnInit {
     }
   }
   /**
-   *
    * @param init Valeur de départ à partir de laquelle on applique le pourcentage
    * @param p Pourcentage à calculer
    * @returns écart

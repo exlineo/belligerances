@@ -5,7 +5,7 @@ import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { CompagnieI, OrdreI, PositionI, UniteI } from 'src/app/shared/modeles/Type';
-import { BlessurePipe, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe, StatutsPipe } from 'src/app/shared/pipes/tris.pipe';
+import { BlessurePipe, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, CompagniesArrayPipe, MalusJetPipe, StatutsPipe } from 'src/app/shared/pipes/tris.pipe';
 import { PageEvent } from '@angular/material/paginator';
 import { SlicePipe } from '@angular/common';
 import { CombatsService } from 'src/app/shared/services/combats.service';
@@ -13,7 +13,7 @@ import { CombatsService } from 'src/app/shared/services/combats.service';
 @Component({
   selector: 'app-batailles',
   standalone: true,
-  imports: [MaterialModule, CdkDrag, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe, BlessurePipe, SlicePipe, StatutsPipe],
+  imports: [MaterialModule, CdkDrag, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe, BlessurePipe, SlicePipe, StatutsPipe, CompagniesArrayPipe],
   templateUrl: './batailles.component.html',
   styleUrl: './batailles.component.css',
   animations: [
@@ -217,7 +217,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       this.c.uAts = this.c.uDefs = [];
       this.c.blesses = this.c.morts = 0;
       // Si type == true, c'est l'attaquant, sinon le défenseur
-      const unite = this.d.docs.unites.find((u: UniteI) => u.id == c.id);
+      const unite = this.d.docs.unites.find((u: UniteI) => u.id == c.commandant);
       if (type) {
         this.c.officierAt == unite ? this.c.officierAt = undefined : this.c.officierAt = unite;
       } else {

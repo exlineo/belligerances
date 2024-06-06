@@ -220,9 +220,7 @@ export class DonneesService {
    * @param idA Id de l'armée dans laquelle elle est ajoutée
    */
   addCompagnieToArmee(idC:number, idA:number){
-    console.log(idC, idA);
     this.docs.armees.forEach((ar:ArmeeI) => {
-      console.log(idA, ar.id, idA != ar.id, ar.compagnies, ar.compagnies.includes(idC));
       if(ar.compagnies.includes(idC)){
         let index = ar.compagnies.indexOf(idC);
         ar.compagnies.splice(index, 1);
@@ -231,5 +229,6 @@ export class DonneesService {
         ar.compagnies.push(idC);
       }
     });
+    this.docs.compagnies.forEach((comp:CompagnieI) => { if(comp.id == idC) comp.armee = idA} );
   }
 }
