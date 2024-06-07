@@ -75,6 +75,9 @@ export class SupprComponent implements OnInit {
       }
     });
 
+    // Supprimer les unités de la compagnie
+    this.supprUnites(this.l.maj.unites);
+
     this.d.etatSave = true;
   }
   /** Supprimer une compagnie */
@@ -120,6 +123,13 @@ export class SupprComponent implements OnInit {
       this.d.campagne = null;
       this.d.etatSave = true;
     }
+  }
+  /** Détruire les unités d'une compagnie lorsqu'elle est détruite */
+  supprUnites(unites:Array<number>){
+    unites.forEach((id) => {
+      let index = this.d.docs.unites.indexOf(id);
+      this.d.docs.unites.splice(index, 1);
+    })
   }
   /** Récupérer l'identifiant d'une arme ou une créature pour son édition */
   getListeId() {

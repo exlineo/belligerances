@@ -52,24 +52,27 @@ export class ArmeesComponent implements AfterViewInit {
   addCompagnie(event: MatCheckboxChange, id: number) {
     console.log(event.checked, id);
 
-    this.d.addCompagnieToArmee(id, -1); // Enlever les compagnies qui sont dans d'autres arméess
     // Ajouter une compagnie à l'armée en cours d'édition
     if (this.armee.compagnies.includes(id)) {
       this.armee.compagnies.splice(this.armee.compagnies.indexOf(id), 1);
     } else {
       this.armee.compagnies.push(id);
     }
+    console.log("Compagnies", this.d.docs.compagnies, this.armee);
   }
   /* Créer une armee */
   creeArmee() {
     console.log(this.armee);
     if (this.armee.id == -1) {
       this.armee.id = this.d.docs.armees.length;
+      this.armee.compagnies.forEach((c:number) => this.d.addCompagnieToArmee(c, this.armee.id)); // Enlever les compagnies qui sont dans d'autres arméess)
+
       this.d.docs.armees.push(this.armee);
-      this.initArmee();
-      console.log(this.d.docs.armees);
+
       this.d.etatSave = true;
       this.l.message('ARMEES_ADD');
+
+      this.initArmee();
     }
 
     // this.changeDetect.detectChanges();

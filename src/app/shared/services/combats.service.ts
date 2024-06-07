@@ -49,7 +49,7 @@ export class CombatsService {
   combatCompagnies() {
     if (this.attaque && this.attaque.moral <= 0) {
       this.l.message('MSG_DEMORAL');
-    } else if(this.defend!.morts! >= this.defend!.unites.length) {
+    } else if (this.defend!.morts! >= this.defend!.unites.length) {
       this.l.message('MSG_MORTS');
     } else {
       let ml = this.moralPipe.transform(this.attaque!.moral); // Bonus de moral de la compagnie
@@ -186,23 +186,27 @@ export class CombatsService {
   }
   /** Jet de moral : malus = 1 / 5% des pertes*/
   jetMoral() {
-    if ((this.blesses > 0 || this.morts > 0) && this.defend?.morts! > this.defend!.unites.length / 20) {
-      let malus = Math.ceil(20 * this.defend?.morts! / this.defend!.unites.length); // Ne fois 5% de morts
-      const armee = this.d.docs.armees.find(this.defend!.armee);
+    if (this.defend!.moral > 0) {
+      if ((this.blesses > 0 || this.morts > 0) && this.defend?.morts! > this.defend!.unites.length / 20) {
+        let malus = Math.ceil(20 * this.defend?.morts! / this.defend!.unites.length); // N fois 5% de morts
+        let armee = this.d.docs.armees.find((ar: ArmeI) => ar.id == this.defend!.armee);
 
-      const general = this.d.getCompagniesUnites('unites', armee.commandant);
-      if (general.pv <= 0) malus += 5;
+        let general = this.d.getCompagniesUnites('unites', armee.commandant);
+        if (general.pv <= 0) malus += 5;
 
-      const commandant = this.d.getCompagniesUnites('unites', this.defend!.commandant);
-      if (commandant.pv <= 0) malus += 3;
+        let commandant = this.d.getCompagniesUnites('unites', this.defend!.commandant);
+        if (commandant.pv <= 0) malus += 3;
 
-      const result = Math.ceil(Math.random() * 20);
-      if (result >= 12 + malus) {
-        this.defend!.moral -= 1;
-        this.l.message('MSG_MORAL_LOOSE');
-      } else {
-        this.l.message('MSG_MORAL_OK')
+        let result = Math.ceil(Math.random() * 20);
+        if (result >= 12 - malus) {
+          this.defend!.moral -= 1; // Diminution du moral lorsque ça va plus
+          this.l.message('MSG_MORAL_LOOSE');
+        } else {
+          this.l.message('MSG_MORAL_OK')
+        }
       }
+    } else {
+      this.l.message('MSG_MORAL_NUL');
     }
   }
   /** Jet d'attaque : */

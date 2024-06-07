@@ -26,7 +26,7 @@
             </mat-panel-title>
             <mat-panel-description>
               <h2 [style.color]="a.couleur">&#x2B22;</h2>
-              @if(a.commandant && a.commandant >= 0){
+              @if(a.commandant! >= 0){
               <span>{{ l.t['GENERAL'] }} {{ d.getCompagniesUnites('unites', a.commandant! ).nom }}</span>
               }
               <span><img [src]="a.statut | statuts" [alt]="l.t['STATUT']"></span>

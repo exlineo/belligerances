@@ -46,6 +46,7 @@
                   <th colspan="2">{{ l.t['MUNS'] }}</th>
                   <th>{{ l.t['BLESSES'] }}</th>
                   <th>{{ l.t['MORTS'] }}</th>
+                  <th>{{ l.t['MORAL'] }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -58,6 +59,7 @@
                   <td>@if(c.munitions!.type != -1){ {{ c.munitions!.q }} }</td>
                   <td>{{ c.blesses }}</td>
                   <td>{{ c.morts }}</td>
+                  <td>{{ c.moral }}</td>
                 </tr>
               </tbody>
             </table>

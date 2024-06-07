@@ -32,14 +32,16 @@ export class CompagniesComponent implements OnInit {
 
   pagination = { min: 0, max: 10 };
 
-  ngOnInit() { this.initCompagnie(); }
+  ngOnInit() { this.initCompagnie(); };
 
+  /** Réinitialisation de la compagnie et des filtres */
   initCompagnie() {
     this.compagnie = new Compagnie();
     this.unitesGenerees = [];
     this.unitesTypes = [];
     this.n = 0;
     this.alea = 0;
+    this.aleas = new Aleas();
     this.pagination = { min: 0, max: 10 };
   }
   /**
