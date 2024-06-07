@@ -49,21 +49,21 @@ export class CompagniesComponent implements OnInit {
    * @param alea Aléa entre chaque unité
    */
   genereUnites() {
+    console.log("Unités types 1", this.unitesTypes);
     this.unitesGenerees = [];
     if (this.aleas.n > 0) {
       this.unitesTypes.forEach((u: UniteI) => {
         u.xp = 0;
-        u.pj = false;
-        u.archetype = false;
         u.nbCombats = 0;
         u.cmd = 0;
       });
 
-      let j: number = 0; // Itérer dans les
+      let j: number = 0; // Itérer dans les unités types
 
       for (let i = 0; i < this.aleas.n; ++i) {
 
         let unite = { ...this.unitesTypes[j] };
+        unite.pj = unite.archetype = false; // Réinitialiser les statuts pour ne pas avoir 12000 joueurs
         unite.id = this.d.docs.unites[this.d.docs.unites.length - 1].id + i + 1; // Un ID pour l'unité
         this.compagnie.unites.push(unite.id);
 
@@ -73,7 +73,6 @@ export class CompagniesComponent implements OnInit {
         if (this.aleas.armure) unite.armure = this.randListe(this.d.docs.armures).id;
         if (this.aleas.bouclier) unite.bouclier = this.randListe(this.d.docs.boucliers).id;
         if (this.aleas.monture) unite.monture = this.randListe(this.d.docs.montures).id;
-
 
         unite.pvMax = unite.pv = this.rand(this.d.docs.races[unite.race].basePv, this.aleas.pourcent);
 
@@ -88,7 +87,6 @@ export class CompagniesComponent implements OnInit {
         j == this.unitesTypes.length - 1 ? j = 0 : ++j;
         // }
       }
-      // console.log(this.unitesGenerees, this.compagnie);
     } else {
       this.l.message('ER_UNITES_NB');
     }
@@ -123,11 +121,13 @@ export class CompagniesComponent implements OnInit {
   /** Ajouter une compagnie */
   addCompagnie() {
     this.compagnie.id = this.d.docs.compagnies.length; // Nouvelle ID de la compagnie
+
     this.d.docs.unites = this.d.docs.unites.concat(this.unitesGenerees); // Ajouter les unités créées à la liste des unités disponibles
     this.d.docs.compagnies.push(this.compagnie);
     if(this.compagnie.armee) this.d.addCompagnieToArmee(this.compagnie.id, this.compagnie.armee!);
 
-    this.l.message(this.l.t['COMPAGNIE_ADD']);
+    this.l.message('COMPAGNIE_ADD');
+    console.log(this.compagnie);
 
     this.d.etatSave = true;
     this.initCompagnie();

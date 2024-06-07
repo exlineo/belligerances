@@ -1,13 +1,19 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
 import { ArmeeI, CompagnieI, UniteI, ArmeI } from '../modeles/Type';
 import { DonneesService } from '../services/donnees.service';
+
 /** Récupérer les PJ ou les archétypes (type = true) */
 @Pipe({
   name: 'pj',
   standalone: true
 })
 export class PjPipe implements PipeTransform {
-
+  /**
+   * Filtrer les unités pour lister les PJ ou les archétypes
+   * @param unites La liste des unités
+   * @param type pj ou archétype ?
+   * @returns
+   */
   transform(unites:Array<UniteI>, type:boolean = false): Array<UniteI> {
     if(!unites) return [];
     return !type ? unites.filter(u => u.pj == true) : unites.filter(u => u.archetype == true);
