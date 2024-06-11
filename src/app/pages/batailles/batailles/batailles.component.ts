@@ -172,7 +172,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
         this.c.uDefs = this.d.docs.unites.filter((u: UniteI) => this.c.defend?.unites.includes(u.id));
         this.tabActions = true;
         // Réunitialiser les états des blessés et des morts
-        this.c.blesses = this.c.morts = 0;
+        this.c.blessures = {at:0, def:0};
       }
     } else {
       this.l.message('ER_COMP_ARMEE_COM');
@@ -201,7 +201,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
   /** Choisir un ordre */
   actionOrdre(comp: CompagnieI) {
     if(comp.commandant > -1) {
-      this.ordre = true;
+      // this.ordre = true;
       let com = this.d.getUnite(comp.commandant);
       com.cmd > 0 ? this.ordre = true : this.l.message('ER_COMP_COM_PTS');
     } else{
@@ -215,7 +215,7 @@ export class BataillesComponent implements AfterViewInit, AfterViewChecked {
       // Initialisation des compagniers
       this.c.attaque = this.c.defend = undefined;
       this.c.uAts = this.c.uDefs = [];
-      this.c.blesses = this.c.morts = 0;
+      this.c.blessures = {at:0, def:0};
       // Si type == true, c'est l'attaquant, sinon le défenseur
       const unite = this.d.docs.unites.find((u: UniteI) => u.id == c.commandant);
       if (type) {

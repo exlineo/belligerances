@@ -123,6 +123,8 @@ export class CompagniesComponent implements OnInit {
   /** Ajouter une compagnie */
   addCompagnie() {
     this.compagnie.id = this.d.docs.compagnies.length; // Nouvelle ID de la compagnie
+    // Ajout de l'officier à la liste des unités
+    if(this.compagnie.unites.indexOf(this.compagnie.commandant) == -1) this.compagnie.unites.push(this.compagnie.commandant);
 
     this.d.docs.unites = this.d.docs.unites.concat(this.unitesGenerees); // Ajouter les unités créées à la liste des unités disponibles
     this.d.docs.compagnies.push(this.compagnie);

@@ -49,26 +49,12 @@ export class UtilsService {
         console.log('Application électron démarrée', arg);
         this.localPath = arg;
       });
-      // Notes :
-      // * A NodeJS's dependency imported with 'window.require' MUST BE present in `dependencies` of both `app/package.json`
-      // and `package.json (root folder)` in order to make it work here in Electron's Renderer process (src folder)
-      // because it will loaded at runtime by Electron.
-      // * A NodeJS's dependency imported with TS module import (ex: import { Dropbox } from 'dropbox') CAN only be present
-      // in `dependencies` of `package.json (root folder)` because it is loaded during build phase and does not need to be
-      // in the final bundle. Reminder : only if not used in Electron's Main process (app folder)
-
-      // If you want to use a NodeJS 3rd party deps in Renderer process,
-      // ipcRenderer.invoke can serve many common use cases.
-      // https://www.electronjs.org/docs/latest/api/ipc-renderer#ipcrendererinvokechannel-args
     }
     // window['ipcRend'].on('doctor', (event:IpcRendererEvent, arg:any) => {
     //   console.log(arg);
     // });
   }
   getLangue() {
-    // if (localStorage.getItem('lang')) {
-    //   this.t = JSON.parse(localStorage.getItem('lang')!);
-    // } else {
     this.http.get(`assets/data/${this.langue}/lang.json`).subscribe({
       next: data => {
         this.t = data;
@@ -78,7 +64,6 @@ export class UtilsService {
       complete: () => console.log('Langue chargée')
     }
     )
-    // }
   }
   /** Informer l'utilisateur */
   message(msg: string) {
@@ -92,7 +77,7 @@ export class UtilsService {
    */
   setEdit(edit: string, obj: any, suppr: boolean = false) {
     this.edit = edit;
-    console.log("Maj obj", obj);
+    console.log("Maj obj", obj, edit);
     this.maj = { ...obj };
     this.suppr = suppr;
   }

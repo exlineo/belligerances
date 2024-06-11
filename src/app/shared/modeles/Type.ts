@@ -49,15 +49,13 @@ export interface CompagnieI {
   armee?:number;
   statut:number;
   unites:Array<number>;
-  combattants?:Array<number>;
   commandant:number;
   munitions?:{type:number,q:number},
   pvMax:number;
   pv?:number;
   moral:number;
   ordre?:OrdreI | null;
-  morts?:number;
-  blesses?:number;
+  etats:{combattants:number, legers:number, graves:number, alites:number, morts:number},
   xp:number;
   avatar?:string;
   position:PositionI;
@@ -75,13 +73,11 @@ export class Compagnie implements CompagnieI {
   armee = -1;
   statut = 2;
   unites = [];
-  combattants = [];
   munitions = {type:-1, q:0};
   pvMax = -1;
   pv = -1
   moral = 6;
-  blesses = 0;
-  morts = 0;
+  etats = {combattants:0, legers:0, graves:0, alites:0, morts:0};
   commandant = -1;
   xp = 0;
   avatar = '';

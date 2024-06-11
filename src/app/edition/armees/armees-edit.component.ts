@@ -30,13 +30,11 @@ export class EditArmeesComponent implements AfterViewInit {
   }
   /** Mise à jour de l'armée */
   updateArmee() {
-    console.log(this.l.maj, this.d.docs.armees);
     for(let i=0; i < this.d.docs.armees.length; ++i){
       if(this.d.docs.armees[i].id == this.l.maj.id){
         this.d.docs.armees[i] = {...this.l.maj};
       }
     }
-    console.log(this.d.docs.armees);
     this.d.etatSave = true;
     this.l.close();
   }

@@ -64,8 +64,8 @@
                   <td>{{ c.pv }}</td>
                   <!-- <td>{{ c.xp }}</td> -->
                   <td>{{ c.unites.length }}</td>
-                  <td>{{ c.blesses}}</td>
-                  <td>{{ c.morts }}</td>
+                  <td>{{ c.etats.legers + c.etats.graves }}</td>
+                  <td>{{ c.etats.morts }}</td>
                   <td><img [src]="c.statut | statuts" [alt]="l.t['AVATAR']"></td>
                 </tr>
                 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MaterialModule } from 'src/app/shared/material.module';
-import { ArmeeI } from 'src/app/shared/modeles/Type';
+import { ArmeeI, UniteI } from 'src/app/shared/modeles/Type';
 import { DonneesService } from 'src/app/shared/services/donnees.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 
@@ -127,8 +127,11 @@ export class SupprComponent implements OnInit {
   /** Détruire les unités d'une compagnie lorsqu'elle est détruite */
   supprUnites(unites:Array<number>){
     unites.forEach((id) => {
-      let index = this.d.docs.unites.indexOf(id);
-      this.d.docs.unites.splice(index, 1);
+      let unite:UniteI = this.d.docs.unites.find( (u:UniteI) => u.id == id );
+      if(!unite.archetype || !unite.cmd){
+        let index = this.d.docs.unites.indexOf(id);
+        this.d.docs.unites.splice(index, 1);
+      }
     })
   }
   /** Récupérer l'identifiant d'une arme ou une créature pour son édition */

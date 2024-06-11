@@ -36,7 +36,7 @@
       <!--  -->
       <img [src]="comp.avatar" [alt]="comp.nom">
       <span class="hex" [style.color]="d.docs.armees[comp.armee!].couleur">&#x2B22;</span>
-      <span [matBadge]="comp.unites.length" matBadgeColor="warn" matBadgeSize="large"></span>
+      <span [matBadge]="comp.etats.combattants" matBadgeColor="warn" matBadgeSize="large"></span>
       @if(c.selected && comp.id == c.selected.id && i==c.indexAttaquant){
       <div id="mb">
         <ul>
@@ -146,25 +146,31 @@
         <ul>
           <li>
             <img src="assets/images/pictos/unite-bouclier_n.png" [alt]="l.t['COMBATTANTS']">
-            <span>{{ l.t['UNITES'] }}</span>
-            <span>{{ c.attaque.unites.length }}</span>
-          </li>
-          <li>
-            <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['COMBATTANTS']">
-            <span>{{ l.t['BLESSES'] }}</span>
-            <span>{{ c.attaque.blesses }}</span>
-          </li>
-          <li>
-            <img src="assets/images/pictos/morts_n.png" [alt]="l.t['COMBATTANTS']">
-            <span>{{ l.t['MORTS'] }}</span>
-            <span>{{ c.attaque.morts }}</span>
+            <span>{{ l.t['COMBATTANTS'] }}</span>
+            <span>{{ c.attaque.etats.combattants }}</span>
           </li>
           <li>
             <img src="assets/images/pictos/action-moral_n.png" [alt]="l.t['ACT_MORAL']">
             <span>{{ l.t['MORAL'] }}</span>
             <span>{{ c.attaque.moral }}</span>
           </li>
-
+        </ul>
+        <ul>
+          <li>
+            <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['COMBATTANTS']">
+            <span>{{ l.t['BLESSES'] }}</span>
+            <span>{{ c.attaque.etats.legers + c.attaque.etats.graves }}</span>
+          </li>
+          <li>
+            <img src="assets/images/pictos/alite_n.png" [alt]="l.t['COMBATTANTS']">
+            <span>{{ l.t['HS'] }}</span>
+            <span>{{ c.attaque.etats.alites }}</span>
+          </li>
+          <li>
+            <img src="assets/images/pictos/morts_n.png" [alt]="l.t['COMBATTANTS']">
+            <span>{{ l.t['MORTS'] }}</span>
+            <span>{{ c.attaque.etats.morts }}</span>
+          </li>
         </ul>
         @if(c.action == 'ACT_JET' || c.action == 'ACT_SORT' || (c.officierAt && c.officierAt.jet && c.officierAt.jet !=
         -1)){
@@ -183,22 +189,11 @@
           <li>
             <img src="assets/images/pictos/coeur_n.png" [alt]="l.t['PV']">
             <span>{{ l.t['PV'] }}</span>
-            <span [matBadge]="c.blesses" matBadgeColor="warn"><strong>{{ c.officierAt.pv }}</strong></span>
+            <span [matBadge]="c.blessures.at" matBadgeColor="warn"><strong>{{ c.officierAt.pv }}</strong></span>
           </li>
-          @if(c.officierAt.cac){
           <li>
-            <img src="assets/images/pictos/action-cac_n.png" [alt]="l.t['CAC']">
-            <span>{{ l.t['CAC'] }}</span>
-            <span><strong>{{ d.getCompagniesUnites('cac', c.officierAt.cac!).nom }}</strong></span>
+            <img [src]="c.officierAt.etat | statuts" [alt]="c.officierAt.nom" [alt]="l.t['STATUT']">
           </li>
-          }
-          @if(c.officierAt.monture){
-          <li>
-            <img src="assets/images/pictos/cavalerie_n.png" [alt]="l.t['MONTURE']">
-            <span>{{ l.t['MONTURE'] }}</span>
-            <span><strong>{{ d.getCompagniesUnites('montures', c.officierAt.monture!).nom }}</strong></span>
-          </li>
-          }
         </ul>
         <ul>
           <li>
@@ -211,9 +206,20 @@
             <span>{{ l.t['BOUCLIER'] }}</span>
             <span><strong>{{ d.getCompagniesUnites('boucliers', c.officierAt.bouclier!).nom }}</strong></span>
           </li>
-          <li>
-            <img [src]="c.officierAt.etat | statuts" [alt]="c.officierAt.nom" [alt]="l.t['STATUT']">
-          </li>
+          @if(c.officierAt.cac){
+            <li>
+              <img src="assets/images/pictos/action-cac_n.png" [alt]="l.t['CAC']">
+              <span>{{ l.t['CAC'] }}</span>
+              <span><strong>{{ d.getCompagniesUnites('cac', c.officierAt.cac!).nom }}</strong></span>
+            </li>
+            }
+            @if(c.officierAt.monture){
+            <li>
+              <img src="assets/images/pictos/cavalerie_n.png" [alt]="l.t['MONTURE']">
+              <span>{{ l.t['MONTURE'] }}</span>
+              <span><strong>{{ d.getCompagniesUnites('montures', c.officierAt.monture!).nom }}</strong></span>
+            </li>
+            }
         </ul>
         }
         @if(!c.attaque && !c.officierAt) {
@@ -233,23 +239,30 @@
         <ul>
           <li>
             <img src="assets/images/pictos/unite-bouclier_n.png" [alt]="l.t['COMBATTANTS']">
-            <span>{{ l.t['UNITES'] }}</span>
-            <span><strong>{{ c.defend.unites.length }}</strong></span>
-          </li>
-          <li [matBadge]="c.blesses" matBadgeColor="warn">
-            <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['COMBATTANTS']">
-            <span>{{ l.t['BLESSES'] }}</span>
-            <span><strong>{{ c.defend.blesses }}</strong></span>
-          </li>
-          <li [matBadge]="c.morts" matBadgeColor="warn">
-            <img src="assets/images/pictos/morts_n.png" [alt]="l.t['COMBATTANTS']">
-            <span>{{ l.t['MORTS'] }}</span>
-            <span><strong>{{ c.defend.morts }}</strong></span>
+            <span>{{ l.t['COMBATTANTS'] }}</span>
+            <span><strong>{{ c.defend.etats.combattants }}</strong></span>
           </li>
           <li>
             <img src="assets/images/pictos/action-moral_n.png" [alt]="l.t['ACT_MORAL']">
             <span>{{ l.t['MORAL'] }}</span>
             <span><strong>{{ c.defend.moral }}</strong></span>
+          </li>
+        </ul>
+        <ul>
+          <li [matBadge]="c.defend.etats.legers + c.defend.etats.graves" matBadgeColor="warn">
+            <img src="assets/images/pictos/trauma_n.png" [alt]="l.t['BLESSES']">
+            <span>{{ l.t['BLESSES'] }}</span>
+            <span><strong>{{ c.defend.etats.legers + c.defend.etats.graves }}</strong></span>
+          </li>
+          <li [matBadge]="c.defend.etats.alites" matBadgeColor="warn">
+            <img src="assets/images/pictos/alite_n.png" [alt]="l.t['ALITES']">
+            <span>{{ l.t['HS'] }}</span>
+            <span><strong>{{ c.defend.etats.alites }}</strong></span>
+          </li>
+          <li [matBadge]="c.defend.etats.morts" matBadgeColor="warn">
+            <img src="assets/images/pictos/morts_n.png" [alt]="l.t['MORTS']">
+            <span>{{ l.t['MORTS'] }}</span>
+            <span><strong>{{ c.defend.etats.morts }}</strong></span>
           </li>
         </ul>
         }
@@ -261,22 +274,11 @@
           <li>
             <img src="assets/images/pictos/coeur_n.png" [alt]="l.t['PV']">
             <span>{{ l.t['PV'] }}</span>
-            <span [matBadge]="c.morts" matBadgeColor="warn"><strong>{{ c.officierDef.pv }}</strong></span>
+            <span [matBadge]="c.blessures.def" matBadgeColor="warn"><strong>{{ c.officierDef.pv }}</strong></span>
           </li>
-          @if(c.officierDef.cac){
           <li>
-            <img src="assets/images/pictos/action-cac_n.png" [alt]="l.t['CAC']">
-            <span>{{ l.t['CAC'] }}</span>
-            <span><strong>{{ d.getCompagniesUnites('cac', c.officierDef.cac!).nom }}</strong></span>
+            <img [src]="c.officierDef.etat | statuts" [alt]="c.officierDef!.nom" [alt]="l.t['STATUT']">
           </li>
-          }
-          @if(c.officierDef.monture){
-          <li>
-            <img src="assets/images/pictos/cavalerie_n.png" [alt]="l.t['MONTURE']">
-            <span>{{ l.t['MONTURE'] }}</span>
-            <span><strong>{{ d.getCompagniesUnites('montures', c.officierDef.monture!).nom }}</strong></span>
-          </li>
-          }
         </ul>
         <ul>
           <li>
@@ -289,9 +291,20 @@
             <span>{{ l.t['BOUCLIER'] }}</span>
             <span><strong>{{ d.getCompagniesUnites('boucliers', c.officierDef.bouclier!).nom }}</strong></span>
           </li>
-          <li>
-            <img [src]="c.officierDef.etat | statuts" [alt]="c.officierDef!.nom" [alt]="l.t['STATUT']">
-          </li>
+          @if(c.officierDef.cac){
+            <li>
+              <img src="assets/images/pictos/action-cac_n.png" [alt]="l.t['CAC']">
+              <span>{{ l.t['CAC'] }}</span>
+              <span><strong>{{ d.getCompagniesUnites('cac', c.officierDef.cac!).nom }}</strong></span>
+            </li>
+            }
+            @if(c.officierDef.monture){
+            <li>
+              <img src="assets/images/pictos/cavalerie_n.png" [alt]="l.t['MONTURE']">
+              <span>{{ l.t['MONTURE'] }}</span>
+              <span><strong>{{ d.getCompagniesUnites('montures', c.officierDef.monture!).nom }}</strong></span>
+            </li>
+            }
         </ul>
         }
         @if(!c.defend && !c.officierDef) {

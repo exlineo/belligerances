@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ArmeI, CompagnieI, OrdreI, UniteI } from '../modeles/Type';
 import { UtilsService } from './utils.service';
-import { BlessurePipe, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, MalusJetPipe } from '../pipes/tris.pipe';
+import { BlessurePipe, BonusCmdPipe, BonusMoralPipe, BonusXpPipe, EtatsUnitesPipe, MalusJetPipe } from '../pipes/tris.pipe';
 import { DonneesService } from './donnees.service';
 
 @Injectable({
@@ -26,8 +26,7 @@ export class CombatsService {
   infos: boolean = false;
   indexAttaquant: number = -1; // Index de la compagnie qui attaque
   el: any; // Element sélectionné
-  blesses: number = 0;
-  morts: number = 0;
+  blessures:{at:number, def:number} = {at:0, def:0}; // Blessures des officiers
 
   officierAt: UniteI | undefined; // Officier attaquant
   officierDef: UniteI | undefined; // Officier défenseur
@@ -40,6 +39,7 @@ export class CombatsService {
   moralPipe: BonusMoralPipe = new BonusMoralPipe();
   jetPipe: MalusJetPipe = new MalusJetPipe();
   blessurePipe: BlessurePipe = new BlessurePipe();
+  etatsUnitesPipe: EtatsUnitesPipe = new EtatsUnitesPipe();
 
   bg: string = ''; // Arrière plan de la bataille
 
@@ -49,7 +49,7 @@ export class CombatsService {
   combatCompagnies() {
     if (this.attaque && this.attaque.moral <= 0) {
       this.l.message('MSG_DEMORAL');
-    } else if (this.defend!.morts! >= this.defend!.unites.length) {
+    } else if (this.defend!.etats.morts! >= this.defend!.unites.length) { // Ajouter alités
       this.l.message('MSG_MORTS');
     } else {
       let ml = this.moralPipe.transform(this.attaque!.moral); // Bonus de moral de la compagnie
@@ -65,49 +65,52 @@ export class CombatsService {
           act = 'sort';
           break;
       };
-      console.log("Baston action", act);
       this.uAts.forEach((u: UniteI, i: number) => {
-        // L'attaquant peuplé des données utiles
-        let uAt = this.d.setUnite(u);
-        let bonusAt = ml + uAt.xp + this.getBonusOrdre(this.attaque!, act); // Bonus de l'attaquant
-        let impact = this.getImpact(uAt, act);
-        // Défenseur choisi au hasard et peuplé des données utiles
-        let uDef = this.d.setUnite(this.uDefs[Math.round(Math.random() * (this.uDefs.length - 1))]);
+        if ((this.action == 'ACT_JET' || this.action == 'ACT_SORT') && this.attaque!.munitions!.q <= 0) {
+          this.l.message('MUNS_NULL');
+        } else {
+          // L'attaquant peuplé des données utiles
+          let uAt = this.d.setUnite(u);
+          // let bonusAt = ml + uAt.xp + this.getBonusOrdre(this.attaque!, act); // Bonus de l'attaquant
+          let bonusAt = this.setBonusAt(ml, uAt.xp, u.etat, this.attaque!, act); // Calcul du bonus d'attaque
+          let impact = this.getImpact(uAt, act); // Calcul du nombre d'attaques
+          // Défenseur choisi au hasard et peuplé des données utiles
+          let uDef = this.d.setUnite(this.uDefs[Math.round(Math.random() * (this.uDefs.length - 1))]);
 
-        let def = uDef.race.baseArmure
-          + uDef.armure.bonus
-          + uDef.bouclier.bonus
-          + this.getBonusOrdre(this.defend!, 'def');
+          let def = uDef.race.baseArmure
+            + uDef.armure.bonus
+            + uDef.bouclier.bonus
+            + this.getBonusOrdre(this.defend!, 'def');
 
-        for (let n = 0; n < impact; ++n) {
-          let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
-          // console.log("Combat at / dev", at, def);
-          if (at >= def) {
-            let dg = this.dgCac(uAt[act]);
-            // Ajouter le bonus d'ordre si utile
-            if (this.attaque?.ordre && this.attaque?.ordre.effets && this.attaque.ordre.effets.type == 'degats') dg += this.attaque.ordre.effets.bonus;
-            // Si c'est un jet ou un sort, on calcul les dégats relativement à la distance
-            if (act == 'jet' || act == 'sort') {
-              dg = Math.round(dg * this.jetPipe.transform(uAt[act].portee.min, uAt[act].portee.max, this.distance));
+          for (let n = 0; n < impact; ++n) {
+            let at = this.jetAttaque(bonusAt); // Calculer le bonus de combat
+            if (at >= def) {
+              let dg = this.dgCac(uAt[act]);
+              // Ajouter le bonus d'ordre si utile
+              if (this.attaque?.ordre && this.attaque?.ordre.effets && this.attaque.ordre.effets.type == 'degats') dg += this.attaque.ordre.effets.bonus;
+              // Si c'est un jet ou un sort, on calcul les dégats relativement à la distance
+              if (act == 'jet' || act == 'sort') {
+                dg = Math.round(dg * this.jetPipe.transform(uAt[act].portee.min, uAt[act].portee.max, this.distance));
+                --this.attaque!.munitions!.q; // Diminuer le nombre de munitions de la compagnie à chaque tir
+              }
+              u.xp += dg; // L'attaquant gagne de l'expérience
+              uDef.unite.pv - dg < 0 ? uDef.unite.pv = 0 : uDef.unite.pv -= dg; // Appliquer les dégâts à l'unité qui défend
             }
-            u.xp += dg; // L'attaquant gagne de l'expérience
-            uDef.unite.pv - dg < 0 ? uDef.unite.pv = 0 : uDef.unite.pv -= dg; // Appliquer les dégâts à l'unité qui défend
-            ++this.blesses; // Marquer le nouveau blessé
-            if (uDef.unite.pv <= 0) {
-              ++this.morts;
-            };
           }
         }
       });
+
+      // Calculer l'état des unites
+      const tmp = this.etatsUnitesPipe.transform(this.defend!.unites);
+      this.defend!.pv = tmp.pv;
+      this.defend!.etats = tmp.etats;
       // Calculer les morts et les blessés de la compagnie
-      this.calculeBlesses();
       this.jetMoral();
       this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
     }
   }
   /** Les chefs se bagarrent */
   combatChefs() {
-    console.log("Combat des chefs");
     let atAt = 0;
     let atDef = 0;
     const at = this.d.setUnite(this.officierAt!); // Commandant attaquant
@@ -116,7 +119,6 @@ export class CombatsService {
     const defImpact = this.getImpact(def); // Impact défenseur
     let dg = 0;
     this.attaque = this.defend = undefined;
-    console.log("Officiers", this.officierAt, at, atImpact, this.officierDef, defImpact, def);
     // Vérifier d'abord si les officiers peuvent bien participer
     if (!this.officierAt || !this.officierAt!.cmd) {
       this.l.message('MSG_CMD_AT');
@@ -137,8 +139,7 @@ export class CombatsService {
               dg = this.dgCac(at.cac);
               this.officierDef.pv - dg < 0 ? this.officierDef.pv = 0 : this.officierDef.pv -= dg;
               this.officierAt.xp += dg;
-              this.morts += dg; // On utilise la valeur de 'morts' pour calculer les dégats que subit l'officier
-              --this.officierAt.cmd;
+              this.blessures.def += dg; // On utilise la valeur de 'morts' pour calculer les dégats que subit l'officier
               this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
             }
           }
@@ -154,7 +155,7 @@ export class CombatsService {
               dg = this.dgCac(def.cac);
               this.officierAt.pv - dg < 0 ? this.officierAt.pv = 0 : this.officierAt.pv -= dg;
               this.officierDef.xp += dg;
-              this.blesses += dg; // On utilise la valeur de 'blesses' pour calculer les dégats que subit l'officier
+              this.blessures.at += dg; // On utilise la valeur de 'blesses' pour calculer les dégats que subit l'officier
               this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
             }
           }
@@ -169,26 +170,26 @@ export class CombatsService {
     return Math.round(Math.random() * (arme.degats!.max - arme.degats!.min)) + arme.degats!.min;
   }
   /** Calculer le nombre de morts et de blessés dans une compagnie */
-  calculeBlesses() {
-    this.defend!.blesses = this.defend!.morts = 0;
-    let pv = 0; // Calculer les points de vie globaux de la compagnie
-    this.uDefs.forEach((u: any) => {
-      if (u.pv <= 0) {
-        ++this.defend!.morts!;
-      } else if (u.pvMax > u.pv && u.pv >= 0) {
-        ++this.defend!.blesses!;
-      };
-      pv += u.pv;
-      // Etablir l'état de l'unité en fonction de ses blessures
-      u.etat = this.blessurePipe.transform(u);
-    });
-    this.defend!.pv = pv;
-  }
+  // calculeBlesses() {
+  //   this.defend!.blesses = this.defend!.morts = 0;
+  //   let pv = 0; // Calculer les points de vie globaux de la compagnie
+  //   this.uDefs.forEach((u: any) => {
+  //     if (u.pv <= 0) {
+  //       ++this.defend!.morts!;
+  //     } else if (u.pvMax > u.pv && u.pv >= 0) {
+  //       ++this.defend!.blesses!;
+  //     };
+  //     pv += u.pv;
+  //     // Etablir l'état de l'unité en fonction de ses blessures
+  //     u.etat = this.blessurePipe.transform(u);
+  //   });
+  //   this.defend!.pv = pv;
+  // }
   /** Jet de moral : malus = 1 / 5% des pertes*/
   jetMoral() {
     if (this.defend!.moral > 0) {
-      if ((this.blesses > 0 || this.morts > 0) && this.defend?.morts! > this.defend!.unites.length / 20) {
-        let malus = Math.ceil(20 * this.defend?.morts! / this.defend!.unites.length); // N fois 5% de morts
+      if ( this.defend!.etats.morts > this.defend!.unites.length / 20) {
+        let malus = Math.ceil(20 * this.defend!.etats.morts / this.defend!.unites.length); // N fois 5% de morts
         let armee = this.d.docs.armees.find((ar: ArmeI) => ar.id == this.defend!.armee);
 
         let general = this.d.getCompagniesUnites('unites', armee.commandant);
@@ -228,6 +229,17 @@ export class CombatsService {
     if (attaque == 'jet' && plein.jet?.impact) impact += plein.jet.impact;
     if (attaque == 'sort' && plein.sort?.impact) impact += plein.sort.impact;
 
-    return impact;
+    return impact > 0 ? impact : 0;
+  }
+  /** Determiner le statut d'une unité */
+  setStatut(u: UniteI) {
+
+  }
+  setBonusAt(moral: number, xp: number, etat: number, c: CompagnieI, action: string) {
+    let bonus = moral + xp + this.getBonusOrdre(c, action);
+    if (etat == 1) --bonus
+    else if (etat == 0) bonus -= 2;
+
+    return bonus;
   }
 }

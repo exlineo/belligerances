@@ -219,6 +219,7 @@
   "MSG_OFF_MORT":"Argh, l'officier est mort",
   "MSG_MORAL_NULL":"Désolé, jet de moral raté...",
   "MSG_MORAL_LOOSE":"Trop de blessés, la compagnie perd 1 point de moral",
+  "MSG_MORAL_NUL":"La compagnie est démoralisée et ne peut plus combattre",
   "MSG_DEMORAL":"La compagnie est démoralisée, elle ne peut pas combattre, faites-lui faire un jet de ralliement d'abord",
   "MSG_MORAL_OK":"Les unités tiennent bon ! Aucun point de moral perdu",
   "MSG_BELLI_CHOIX":"Choisissez deux belligérants pour lancer l'attaque",

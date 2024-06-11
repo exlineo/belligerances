@@ -30,6 +30,9 @@ export class EditCompagniesComponent {
   }
   /** Mettre à jour une compagnie */
   updateCompagnie() {
+    // Ajout de l'officier à la liste des unités
+    if(this.l.maj.unites.indexOf(this.l.maj.commandant) == -1) this.l.maj.unites.push(this.l.maj.commandant);
+
     for (let i = 0; i < this.d.docs.compagnies.length; ++i) {
       if (this.d.docs.compagnies[i].id == this.l.maj.id) {
         this.d.docs.compagnies[i] = { ...this.l.maj };
