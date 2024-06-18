@@ -52,6 +52,18 @@
         <input matInput [placeholder]="l.t['MUNS_QT']" name="munitionsQT" [(ngModel)]="l.maj.munitions.q" type="number">
         <mat-icon matSuffix>edit</mat-icon>
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ l.t['STATUT'] }}</mat-label>
+        <input matInput [placeholder]="l.t['STATUT']" name="statut" [(ngModel)]="l.maj.statut" type="number">
+        <mat-select [(ngModel)]="l.maj.statut" name="statut">
+          <mat-option>{{ l.t['STATUT'] }}</mat-option>
+          <mat-option value="2">{{ l.t['STATUT_OK'] }}</mat-option>
+          <mat-option value="0">{{ l.t['STATUT_DORT'] }}</mat-option>
+          <mat-option value="-3">{{ l.t['STATUT_DESORG'] }}</mat-option>
+          <mat-option value="-2">{{ l.t['STATUT_DEAD'] }}</mat-option>
+        </mat-select>
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
     </article>
     <article>
       <mat-radio-group aria-label="Sélectionner un avatar pour la compagnie" name="avatar" [(ngModel)]="l.maj.avatar"

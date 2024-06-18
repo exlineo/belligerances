@@ -595,6 +595,11 @@ nav.options img{
 .mat-expansion-panel-body article{
   justify-content: space-between;
 }
+.mat-expansion-panel-content p{
+  display:flex;
+  flex-flow:row wrap;
+  justify-content: space-between;
+}
 .disabled {
   /* pointer-events: none; */
   filter: grayscale(1);
@@ -762,6 +767,8 @@ article.panneau > div {
   display:flex;
   flex-flow:row nowrap;
   align-items: center;
+  width:100%;
+  flex:1;
 }
 article.panneau > div h5 {
   margin:15px 0 5px;

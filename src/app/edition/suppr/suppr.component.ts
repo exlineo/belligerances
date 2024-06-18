@@ -126,13 +126,14 @@ export class SupprComponent implements OnInit {
   }
   /** Détruire les unités d'une compagnie lorsqu'elle est détruite */
   supprUnites(unites:Array<number>){
-    unites.forEach((id) => {
-      let unite:UniteI = this.d.docs.unites.find( (u:UniteI) => u.id == id );
-      if(!unite.archetype || !unite.cmd){
-        let index = this.d.docs.unites.indexOf(id);
-        this.d.docs.unites.splice(index, 1);
-      }
-    })
+    // unites.forEach((id) => {
+      this.d.docs.unites.forEach( (u:UniteI, index:number) => {
+        if (unites.indexOf(u.id) != -1 && (!u.archetype && !u.pj)) {
+          this.d.docs.unites.splice(index, 1);
+          // console.log(index, u);
+        };
+      });
+    // })
   }
   /** Récupérer l'identifiant d'une arme ou une créature pour son édition */
   getListeId() {

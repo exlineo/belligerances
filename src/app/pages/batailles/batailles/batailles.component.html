@@ -118,7 +118,7 @@
             </div>
             <div>
               <h5>{{ c.nom }}</h5>
-              <p>{{ l.t['UNITES'] }} : {{ c.unites.length }}</p>
+              <p>{{ l.t['UNITES'] }} : {{ c.unites.length }} <img [src]="c.statut | statuts" [alt]="l.t['STATUT']"></p>
             </div>
           </div>
           }
@@ -363,7 +363,7 @@
             <td>{{ d.getCompagniesUnites('unites', c.selected.commandant).nom }}</td>
             <td>{{ c.selected.pv }}</td>
             <td>{{ c.selected.moral }}</td>
-            <td>{{ c.selected.munitions?.type }}</td>
+            <td>{{ d.docs.jet[c.selected.munitions!.type].nom }}</td>
             <td>{{ c.selected.munitions?.q }}</td>
             <td><img [src]="c.selected.statut | statuts" [alt]="c.selected.nom"></td>
           </tr>

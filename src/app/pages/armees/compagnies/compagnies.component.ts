@@ -54,17 +54,19 @@ export class CompagniesComponent implements OnInit {
     console.log("Unités types 1", this.unitesTypes);
     this.unitesGenerees = [];
     if (this.aleas.n > 0) {
-      this.unitesTypes.forEach((u: UniteI) => {
-        u.xp = 0;
-        u.nbCombats = 0;
-        u.cmd = 0;
-      });
+      // this.unitesTypes.forEach((u: UniteI) => {
+      //   u.xp = 0;
+      //   u.nbCombats = 0;
+      //   u.cmd = 0;
+      // });
 
       let j: number = 0; // Itérer dans les unités types
 
       for (let i = 0; i < this.aleas.n; ++i) {
 
         let unite = { ...this.unitesTypes[j] };
+        unite.etat = 2;
+        unite.cmd = unite.xp = unite.nbCombats = 0;
         unite.pj = unite.archetype = false; // Réinitialiser les statuts pour ne pas avoir 12000 joueurs
         unite.id = this.d.docs.unites[this.d.docs.unites.length - 1].id + i + 1; // Un ID pour l'unité
         this.compagnie.unites.push(unite.id);
@@ -124,11 +126,12 @@ export class CompagniesComponent implements OnInit {
   addCompagnie() {
     this.compagnie.id = this.d.docs.compagnies.length; // Nouvelle ID de la compagnie
     // Ajout de l'officier à la liste des unités
-    if(this.compagnie.unites.indexOf(this.compagnie.commandant) == -1) this.compagnie.unites.push(this.compagnie.commandant);
+    if(this.compagnie.unites.indexOf(this.compagnie.commandant) == -1) this.compagnie.unites.push(this.compagnie.commandant); // Ajouter le commandant à la liste des unités
+    this.compagnie.etats.combattants = this.compagnie.unites.length; // Lister le nombre de combattants
 
     this.d.docs.unites = this.d.docs.unites.concat(this.unitesGenerees); // Ajouter les unités créées à la liste des unités disponibles
     this.d.docs.compagnies.push(this.compagnie);
-    if(this.compagnie.armee) this.d.addCompagnieToArmee(this.compagnie.id, this.compagnie.armee!);
+    this.d.addCompagnieToArmee(this.compagnie.id, this.compagnie.armee!);
 
     this.l.message('COMPAGNIE_ADD');
     console.log(this.compagnie);

@@ -38,8 +38,9 @@ export class UnitesComponent {
     this.uniteCree.id = this.d.docs.unites.length;
     this.uniteCree.pv = this.uniteCree.pvMax;
     this.d.docs.unites.push({...this.uniteCree});
+
     this.l.message('UNITE_ADD');
-    this.uniteCree = new Unite();
+    this.uniteCree = new Unite(); // Réinitialisation de l'unité
 
     this.d.etatSave = true;
    }

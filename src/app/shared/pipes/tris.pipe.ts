@@ -36,6 +36,8 @@ export class StatutsPipe implements PipeTransform {
       img += "statut-alite.png";
     else if (statut == -2)
       img += "statut-inactif.png";
+    else if (statut == -3)
+      img += "statut-desorganise.png";
     return img;
   }
 }

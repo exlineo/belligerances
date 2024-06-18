@@ -26,7 +26,7 @@ export class CombatsService {
   infos: boolean = false;
   indexAttaquant: number = -1; // Index de la compagnie qui attaque
   el: any; // Element sélectionné
-  blessures:{at:number, def:number} = {at:0, def:0}; // Blessures des officiers
+  blessures: { at: number, def: number } = { at: 0, def: 0 }; // Blessures des officiers
 
   officierAt: UniteI | undefined; // Officier attaquant
   officierDef: UniteI | undefined; // Officier défenseur
@@ -49,6 +49,8 @@ export class CombatsService {
   combatCompagnies() {
     if (this.attaque && this.attaque.moral <= 0) {
       this.l.message('MSG_DEMORAL');
+    } else if (this.attaque!.statut == -3) {
+      this.l.message('MSG_MORAL_NUL');
     } else if (this.defend!.etats.morts! >= this.defend!.unites.length) { // Ajouter alités
       this.l.message('MSG_MORTS');
     } else {
@@ -106,6 +108,8 @@ export class CombatsService {
       this.defend!.etats = tmp.etats;
       // Calculer les morts et les blessés de la compagnie
       this.jetMoral();
+      // Vérifier si la compagnie est démoralisée
+      this.setDesorganise(this.defend!.commandant);
       this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
     }
   }
@@ -122,46 +126,50 @@ export class CombatsService {
     // Vérifier d'abord si les officiers peuvent bien participer
     if (!this.officierAt || !this.officierAt!.cmd) {
       this.l.message('MSG_CMD_AT');
-      return;
     } else if (!this.officierDef || !this.officierDef!.cmd) {
       this.l.message('MSG_CMD_DEF');
-      return
-    };
-    // Gérer les attaques
-    for (let i = 0; i < 4; ++i) {
-      // Attaque chacun son tour en fonction de l'impact de chacun
-      if (i % 2 == 0) {
-        if (this.officierAt.pv > 0) {
-          for (let m = 0; m < atImpact; ++m) { // Boucle dans la valeur d'impact, une attaque par point
-            atAt = this.jetAttaque(this.officierAt!.cmd!);
-            atDef = this.jetAttaque(this.officierDef!.cmd);
-            if (atAt > atDef) {
-              dg = this.dgCac(at.cac);
-              this.officierDef.pv - dg < 0 ? this.officierDef.pv = 0 : this.officierDef.pv -= dg;
-              this.officierAt.xp += dg;
-              this.blessures.def += dg; // On utilise la valeur de 'morts' pour calculer les dégats que subit l'officier
-              this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
+    } else if(this.officierDef!.pv <= 0 || this.officierAt!.pv <= 0){
+      this.l.message('MSG_CMD_MORT');
+    } else {
+      // Gérer les attaques
+      for (let i = 0; i < 4; ++i) {
+        // Attaque chacun son tour en fonction de l'impact de chacun
+        if (i % 2 == 0) {
+          if (this.officierAt.pv > 0) {
+            for (let m = 0; m < atImpact; ++m) { // Boucle dans la valeur d'impact, une attaque par point
+              atAt = this.jetAttaque(this.officierAt!.cmd!);
+              atDef = this.jetAttaque(this.officierDef!.cmd);
+              if (atAt > atDef) {
+                dg = this.dgCac(at.cac);
+                this.officierDef.pv - dg < 0 ? this.officierDef.pv = 0 : this.officierDef.pv -= dg;
+                this.officierAt.xp += dg;
+                this.blessures.def += dg; // On utilise la valeur de 'morts' pour calculer les dégats que subit l'officier
+                this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
+              }
             }
+          } else {
+            this.l.message('MSG_OFF_MORT');
           }
         } else {
-          this.l.message('MSG_OFF_MORT');
-        }
-      } else {
-        if (this.officierDef.pv > 0) {
-          for (let n = 0; n < defImpact; ++n) {
-            atAt = this.jetAttaque(this.officierAt!.cmd!);
-            atDef = this.jetAttaque(this.officierDef!.cmd);
-            if (atDef > atAt) {
-              dg = this.dgCac(def.cac);
-              this.officierAt.pv - dg < 0 ? this.officierAt.pv = 0 : this.officierAt.pv -= dg;
-              this.officierDef.xp += dg;
-              this.blessures.at += dg; // On utilise la valeur de 'blesses' pour calculer les dégats que subit l'officier
-              this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
+          if (this.officierDef.pv > 0) {
+            for (let n = 0; n < defImpact; ++n) {
+              atAt = this.jetAttaque(this.officierAt!.cmd!);
+              atDef = this.jetAttaque(this.officierDef!.cmd);
+              if (atDef > atAt) {
+                dg = this.dgCac(def.cac);
+                this.officierAt.pv - dg < 0 ? this.officierAt.pv = 0 : this.officierAt.pv -= dg;
+                this.officierDef.xp += dg;
+                this.blessures.at += dg; // On utilise la valeur de 'blesses' pour calculer les dégats que subit l'officier
+                this.d.etatSave = true; // Afficher la sauvegarde pour acter le combat et l'état des troupes
+              }
             }
+          } else {
+            this.l.message('MSG_OFF_MORT');
           }
-        } else {
-          this.l.message('MSG_OFF_MORT');
         }
+
+        // Vérifier si la compagnie est démoralisée
+        this.setDesorganise(this.officierDef.id);
       }
     }
   }
@@ -169,26 +177,10 @@ export class CombatsService {
   dgCac(arme: ArmeI) {
     return Math.round(Math.random() * (arme.degats!.max - arme.degats!.min)) + arme.degats!.min;
   }
-  /** Calculer le nombre de morts et de blessés dans une compagnie */
-  // calculeBlesses() {
-  //   this.defend!.blesses = this.defend!.morts = 0;
-  //   let pv = 0; // Calculer les points de vie globaux de la compagnie
-  //   this.uDefs.forEach((u: any) => {
-  //     if (u.pv <= 0) {
-  //       ++this.defend!.morts!;
-  //     } else if (u.pvMax > u.pv && u.pv >= 0) {
-  //       ++this.defend!.blesses!;
-  //     };
-  //     pv += u.pv;
-  //     // Etablir l'état de l'unité en fonction de ses blessures
-  //     u.etat = this.blessurePipe.transform(u);
-  //   });
-  //   this.defend!.pv = pv;
-  // }
   /** Jet de moral : malus = 1 / 5% des pertes*/
   jetMoral() {
     if (this.defend!.moral > 0) {
-      if ( this.defend!.etats.morts > this.defend!.unites.length / 20) {
+      if (this.defend!.etats.morts > this.defend!.unites.length / 20) {
         let malus = Math.ceil(20 * this.defend!.etats.morts / this.defend!.unites.length); // N fois 5% de morts
         let armee = this.d.docs.armees.find((ar: ArmeI) => ar.id == this.defend!.armee);
 
@@ -231,15 +223,30 @@ export class CombatsService {
 
     return impact > 0 ? impact : 0;
   }
-  /** Determiner le statut d'une unité */
-  setStatut(u: UniteI) {
-
-  }
+  /** Donner un bonus à une attaque en fonction des critères */
   setBonusAt(moral: number, xp: number, etat: number, c: CompagnieI, action: string) {
     let bonus = moral + xp + this.getBonusOrdre(c, action);
     if (etat == 1) --bonus
     else if (etat == 0) bonus -= 2;
 
     return bonus;
+  }
+  /** Statut désorganisé
+   * @param uId Identifiant de l'officier concerné par l'attaque
+   * @param comp Compagnie s'il y a lieu
+  */
+  setDesorganise(uId:number) {
+      let officier = this.d.docs.unites.find((u: UniteI) => u.id == uId);
+      let comp = this.d.docs.compagnies.find((c:CompagnieI) => c.commandant == uId);
+
+      if (officier.pv <= 0) {
+        comp.statut = -3;
+        comp.ordre = this.d.ordres.find((o: OrdreI) => o.ordre = "Sans officier");
+        this.l.message('MSG_DESOR');
+      } else if (officier.pv <= officier.pvMax * 0.2 || comp.moral <= 0) {
+        comp.statut = -3;
+        this.l.message('MSG_DESOR');
+      }
+
   }
 }
